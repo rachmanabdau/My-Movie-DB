@@ -1,4 +1,4 @@
-package com.example.mymoviddb.datasource.network
+package com.example.mymoviddb.datasource.remote
 
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.GuestSessionModel

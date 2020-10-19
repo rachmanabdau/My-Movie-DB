@@ -2,8 +2,8 @@ package com.example.mymoviddb
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.mymoviddb.datasource.network.NetworkAPI
-import com.example.mymoviddb.datasource.network.moshi
+import com.example.mymoviddb.datasource.remote.NetworkAPI
+import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.Error401Model
 import kotlinx.coroutines.runBlocking
 import okio.BufferedSource
