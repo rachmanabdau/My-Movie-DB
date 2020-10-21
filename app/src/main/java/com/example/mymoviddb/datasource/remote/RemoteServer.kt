@@ -12,7 +12,7 @@ interface RemoteServer {
     suspend fun loginAsUser(
         username: String,
         password: String,
-        requestToken: RequestTokenModel
+        requestToken: RequestTokenModel?
     ): Result<LoginTokenModel?>
 
     suspend fun loginAsGuest(): Result<GuestSessionModel?>
