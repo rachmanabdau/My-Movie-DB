@@ -3,6 +3,7 @@ package com.example.mymoviddb.datasource.remote
 
 import com.example.mymoviddb.model.*
 import okio.BufferedSource
+import retrofit2.Response
 
 
 @Suppress("BlockingMethodInNonBlockingContext")
@@ -15,11 +16,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                val errorAdapter = moshi.adapter(Error401Model::class.java)
-                val errorJson =
-                    errorAdapter.fromJson(result.errorBody()?.source() as BufferedSource)
-
-                Result.Error(Exception(errorJson?.statusMessage))
+                return return401Error(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
@@ -29,22 +26,18 @@ class RemoteServerAccess : RemoteServer {
     override suspend fun loginAsUser(
         username: String,
         password: String,
-        requestToken: RequestTokenModel
+        requestToken: RequestTokenModel?
     ):
             Result<LoginTokenModel?> {
         return try {
             val result = NetworkAPI.retrofitService.loginAsync(
-                username, password, requestToken.requestToken
+                username, password, requestToken?.requestToken ?: ""
             ).await()
 
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                val errorAdapter = moshi.adapter(Error401Model::class.java)
-                val errorJson =
-                    errorAdapter.fromJson(result.errorBody()?.source() as BufferedSource)
-
-                Result.Error(Exception(errorJson?.statusMessage))
+                return return401Error(result)
             }
         } catch (e: Exception) {
             return Result.Error(Exception(e.message))
@@ -58,15 +51,19 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                val errorAdapter = moshi.adapter(Error401Model::class.java)
-                val errorJson =
-                    errorAdapter.fromJson(result.errorBody()?.source() as BufferedSource)
-
-                Result.Error(Exception(errorJson?.statusMessage))
+                return return401Error(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
         }
     }
+}
+
+fun return401Error(result: Response<*>): Result.Error {
+    val errorAdapter = moshi.adapter(Error401Model::class.java)
+    val errorJson =
+        errorAdapter.fromJson(result.errorBody()?.source() as BufferedSource)
+
+    return Result.Error(Exception(errorJson?.statusMessage))
 }
 
