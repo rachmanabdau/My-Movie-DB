@@ -106,7 +106,7 @@ class NetowrkkApiTest {
         runBlocking {
             // WHEN user create session as guest
             val guestToken = service.retrofitService
-                .loginAsGuestAsync(apiKey = BuildConfig.V3_AUTH + "invalidToken")
+                .loginAsGuestAsync(apiKey = BuildConfig.V3_AUTH)
                 .await().body()
 
             // THEN token 'success' result reutrned true
