@@ -5,11 +5,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.Error401Model
+import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.runBlocking
 import okio.BufferedSource
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.Is
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,10 +25,15 @@ class NetowrkkApiTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val service = NetworkAPI
+    private lateinit var service: NetworkAPI
+    private lateinit var failedAdapter: JsonAdapter<Error401Model>
 
-    // Converter for error json body
-    val failedAdapter = moshi.adapter(Error401Model::class.java)
+
+    @Before
+    fun setupApi() {
+        service = NetworkAPI
+        failedAdapter = moshi.adapter(Error401Model::class.java)
+    }
 
     @Test
     fun requestToken_getRequestToken_successResultTrue() {
