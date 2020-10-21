@@ -28,12 +28,12 @@ interface NetworkService {
     @GET("authentication/token/new")
     fun getRequestTokenAsync(
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
-    ): Deferred<Response<RequestTokenModel>>
+    ): Deferred<Response<RequestTokenModel?>>
 
     @GET("authentication/guest_session/new")
     fun loginAsGuestAsync(
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
-    ): Deferred<Response<GuestSessionModel>>
+    ): Deferred<Response<GuestSessionModel?>>
 
     @FormUrlEncoded
     @POST("authentication/token/validate_with_login")
@@ -42,7 +42,7 @@ interface NetworkService {
         @Field("password") password: String,
         @Field("request_token") requestToken: String,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
-    ): Deferred<Response<LoginTokenModel>>
+    ): Deferred<Response<LoginTokenModel?>>
 }
 
 object NetworkAPI {
