@@ -73,6 +73,9 @@ dependencies {
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$version_navigation"
+
 
     // Kotlin Android Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_coroutines"
