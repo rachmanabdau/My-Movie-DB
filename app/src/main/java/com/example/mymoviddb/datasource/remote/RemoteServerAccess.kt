@@ -9,7 +9,7 @@ import retrofit2.Response
 @Suppress("BlockingMethodInNonBlockingContext")
 class RemoteServerAccess : RemoteServer {
 
-    override suspend fun requestAccessToken(): Result<RequestTokenModel?> {
+    override suspend fun requestAccessToken(apiKey: String): Result<RequestTokenModel?> {
         return try {
             val result = NetworkAPI.retrofitService.getRequestTokenAsync().await()
 
@@ -44,7 +44,7 @@ class RemoteServerAccess : RemoteServer {
         }
     }
 
-    override suspend fun loginAsGuest(): Result<GuestSessionModel?> {
+    override suspend fun loginAsGuest(apiKey: String): Result<GuestSessionModel?> {
         return try {
             val result = NetworkAPI.retrofitService.loginAsGuestAsync().await()
 

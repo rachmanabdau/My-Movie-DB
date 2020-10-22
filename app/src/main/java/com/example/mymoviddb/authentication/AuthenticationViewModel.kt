@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.Result
@@ -14,10 +15,10 @@ class AuthenticationViewModel(private val remoteSource: RemoteServer) : ViewMode
     private val _loginGuestResult = MutableLiveData<Result<GuestSessionModel?>>()
     val loginGuestResult: LiveData<Result<GuestSessionModel?>> = _loginGuestResult
 
-    fun loginAsGuest() {
+    fun loginAsGuest(apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _loginGuestResult.value = Result.Loading
-            _loginGuestResult.value = remoteSource.loginAsGuest()
+            _loginGuestResult.value = remoteSource.loginAsGuest(apiKey)
         }
     }
 }
