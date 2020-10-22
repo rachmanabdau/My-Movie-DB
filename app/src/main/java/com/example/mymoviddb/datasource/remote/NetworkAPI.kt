@@ -3,6 +3,7 @@ package com.example.mymoviddb.datasource.remote
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.LoginTokenModel
+import com.example.mymoviddb.model.NewSessionModel
 import com.example.mymoviddb.model.RequestTokenModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -43,6 +44,13 @@ interface NetworkService {
         @Field("request_token") requestToken: String,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<LoginTokenModel?>>
+
+    @FormUrlEncoded
+    @POST("authentication/session/new")
+    fun createSeesionAsync(
+        @Field("request_token") requestToken: String,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<NewSessionModel>>
 }
 
 object NetworkAPI {
