@@ -1,10 +1,7 @@
 package com.example.mymoviddb.datasource.remote
 
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.GuestSessionModel
-import com.example.mymoviddb.model.LoginTokenModel
-import com.example.mymoviddb.model.NewSessionModel
-import com.example.mymoviddb.model.RequestTokenModel
+import com.example.mymoviddb.model.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -51,6 +48,11 @@ interface NetworkService {
         @Field("request_token") requestToken: String,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<NewSessionModel>>
+
+    @GET("movie/popular")
+    fun getPopularMoviesAsync(
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<MovieModel>>
 }
 
 object NetworkAPI {
