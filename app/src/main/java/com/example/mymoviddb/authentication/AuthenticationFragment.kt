@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 
@@ -26,6 +27,12 @@ class AuthenticationFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.authenticationVM = authenticationViewModel
+
+        binding.loginWithAccount.setOnClickListener {
+            findNavController().navigate(
+                AuthenticationFragmentDirections.actionAuthenticationFragmentToLoginFragment()
+            )
+        }
 
         return binding.root
     }

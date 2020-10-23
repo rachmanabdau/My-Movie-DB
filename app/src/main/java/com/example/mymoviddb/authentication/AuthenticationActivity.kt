@@ -3,6 +3,7 @@ package com.example.mymoviddb.authentication
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.mymoviddb.R
@@ -22,4 +23,11 @@ class AuthenticationActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        //without drawer menu or appbar configuration
+        return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
+                || super.onSupportNavigateUp()
+    }
+
 }
