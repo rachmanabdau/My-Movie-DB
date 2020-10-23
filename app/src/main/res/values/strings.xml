@@ -16,4 +16,5 @@
     <!-- String related to home fragment -->
     <string name="popular_movie">Popular Movie</string>
     <string name="user_score">User Score %1$d%%</string>
+    <string name="movie_content_description">%1$s poster</string>
 </resources>
