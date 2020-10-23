@@ -1,10 +1,7 @@
 package com.example.mymoviddb.datasource.remote
 
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.GuestSessionModel
-import com.example.mymoviddb.model.LoginTokenModel
-import com.example.mymoviddb.model.RequestTokenModel
-import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.model.*
 
 interface RemoteServer {
 
@@ -17,4 +14,6 @@ interface RemoteServer {
     ): Result<LoginTokenModel?>
 
     suspend fun loginAsGuest(apiKey: String = BuildConfig.V3_AUTH): Result<GuestSessionModel?>
+
+    suspend fun getPopularMvoieList(apiKey: String): Result<MovieModel?>
 }
