@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
+import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.utils.PreferenceUtil
 
 class AuthenticationFragment : Fragment() {
 
@@ -33,6 +35,15 @@ class AuthenticationFragment : Fragment() {
                 AuthenticationFragmentDirections.actionAuthenticationFragmentToLoginFragment()
             )
         }
+
+        authenticationViewModel.loginGuestResult.observe(viewLifecycleOwner, {
+            if (it is Result.Success && it.data?.success == true) {
+                it.data.let {
+                    // Save guest session id
+                    PreferenceUtil.writeGuestToken(requireActivity(), it.guestSessionId)
+                }
+            }
+        })
 
         return binding.root
     }
