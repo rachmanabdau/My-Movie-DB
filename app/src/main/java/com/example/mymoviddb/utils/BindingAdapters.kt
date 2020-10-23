@@ -1,4 +1,4 @@
-package com.example.mymoviddb
+package com.example.mymoviddb.utils
 
 import android.view.View
 import android.widget.ProgressBar
