@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.Error401Model
+import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.NewSessionModel
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.runBlocking
@@ -263,6 +264,45 @@ class NetowrkkApiTest {
             val recievedJson = newSession.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(recievedJson)
 
+            // THEN session result return with object [NesSessionModel]
+            assertThat(result, (instanceOf(Error401Model::class.java)))
+            // success value from server should be false
+            assertThat(result?.success, `is`(false))
+        }
+    }
+
+    /**
+     * get a list of popular movies with valid api key
+     * result should be Success [a list of movies]
+     */
+    @Test
+    fun getPopularMovies_withValidApiKey_resultSuccess() {
+        runBlocking {
+            // WHEN user has request token and create new session
+            val movieList =
+                service.retrofitService.getPopularMoviesAsync().await()
+
+            val result = movieList.body()
+            // THEN session result return with object [NesSessionModel]
+            assertThat(result, (instanceOf(MovieModel::class.java)))
+            // success value from server should be false
+            assertThat(result, `is`(notNullValue()))
+        }
+    }
+
+    /**
+     * get a list of popular movies with invalid api key
+     * result should be Error unauthorized
+     */
+    @Test
+    fun getPopularMovies_withInvalidApiKey_resultError401() {
+        runBlocking {
+            // WHEN user has request token and create new session
+            val movieList =
+                service.retrofitService.getPopularMoviesAsync("invalidKey").await()
+
+            val errorJson = movieList.errorBody()?.string().toString()
+            val result = failedAdapter.fromJson(errorJson)
             // THEN session result return with object [NesSessionModel]
             assertThat(result, (instanceOf(Error401Model::class.java)))
             // success value from server should be false
