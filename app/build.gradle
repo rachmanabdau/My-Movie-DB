@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.mymoviddb"
@@ -63,6 +63,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.activity:activity-ktx:$version_activity"
     implementation "androidx.fragment:fragment-ktx:$version_fragment"
+    implementation 'androidx.annotation:annotation:1.1.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -72,6 +73,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$version_lifecycle"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
