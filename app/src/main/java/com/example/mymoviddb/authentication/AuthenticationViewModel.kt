@@ -5,6 +5,7 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.Result
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AuthenticationViewModel(private val remoteSource: RemoteServer) : ViewModel() {
@@ -12,10 +13,21 @@ class AuthenticationViewModel(private val remoteSource: RemoteServer) : ViewMode
     private val _loginGuestResult = MutableLiveData<Result<GuestSessionModel?>>()
     val loginGuestResult: LiveData<Result<GuestSessionModel?>> = _loginGuestResult
 
+    private val _isButtonEnabled = MutableLiveData<Boolean>()
+    val isButtonEnabled: LiveData<Boolean> = _isButtonEnabled
+
+    init {
+        _isButtonEnabled.value = true
+    }
+
+    @JvmOverloads
     fun loginAsGuest(apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _loginGuestResult.value = Result.Loading
+            _isButtonEnabled.value = false
+            delay(2000)
             _loginGuestResult.value = remoteSource.loginAsGuest(apiKey)
+            _isButtonEnabled.value = true
         }
     }
 
