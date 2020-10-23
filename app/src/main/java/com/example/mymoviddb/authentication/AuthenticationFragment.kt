@@ -18,7 +18,7 @@ class AuthenticationFragment : Fragment() {
 
     private val authenticationViewModel by viewModels<AuthenticationViewModel> {
         val remoteServer = RemoteServerAccess()
-        AuthenticationViewModel.Facroty(remoteServer)
+        AuthenticationViewModel.Factory(remoteServer)
     }
 
     override fun onCreateView(

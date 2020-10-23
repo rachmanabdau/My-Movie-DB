@@ -31,7 +31,7 @@ class AuthenticationViewModel(private val remoteSource: RemoteServer) : ViewMode
         }
     }
 
-    class Facroty(
+    class Factory(
         private val remoteSource: RemoteServer
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
