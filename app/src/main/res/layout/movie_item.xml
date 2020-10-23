@@ -6,6 +6,9 @@
 
     <data>
 
+        <variable
+            name="popularMovie"
+            type="com.example.mymoviddb.model.MovieModel.Result" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -26,6 +29,9 @@
                 android:layout_width="175dp"
                 android:layout_height="225dp"
                 android:scaleType="centerCrop"
+                android:contentDescription="@{@string/movie_content_description(popularMovie.title)}"
+                app:loadImage="@{popularMovie.posterPath}"
+                app:error="@{@drawable/ic_error}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
@@ -38,6 +44,7 @@
                 android:ellipsize="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{popularMovie.title}"
                 app:layout_constraintTop_toBottomOf="@id/movie_poster"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="The Hunger games" />
@@ -47,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="@{@string/user_score(58)}"
+                android:text="@{@string/user_score(popularMovie.voteAverage)}"
                 app:layout_constraintTop_toBottomOf="@id/movie_title_tv"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="User Score 58%" />
