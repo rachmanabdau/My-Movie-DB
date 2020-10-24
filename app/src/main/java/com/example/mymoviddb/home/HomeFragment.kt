@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
-import com.example.mymoviddb.model.Result
 
 class HomeFragment : Fragment() {
 
@@ -26,17 +25,12 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val adapter = MoviesAdapter()
-
-        homeViewModel.getMovieList()
-        homeViewModel.movieList.observe(viewLifecycleOwner, {
-            if (it is Result.Success && it.data != null) {
-                adapter.submitList(it.data.results)
-                binding.popularMovieRv.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                binding.popularMovieRv.adapter = adapter
-            }
-        })
+        binding.lifecycleOwner = this
+        binding.popularMovieRv.adapter = MoviesAdapter()
+        binding.popularMovieRv.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
+        )
+        binding.homeViewModel = homeViewModel
 
         return binding.root
     }
