@@ -6,7 +6,6 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -17,11 +16,14 @@ class HomeViewModel(
     private val _movieList = MutableLiveData<Result<MovieModel?>>()
     val movieList: LiveData<Result<MovieModel?>> = _movieList
 
+    init {
+        getMovieList()
+    }
+
     @JvmOverloads
     fun getMovieList(apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _movieList.value = Result.Loading
-            delay(2000)
             _movieList.value = renoteSource.getPopularMvoieList(apiKey)
         }
     }
