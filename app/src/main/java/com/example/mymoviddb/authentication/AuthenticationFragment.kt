@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.PreferenceUtil
 
 class AuthenticationFragment : Fragment() {
@@ -36,11 +37,15 @@ class AuthenticationFragment : Fragment() {
             )
         }
 
-        authenticationViewModel.loginGuestResult.observe(viewLifecycleOwner, {
+        // When login as gues success, navigate to home fragment
+        authenticationViewModel.loginGuestResult.observe(viewLifecycleOwner, EventObserver {
             if (it is Result.Success && it.data?.success == true) {
-                it.data.let {
+                it.data.let { result ->
                     // Save guest session id
-                    PreferenceUtil.writeGuestToken(requireActivity(), it.guestSessionId)
+                    PreferenceUtil.writeGuestToken(requireActivity(), result.guestSessionId)
+                    findNavController().navigate(
+                        AuthenticationFragmentDirections.actionAuthenticationFragmentToHomeFragment()
+                    )
                 }
             }
         })
