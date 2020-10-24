@@ -1,5 +1,6 @@
 package com.example.mymoviddb.adapters
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -27,7 +28,7 @@ class MoviesAdapter : ListAdapter<MovieModel.Result, MovieViewHolder>(DiffUtilCa
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view = MovieItemBinding.bind(parent.rootView)
+        val view = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(view)
     }
 
@@ -42,5 +43,6 @@ class MovieViewHolder(private val binding: MovieItemBinding) :
 
     fun onBind(data: MovieModel.Result) {
         binding.popularMovie = data
+        binding.rating = (data.voteAverage * 10).toInt()
     }
 }
