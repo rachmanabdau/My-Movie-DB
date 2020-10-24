@@ -22,7 +22,7 @@ android {
         debug {
             buildConfigField "String", 'V3_AUTH', "\"13714dbc99120b5b53dfec1385fb1aa5\""
             buildConfigField "String", 'BASE_URL', "\"https://api.themoviedb.org/3/\""
-            buildConfigField "String", 'LOAD_POSTER_BASE_URL', "\"https://image.tmdb.org/t/p/\""
+            buildConfigField "String", 'LOAD_POSTER_BASE_URL', "\"https://image.tmdb.org/t/p/original\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
@@ -32,7 +32,7 @@ android {
         release {
             buildConfigField "String", 'V3_AUTH', "\"13714dbc99120b5b53dfec1385fb1aa5\""
             buildConfigField "String", 'BASE_URL', "\"https://api.themoviedb.org/3/\""
-            buildConfigField "String", 'LOAD_POSTER_BASE_URL', "\"https://image.tmdb.org/t/p/\""
+            buildConfigField "String", 'LOAD_POSTER_BASE_URL', "\"https://image.tmdb.org/t/p/original\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
