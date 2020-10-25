@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/authenticationFragment"
         android:name="com.example.mymoviddb.authentication.AuthenticationFragment"
-        android:label="AuthenticationFragment"
+        android:label="@string/action_login"
         tools:layout="@layout/fragment_authentication">
         <action
             android:id="@+id/action_authenticationFragment_to_loginFragment"
@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.mymoviddb.authentication.login.LoginFragment"
-        android:label="LoginFragment"
+        android:label="@string/action_login"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
