@@ -84,8 +84,31 @@
                 android:padding="@dimen/padding_small"
                 android:clipToPadding="false"
                 android:contentDescription="@string/popular_tv_show_list_contentDesc"
-                app:attachTVList="@{homeViewModel.getPopularTVList}"
+                app:attachTVList="@{homeViewModel.popularTVList}"
                 app:layout_constraintTop_toBottomOf="@id/popular_tv_txtv"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/movie_item" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/on_air_tv_txtv"
+                style="@style/DefaultFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="@string/on_air_tv_shows"
+                app:layout_constraintTop_toBottomOf="@id/popular_tv_rv"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/on_air_popular_tv_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_small"
+                android:clipToPadding="false"
+                android:contentDescription="@string/now_airing_tv_show_list_contentDesc"
+                app:attachTVList="@{homeViewModel.onAirTVList}"
+                app:layout_constraintTop_toBottomOf="@id/on_air_tv_txtv"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:listitem="@layout/movie_item" />
 

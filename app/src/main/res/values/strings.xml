@@ -22,4 +22,6 @@
     <string name="popular_movie_list_contentDesc">Popular Movie List</string>
     <string name="now_playing_movie_list_contentDesc">Now Playing Movie List</string>
     <string name="popular_tv_show_list_contentDesc">Popular TV Show List</string>
+    <string name="on_air_tv_shows">On Air TV Shows</string>
+    <string name="now_airing_tv_show_list_contentDesc">Now Airing TV Show List</string>
 </resources>
