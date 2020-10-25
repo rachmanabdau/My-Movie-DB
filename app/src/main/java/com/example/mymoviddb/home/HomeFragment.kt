@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.adapters.MoviesAdapter
+import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.model.Result
@@ -19,7 +20,7 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel by viewModels<HomeViewModel> {
         val remoteSource = RemoteServerAccess()
-        HomeViewModel.Factory(requireActivity().application, remoteSource)
+        HomeViewModel.Factory(remoteSource)
     }
 
     override fun onCreateView(
@@ -43,9 +44,22 @@ class HomeFragment : Fragment() {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
 
+        binding.popularTvRv.adapter = TVAdapter()
+        binding.popularTvRv.layoutManager = PreloadLinearLayout(
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
+        ).apply {
+            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
+        }
+
         homeViewModel.popularMovieList.observe(viewLifecycleOwner, {
             if (it is Result.Success) {
                 homeViewModel.getBowPlayingMovieList()
+            }
+        })
+
+        homeViewModel.nowPlayingMovieList.observe(viewLifecycleOwner, {
+            if (it is Result.Success) {
+                homeViewModel.getPopularTVList()
             }
         })
 
