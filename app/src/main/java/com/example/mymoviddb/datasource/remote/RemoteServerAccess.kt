@@ -85,6 +85,20 @@ class RemoteServerAccess : RemoteServer {
             Result.Error(Exception(e.message))
         }
     }
+
+    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+        return try {
+            val result = NetworkAPI.retrofitService.getPopularTvShow(page, apiKey).await()
+
+            if (result.isSuccessful && result.body() != null) {
+                Result.Success(result.body())
+            } else {
+                return401Error(result)
+            }
+        } catch (e: Exception) {
+            Result.Error(Exception(e.message))
+        }
+    }
 }
 
 fun return401Error(result: Response<*>): Result.Error {
