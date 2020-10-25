@@ -1,9 +1,7 @@
 package com.example.mymoviddb.utils
 
 import android.graphics.drawable.Drawable
-import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,23 +11,6 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
-import com.google.android.material.snackbar.Snackbar
-
-
-@BindingAdapter("showLoadingState")
-fun showProgressbar(view: ProgressBar, result: Result<*>?) {
-    view.visibility = when (result) {
-        is Result.Loading -> View.VISIBLE
-        is Result.Error -> {
-            val errorMessage = result.exception.localizedMessage as String
-            Snackbar.make(view, errorMessage, Snackbar.LENGTH_LONG).show()
-            View.GONE
-        }
-        else -> {
-            View.GONE
-        }
-    }
-}
 
 @BindingAdapter("loadImage", "error")
 fun loadImage(imageView: ImageView, uri: String?, error: Drawable) {
