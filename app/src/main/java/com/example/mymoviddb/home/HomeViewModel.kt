@@ -36,7 +36,7 @@ class HomeViewModel(
         }
     }
 
-    fun getBowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _nowPlayingMovieList.value = renoteSource.getNowPlayingMovieList(page, apiKey)
         }
@@ -50,7 +50,7 @@ class HomeViewModel(
 
     fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _onAirTVList.value = renoteSource.getPopularTvShowList(page, apiKey)
+            _onAirTVList.value = renoteSource.getOnAirTvShowList(page, apiKey)
         }
     }
 

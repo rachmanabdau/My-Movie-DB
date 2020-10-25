@@ -51,15 +51,28 @@ class HomeFragment : Fragment() {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
 
+        binding.onAirPopularTvRv.adapter = TVAdapter()
+        binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
+        ).apply {
+            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
+        }
+
         homeViewModel.popularMovieList.observe(viewLifecycleOwner, {
             if (it is Result.Success) {
-                homeViewModel.getBowPlayingMovieList()
+                homeViewModel.getNowPlayingMovieList()
             }
         })
 
         homeViewModel.nowPlayingMovieList.observe(viewLifecycleOwner, {
             if (it is Result.Success) {
                 homeViewModel.getPopularTVList()
+            }
+        })
+
+        homeViewModel.popularTVList.observe(viewLifecycleOwner, {
+            if (it is Result.Success) {
+                homeViewModel.getonAirTVList()
             }
         })
 
