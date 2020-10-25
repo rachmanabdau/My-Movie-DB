@@ -1,46 +1,55 @@
 package com.example.mymoviddb.utils
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Context
+import androidx.preference.PreferenceManager
 
 
+@SuppressLint("ApplySharedPref")
 object PreferenceUtil {
 
     private val GUEST_TOKEN_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.guesttokenKey"
     private val LOGIN_STATE_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.loginStateKey"
+    private val TIME_STAMP_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.timeStampKey"
 
-    fun setAuthState(activity: Activity?, state: LoginState) {
-        val loginStatePref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with(loginStatePref.edit()) {
-            putInt(LOGIN_STATE_KEY, state.ordinal)
-            commit()
-        }
+    fun setAuthState(context: Context, state: LoginState) {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferenceEditor = tokenPreference.edit()
+        preferenceEditor.putInt(LOGIN_STATE_KEY, state.ordinal)
+        preferenceEditor.commit()
     }
 
-    fun setAuthState(activity: Activity?): Int {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-
-        return sharedPref?.getInt(LOGIN_STATE_KEY, 0) ?: 0
+    fun getAuthState(context: Context): Int {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        return tokenPreference.getInt(LOGIN_STATE_KEY, -1)
     }
 
-    fun writeGuestToken(activity: Activity?, token: String) {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        with(sharedPref.edit()) {
-            putString(GUEST_TOKEN_KEY, token)
-            commit()
-        }
-
+    fun writeGuestToken(context: Context, token: String) {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferenceEditor = tokenPreference.edit()
+        preferenceEditor.putString(GUEST_TOKEN_KEY, token)
+        preferenceEditor.commit()
     }
 
-    fun readGuestToken(activity: Activity?): String {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+    fun readGuestToken(context: Context): String {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        return tokenPreference.getString(GUEST_TOKEN_KEY, "") ?: ""
+    }
 
-        return sharedPref?.getString(GUEST_TOKEN_KEY, "") ?: ""
+    fun writeGuestTokenExpiry(context: Context, timeStamp: Long) {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferenceEditor = tokenPreference.edit()
+        preferenceEditor.putLong(TIME_STAMP_KEY, timeStamp)
+        preferenceEditor.commit()
+    }
+
+    fun readGuestTokenExpiry(context: Context): Long {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        return tokenPreference.getLong(TIME_STAMP_KEY, -1)
     }
 }
 
-enum class LoginState(stateId: Int) {
-    NOT_LOG_IN(0),
+enum class LoginState(stateId: Int = 1) {
     AS_GUEST(1),
     AS_USER(2)
 }
