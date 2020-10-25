@@ -35,11 +35,10 @@
                 android:id="@+id/popular_movie_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:padding="@dimen/padding_small"
                 android:clipToPadding="false"
-                android:contentDescription="@string/popular_movie"
-                app:attachList="@{homeViewModel.popularMovieList}"
+                android:contentDescription="@string/popular_movie_list_contentDesc"
+                app:attachMovieList="@{homeViewModel.popularMovieList}"
                 app:layout_constraintTop_toBottomOf="@id/popular_movie_txtv"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:listitem="@layout/movie_item" />
@@ -59,12 +58,34 @@
                 android:id="@+id/now_playing_movie_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:padding="@dimen/padding_small"
                 android:clipToPadding="false"
-                android:contentDescription="@string/upcoming_movies"
-                app:attachList="@{homeViewModel.nowPlayingMovieList}"
+                android:contentDescription="@string/now_playing_movie_list_contentDesc"
+                app:attachMovieList="@{homeViewModel.nowPlayingMovieList}"
                 app:layout_constraintTop_toBottomOf="@id/now_playing_movie_txtv"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/movie_item" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/popular_tv_txtv"
+                style="@style/DefaultFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="@string/popular_tv_show"
+                app:layout_constraintTop_toBottomOf="@id/now_playing_movie_rv"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popular_tv_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_small"
+                android:clipToPadding="false"
+                android:contentDescription="@string/popular_tv_show_list_contentDesc"
+                app:attachTVList="@{homeViewModel.getPopularTVList}"
+                app:layout_constraintTop_toBottomOf="@id/popular_tv_txtv"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:listitem="@layout/movie_item" />
 
