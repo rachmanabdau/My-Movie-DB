@@ -7,6 +7,7 @@ import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.NewSessionModel
+import com.example.mymoviddb.model.TVShowModel
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.*
@@ -300,6 +301,84 @@ class NetowrkkApiTest {
             // WHEN user has request token and create new session
             val movieList =
                 service.retrofitService.getPopularMoviesAsync(1, "invalidKey").await()
+
+            val errorJson = movieList.errorBody()?.string().toString()
+            val result = failedAdapter.fromJson(errorJson)
+            // THEN session result return with object [NesSessionModel]
+            assertThat(result, (instanceOf(Error401Model::class.java)))
+            // success value from server should be false
+            assertThat(result?.success, `is`(false))
+        }
+    }
+
+    /**
+     * get a list of popular TV shows with valid api key
+     * result should be Success [a list of movies]
+     */
+    @Test
+    fun getPopularTVShow_withValidApiKey_resultSuccess() {
+        runBlocking {
+            // WHEN user has request token and create new session
+            val movieList =
+                service.retrofitService.getPopularTvShow(1).await()
+
+            val result = movieList.body()
+            // THEN session result return with object [NesSessionModel]
+            assertThat(result, (instanceOf(TVShowModel::class.java)))
+            // success value from server should be false
+            assertThat(result, `is`(notNullValue()))
+        }
+    }
+
+    /**
+     * get a list of popular TV shows with invalid api key
+     * result should be Error unauthorized
+     */
+    @Test
+    fun getPopularTVShows_withInvalidApiKey_resultError401() {
+        runBlocking {
+            // WHEN user has request token and create new session
+            val movieList =
+                service.retrofitService.getPopularTvShow(1, "invalidKey").await()
+
+            val errorJson = movieList.errorBody()?.string().toString()
+            val result = failedAdapter.fromJson(errorJson)
+            // THEN session result return with object [NesSessionModel]
+            assertThat(result, (instanceOf(Error401Model::class.java)))
+            // success value from server should be false
+            assertThat(result?.success, `is`(false))
+        }
+    }
+
+    /**
+     * get a list of on air TV shows with valid api key
+     * result should be Success [a list of movies]
+     */
+    @Test
+    fun getOnAirTVShow_withValidApiKey_resultSuccess() {
+        runBlocking {
+            // WHEN user has request token and create new session
+            val movieList =
+                service.retrofitService.getOnAirTvShow(1).await()
+
+            val result = movieList.body()
+            // THEN session result return with object [NesSessionModel]
+            assertThat(result, (instanceOf(TVShowModel::class.java)))
+            // success value from server should be false
+            assertThat(result, `is`(notNullValue()))
+        }
+    }
+
+    /**
+     * get a list of on air TV shows with invalid api key
+     * result should be Error unauthorized
+     */
+    @Test
+    fun getOnAirTVShows_withInvalidApiKey_resultError401() {
+        runBlocking {
+            // WHEN user has request token and create new session
+            val movieList =
+                service.retrofitService.getOnAirTvShow(1, "invalidKey").await()
 
             val errorJson = movieList.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(errorJson)

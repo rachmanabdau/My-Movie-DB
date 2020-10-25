@@ -112,4 +112,27 @@ class FakeRemoteServer : RemoteServer {
             )
         }
     }
+
+    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+        return if (apiKey.equals(BuildConfig.V3_AUTH)) {
+            Result.Success(
+                TVShowModel(
+                    page = 1, totalPages = 100, totalResults = 1000,
+                    results = listOf(
+                        TVShowModel.Result(
+                            name = "Pretty Little Liars", originalName = "Pretty Little Liars",
+                            originalLanguage = "en", originCountry = listOf("US"),
+                            backdropPath = "", genreIds = listOf(1, 2, 3),
+                            id = 1, popularity = 2795.629, firstAirDate = "2015-05-27",
+                            voteCount = 157, posterPath = "", voteAverage = 5.7, overview = "",
+                        )
+                    )
+                )
+            )
+        } else {
+            Result.Error(
+                Exception("token is invalid")
+            )
+        }
+    }
 }

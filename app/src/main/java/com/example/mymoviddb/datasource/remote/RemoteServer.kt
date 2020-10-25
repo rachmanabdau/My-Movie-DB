@@ -20,4 +20,6 @@ interface RemoteServer {
     suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?>
 
     suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?>
+
+    suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?>
 }

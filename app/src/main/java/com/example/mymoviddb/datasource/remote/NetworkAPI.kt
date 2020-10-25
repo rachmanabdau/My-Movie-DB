@@ -66,6 +66,12 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<TVShowModel>>
+
+    @GET("tv/popular")
+    fun getOnAirTvShow(
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<TVShowModel>>
 }
 
 object NetworkAPI {
