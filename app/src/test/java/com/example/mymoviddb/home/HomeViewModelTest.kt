@@ -178,4 +178,51 @@ class HomeViewModelTest {
             }
         }
     }
+
+    /**
+     * Get Popular Tv Show list with valid apikey
+     * result valie should not be null
+     */
+    @Test
+    fun getOnAirTvList_withValidApiToken_resultNotNull() = runBlocking {
+        // WHEN User requesting a popular movie list
+        homeViewModel.getonAirTVList()
+
+        // THEN Response from server should not be null
+        when (val result = homeViewModel.onAirTVList.getOrAwaitValue()) {
+            is Result.Success -> assertThat(result.data, notNullValue())
+            is Result.Loading -> {/* Do nothing just wait the result either success or failed */
+            }
+            is Result.Error -> Assert.fail(
+                "Testing get Popular Tv Show is failed. Either Object ist not " +
+                        "Result.Success or result equals to null"
+            )
+        }
+
+    }
+
+    /**
+     * Get Popular Tv Show list with valid apikey
+     * result valie should not be null
+     */
+    @Test
+    fun getOnAirTvMovies_withInvalidApiToken_resultError() = runBlocking {
+        // WHEN User requesting a popular movie list
+        homeViewModel.getonAirTVList(1, "invalid key")
+
+        // THEN Response from server should not be null
+        when (val result = homeViewModel.onAirTVList.getOrAwaitValue()) {
+            is Result.Success -> Assert.fail(
+                "Testing get Popular Tv Show is failed. Either Object ist not " +
+                        "Result.Success or result equals to null"
+            )
+            is Result.Loading -> {/* Do nothing just wait the result either success or failed */
+            }
+            is Result.Error -> {
+                Assert.assertThat(
+                    result.exception.toString().contains("invalid"), `is`(true)
+                )
+            }
+        }
+    }
 }

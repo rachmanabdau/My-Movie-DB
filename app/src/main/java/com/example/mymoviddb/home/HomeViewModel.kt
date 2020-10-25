@@ -21,6 +21,9 @@ class HomeViewModel(
     private val _popularTVList = MutableLiveData<Result<TVShowModel?>>()
     val popularTVList: LiveData<Result<TVShowModel?>> = _popularTVList
 
+    private val _onAirTVList = MutableLiveData<Result<TVShowModel?>>()
+    val onAirTVList: LiveData<Result<TVShowModel?>> = _onAirTVList
+
     init {
         getPopularMovieList()
     }
@@ -42,6 +45,12 @@ class HomeViewModel(
     fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _popularTVList.value = renoteSource.getPopularTvShowList(page, apiKey)
+        }
+    }
+
+    fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _onAirTVList.value = renoteSource.getPopularTvShowList(page, apiKey)
         }
     }
 
