@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
+import com.example.mymoviddb.utils.DeviceUtils
 
 class HomeFragment : Fragment() {
 
@@ -27,9 +28,11 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.popularMovieRv.adapter = MoviesAdapter()
-        binding.popularMovieRv.layoutManager = LinearLayoutManager(
+        binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
-        )
+        ).apply {
+            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
+        }
         binding.homeViewModel = homeViewModel
 
         return binding.root
