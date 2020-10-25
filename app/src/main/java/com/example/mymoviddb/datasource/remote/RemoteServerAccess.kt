@@ -58,9 +58,23 @@ class RemoteServerAccess : RemoteServer {
         }
     }
 
-    override suspend fun getPopularMvoieList(apiKey: String): Result<MovieModel?> {
+    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
         return try {
-            val result = NetworkAPI.retrofitService.getPopularMoviesAsync(apiKey).await()
+            val result = NetworkAPI.retrofitService.getPopularMoviesAsync(page, apiKey).await()
+
+            if (result.isSuccessful && result.body() != null) {
+                Result.Success(result.body())
+            } else {
+                return401Error(result)
+            }
+        } catch (e: Exception) {
+            Result.Error(Exception(e.message))
+        }
+    }
+
+    override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?> {
+        return try {
+            val result = NetworkAPI.retrofitService.getNowPlayingMoviesAsync(page, apiKey).await()
 
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())

@@ -15,5 +15,7 @@ interface RemoteServer {
 
     suspend fun loginAsGuest(apiKey: String = BuildConfig.V3_AUTH): Result<GuestSessionModel?>
 
-    suspend fun getPopularMvoieList(apiKey: String): Result<MovieModel?>
+    suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?>
+
+    suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?>
 }

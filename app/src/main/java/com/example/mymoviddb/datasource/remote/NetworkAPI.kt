@@ -51,6 +51,13 @@ interface NetworkService {
 
     @GET("movie/popular")
     fun getPopularMoviesAsync(
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<MovieModel>>
+
+    @GET("movie/now_playing")
+    fun getNowPlayingMoviesAsync(
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<MovieModel>>
 }
