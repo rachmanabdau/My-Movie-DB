@@ -47,10 +47,10 @@ class HomeViewModelTest {
     @Test
     fun getPopularMovieList_withValidApiToken_resultNotNull() = runBlocking {
         // WHEN User requesting a popular movie list
-        homeViewModel.getMovieList()
+        homeViewModel.getPopularMovieList()
 
         // THEN Response from server should not be null
-        when (val result = homeViewModel.movieList.getOrAwaitValue()) {
+        when (val result = homeViewModel.popularMovieList.getOrAwaitValue()) {
             is Result.Success -> assertThat(result.data, notNullValue())
             is Result.Loading -> {/* Do nothingm just wait the result either success or failed */
             }
@@ -69,10 +69,10 @@ class HomeViewModelTest {
     @Test
     fun getPopularMovieList_withInvaalidApiToken_resultError() = runBlocking {
         // WHEN User requesting a popular movie list
-        homeViewModel.getMovieList("invalid key")
+        homeViewModel.getPopularMovieList(1, "invalid key")
 
         // THEN Response from server should not be null
-        when (val result = homeViewModel.movieList.getOrAwaitValue()) {
+        when (val result = homeViewModel.popularMovieList.getOrAwaitValue()) {
             is Result.Success -> Assert.fail(
                 "Testing get popular movie is failed. Either Object ist not " +
                         "Result.Success or result equals to null"
@@ -85,6 +85,53 @@ class HomeViewModelTest {
                 )
             }
 
+        }
+    }
+
+    /**
+     * Get popular movie list with valid apikey
+     * result valie should not be null
+     */
+    @Test
+    fun getUpcomingMovieList_withValidApiToken_resultNotNull() = runBlocking {
+        // WHEN User requesting a popular movie list
+        homeViewModel.getBowPlayingMovieList()
+
+        // THEN Response from server should not be null
+        when (val result = homeViewModel.nowPlayingMovieList.getOrAwaitValue()) {
+            is Result.Success -> assertThat(result.data, notNullValue())
+            is Result.Loading -> {/* Do nothingm just wait the result either success or failed */
+            }
+            is Result.Error -> Assert.fail(
+                "Testing get popular movie is failed. Either Object ist not " +
+                        "Result.Success or result equals to null"
+            )
+        }
+
+    }
+
+    /**
+     * Get popular movie list with valid apikey
+     * result valie should not be null
+     */
+    @Test
+    fun getUpcominfMovies_withInvalidApiToken_resultError() = runBlocking {
+        // WHEN User requesting a popular movie list
+        homeViewModel.getBowPlayingMovieList(1, "invalid key")
+
+        // THEN Response from server should not be null
+        when (val result = homeViewModel.nowPlayingMovieList.getOrAwaitValue()) {
+            is Result.Success -> Assert.fail(
+                "Testing get upcoming movie is failed. Either Object ist not " +
+                        "Result.Success or result equals to null"
+            )
+            is Result.Loading -> {/* Do nothingm just wait the result either success or failed */
+            }
+            is Result.Error -> {
+                Assert.assertThat(
+                    result.exception.toString().contains("invalid"), `is`(true)
+                )
+            }
         }
     }
 }

@@ -46,7 +46,29 @@ class FakeRemoteServer : RemoteServer {
         }
     }
 
-    override suspend fun getPopularMvoieList(apiKey: String): Result<MovieModel?> {
+    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
+        return if (apiKey.equals(BuildConfig.V3_AUTH)) {
+            Result.Success(
+                MovieModel(
+                    page = 1, totalPages = 100, totalResults = 1000,
+                    results = listOf(
+                        MovieModel.Result(
+                            adult = false, backdropPath = "", genreIds = listOf(1, 2, 3),
+                            id = 1, originalLanguage = "English", popularity = 2795.629,
+                            voteCount = 157, video = false, posterPath = "", originalTitle = "2067",
+                            title = "2067", voteAverage = 5.7, overview = "", releaseDate = ""
+                        )
+                    )
+                )
+            )
+        } else {
+            Result.Error(
+                Exception("token is invalid")
+            )
+        }
+    }
+
+    override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?> {
         return if (apiKey.equals(BuildConfig.V3_AUTH)) {
             Result.Success(
                 MovieModel(

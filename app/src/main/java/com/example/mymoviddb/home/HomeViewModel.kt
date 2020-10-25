@@ -13,18 +13,27 @@ class HomeViewModel(
     private val renoteSource: RemoteServer
 ) : AndroidViewModel(app) {
 
-    private val _movieList = MutableLiveData<Result<MovieModel?>>()
-    val movieList: LiveData<Result<MovieModel?>> = _movieList
+    private val _popularMovieList = MutableLiveData<Result<MovieModel?>>()
+    val popularMovieList: LiveData<Result<MovieModel?>> = _popularMovieList
+
+    private val _nowPlayingMovieList = MutableLiveData<Result<MovieModel?>>()
+    val nowPlayingMovieList: LiveData<Result<MovieModel?>> = _nowPlayingMovieList
 
     init {
-        getMovieList()
+        getPopularMovieList()
     }
 
     @JvmOverloads
-    fun getMovieList(apiKey: String = BuildConfig.V3_AUTH) {
+    fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _movieList.value = Result.Loading
-            _movieList.value = renoteSource.getPopularMvoieList(apiKey)
+            _popularMovieList.value = Result.Loading
+            _popularMovieList.value = renoteSource.getPopularMovieList(page, apiKey)
+        }
+    }
+
+    fun getBowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _nowPlayingMovieList.value = renoteSource.getNowPlayingMovieList(page, apiKey)
         }
     }
 
