@@ -10,35 +10,66 @@
             type="com.example.mymoviddb.home.HomeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroound"
-        tools:context=".home.HomeFragment">
+        android:background="@color/colorBackgroound">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/popular_movie_txtv"
-            style="@style/DefaultFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16dp"
-            android:layout_marginStart="@dimen/margin_16dp"
-            android:text="@string/popular_movie"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_movie_rv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16dp"
-            android:padding="@dimen/padding_8dp"
-            android:clipToPadding="false"
-            app:attachList="@{homeViewModel.movieList}"
-            app:layout_constraintTop_toBottomOf="@id/popular_movie_txtv"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/movie_item" />
+            android:layout_height="match_parent"
+            tools:context=".home.HomeFragment">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/popular_movie_txtv"
+                style="@style/DefaultFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:text="@string/popular_movie"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popular_movie_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:padding="@dimen/padding_8dp"
+                android:clipToPadding="false"
+                android:contentDescription="@string/popular_movie"
+                app:attachList="@{homeViewModel.popularMovieList}"
+                app:layout_constraintTop_toBottomOf="@id/popular_movie_txtv"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/movie_item" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/now_playing_movie_txtv"
+                style="@style/DefaultFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:text="@string/upcoming_movies"
+                app:layout_constraintTop_toBottomOf="@id/popular_movie_rv"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/now_playing_movie_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:padding="@dimen/padding_8dp"
+                android:clipToPadding="false"
+                android:contentDescription="@string/upcoming_movies"
+                app:attachList="@{homeViewModel.nowPlayingMovieList}"
+                app:layout_constraintTop_toBottomOf="@id/now_playing_movie_txtv"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/movie_item" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </layout>
