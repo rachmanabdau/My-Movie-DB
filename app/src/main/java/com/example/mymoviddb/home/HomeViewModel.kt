@@ -25,7 +25,14 @@ class HomeViewModel(
     val onAirTVList: LiveData<Result<TVShowModel?>> = _onAirTVList
 
     init {
+        populateData()
+    }
+
+    private fun populateData() {
         getPopularMovieList()
+        getNowPlayingMovieList()
+        getPopularTVList()
+        getonAirTVList()
     }
 
     @JvmOverloads

@@ -11,7 +11,6 @@ import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
-import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.DeviceUtils
 
 class HomeFragment : Fragment() {
@@ -57,24 +56,6 @@ class HomeFragment : Fragment() {
         ).apply {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
-
-        homeViewModel.popularMovieList.observe(viewLifecycleOwner, {
-            if (it is Result.Success) {
-                homeViewModel.getNowPlayingMovieList()
-            }
-        })
-
-        homeViewModel.nowPlayingMovieList.observe(viewLifecycleOwner, {
-            if (it is Result.Success) {
-                homeViewModel.getPopularTVList()
-            }
-        })
-
-        homeViewModel.popularTVList.observe(viewLifecycleOwner, {
-            if (it is Result.Success) {
-                homeViewModel.getonAirTVList()
-            }
-        })
 
         binding.homeViewModel = homeViewModel
 
