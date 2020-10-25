@@ -1,6 +1,8 @@
 package com.example.mymoviddb.authentication
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.datasource.remote.FakeRemoteServer
 import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.getOrAwaitValue
@@ -15,9 +17,11 @@ import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
+@RunWith(AndroidJUnit4::class)
 class AuthenticationViewModelTest {
 
     @get:Rule
@@ -31,7 +35,10 @@ class AuthenticationViewModelTest {
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
         fakeRemoteSource = FakeRemoteServer()
-        authenticationVM = AuthenticationViewModel(fakeRemoteSource)
+        authenticationVM = AuthenticationViewModel(
+            ApplicationProvider.getApplicationContext(),
+            fakeRemoteSource
+        )
     }
 
     @After
@@ -44,10 +51,10 @@ class AuthenticationViewModelTest {
     @Test
     fun loginasGuest_successEqualsTrue() = runBlocking {
         // WHEN user login login as guest with valid api key
-        authenticationVM.loginAsGuest()
+        authenticationVM.loginAsGuest(false)
 
         // THEN response from server should be [GuestSessionModel] object
-        val result = authenticationVM.loginGuestResult.getOrAwaitValue()
+        val result = authenticationVM.loginGuestResult.getOrAwaitValue().getContentIfNotHandled()
         if (result is Result.Success) {
             assertThat(result.data?.success, `is`(true))
         } else {
@@ -59,10 +66,10 @@ class AuthenticationViewModelTest {
     @Test
     fun loginasGuest_resultError401() = runBlocking {
         // WHEN user login login as guest with valid api key
-        authenticationVM.loginAsGuest("invalidApiKeyV3")
+        authenticationVM.loginAsGuest(false, "invalidApiKeyV3")
 
         // THEN response from server should be [GuestSessionModel] object
-        val result = authenticationVM.loginGuestResult.getOrAwaitValue()
+        val result = authenticationVM.loginGuestResult.getOrAwaitValue().getContentIfNotHandled()
         if (result is Result.Error) {
             assertThat(result.exception.toString().contains("invalid"), `is`(true))
         } else {
