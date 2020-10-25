@@ -11,6 +11,7 @@ import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.EventObserver
+import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
 
 class AuthenticationFragment : Fragment() {
@@ -19,7 +20,8 @@ class AuthenticationFragment : Fragment() {
 
     private val authenticationViewModel by viewModels<AuthenticationViewModel> {
         val remoteServer = RemoteServerAccess()
-        AuthenticationViewModel.Factory(remoteServer)
+        val app = requireActivity().application
+        AuthenticationViewModel.Factory(app, remoteServer)
     }
 
     override fun onCreateView(
@@ -37,20 +39,15 @@ class AuthenticationFragment : Fragment() {
             )
         }
 
-        // When login as gues success, navigate to home fragment
         authenticationViewModel.loginGuestResult.observe(viewLifecycleOwner, EventObserver {
-            if (it is Result.Success && it.data?.success == true) {
-                it.data.let { result ->
-                    // Save guest session id
-                    PreferenceUtil.writeGuestToken(requireActivity(), result.guestSessionId)
-                    findNavController().navigate(
-                        AuthenticationFragmentDirections.actionAuthenticationFragmentToHomeFragment()
-                    )
-                }
+            if (it is Result.Success) {
+                findNavController().navigate(
+                    AuthenticationFragmentDirections.actionAuthenticationFragmentToHomeFragment()
+                )
+                PreferenceUtil.setAuthState(requireContext(), LoginState.AS_GUEST)
             }
         })
 
         return binding.root
     }
-
 }
