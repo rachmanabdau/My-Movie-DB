@@ -18,4 +18,8 @@
     <string name="user_score">User Score %1$d%%</string>
     <string name="movie_content_description">%1$s poster</string>
     <string name="upcoming_movies">Now Playing</string>
+    <string name="popular_tv_show">Popular TV show</string>
+    <string name="popular_movie_list_contentDesc">Popular Movie List</string>
+    <string name="now_playing_movie_list_contentDesc">Now Playing Movie List</string>
+    <string name="popular_tv_show_list_contentDesc">Popular TV Show List</string>
 </resources>
