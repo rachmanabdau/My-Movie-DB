@@ -10,7 +10,7 @@ import com.example.mymoviddb.model.succeeded
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val renoteSource: RemoteServer
+    private val remoteServer: RemoteServer
 ) : ViewModel() {
 
     private val _popularMovieList = MutableLiveData<Result<MovieModel?>>()
@@ -59,22 +59,22 @@ class HomeViewModel(
     }
 
     suspend fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _popularMovieList.value = renoteSource.getPopularMovieList(page, apiKey)
+        _popularMovieList.value = remoteServer.getPopularMovieList(page, apiKey)
         _showPopularMovieError.value = !(_popularMovieList.value?.succeeded)!!
     }
 
     suspend fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _nowPlayingMovieList.value = renoteSource.getNowPlayingMovieList(page, apiKey)
+        _nowPlayingMovieList.value = remoteServer.getNowPlayingMovieList(page, apiKey)
         _showNowPlayingMovieError.value = !(_nowPlayingMovieList.value?.succeeded)!!
     }
 
     suspend fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _popularTVList.value = renoteSource.getPopularTvShowList(page, apiKey)
+        _popularTVList.value = remoteServer.getPopularTvShowList(page, apiKey)
         _showPopularTvError.value = !(_popularTVList.value?.succeeded)!!
     }
 
     suspend fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _onAirTVList.value = renoteSource.getOnAirTvShowList(page, apiKey)
+        _onAirTVList.value = remoteServer.getOnAirTvShowList(page, apiKey)
         _showOnAirTvError.value = !(_onAirTVList.value?.succeeded)!!
     }
 
