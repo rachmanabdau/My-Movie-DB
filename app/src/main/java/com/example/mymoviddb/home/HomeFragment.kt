@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.utils.DeviceUtils
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -72,16 +74,16 @@ class HomeFragment : Fragment() {
 
     private fun setClickListener() {
         binding.errorPopularMoviesMessage.tryAgainButton.setOnClickListener {
-            homeViewModel.getPopularMovieList()
+            lifecycleScope.launch { homeViewModel.getPopularMovieList() }
         }
         binding.errorNowPlayingMoviesMessage.tryAgainButton.setOnClickListener {
-            homeViewModel.getNowPlayingMovieList()
+            lifecycleScope.launch { homeViewModel.getNowPlayingMovieList() }
         }
         binding.errorPopularTvMessage.tryAgainButton.setOnClickListener {
-            homeViewModel.getPopularTVList()
+            lifecycleScope.launch { homeViewModel.getPopularTVList() }
         }
         binding.errorOnAirTvMessage.tryAgainButton.setOnClickListener {
-            homeViewModel.getonAirTVList()
+            lifecycleScope.launch { homeViewModel.getonAirTVList() }
         }
     }
 
