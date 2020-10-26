@@ -28,7 +28,16 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.homeViewModel = homeViewModel
 
+        initializeAdapter()
+        setClickListener()
+
+        return binding.root
+    }
+
+    fun initializeAdapter() {
+        // Adapter for popular movies
         binding.popularMovieRv.adapter = MoviesAdapter()
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -36,6 +45,7 @@ class HomeFragment : Fragment() {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
 
+        // Adapter for now playing movies
         binding.nowPlayingMovieRv.adapter = MoviesAdapter()
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -43,6 +53,7 @@ class HomeFragment : Fragment() {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
 
+        // Adapter for popular tv shows
         binding.popularTvRv.adapter = TVAdapter()
         binding.popularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -50,16 +61,28 @@ class HomeFragment : Fragment() {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
 
+        // Adapter for on air tv shows
         binding.onAirPopularTvRv.adapter = TVAdapter()
         binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
+    }
 
-        binding.homeViewModel = homeViewModel
-
-        return binding.root
+    private fun setClickListener() {
+        binding.errorPopularMoviesMessage.tryAgainButton.setOnClickListener {
+            homeViewModel.getPopularMovieList()
+        }
+        binding.errorNowPlayingMoviesMessage.tryAgainButton.setOnClickListener {
+            homeViewModel.getNowPlayingMovieList()
+        }
+        binding.errorPopularTvMessage.tryAgainButton.setOnClickListener {
+            homeViewModel.getPopularTVList()
+        }
+        binding.errorOnAirTvMessage.tryAgainButton.setOnClickListener {
+            homeViewModel.getonAirTVList()
+        }
     }
 
 }
