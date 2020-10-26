@@ -44,7 +44,7 @@
                 <include
                     android:id="@+id/error_popular_movies_message"
                     layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showPopularMovieError ? View.GONE : View.VISIBLE}" />
+                    android:visibility="@{homeViewModel.showPopularMovieError ? View.VISIBLE : View.GONE}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/popular_movie_rv"
@@ -81,7 +81,7 @@
                 <include
                     android:id="@+id/error_now_playing_movies_message"
                     layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showNowPlayingMovieError ? View.GONE : View.VISIBLE}" />
+                    android:visibility="@{homeViewModel.showNowPlayingMovieError ? View.VISIBLE : View.GONE}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/now_playing_movie_rv"
@@ -120,7 +120,7 @@
                 <include
                     android:id="@+id/error_popular_tv_message"
                     layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showPopularTvError ? View.GONE : View.VISIBLE}" />
+                    android:visibility="@{homeViewModel.showPopularTvError ? View.VISIBLE : View.GONE}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/popular_tv_rv"
@@ -157,7 +157,7 @@
                 <include
                     android:id="@+id/error_on_air_tv_message"
                     layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showOnAirTvError ? View.GONE : View.VISIBLE}" />
+                    android:visibility="@{homeViewModel.showOnAirTvError ? View.VISIBLE : View.GONE}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/on_air_popular_tv_rv"
