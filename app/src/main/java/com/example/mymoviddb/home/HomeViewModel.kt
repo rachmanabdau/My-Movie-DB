@@ -7,6 +7,7 @@ import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.model.succeeded
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -41,12 +42,17 @@ class HomeViewModel(
     val showOnAirTvError: LiveData<Boolean>
         get() = _showOnAirTvError
 
+    private val _initialLoading = MutableLiveData<Boolean>()
+    val initialLoading: LiveData<Boolean>
+        get() = _initialLoading
+
     init {
         populateData()
         _showPopularMovieError.value = false
         _showNowPlayingMovieError.value = false
         _showPopularTvError.value = false
         _showOnAirTvError.value = false
+        _initialLoading.value = true
     }
 
     private fun populateData() {
@@ -76,6 +82,8 @@ class HomeViewModel(
     suspend fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         _onAirTVList.value = remoteServer.getOnAirTvShowList(page, apiKey)
         _showOnAirTvError.value = !(_onAirTVList.value?.succeeded)!!
+        delay(5000)
+        _initialLoading.value = false
     }
 
     class Factory(

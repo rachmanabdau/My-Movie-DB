@@ -15,155 +15,170 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".home.HomeFragment">
+            android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/popular_movie_txtv"
-                style="@style/DefaultFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:text="@string/popular_movie"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/popular_movie_container"
+            <ProgressBar
+                android:id="@+id/inital_loading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/popular_movie_txtv"
-                app:layout_constraintStart_toStartOf="parent">
+                android:indeterminate="true"
+                android:visibility="@{homeViewModel.initialLoading ? View.VISIBLE : View.GONE}" />
 
-                <include
-                    android:id="@+id/error_popular_movies_message"
-                    layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showPopularMovieError ? View.VISIBLE : View.GONE}" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/popular_movie_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_small"
-                    android:clipToPadding="false"
-                    android:contentDescription="@string/popular_movie_list_contentDesc"
-                    app:attachShowList="@{homeViewModel.popularMovieList}"
-                    tools:listitem="@layout/movie_item" />
-            </LinearLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/now_playing_movie_txtv"
-                style="@style/DefaultFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:text="@string/upcoming_movies"
-                app:layout_constraintTop_toBottomOf="@id/popular_movie_container"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/now_playing_movie_container"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/now_playing_movie_txtv"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="match_parent"
+                android:visibility="@{homeViewModel.initialLoading ? View.INVISIBLE : View.VISIBLE}"
+                tools:context=".home.HomeFragment">
 
-                <include
-                    android:id="@+id/error_now_playing_movies_message"
-                    layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showNowPlayingMovieError ? View.VISIBLE : View.GONE}" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/popular_movie_txtv"
+                    style="@style/DefaultFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/popular_movie"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/now_playing_movie_rv"
+                <LinearLayout
+                    android:id="@+id/popular_movie_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_small"
-                    android:clipToPadding="false"
-                    android:contentDescription="@string/now_playing_movie_list_contentDesc"
-                    app:attachShowList="@{homeViewModel.nowPlayingMovieList}"
-                    tools:listitem="@layout/movie_item" />
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/popular_movie_txtv"
+                    app:layout_constraintStart_toStartOf="parent">
 
-            </LinearLayout>
+                    <include
+                        android:id="@+id/error_popular_movies_message"
+                        layout="@layout/try_again_load_list"
+                        android:visibility="@{homeViewModel.showPopularMovieError ? View.VISIBLE : View.GONE}" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/popular_tv_txtv"
-                style="@style/DefaultFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:text="@string/popular_tv_show"
-                app:layout_constraintTop_toBottomOf="@id/now_playing_movie_container"
-                app:layout_constraintStart_toStartOf="parent" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/popular_movie_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_small"
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/popular_movie_list_contentDesc"
+                        app:attachShowList="@{homeViewModel.popularMovieList}"
+                        tools:listitem="@layout/movie_item" />
+                </LinearLayout>
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/now_playing_movie_txtv"
+                    style="@style/DefaultFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/upcoming_movies"
+                    app:layout_constraintTop_toBottomOf="@id/popular_movie_container"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/popular_tv_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/popular_tv_txtv"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <include
-                    android:id="@+id/error_popular_tv_message"
-                    layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showPopularTvError ? View.VISIBLE : View.GONE}" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/popular_tv_rv"
+                <LinearLayout
+                    android:id="@+id/now_playing_movie_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_small"
-                    android:clipToPadding="false"
-                    android:contentDescription="@string/popular_tv_show_list_contentDesc"
-                    app:attachShowList="@{homeViewModel.popularTVList}"
-                    tools:listitem="@layout/movie_item" />
-            </LinearLayout>
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/now_playing_movie_txtv"
+                    app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/on_air_tv_txtv"
-                style="@style/DefaultFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:text="@string/on_air_tv_shows"
-                app:layout_constraintTop_toBottomOf="@id/popular_tv_container"
-                app:layout_constraintStart_toStartOf="parent" />
+                    <include
+                        android:id="@+id/error_now_playing_movies_message"
+                        layout="@layout/try_again_load_list"
+                        android:visibility="@{homeViewModel.showNowPlayingMovieError ? View.VISIBLE : View.GONE}" />
 
-            <LinearLayout
-                android:id="@+id/on_air_tv_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/on_air_tv_txtv"
-                app:layout_constraintStart_toStartOf="parent">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/now_playing_movie_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_small"
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/now_playing_movie_list_contentDesc"
+                        app:attachShowList="@{homeViewModel.nowPlayingMovieList}"
+                        tools:listitem="@layout/movie_item" />
 
-                <include
-                    android:id="@+id/error_on_air_tv_message"
-                    layout="@layout/try_again_load_list"
-                    android:visibility="@{homeViewModel.showOnAirTvError ? View.VISIBLE : View.GONE}" />
+                </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/on_air_popular_tv_rv"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/popular_tv_txtv"
+                    style="@style/DefaultFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/popular_tv_show"
+                    app:layout_constraintTop_toBottomOf="@id/now_playing_movie_container"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <LinearLayout
+                    android:id="@+id/popular_tv_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_small"
-                    android:clipToPadding="false"
-                    android:contentDescription="@string/now_airing_tv_show_list_contentDesc"
-                    app:attachShowList="@{homeViewModel.onAirTVList}"
-                    tools:listitem="@layout/movie_item" />
-            </LinearLayout>
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/popular_tv_txtv"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <include
+                        android:id="@+id/error_popular_tv_message"
+                        layout="@layout/try_again_load_list"
+                        android:visibility="@{homeViewModel.showPopularTvError ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/popular_tv_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_small"
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/popular_tv_show_list_contentDesc"
+                        app:attachShowList="@{homeViewModel.popularTVList}"
+                        tools:listitem="@layout/movie_item" />
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/on_air_tv_txtv"
+                    style="@style/DefaultFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/on_air_tv_shows"
+                    app:layout_constraintTop_toBottomOf="@id/popular_tv_container"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/on_air_tv_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/on_air_tv_txtv"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <include
+                        android:id="@+id/error_on_air_tv_message"
+                        layout="@layout/try_again_load_list"
+                        android:visibility="@{homeViewModel.showOnAirTvError ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/on_air_popular_tv_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_small"
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/now_airing_tv_show_list_contentDesc"
+                        app:attachShowList="@{homeViewModel.onAirTVList}"
+                        tools:listitem="@layout/movie_item" />
+                </LinearLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 </layout>
