@@ -68,8 +68,7 @@ class HomeViewModelTest {
         homeViewModel.getPopularMovieList(1, "invalid key")
 
         // THEN Response from server should not be null
-        val result = homeViewModel.popularMovieList.getOrAwaitValue()
-        when (result) {
+        when (val result = homeViewModel.popularMovieList.getOrAwaitValue()) {
             is Result.Success -> Assert.fail(
                 "Testing get popular movie is failed. Either Object ist not " +
                         "Result.Success or result equals to null"
@@ -92,7 +91,7 @@ class HomeViewModelTest {
     @Test
     fun getNowPlayingMovieList_withValidApiToken_resultNotNull() = runBlocking {
         // WHEN User requesting a popular movie list
-        homeViewModel.getBowPlayingMovieList()
+        homeViewModel.getNowPlayingMovieList()
 
         // THEN Response from server should not be null
         when (val result = homeViewModel.nowPlayingMovieList.getOrAwaitValue()) {
@@ -114,7 +113,7 @@ class HomeViewModelTest {
     @Test
     fun getNowPlayingMovies_withInvalidApiToken_resultError() = runBlocking {
         // WHEN User requesting a popular movie list
-        homeViewModel.getBowPlayingMovieList(1, "invalid key")
+        homeViewModel.getNowPlayingMovieList(1, "invalid key")
 
         // THEN Response from server should not be null
         when (val result = homeViewModel.nowPlayingMovieList.getOrAwaitValue()) {
@@ -161,7 +160,7 @@ class HomeViewModelTest {
     @Test
     fun getPopularTvMovies_withInvalidApiToken_resultError() = runBlocking {
         // WHEN User requesting a popular movie list
-        homeViewModel.getBowPlayingMovieList(1, "invalid key")
+        homeViewModel.getNowPlayingMovieList(1, "invalid key")
 
         // THEN Response from server should not be null
         when (val result = homeViewModel.nowPlayingMovieList.getOrAwaitValue()) {

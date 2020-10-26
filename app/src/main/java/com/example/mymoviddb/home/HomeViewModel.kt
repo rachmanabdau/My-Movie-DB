@@ -1,6 +1,5 @@
 package com.example.mymoviddb.home
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.RemoteServer
@@ -44,46 +43,39 @@ class HomeViewModel(
 
     init {
         populateData()
+        _showPopularMovieError.value = false
+        _showNowPlayingMovieError.value = false
+        _showPopularTvError.value = false
+        _showOnAirTvError.value = false
     }
 
     private fun populateData() {
-        getPopularMovieList()
-        getNowPlayingMovieList()
-        getPopularTVList()
-        getonAirTVList()
-    }
-
-    fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _showPopularMovieError.value = true
-            _popularMovieList.value = renoteSource.getPopularMovieList(page, apiKey)
-            _showPopularMovieError.value = _popularMovieList.value?.succeeded
+            getPopularMovieList()
+            getNowPlayingMovieList()
+            getPopularTVList()
+            getonAirTVList()
         }
     }
 
-    fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _showNowPlayingMovieError.value = true
-            _nowPlayingMovieList.value = renoteSource.getNowPlayingMovieList(page, apiKey)
-            _showNowPlayingMovieError.value = _nowPlayingMovieList.value?.succeeded
-            Log.d("nowPlaying", _nowPlayingMovieList.value.toString())
-        }
+    suspend fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        _popularMovieList.value = renoteSource.getPopularMovieList(page, apiKey)
+        _showPopularMovieError.value = !(_popularMovieList.value?.succeeded)!!
     }
 
-    fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _showPopularTvError.value = true
-            _popularTVList.value = renoteSource.getPopularTvShowList(page, apiKey)
-            _showPopularTvError.value = _popularTVList.value?.succeeded
-        }
+    suspend fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        _nowPlayingMovieList.value = renoteSource.getNowPlayingMovieList(page, apiKey)
+        _showNowPlayingMovieError.value = !(_nowPlayingMovieList.value?.succeeded)!!
     }
 
-    fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _showOnAirTvError.value = true
-            _onAirTVList.value = renoteSource.getOnAirTvShowList(page, apiKey)
-            _showOnAirTvError.value = _onAirTVList.value?.succeeded
-        }
+    suspend fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        _popularTVList.value = renoteSource.getPopularTvShowList(page, apiKey)
+        _showPopularTvError.value = !(_popularTVList.value?.succeeded)!!
+    }
+
+    suspend fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        _onAirTVList.value = renoteSource.getOnAirTvShowList(page, apiKey)
+        _showOnAirTvError.value = !(_onAirTVList.value?.succeeded)!!
     }
 
     class Factory(
