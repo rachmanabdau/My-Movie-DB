@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.mymoviddb.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_showListFragment"
+            app:destination="@id/showListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
         android:name="com.example.mymoviddb.authentication.AuthenticationFragment"
@@ -31,4 +35,8 @@
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/showListFragment"
+        android:name="com.example.mymoviddb.show.PopularMovieListFragment"
+        android:label="@string/popular_movie" />
 </navigation>
