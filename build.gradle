@@ -7,6 +7,7 @@ buildscript {
         version_lifecycle = "2.2.0"
         version_navigation = "1.0.0"
         version_kotlin = "1.4.10"
+        version_paging = "2.1.2"
         version_retrofit = "2.9.0"
         version_room = "2.2.5"
     }

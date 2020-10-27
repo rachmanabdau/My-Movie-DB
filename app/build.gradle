@@ -130,4 +130,9 @@ dependencies {
     // Preference
     implementation "androidx.preference:preference-ktx:1.1.1"
 
+    // Pagination
+    implementation "androidx.paging:paging-runtime-ktx:$version_paging"
+    // alternatively - without Android dependencies for testing
+    testImplementation "androidx.paging:paging-common-ktx:$version_paging"
+
 }
