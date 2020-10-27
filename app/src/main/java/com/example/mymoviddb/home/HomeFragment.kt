@@ -13,6 +13,8 @@ import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.utils.DeviceUtils
+import com.example.mymoviddb.utils.EventObserver
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -34,6 +36,10 @@ class HomeFragment : Fragment() {
 
         initializeAdapter()
         setClickListener()
+
+        homeViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
+        })
 
         return binding.root
     }
@@ -74,16 +80,32 @@ class HomeFragment : Fragment() {
 
     private fun setClickListener() {
         binding.errorPopularMoviesMessage.tryAgainButton.setOnClickListener {
-            lifecycleScope.launch { homeViewModel.getPopularMovieList() }
+            lifecycleScope.launch {
+                binding.errorPopularMoviesMessage.tryAgainButton.isEnabled = false
+                homeViewModel.getPopularMovieList()
+                binding.errorPopularMoviesMessage.tryAgainButton.isEnabled = true
+            }
         }
         binding.errorNowPlayingMoviesMessage.tryAgainButton.setOnClickListener {
-            lifecycleScope.launch { homeViewModel.getNowPlayingMovieList() }
+            lifecycleScope.launch {
+                binding.errorNowPlayingMoviesMessage.tryAgainButton.isEnabled = false
+                homeViewModel.getNowPlayingMovieList()
+                binding.errorNowPlayingMoviesMessage.tryAgainButton.isEnabled = true
+            }
         }
         binding.errorPopularTvMessage.tryAgainButton.setOnClickListener {
-            lifecycleScope.launch { homeViewModel.getPopularTVList() }
+            lifecycleScope.launch {
+                binding.errorPopularTvMessage.tryAgainButton.isEnabled = false
+                homeViewModel.getPopularTVList()
+                binding.errorPopularTvMessage.tryAgainButton.isEnabled = true
+            }
         }
         binding.errorOnAirTvMessage.tryAgainButton.setOnClickListener {
-            lifecycleScope.launch { homeViewModel.getonAirTVList() }
+            lifecycleScope.launch {
+                binding.errorOnAirTvMessage.tryAgainButton.isEnabled = false
+                homeViewModel.getonAirTVList()
+                binding.errorOnAirTvMessage.tryAgainButton.isEnabled = true
+            }
         }
     }
 
