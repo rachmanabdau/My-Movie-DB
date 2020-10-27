@@ -26,4 +26,5 @@
     <string name="now_airing_tv_show_list_contentDesc">Now Airing TV Show List</string>
     <string name="try_again_message">Loading data is failed. Tap button to try again.</string>
     <string name="try_again_action">Try Again</string>
+    <string name="load_more">Load More</string>
 </resources>
