@@ -1,6 +1,5 @@
 package com.example.mymoviddb.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,7 +64,6 @@ class MovieListAdapter(private val retry: () -> Unit) :
                 "Unknown error has occured"
             }
             (holder as ErrorViewHolder).onBind(errorMessage) { retry() }
-            Log.d("recycler", (state is Result.Error).toString())
         }
     }
 
