@@ -1,7 +1,6 @@
-package com.example.mymoviddb.category.movie
+package com.example.mymoviddb.category.tv
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,37 +10,37 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.mymoviddb.adapters.MovieListAdapter
-import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
+import com.example.mymoviddb.adapters.TVListAdapter
+import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.model.Result
 
+class CategoryTvFragment : Fragment() {
 
-class CategoryMovieListFragment : Fragment() {
+    private lateinit var binding: FragmentCategoryTvBinding
 
-    private lateinit var binding: FragmentCategoryMovieListBinding
+    private val arguments by navArgs<CategoryTvFragmentArgs>()
 
-    private val arguments by navArgs<CategoryMovieListFragmentArgs>()
-
-    private val showViewModels by viewModels<CategoryMovieListViewModel> {
-        val movieDataSourceFactory =
-            MovieDataSourceFactory(RemoteServerAccess(), lifecycleScope, arguments.movieCategoryId)
-        CategoryMovieListViewModel.Factory(movieDataSourceFactory)
+    private val categoryTvViewmodel by viewModels<CategoryTVViewModel> {
+        val tvDataSource =
+            TVDataSourceFactory(RemoteServerAccess(), lifecycleScope, arguments.tvCategoryId)
+        CategoryTVViewModel.Factory(tvDataSource)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCategoryMovieListBinding.inflate(inflater, container, false)
+
+        binding = FragmentCategoryTvBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
 
-        val adapter = MovieListAdapter { showViewModels.retry() }
+        val adapter = TVListAdapter { categoryTvViewmodel.retry() }
         binding.showRv.adapter = adapter
         binding.lifecycleOwner = this
         var firstInitialize = true
 
-        showViewModels.result.observe(viewLifecycleOwner, {
+        categoryTvViewmodel.result.observe(viewLifecycleOwner, {
             adapter.setState(it)
 
             if (it is Result.Error && firstInitialize) {
@@ -58,15 +57,13 @@ class CategoryMovieListFragment : Fragment() {
             }
         })
 
-        showViewModels.movieList.observe(viewLifecycleOwner, {
+        categoryTvViewmodel.tvList.observe(viewLifecycleOwner, {
             adapter.submitList(it)
-            Log.d("pmListFragment", it.isNotEmpty().toString())
         })
 
         binding.errorLayout.tryAgainButton.setOnClickListener {
-            showViewModels.retry()
+            categoryTvViewmodel.retry()
         }
-
         return binding.root
     }
 

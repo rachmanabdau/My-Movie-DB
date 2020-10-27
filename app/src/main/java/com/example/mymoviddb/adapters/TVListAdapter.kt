@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.databinding.TvListItemBinding
-import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.ErrorViewHolder
@@ -18,7 +17,7 @@ class TVListAdapter(private val retry: () -> Unit) :
 
     private val dataViewType = 1
     private val errorViewType = 2
-    private var state: Result<MovieModel?> = Result.Loading
+    private var state: Result<TVShowModel?> = Result.Loading
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<TVShowModel.Result>() {
         override fun areItemsTheSame(
@@ -69,7 +68,7 @@ class TVListAdapter(private val retry: () -> Unit) :
         }
     }
 
-    fun setState(state: Result<MovieModel?>) {
+    fun setState(state: Result<TVShowModel?>) {
         this.state = state
         notifyItemChanged(super.getItemCount())
     }
