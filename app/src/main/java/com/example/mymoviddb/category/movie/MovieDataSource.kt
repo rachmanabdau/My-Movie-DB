@@ -1,4 +1,4 @@
-package com.example.mymoviddb.datasource.paging
+package com.example.mymoviddb.category.movie
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -10,9 +10,10 @@ import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class PopularMovieDataSource(
+class MovieDataSource(
     private val networkService: RemoteServer,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val categoryId: Int
 ) : PageKeyedDataSource<Int, MovieModel.Result>() {
 
     val result: MutableLiveData<Result<MovieModel?>> = MutableLiveData()
@@ -34,7 +35,11 @@ class PopularMovieDataSource(
         scope.launch {
             try {
                 result.value = Result.Loading
-                val movieResult = networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
+                    networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                } else {
+                    networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                }
 
                 if (movieResult is Result.Success) {
                     result.value = movieResult
@@ -63,8 +68,11 @@ class PopularMovieDataSource(
         scope.launch {
             try {
                 result.value = Result.Loading
-                val movieResult =
+                val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
                     networkService.getPopularMovieList(params.key + 1, BuildConfig.V3_AUTH)
+                } else {
+                    networkService.getNowPlayingMovieList(params.key + 1, BuildConfig.V3_AUTH)
+                }
 
                 if (movieResult is Result.Success) {
                     result.value = movieResult
@@ -90,5 +98,10 @@ class PopularMovieDataSource(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, MovieModel.Result>
     ) {
+    }
+
+    companion object {
+        const val POPULAR_MOVIE_ID = 1
+        const val NOW_PLAYING_MOVIE_ID = 2
     }
 }
