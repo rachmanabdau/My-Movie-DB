@@ -11,8 +11,8 @@
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_showListFragment"
-            app:destination="@id/showListFragment" />
+            android:id="@+id/action_homeFragment_to_categoryMovieListFragment"
+            app:destination="@id/categoryMovieListFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
@@ -36,9 +36,10 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/showListFragment"
+        android:id="@+id/categoryMovieListFragment"
         android:name="com.example.mymoviddb.category.movie.CategoryMovieListFragment"
-        android:label="@string/popular_movie">
+        android:label="@string/popular_movie"
+        tools:layout="@layout/fragment_category_movie_list">
         <argument
             android:name="movieCategoryId"
             app:argType="integer" />

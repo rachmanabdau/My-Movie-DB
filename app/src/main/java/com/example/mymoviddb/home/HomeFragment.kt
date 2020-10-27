@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         // Adapter for popular movies
         binding.popularMovieRv.adapter = MoviesAdapter {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToShowListFragment(
+                HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     MovieDataSource.POPULAR_MOVIE_ID, R.string.popular_movie_list_contentDesc
                 )
             )
@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
         // Adapter for now playing movies
         binding.nowPlayingMovieRv.adapter = MoviesAdapter {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToShowListFragment(
+                HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     MovieDataSource.NOW_PLAYING_MOVIE_ID,
                     R.string.now_playing_movie_list_contentDesc
                 )
