@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
@@ -46,7 +47,11 @@ class HomeFragment : Fragment() {
 
     fun initializeAdapter() {
         // Adapter for popular movies
-        binding.popularMovieRv.adapter = MoviesAdapter()
+        binding.popularMovieRv.adapter = MoviesAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToShowListFragment()
+            )
+        }
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
@@ -54,7 +59,11 @@ class HomeFragment : Fragment() {
         }
 
         // Adapter for now playing movies
-        binding.nowPlayingMovieRv.adapter = MoviesAdapter()
+        binding.nowPlayingMovieRv.adapter = MoviesAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToShowListFragment()
+            )
+        }
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
@@ -106,6 +115,12 @@ class HomeFragment : Fragment() {
                 homeViewModel.getonAirTVList()
                 binding.errorOnAirTvMessage.tryAgainButton.isEnabled = true
             }
+        }
+
+        binding.popularMovieTxtv.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToShowListFragment()
+            )
         }
     }
 
