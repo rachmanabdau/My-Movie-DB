@@ -2,6 +2,7 @@ package com.example.mymoviddb.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -91,8 +92,13 @@ class ErrorViewHolder(private val binding: TryAgainLoadListBinding) :
     fun onBind(errorMessage: String, action: () -> Unit) {
         binding.errorMessage.text = errorMessage
         binding.tryAgainButton.setOnClickListener {
+            binding.errorMessage.visibility = View.GONE
+            binding.tryAgainButton.visibility = View.GONE
+            binding.retryLoading.visibility = View.VISIBLE
             action()
+            binding.errorMessage.visibility = View.VISIBLE
+            binding.tryAgainButton.visibility = View.VISIBLE
+            binding.retryLoading.visibility = View.GONE
         }
-        Log.d("errorMEssage", errorMessage)
     }
 }
