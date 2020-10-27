@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
+import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.utils.DeviceUtils
@@ -45,11 +47,13 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    fun initializeAdapter() {
+    private fun initializeAdapter() {
         // Adapter for popular movies
         binding.popularMovieRv.adapter = MoviesAdapter {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToShowListFragment()
+                HomeFragmentDirections.actionHomeFragmentToShowListFragment(
+                    MovieDataSource.POPULAR_MOVIE_ID, R.string.popular_movie_list_contentDesc
+                )
             )
         }
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
@@ -61,7 +65,10 @@ class HomeFragment : Fragment() {
         // Adapter for now playing movies
         binding.nowPlayingMovieRv.adapter = MoviesAdapter {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToShowListFragment()
+                HomeFragmentDirections.actionHomeFragmentToShowListFragment(
+                    MovieDataSource.NOW_PLAYING_MOVIE_ID,
+                    R.string.now_playing_movie_list_contentDesc
+                )
             )
         }
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
@@ -115,12 +122,6 @@ class HomeFragment : Fragment() {
                 homeViewModel.getonAirTVList()
                 binding.errorOnAirTvMessage.tryAgainButton.isEnabled = true
             }
-        }
-
-        binding.popularMovieTxtv.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToShowListFragment()
-            )
         }
     }
 

@@ -1,15 +1,13 @@
-package com.example.mymoviddb.show
+package com.example.mymoviddb.category.movie
 
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.mymoviddb.datasource.paging.PopularMovieDataSource
-import com.example.mymoviddb.datasource.paging.PopularMovieDataSourceFactory
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.cancel
 
-class PopularMovieViewModel(private val dataSourceFactoryPopular: PopularMovieDataSourceFactory) :
+class CategoryMovieListViewModel(private val dataSourceFactory: MovieDataSourceFactory) :
     ViewModel() {
 
     val movieList: LiveData<PagedList<MovieModel.Result>>
@@ -22,16 +20,16 @@ class PopularMovieViewModel(private val dataSourceFactoryPopular: PopularMovieDa
             .setEnablePlaceholders(true)
             .build()
 
-        movieList = LivePagedListBuilder(dataSourceFactoryPopular, config).build()
+        movieList = LivePagedListBuilder(dataSourceFactory, config).build()
     }
 
     val result: LiveData<Result<MovieModel?>> = Transformations.switchMap(
-        dataSourceFactoryPopular.sourceLiveData,
-        PopularMovieDataSource::result
+        dataSourceFactory.sourceLiveData,
+        MovieDataSource::result
     )
 
     fun retry() {
-        dataSourceFactoryPopular.sourceLiveData.value?.retry()
+        dataSourceFactory.sourceLiveData.value?.retry()
     }
 
     override fun onCleared() {
@@ -40,12 +38,12 @@ class PopularMovieViewModel(private val dataSourceFactoryPopular: PopularMovieDa
     }
 
     class Factory(
-        private val dataSourceFactoryPopular: PopularMovieDataSourceFactory
+        private val dataSourceFactory: MovieDataSourceFactory
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(PopularMovieViewModel::class.java)) {
-                return PopularMovieViewModel(dataSourceFactoryPopular) as T
+            if (modelClass.isAssignableFrom(CategoryMovieListViewModel::class.java)) {
+                return CategoryMovieListViewModel(dataSourceFactory) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
