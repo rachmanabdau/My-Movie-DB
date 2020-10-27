@@ -1,7 +1,6 @@
 package com.example.mymoviddb.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +9,7 @@ import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.utils.ErrorViewHolder
 
 class MovieListAdapter(private val retry: () -> Unit) :
     PagedListAdapter<MovieModel.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
@@ -80,23 +80,6 @@ class ShowViewHolder(private val binding: MovieListItemBinding) :
         if (data != null) {
             binding.show = data
             binding.rating = (data.voteAverage * 10).toInt()
-        }
-    }
-}
-
-class ErrorViewHolder(private val binding: TryAgainLoadListBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-
-    fun onBind(errorMessage: String, action: () -> Unit) {
-        binding.errorMessage.text = errorMessage
-        binding.tryAgainButton.setOnClickListener {
-            binding.errorMessage.visibility = View.GONE
-            binding.tryAgainButton.visibility = View.GONE
-            binding.retryLoading.visibility = View.VISIBLE
-            action()
-            binding.errorMessage.visibility = View.VISIBLE
-            binding.tryAgainButton.visibility = View.VISIBLE
-            binding.retryLoading.visibility = View.GONE
         }
     }
 }
