@@ -1,21 +1,21 @@
-package com.example.mymoviddb.category.movie
+package com.example.mymoviddb.category.tv
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.RemoteServer
-import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.model.TVShowModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class MovieDataSource(
+class TVDataSource(
     private val networkService: RemoteServer,
     private val scope: CoroutineScope,
     private val categoryId: Int
-) : PageKeyedDataSource<Int, MovieModel.Result>() {
+) : PageKeyedDataSource<Int, TVShowModel.Result>() {
 
-    val result: MutableLiveData<Result<MovieModel?>> = MutableLiveData()
+    val result = MutableLiveData<Result<TVShowModel?>>()
 
     // keep a function reference for the retry event
     private var retry: (() -> Any)? = null
@@ -29,23 +29,23 @@ class MovieDataSource(
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, MovieModel.Result>
+        callback: LoadInitialCallback<Int, TVShowModel.Result>
     ) {
         scope.launch {
             try {
                 result.value = Result.Loading
-                val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
-                    networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                val tvShowResult = if (categoryId == POPULAR_MOVIE_ID) {
+                    networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
                 } else {
-                    networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                    networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
                 }
 
-                if (movieResult is Result.Success) {
-                    result.value = movieResult
-                    val movieList = movieResult.data?.results ?: emptyList()
-                    callback.onResult(movieList, 0, 2)
+                if (tvShowResult is Result.Success) {
+                    result.value = tvShowResult
+                    val tvShowList = tvShowResult.data?.results ?: emptyList()
+                    callback.onResult(tvShowList, 0, 2)
                 } else {
-                    result.value = movieResult
+                    result.value = tvShowResult
                     retry = {
                         loadInitial(params, callback)
                     }
@@ -59,25 +59,32 @@ class MovieDataSource(
         }
     }
 
+    override fun loadBefore(
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, TVShowModel.Result>
+    ) {
+
+    }
+
     override fun loadAfter(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, MovieModel.Result>
+        callback: LoadCallback<Int, TVShowModel.Result>
     ) {
         scope.launch {
             try {
                 result.value = Result.Loading
-                val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
-                    networkService.getPopularMovieList(params.key + 1, BuildConfig.V3_AUTH)
+                val tvResult = if (categoryId == POPULAR_MOVIE_ID) {
+                    networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
                 } else {
-                    networkService.getNowPlayingMovieList(params.key + 1, BuildConfig.V3_AUTH)
+                    networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
                 }
 
-                if (movieResult is Result.Success) {
-                    result.value = movieResult
-                    val movieList = movieResult.data?.results ?: emptyList()
-                    callback.onResult(movieList, params.key + 1)
+                if (tvResult is Result.Success) {
+                    result.value = tvResult
+                    val tvList = tvResult.data?.results ?: emptyList()
+                    callback.onResult(tvList, params.key + 1)
                 } else {
-                    result.value = movieResult
+                    result.value = tvResult
                     retry = {
                         loadAfter(params, callback)
                     }
@@ -89,12 +96,6 @@ class MovieDataSource(
                 }
             }
         }
-    }
-
-    override fun loadBefore(
-        params: LoadParams<Int>,
-        callback: LoadCallback<Int, MovieModel.Result>
-    ) {
     }
 
     companion object {
