@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.databinding.FragmentPopularMovieListBinding
-import com.example.mymoviddb.datasource.remote.PopularMovieDataSourceFactory
+import com.example.mymoviddb.datasource.paging.PopularMovieDataSourceFactory
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.model.Result
 

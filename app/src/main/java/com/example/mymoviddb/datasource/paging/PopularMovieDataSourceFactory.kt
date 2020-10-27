@@ -1,8 +1,8 @@
-package com.example.mymoviddb.datasource.remote
+package com.example.mymoviddb.datasource.paging
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.example.mymoviddb.datasource.PopularMovieDataSource
+import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.model.MovieModel
 import kotlinx.coroutines.CoroutineScope
 

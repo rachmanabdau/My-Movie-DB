@@ -3,8 +3,8 @@ package com.example.mymoviddb.show
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.mymoviddb.datasource.PopularMovieDataSource
-import com.example.mymoviddb.datasource.remote.PopularMovieDataSourceFactory
+import com.example.mymoviddb.datasource.paging.PopularMovieDataSource
+import com.example.mymoviddb.datasource.paging.PopularMovieDataSourceFactory
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.cancel

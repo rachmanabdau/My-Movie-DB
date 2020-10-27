@@ -1,4 +1,4 @@
-package com.example.mymoviddb.datasource
+package com.example.mymoviddb.datasource.paging
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
