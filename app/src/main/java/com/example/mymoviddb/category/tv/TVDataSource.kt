@@ -34,7 +34,7 @@ class TVDataSource(
         scope.launch {
             try {
                 result.value = Result.Loading
-                val tvShowResult = if (categoryId == POPULAR_MOVIE_ID) {
+                val tvShowResult = if (categoryId == POPULAR_TV_ID) {
                     networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
                 } else {
                     networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
@@ -73,7 +73,7 @@ class TVDataSource(
         scope.launch {
             try {
                 result.value = Result.Loading
-                val tvResult = if (categoryId == POPULAR_MOVIE_ID) {
+                val tvResult = if (categoryId == POPULAR_TV_ID) {
                     networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
                 } else {
                     networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
@@ -99,7 +99,7 @@ class TVDataSource(
     }
 
     companion object {
-        const val POPULAR_MOVIE_ID = 1
-        const val NOW_PLAYING_MOVIE_ID = 2
+        const val POPULAR_TV_ID = 1
+        const val NOW_PLAYING_TV_ID = 2
     }
 }

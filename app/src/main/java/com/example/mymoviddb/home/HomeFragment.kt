@@ -13,6 +13,7 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.datasource.remote.RemoteServerAccess
 import com.example.mymoviddb.utils.DeviceUtils
@@ -78,7 +79,13 @@ class HomeFragment : Fragment() {
         }
 
         // Adapter for popular tv shows
-        binding.popularTvRv.adapter = TVAdapter()
+        binding.popularTvRv.adapter = TVAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
+                    TVDataSource.POPULAR_TV_ID, R.string.popular_tv_show_list_contentDesc
+                )
+            )
+        }
         binding.popularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
@@ -86,7 +93,13 @@ class HomeFragment : Fragment() {
         }
 
         // Adapter for on air tv shows
-        binding.onAirPopularTvRv.adapter = TVAdapter()
+        binding.onAirPopularTvRv.adapter = TVAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
+                    TVDataSource.NOW_PLAYING_TV_ID, R.string.now_airing_tv_show_list_contentDesc
+                )
+            )
+        }
         binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {

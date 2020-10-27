@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.databinding.TvListItemBinding
 import com.example.mymoviddb.model.Result
@@ -45,8 +44,8 @@ class TVListAdapter(private val retry: () -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == dataViewType) {
             val view =
-                MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            ShowViewHolder(view)
+                TvListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            TVListViewHolder(view)
         } else {
             val view =
                 TryAgainLoadListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
