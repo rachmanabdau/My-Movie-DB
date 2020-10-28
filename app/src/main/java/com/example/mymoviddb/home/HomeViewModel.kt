@@ -2,7 +2,6 @@ package com.example.mymoviddb.home
 
 import androidx.lifecycle.*
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
@@ -12,7 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val remoteServer: RemoteServer
+    private val remoteServer: HomeAccess
 ) : ViewModel() {
 
     private val _popularMovieList = MutableLiveData<Result<MovieModel?>>()
@@ -107,7 +106,7 @@ class HomeViewModel(
     }
 
     class Factory(
-        private val remoteSource: RemoteServer
+        private val remoteSource: HomeAccess
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
