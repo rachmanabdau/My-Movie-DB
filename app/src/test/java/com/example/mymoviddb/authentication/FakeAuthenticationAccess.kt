@@ -6,11 +6,12 @@ import com.example.mymoviddb.model.LoginTokenModel
 import com.example.mymoviddb.model.RequestTokenModel
 import com.example.mymoviddb.model.Result
 
-class FakeAuthentication : IAuthenticationAccess {
+class FakeAuthenticationAccess : IAuthenticationAccess {
     override suspend fun loginAsUser(
         username: String,
         password: String,
-        requestToken: RequestTokenModel?
+        requestToken: RequestTokenModel?,
+        apiKey: String
     ): Result<LoginTokenModel?> {
         val fakeUsername = "rachmanabdau"
         val fakePassword = "123456"

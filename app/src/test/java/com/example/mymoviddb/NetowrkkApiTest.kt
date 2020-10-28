@@ -320,7 +320,7 @@ class NetowrkkApiTest {
         runBlocking {
             // WHEN user has request token and create new session
             val movieList =
-                service.retrofitService.getPopularTvShow(1).await()
+                service.retrofitService.getPopularTvShowAsync(1).await()
 
             val result = movieList.body()
             // THEN session result return with object [NesSessionModel]
@@ -339,7 +339,7 @@ class NetowrkkApiTest {
         runBlocking {
             // WHEN user has request token and create new session
             val movieList =
-                service.retrofitService.getPopularTvShow(1, "invalidKey").await()
+                service.retrofitService.getPopularTvShowAsync(1, "invalidKey").await()
 
             val errorJson = movieList.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(errorJson)
@@ -359,7 +359,7 @@ class NetowrkkApiTest {
         runBlocking {
             // WHEN user has request token and create new session
             val movieList =
-                service.retrofitService.getOnAirTvShow(1).await()
+                service.retrofitService.getOnAirTvShowAsync(1).await()
 
             val result = movieList.body()
             // THEN session result return with object [NesSessionModel]
@@ -378,7 +378,7 @@ class NetowrkkApiTest {
         runBlocking {
             // WHEN user has request token and create new session
             val movieList =
-                service.retrofitService.getOnAirTvShow(1, "invalidKey").await()
+                service.retrofitService.getOnAirTvShowAsync(1, "invalidKey").await()
 
             val errorJson = movieList.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(errorJson)
