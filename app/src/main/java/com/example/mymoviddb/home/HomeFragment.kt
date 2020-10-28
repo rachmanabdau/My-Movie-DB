@@ -15,7 +15,7 @@ import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
-import com.example.mymoviddb.datasource.remote.RemoteServerAccess
+import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.utils.DeviceUtils
 import com.example.mymoviddb.utils.EventObserver
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private val homeViewModel by viewModels<HomeViewModel> {
-        val remoteSource = RemoteServerAccess()
+        val remoteSource = HomeAccess(NetworkAPI.retrofitService)
         HomeViewModel.Factory(remoteSource)
     }
 
