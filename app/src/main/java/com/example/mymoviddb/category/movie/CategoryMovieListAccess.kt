@@ -8,22 +8,30 @@ import com.example.mymoviddb.utils.Util
 class CategoryMovieListAccess(private val access: NetworkService) : ICategoryMovieListAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
-        val movieResult = access.getPopularMoviesAsync(page, apiKey).await()
+        return try {
+            val movieResult = access.getPopularMoviesAsync(page, apiKey).await()
 
-        return if (movieResult.isSuccessful) {
-            Result.Success(movieResult.body())
-        } else {
-            Util.returnError(movieResult)
+            if (movieResult.isSuccessful) {
+                Result.Success(movieResult.body())
+            } else {
+                Util.returnError(movieResult)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 
     override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?> {
-        val movieResult = access.getNowPlayingMoviesAsync(page, apiKey).await()
+        return try {
+            val movieResult = access.getNowPlayingMoviesAsync(page, apiKey).await()
 
-        return if (movieResult.isSuccessful) {
-            Result.Success(movieResult.body())
-        } else {
-            Util.returnError(movieResult)
+            if (movieResult.isSuccessful) {
+                Result.Success(movieResult.body())
+            } else {
+                Util.returnError(movieResult)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 
