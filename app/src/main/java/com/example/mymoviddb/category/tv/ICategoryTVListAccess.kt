@@ -3,7 +3,7 @@ package com.example.mymoviddb.category.tv
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 
-interface CategoryTVListInterface {
+interface ICategoryTVListAccess {
 
     suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?>
 

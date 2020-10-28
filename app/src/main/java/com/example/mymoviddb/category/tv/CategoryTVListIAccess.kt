@@ -5,7 +5,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
 
-class CategoryTVListIAccess(private val access: NetworkService) : CategoryTVListInterface {
+class CategoryTVListIAccess(private val access: NetworkService) : ICategoryTVListAccess {
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         val movieResult = access.getPopularTvShow(page, apiKey).await()

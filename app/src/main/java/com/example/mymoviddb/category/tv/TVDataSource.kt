@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class TVDataSource(
-    private val networkService: CategoryTVListInterface,
+    private val networkService: ICategoryTVListAccess,
     private val scope: CoroutineScope,
     private val categoryId: Int
 ) : PageKeyedDataSource<Int, TVShowModel.Result>() {
