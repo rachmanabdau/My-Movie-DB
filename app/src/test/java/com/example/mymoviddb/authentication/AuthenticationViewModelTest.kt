@@ -4,8 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
-import com.example.mymoviddb.datasource.remote.FakeRemoteServer
-import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.*
@@ -28,14 +26,14 @@ class AuthenticationViewModelTest {
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()
 
-    private lateinit var fakeRemoteSource: RemoteServer
+    private lateinit var fakeRemoteSource: IAuthenticationAccess
     private lateinit var authenticationVM: AuthenticationViewModel
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = FakeRemoteServer()
+        fakeRemoteSource = FakeAuthentication()
         authenticationVM = AuthenticationViewModel(
             ApplicationProvider.getApplicationContext(),
             fakeRemoteSource
@@ -72,7 +70,7 @@ class AuthenticationViewModelTest {
         // THEN response from server should be [GuestSessionModel] object
         val result = authenticationVM.loginGuestResult.getOrAwaitValue().getContentIfNotHandled()
         if (result is Result.Error) {
-            assertThat(result.exception.toString().contains("invalid"), `is`(true))
+            assertThat(result.exception.toString().contains("invalid", true), `is`(true))
         } else {
             fail("Testing login as guest with result [Resilt.Error] is failed")
         }
