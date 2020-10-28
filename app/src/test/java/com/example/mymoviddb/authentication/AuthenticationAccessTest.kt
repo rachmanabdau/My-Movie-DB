@@ -7,12 +7,9 @@ import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.Result
 import com.squareup.moshi.JsonAdapter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.assertThat
 import org.junit.Assert.fail
@@ -27,18 +24,15 @@ class AuthenticationAccessTest {
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<Error401Model>
     private lateinit var access: AuthenticationAccess
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setupViewModel() {
-        Dispatchers.setMain(mainThreadSurrogate)
         fakeRemoteSource = FakeRemoteServer()
         access = AuthenticationAccess(fakeRemoteSource)
         errorConverter = moshi.adapter(Error401Model::class.java)
 
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `login as guest with valid token result success`() = runBlockingTest {
 
