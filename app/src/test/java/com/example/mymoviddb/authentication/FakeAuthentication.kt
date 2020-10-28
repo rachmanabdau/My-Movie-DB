@@ -16,8 +16,8 @@ class FakeAuthentication : IAuthenticationAccess {
         val fakePassword = "123456"
         val token = BuildConfig.V3_AUTH
 
-        return if ((fakeUsername.equals(username) && fakePassword.equals(password) && token.equals(
-                requestToken
+        return if ((fakeUsername == username && fakePassword == password && token.equals(
+                other = requestToken
             ))
         ) {
             Result.Success(LoginTokenModel(true, "", ""))
@@ -28,7 +28,7 @@ class FakeAuthentication : IAuthenticationAccess {
 
         val token = BuildConfig.V3_AUTH
 
-        return if (token.equals(apiKey)) {
+        return if (token == apiKey) {
             Result.Success(GuestSessionModel("", "", true))
         } else Result.Error(Exception("Token is invalid."))
     }
