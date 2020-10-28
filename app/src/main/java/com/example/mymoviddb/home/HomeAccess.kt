@@ -9,42 +9,58 @@ import com.example.mymoviddb.utils.Util
 class HomeAccess(private val access: NetworkService) : IHomeAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
-        val result = access.getPopularMoviesAsync(page, apiKey).await()
+        return try {
+            val result = access.getPopularMoviesAsync(page, apiKey).await()
 
-        return if (result.isSuccessful) {
-            Result.Success(result.body())
-        } else {
-            Util.returnError(result)
+            if (result.isSuccessful) {
+                Result.Success(result.body())
+            } else {
+                Util.returnError(result)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 
     override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?> {
-        val result = access.getNowPlayingMoviesAsync(page, apiKey).await()
+        return try {
+            val result = access.getNowPlayingMoviesAsync(page, apiKey).await()
 
-        return if (result.isSuccessful) {
-            Result.Success(result.body())
-        } else {
-            Util.returnError(result)
+            if (result.isSuccessful) {
+                Result.Success(result.body())
+            } else {
+                Util.returnError(result)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
-        val result = access.getPopularTvShow(page, apiKey).await()
+        return try {
+            val result = access.getPopularTvShow(page, apiKey).await()
 
-        return if (result.isSuccessful) {
-            Result.Success(result.body())
-        } else {
-            Util.returnError(result)
+            if (result.isSuccessful) {
+                Result.Success(result.body())
+            } else {
+                Util.returnError(result)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 
     override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
-        val result = access.getOnAirTvShow(page, apiKey).await()
+        return try {
+            val result = access.getOnAirTvShow(page, apiKey).await()
 
-        return if (result.isSuccessful) {
-            Result.Success(result.body())
-        } else {
-            Util.returnError(result)
+            if (result.isSuccessful) {
+                Result.Success(result.body())
+            } else {
+                Util.returnError(result)
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
         }
     }
 
