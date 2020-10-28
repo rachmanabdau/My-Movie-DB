@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
-import com.example.mymoviddb.datasource.remote.RemoteServerAccess
+import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.model.Result
 
 class CategoryTvFragment : Fragment() {
@@ -22,8 +22,13 @@ class CategoryTvFragment : Fragment() {
     private val arguments by navArgs<CategoryTvFragmentArgs>()
 
     private val categoryTvViewmodel by viewModels<CategoryTVViewModel> {
+        val networkApi = NetworkAPI.retrofitService
         val tvDataSource =
-            TVDataSourceFactory(RemoteServerAccess(), lifecycleScope, arguments.tvCategoryId)
+            TVDataSourceFactory(
+                CategoryTVListIAccess(networkApi),
+                lifecycleScope,
+                arguments.tvCategoryId
+            )
         CategoryTVViewModel.Factory(tvDataSource)
     }
 
