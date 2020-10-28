@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
-        android:name="com.example.mymoviddb.authentication.AuthenticationFragment"
+        android:name="com.example.mymoviddb.authentication.guest.AuthenticationFragment"
         android:label="@string/action_login"
         tools:layout="@layout/fragment_authentication">
         <action

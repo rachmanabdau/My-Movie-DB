@@ -3,6 +3,7 @@ package com.example.mymoviddb.authentication
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
 import com.example.mymoviddb.datasource.remote.FakeRemoteServer
 import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.getOrAwaitValue

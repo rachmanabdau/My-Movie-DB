@@ -10,7 +10,7 @@
 
         <variable
             name="authenticationVM"
-            type="com.example.mymoviddb.authentication.AuthenticationViewModel" />
+            type="com.example.mymoviddb.authentication.guest.AuthenticationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

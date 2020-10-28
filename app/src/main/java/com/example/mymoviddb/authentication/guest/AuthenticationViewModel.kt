@@ -1,4 +1,4 @@
-package com.example.mymoviddb.authentication
+package com.example.mymoviddb.authentication.guest
 
 import android.app.Application
 import androidx.lifecycle.*
