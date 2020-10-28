@@ -4,7 +4,7 @@ import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 
-interface HomeInterface {
+interface IHomeAccess {
 
     suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?>
 

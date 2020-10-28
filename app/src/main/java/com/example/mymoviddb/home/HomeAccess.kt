@@ -6,7 +6,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
 
-class HomeAccess(private val access: NetworkService) : HomeInterface {
+class HomeAccess(private val access: NetworkService) : IHomeAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
         val result = access.getPopularMoviesAsync(page, apiKey).await()
