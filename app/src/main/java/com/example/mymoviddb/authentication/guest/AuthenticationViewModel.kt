@@ -3,7 +3,7 @@ package com.example.mymoviddb.authentication.guest
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.datasource.remote.RemoteServer
+import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Event
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class AuthenticationViewModel(
     private val app: Application,
-    private val remoteSource: RemoteServer
+    private val remoteSource: IAuthenticationAccess
 ) : ViewModel() {
 
     private val _loginGuestResult = MutableLiveData<Event<Result<GuestSessionModel?>>>()
@@ -69,7 +69,7 @@ class AuthenticationViewModel(
 
     class Factory(
         private val app: Application,
-        private val remoteSource: RemoteServer
+        private val remoteSource: IAuthenticationAccess
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
