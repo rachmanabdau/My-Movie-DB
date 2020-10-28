@@ -87,7 +87,7 @@ class RemoteServerAccess : RemoteServer {
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         return try {
-            val result = NetworkAPI.retrofitService.getPopularTvShow(page, apiKey).await()
+            val result = NetworkAPI.retrofitService.getPopularTvShowAsync(page, apiKey).await()
 
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
@@ -101,7 +101,7 @@ class RemoteServerAccess : RemoteServer {
 
     override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         return try {
-            val result = NetworkAPI.retrofitService.getOnAirTvShow(page, apiKey).await()
+            val result = NetworkAPI.retrofitService.getOnAirTvShowAsync(page, apiKey).await()
 
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())

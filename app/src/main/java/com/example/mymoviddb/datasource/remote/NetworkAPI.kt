@@ -62,13 +62,13 @@ interface NetworkService {
     ): Deferred<Response<MovieModel>>
 
     @GET("tv/popular")
-    fun getPopularTvShow(
+    fun getPopularTvShowAsync(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
     @GET("tv/on_the_air")
-    fun getOnAirTvShow(
+    fun getOnAirTvShowAsync(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<TVShowModel>>

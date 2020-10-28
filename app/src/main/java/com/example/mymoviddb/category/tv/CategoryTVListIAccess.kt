@@ -9,7 +9,7 @@ class CategoryTVListIAccess(private val access: NetworkService) : ICategoryTVLis
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         return try {
-            val movieResult = access.getPopularTvShow(page, apiKey).await()
+            val movieResult = access.getPopularTvShowAsync(page, apiKey).await()
 
             if (movieResult.isSuccessful) {
                 Result.Success(movieResult.body())
@@ -23,7 +23,7 @@ class CategoryTVListIAccess(private val access: NetworkService) : ICategoryTVLis
 
     override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         return try {
-            val movieResult = access.getOnAirTvShow(page, apiKey).await()
+            val movieResult = access.getOnAirTvShowAsync(page, apiKey).await()
 
             if (movieResult.isSuccessful) {
                 Result.Success(movieResult.body())

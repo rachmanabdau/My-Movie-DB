@@ -38,7 +38,7 @@ class HomeAccess(private val access: NetworkService) : IHomeAccess {
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         return try {
-            val result = access.getPopularTvShow(page, apiKey).await()
+            val result = access.getPopularTvShowAsync(page, apiKey).await()
 
             if (result.isSuccessful) {
                 Result.Success(result.body())
@@ -52,7 +52,7 @@ class HomeAccess(private val access: NetworkService) : IHomeAccess {
 
     override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         return try {
-            val result = access.getOnAirTvShow(page, apiKey).await()
+            val result = access.getOnAirTvShowAsync(page, apiKey).await()
 
             if (result.isSuccessful) {
                 Result.Success(result.body())
