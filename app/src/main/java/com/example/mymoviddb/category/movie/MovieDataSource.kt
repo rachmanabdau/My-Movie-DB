@@ -3,14 +3,13 @@ package com.example.mymoviddb.category.movie
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MovieDataSource(
-    private val networkService: RemoteServer,
+    private val networkService: CategoryMovieListInterface,
     private val scope: CoroutineScope,
     private val categoryId: Int
 ) : PageKeyedDataSource<Int, MovieModel.Result>() {
