@@ -2,8 +2,7 @@ package com.example.mymoviddb.datasource.remote
 
 
 import com.example.mymoviddb.model.*
-import okio.BufferedSource
-import retrofit2.Response
+import com.example.mymoviddb.utils.Util.returnError
 
 
 @Suppress("BlockingMethodInNonBlockingContext")
@@ -16,7 +15,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return return401Error(result)
+                return returnError(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
@@ -37,7 +36,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return return401Error(result)
+                return returnError(result)
             }
         } catch (e: Exception) {
             return Result.Error(Exception(e.message))
@@ -51,7 +50,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return return401Error(result)
+                return returnError(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
@@ -65,7 +64,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return401Error(result)
+                returnError(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
@@ -79,7 +78,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return401Error(result)
+                returnError(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
@@ -93,7 +92,7 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return401Error(result)
+                returnError(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
@@ -107,19 +106,11 @@ class RemoteServerAccess : RemoteServer {
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
             } else {
-                return401Error(result)
+                returnError(result)
             }
         } catch (e: Exception) {
             Result.Error(Exception(e.message))
         }
     }
-}
-
-fun return401Error(result: Response<*>): Result.Error {
-    val errorAdapter = moshi.adapter(Error401Model::class.java)
-    val errorJson =
-        errorAdapter.fromJson(result.errorBody()?.source() as BufferedSource)
-
-    return Result.Error(Exception(errorJson?.statusMessage))
 }
 
