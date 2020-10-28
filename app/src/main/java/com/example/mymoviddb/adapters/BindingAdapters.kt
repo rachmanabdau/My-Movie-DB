@@ -31,11 +31,9 @@ fun attachShowList(recyclerView: RecyclerView, showList: Result<*>?) {
         if (showList.data is MovieModel && !showList.data.results.isNullOrEmpty()) {
             val adapter = recyclerView.adapter as MoviesAdapter
             adapter.submitList(showList.data.results)
-        } else {
-            if (showList.data is TVShowModel && !showList.data.results.isNullOrEmpty()) {
-                val adapter = recyclerView.adapter as TVAdapter
-                adapter.submitList(showList.data.results)
-            }
+        } else if (showList.data is TVShowModel && !showList.data.results.isNullOrEmpty()) {
+            val adapter = recyclerView.adapter as TVAdapter
+            adapter.submitList(showList.data.results)
         }
     }
 }
