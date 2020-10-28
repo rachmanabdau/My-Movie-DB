@@ -12,7 +12,8 @@ class AuthenticationAccess(private val access: NetworkService) : IAuthentication
     override suspend fun loginAsUser(
         username: String,
         password: String,
-        requestToken: RequestTokenModel?
+        requestToken: RequestTokenModel?,
+        apiKey: String
     ): Result<LoginTokenModel?> {
         return try {
             val result = access.loginAsync(
@@ -31,7 +32,7 @@ class AuthenticationAccess(private val access: NetworkService) : IAuthentication
 
     override suspend fun loginAsGuest(apiKey: String): Result<GuestSessionModel?> {
         return try {
-            val result = access.loginAsGuestAsync().await()
+            val result = access.loginAsGuestAsync(apiKey).await()
 
             if (result.isSuccessful && result.body() != null) {
                 Result.Success(result.body())
