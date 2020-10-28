@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MovieDataSource(
-    private val networkService: CategoryMovieListInterface,
+    private val networkService: ICategoryMovieListAccess,
     private val scope: CoroutineScope,
     private val categoryId: Int
 ) : PageKeyedDataSource<Int, MovieModel.Result>() {

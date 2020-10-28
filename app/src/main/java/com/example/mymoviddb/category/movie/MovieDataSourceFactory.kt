@@ -6,7 +6,7 @@ import com.example.mymoviddb.model.MovieModel
 import kotlinx.coroutines.CoroutineScope
 
 class MovieDataSourceFactory(
-    private val networkService: CategoryMovieListInterface,
+    private val networkService: ICategoryMovieListAccess,
     private val scope: CoroutineScope,
     private val movieId: Int
 ) : DataSource.Factory<Int, MovieModel.Result>() {

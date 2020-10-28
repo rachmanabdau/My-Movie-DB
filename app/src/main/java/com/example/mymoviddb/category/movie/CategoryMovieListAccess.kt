@@ -5,7 +5,7 @@ import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Util
 
-class CategoryMovieListAccess(private val access: NetworkService) : CategoryMovieListInterface {
+class CategoryMovieListAccess(private val access: NetworkService) : ICategoryMovieListAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
         val movieResult = access.getPopularMoviesAsync(page, apiKey).await()
