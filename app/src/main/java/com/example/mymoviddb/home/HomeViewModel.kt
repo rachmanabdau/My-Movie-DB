@@ -5,6 +5,7 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
+import com.example.mymoviddb.model.succeeded
 import com.example.mymoviddb.utils.Event
 import kotlinx.coroutines.launch
 
@@ -67,47 +68,31 @@ class HomeViewModel(
     }
 
     suspend fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        try {
-            _popularMovieList.value = remoteServer.getPopularMovieList(page, apiKey)
-            _showPopularMovieError.value = false
-        } catch (e: Exception) {
-            _popularMovieList.value = Result.Error(e)
-            setSnackbarMessage(Result.Error(e))
-            _showPopularMovieError.value = true
-        }
+        _popularMovieList.value = remoteServer.getPopularMovieList(page, apiKey)
+        val result = _popularMovieList.value
+        _showPopularMovieError.value = !(result?.succeeded)!!
+        setSnackbarMessage(result)
     }
 
     suspend fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        try {
-            _nowPlayingMovieList.value = remoteServer.getNowPlayingMovieList(page, apiKey)
-            _showNowPlayingMovieError.value = false
-        } catch (e: Exception) {
-            _nowPlayingMovieList.value = Result.Error(e)
-            setSnackbarMessage(Result.Error(e))
-            _showNowPlayingMovieError.value = true
-        }
+        _nowPlayingMovieList.value = remoteServer.getNowPlayingMovieList(page, apiKey)
+        val result = _nowPlayingMovieList.value
+        _showNowPlayingMovieError.value = !(result?.succeeded)!!
+        setSnackbarMessage(result)
     }
 
     suspend fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        try {
-            _popularTVList.value = remoteServer.getPopularTvShowList(page, apiKey)
-            _showPopularTvError.value = false
-        } catch (e: Exception) {
-            _popularTVList.value = Result.Error(e)
-            setSnackbarMessage(Result.Error(e))
-            _showPopularTvError.value = true
-        }
+        _popularTVList.value = remoteServer.getPopularTvShowList(page, apiKey)
+        val result = _popularTVList.value
+        _showPopularTvError.value = !(result?.succeeded)!!
+        setSnackbarMessage(result)
     }
 
     suspend fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        try {
-            _onAirTVList.value = remoteServer.getOnAirTvShowList(page, apiKey)
-            _showOnAirTvError.value = false
-        } catch (e: Exception) {
-            _onAirTVList.value = Result.Error(e)
-            setSnackbarMessage(Result.Error(e))
-            _showOnAirTvError.value = true
-        }
+        _onAirTVList.value = remoteServer.getOnAirTvShowList(page, apiKey)
+        val result = _onAirTVList.value
+        _showOnAirTvError.value = !(result?.succeeded)!!
+        setSnackbarMessage(result)
         _initialLoading.value = false
     }
 
