@@ -1,4 +1,4 @@
-package com.example.mymoviddb.authentication.login
+package com.example.mymoviddb.authentication.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mymoviddb.databinding.FragmentLoginBinding
 
-class LoginFragment : Fragment() {
+class UserFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
 

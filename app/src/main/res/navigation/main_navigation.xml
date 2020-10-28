@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.mymoviddb.authentication.login.LoginFragment"
+        android:name="com.example.mymoviddb.authentication.user.UserFragment"
         android:label="@string/action_login"
         tools:layout="@layout/fragment_login">
         <action
