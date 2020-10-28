@@ -10,7 +10,7 @@ import com.example.mymoviddb.utils.Event
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val remoteServer: HomeAccess
+    private val remoteServer: IHomeAccess
 ) : ViewModel() {
 
     private val _popularMovieList = MutableLiveData<Result<MovieModel?>>()

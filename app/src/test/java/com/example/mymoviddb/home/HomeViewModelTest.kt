@@ -1,8 +1,6 @@
 package com.example.mymoviddb.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.mymoviddb.datasource.remote.FakeRemoteServer
-import com.example.mymoviddb.datasource.remote.RemoteServer
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.*
@@ -19,14 +17,14 @@ class HomeViewModelTest {
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()
 
-    private lateinit var fakeRemoteSource: RemoteServer
+    private lateinit var fakeRemoteSource: IHomeAccess
     private lateinit var homeViewModel: HomeViewModel
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = FakeRemoteServer()
+        fakeRemoteSource = FakeHomeServer()
         homeViewModel = HomeViewModel(fakeRemoteSource)
     }
 
