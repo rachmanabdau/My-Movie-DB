@@ -1,24 +1,24 @@
-package com.example.mymoviddb.category.movie
+package com.example.mymoviddb.category.tv
 
 import androidx.annotation.VisibleForTesting
 import com.example.mymoviddb.datasource.remote.NetworkService
 
-object ServiceLocatorCategoryMovie {
+object ServiceLocatorCategoryTV {
     private var networkService: NetworkService? = null
     private val lock = Any()
 
     @VisibleForTesting
-    var homeAccess: ICategoryMovieListAccess? = null
+    var homeAccess: ICategoryTVListAccess? = null
         @VisibleForTesting set
 
-    fun provideServiceLocatorCategoryMovie(service: NetworkService): ICategoryMovieListAccess {
+    fun provideServiceLocatorCategoryTV(service: NetworkService): ICategoryTVListAccess {
         synchronized(this) {
             return homeAccess ?: createHomeAccess(service)
         }
     }
 
-    private fun createHomeAccess(service: NetworkService): ICategoryMovieListAccess {
-        val access = CategoryMovieListAccess(networkService ?: createNetworkService(service))
+    private fun createHomeAccess(service: NetworkService): ICategoryTVListAccess {
+        val access = CategoryTVListIAccess(networkService ?: createNetworkService(service))
         homeAccess = access
         return access
     }

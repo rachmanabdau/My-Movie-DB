@@ -5,6 +5,8 @@ import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.authentication.ServiceLocatorAuthentication
 import com.example.mymoviddb.category.movie.ICategoryMovieListAccess
 import com.example.mymoviddb.category.movie.ServiceLocatorCategoryMovie
+import com.example.mymoviddb.category.tv.ICategoryTVListAccess
+import com.example.mymoviddb.category.tv.ServiceLocatorCategoryTV
 import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.home.ServiceLocatorHome
@@ -21,7 +23,10 @@ class MyMovieDBApplication : Application() {
         get() = ServiceLocatorAuthentication.provideAuthenticationAccess(server)
 
     val categoryMovieListAccess: ICategoryMovieListAccess
-        get() = ServiceLocatorCategoryMovie.provideServiceLocatorCategory(server)
+        get() = ServiceLocatorCategoryMovie.provideServiceLocatorCategoryMovie(server)
+
+    val categoryTVListAccess: ICategoryTVListAccess
+        get() = ServiceLocatorCategoryTV.provideServiceLocatorCategoryTV(server)
 
     override fun onCreate() {
         super.onCreate()
