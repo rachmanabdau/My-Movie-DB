@@ -7,12 +7,16 @@ import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.sharedData.FakeAuthenticationAccess
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
-import org.junit.Assert.assertThat
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
@@ -49,7 +53,7 @@ class AuthenticationViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loginasGuest_successEqualsTrue() = runBlocking {
+    fun loginasGuest_successEqualsTrue() = runBlockingTest {
         // WHEN user login login as guest with valid api key
         authenticationVM.loginAsGuest(false)
 
@@ -64,7 +68,7 @@ class AuthenticationViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loginasGuest_resultError401() = runBlocking {
+    fun loginasGuest_resultError401() = runBlockingTest {
         // WHEN user login login as guest with valid api key
         authenticationVM.loginAsGuest(false, "invalidApiKeyV3")
 

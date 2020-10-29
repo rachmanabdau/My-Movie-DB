@@ -1,9 +1,8 @@
-package com.example.mymoviddb
+package com.example.mymoviddb.datasource.remote
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.mymoviddb.datasource.remote.NetworkAPI
-import com.example.mymoviddb.datasource.remote.moshi
+import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.NewSessionModel
