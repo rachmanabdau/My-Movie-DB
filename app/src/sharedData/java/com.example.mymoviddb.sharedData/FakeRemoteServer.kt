@@ -1,6 +1,8 @@
-package com.example.mymoviddb.datasource.remote
+package com.example.mymoviddb.sharedData
 
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.datasource.remote.NetworkService
+import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.*
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred

@@ -1,6 +1,7 @@
-package com.example.mymoviddb.home
+package com.example.mymoviddb.sharedData
 
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel

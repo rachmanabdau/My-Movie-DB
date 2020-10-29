@@ -43,6 +43,16 @@ android {
         }
     }
 
+    sourceSets{
+        androidTest{
+            java.srcDirs += "src/sharedData/java"
+        }
+
+        test{
+            java.srcDirs += "src/sharedData/java"
+        }
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }

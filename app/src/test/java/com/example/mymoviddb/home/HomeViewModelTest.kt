@@ -3,6 +3,7 @@ package com.example.mymoviddb.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.sharedData.FakeHomeServer
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain

@@ -1,6 +1,7 @@
-package com.example.mymoviddb.authentication
+package com.example.mymoviddb.sharedData
 
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.LoginTokenModel
 import com.example.mymoviddb.model.RequestTokenModel

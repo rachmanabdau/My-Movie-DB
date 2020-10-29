@@ -6,6 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.sharedData.FakeAuthenticationAccess
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
