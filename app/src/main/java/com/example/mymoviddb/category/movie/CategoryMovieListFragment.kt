@@ -1,7 +1,6 @@
 package com.example.mymoviddb.category.movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.mymoviddb.MyMovieDBApplication
 import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
-import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.model.Result
 
 
@@ -24,13 +23,10 @@ class CategoryMovieListFragment : Fragment() {
     private val arguments by navArgs<CategoryMovieListFragmentArgs>()
 
     private val showViewModels by viewModels<CategoryMovieListViewModel> {
-        val networkApi = NetworkAPI.retrofitService
+        val access =
+            (requireActivity().applicationContext as MyMovieDBApplication).categoryMovieListAccess
         val movieDataSourceFactory =
-            MovieDataSourceFactory(
-                CategoryMovieListAccess(networkApi),
-                lifecycleScope,
-                arguments.movieCategoryId
-            )
+            MovieDataSourceFactory(access, lifecycleScope, arguments.movieCategoryId)
         CategoryMovieListViewModel.Factory(movieDataSourceFactory)
     }
 
@@ -65,7 +61,6 @@ class CategoryMovieListFragment : Fragment() {
 
         showViewModels.movieList.observe(viewLifecycleOwner, {
             adapter.submitList(it)
-            Log.d("pmListFragment", it.isNotEmpty().toString())
         })
 
         binding.errorLayout.tryAgainButton.setOnClickListener {
