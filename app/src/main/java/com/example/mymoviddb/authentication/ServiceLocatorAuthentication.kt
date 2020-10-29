@@ -6,6 +6,7 @@ import com.example.mymoviddb.datasource.remote.NetworkService
 object ServiceLocatorAuthentication {
 
     private var networkAccess: NetworkService? = null
+    private val lock = Any()
 
     @VisibleForTesting
     var authenticationAccess: IAuthenticationAccess? = null
@@ -27,5 +28,13 @@ object ServiceLocatorAuthentication {
         val service = networkService
         networkAccess = service
         return service
+    }
+
+    @VisibleForTesting
+    fun resetAuthenticationAccess() {
+        synchronized(lock) {
+            networkAccess = null
+            authenticationAccess = null
+        }
     }
 }
