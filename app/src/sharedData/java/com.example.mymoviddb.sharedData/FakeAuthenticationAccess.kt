@@ -22,7 +22,13 @@ class FakeAuthenticationAccess : IAuthenticationAccess {
                 other = requestToken
             ))
         ) {
-            Result.Success(LoginTokenModel(true, "", ""))
+            Result.Success(
+                LoginTokenModel(
+                    true,
+                    "2200-08-27 16:26:40 UTC",
+                    "1ce82ec1223641636ad4a60b07de3581"
+                )
+            )
         } else Result.Error(Exception("Invalid username or password"))
     }
 
@@ -31,7 +37,13 @@ class FakeAuthenticationAccess : IAuthenticationAccess {
         val token = BuildConfig.V3_AUTH
 
         return if (token == apiKey) {
-            Result.Success(GuestSessionModel("", "", true))
+            Result.Success(
+                GuestSessionModel(
+                    "2200-08-27 16:26:40 UTC",
+                    "1ce82ec1223641636ad4a60b07de3581",
+                    true
+                )
+            )
         } else Result.Error(Exception("Token is invalid."))
     }
 
