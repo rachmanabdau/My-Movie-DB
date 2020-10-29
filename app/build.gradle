@@ -136,4 +136,7 @@ dependencies {
     // alternatively - without Android dependencies for testing
     testImplementation "androidx.paging:paging-common-ktx:$version_paging"
 
+    // Timber for debugging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }
