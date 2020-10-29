@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.mymoviddb.authentication.AuthenticationAccess
+import com.example.mymoviddb.MyMovieDBApplication
 import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
-import com.example.mymoviddb.datasource.remote.NetworkAPI
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
@@ -20,9 +19,9 @@ class AuthenticationFragment : Fragment() {
     private lateinit var binding: FragmentAuthenticationBinding
 
     private val authenticationViewModel by viewModels<AuthenticationViewModel> {
-        val remoteServer = AuthenticationAccess(NetworkAPI.retrofitService)
         val app = requireActivity().application
-        AuthenticationViewModel.Factory(app, remoteServer)
+        val access = (app as MyMovieDBApplication).authenticatationAccess
+        AuthenticationViewModel.Factory(app, access)
     }
 
     override fun onCreateView(
