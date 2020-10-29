@@ -15,7 +15,6 @@ import com.example.mymoviddb.model.TVShowModel
 @BindingAdapter("loadImage", "error")
 fun loadImage(imageView: ImageView, uri: String?, error: Drawable) {
     val options: RequestOptions = RequestOptions()
-        .centerCrop()
         .error(error)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
 

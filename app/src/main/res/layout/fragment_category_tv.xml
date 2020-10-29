@@ -18,7 +18,8 @@
             android:id="@+id/show_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:spanCount="2"
             tools:listitem="@layout/tv_list_item" />
 
         <ProgressBar
