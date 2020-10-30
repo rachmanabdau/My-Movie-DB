@@ -1,7 +1,10 @@
 package com.example.mymoviddb.home
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
@@ -12,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel @ViewModelInject constructor(
     private val remoteServer: IHomeAccess
+
 ) : ViewModel() {
 
     private val _popularMovieList = MutableLiveData<Result<MovieModel?>>()
@@ -26,23 +30,23 @@ class HomeViewModel @ViewModelInject constructor(
     private val _onAirTVList = MutableLiveData<Result<TVShowModel?>>()
     val onAirTVList: LiveData<Result<TVShowModel?>> = _onAirTVList
 
-    private val _showPopularMovieError = MutableLiveData<Boolean>()
+    private val _showPopularMovieError = MutableLiveData(false)
     val showPopularMovieError: LiveData<Boolean>
         get() = _showPopularMovieError
 
-    private val _showNowPlayingMovieError = MutableLiveData<Boolean>()
+    private val _showNowPlayingMovieError = MutableLiveData(false)
     val showNowPlayingMovieError: LiveData<Boolean>
         get() = _showNowPlayingMovieError
 
-    private val _showPopularTvError = MutableLiveData<Boolean>()
+    private val _showPopularTvError = MutableLiveData(false)
     val showPopularTvError: LiveData<Boolean>
         get() = _showPopularTvError
 
-    private val _showOnAirTvError = MutableLiveData<Boolean>()
+    private val _showOnAirTvError = MutableLiveData(false)
     val showOnAirTvError: LiveData<Boolean>
         get() = _showOnAirTvError
 
-    private val _initialLoading = MutableLiveData<Boolean>()
+    private val _initialLoading = MutableLiveData(true)
     val initialLoading: LiveData<Boolean>
         get() = _initialLoading
 
@@ -52,11 +56,6 @@ class HomeViewModel @ViewModelInject constructor(
 
     init {
         populateData()
-        _showPopularMovieError.value = false
-        _showNowPlayingMovieError.value = false
-        _showPopularTvError.value = false
-        _showOnAirTvError.value = false
-        _initialLoading.value = true
     }
 
     private fun populateData() {
@@ -101,18 +100,6 @@ class HomeViewModel @ViewModelInject constructor(
         if (message is Result.Error) {
             val getMessage = message.exception.localizedMessage
             _snackbarMessage.value = Event(getMessage)
-        }
-    }
-
-    class Factory(
-        private val remoteSource: IHomeAccess
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-                return HomeViewModel(remoteSource) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }
