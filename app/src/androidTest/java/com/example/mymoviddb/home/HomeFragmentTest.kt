@@ -1,11 +1,13 @@
-package com.example.mymoviddb.authentication.guest
+package com.example.mymoviddb.home
 
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -27,39 +29,46 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
-import javax.inject.Singleton
 
-@MediumTest
-@RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 @UninstallModules(ServiceModule::class)
-class AuthenticationFragmentTest {
+@RunWith(AndroidJUnit4::class)
+@MediumTest
+class HomeFragmentTest {
 
     @get:Rule
     var hiltRulehiltRule = HiltAndroidRule(this)
 
     @Module
     @InstallIn(ApplicationComponent::class)
-    object TestModule {
+    object TestHomeModule {
         @Provides
-        @Singleton
-        fun ProvideAccess(): NetworkService = FakeRemoteServer()
+        fun provideHomeAccess(): NetworkService = FakeRemoteServer()
     }
 
     @Test
-    fun loginAsGuestLoginValidApiKey() {
+    fun testHome_navigateToCategoryPopularMovie() {
         val navController = mock(NavController::class.java)
-        launchFragmentInHiltContainer<AuthenticationFragment>(Bundle(), R.style.AppTheme) {
-            // Do not use it.requireView() because it won't work. instead use it.view!!
+
+        launchFragmentInHiltContainer<HomeFragment>(Bundle(), R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }
 
-        onView(withId(R.id.login_as_guest)).check(matches(isDisplayed()))
-        onView(withId(R.id.tmdb_icon)).check(matches(isDisplayed()))
-        onView(withId(R.id.login_as_guest)).perform(click())
+        onView(withId(R.id.popular_movie_txtv)).perform().check(matches(isDisplayed()))
+        onView(withId(R.id.popular_movie_container)).perform().check(matches(isDisplayed()))
+        onView(withId(R.id.popular_movie_rv)).check(matches(isDisplayed()))
+        onView(withId(R.id.popular_movie_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                19, click()
+            )
+        )
 
         verify(navController).navigate(
-            AuthenticationFragmentDirections.actionAuthenticationFragmentToHomeFragment()
+            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+                1,
+                R.string.popular_movie_list_contentDesc
+            )
         )
     }
+
 }

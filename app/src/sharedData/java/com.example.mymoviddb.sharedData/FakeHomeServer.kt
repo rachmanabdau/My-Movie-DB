@@ -13,7 +13,7 @@ class FakeHomeServer : IHomeAccess {
         return if (apiKey == BuildConfig.V3_AUTH) {
             val jsonConverter = moshi.adapter(MovieModel::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.successResponseMovieJson) as MovieModel
+                jsonConverter.fromJson(FakeRemoteServer.popularMovieResponse) as MovieModel
             Result.Success(
                 MovieModel(
                     page = 1, totalPages = 100, totalResults = 1000,
@@ -31,7 +31,7 @@ class FakeHomeServer : IHomeAccess {
         return if (apiKey == BuildConfig.V3_AUTH) {
             val jsonConverter = moshi.adapter(MovieModel::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.successResponseMovieJson) as MovieModel
+                jsonConverter.fromJson(FakeRemoteServer.nowPlayingMoviesResponse) as MovieModel
             Result.Success(
                 MovieModel(
                     page = 1, totalPages = 100, totalResults = 1000,
@@ -49,7 +49,7 @@ class FakeHomeServer : IHomeAccess {
         return if (apiKey == BuildConfig.V3_AUTH) {
             val jsonConverter = moshi.adapter(TVShowModel::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.successResponseTvShowJson) as TVShowModel
+                jsonConverter.fromJson(FakeRemoteServer.popularTvResponse) as TVShowModel
             Result.Success(
                 TVShowModel(
                     page = 1, totalPages = 100, totalResults = 1000,
@@ -67,7 +67,7 @@ class FakeHomeServer : IHomeAccess {
         return if (apiKey == BuildConfig.V3_AUTH) {
             val jsonConverter = moshi.adapter(TVShowModel::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.successResponseTvShowJson) as TVShowModel
+                jsonConverter.fromJson(FakeRemoteServer.onAirTVResponse) as TVShowModel
             Result.Success(
                 TVShowModel(
                     page = 1, totalPages = 100, totalResults = 1000,
