@@ -1,5 +1,6 @@
 package com.example.mymoviddb.home
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.MovieModel
@@ -9,7 +10,7 @@ import com.example.mymoviddb.model.succeeded
 import com.example.mymoviddb.utils.Event
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class HomeViewModel @ViewModelInject constructor(
     private val remoteServer: IHomeAccess
 ) : ViewModel() {
 

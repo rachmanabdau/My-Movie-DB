@@ -6,8 +6,6 @@ import com.example.mymoviddb.category.movie.ServiceLocatorCategoryMovie
 import com.example.mymoviddb.category.tv.ICategoryTVListAccess
 import com.example.mymoviddb.category.tv.ServiceLocatorCategoryTV
 import com.example.mymoviddb.datasource.remote.NetworkAPI
-import com.example.mymoviddb.home.IHomeAccess
-import com.example.mymoviddb.home.ServiceLocatorHome
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -15,12 +13,6 @@ import timber.log.Timber
 class MyMovieDBApplication : Application() {
 
     val server = NetworkAPI.retrofitService
-
-    val homeAccess: IHomeAccess
-        get() = ServiceLocatorHome.provideHomeAccess(server)
-
-    /*val authenticatationAccess: IAuthenticationAccess
-        get() = ServiceLocatorAuthentication.provideAuthenticationAccess(server)*/
 
     val categoryMovieListAccess: ICategoryMovieListAccess
         get() = ServiceLocatorCategoryMovie.provideServiceLocatorCategoryMovie(server)

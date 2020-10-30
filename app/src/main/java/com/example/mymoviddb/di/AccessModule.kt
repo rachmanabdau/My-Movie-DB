@@ -12,5 +12,8 @@ import dagger.hilt.android.components.ApplicationComponent
 abstract class AccessModule {
 
     @Binds
-    abstract fun bindAccess(authenticationAccess: AuthenticationAccess): IAuthenticationAccess
+    abstract fun bindAuthAccess(authenticationAccess: AuthenticationAccess): IAuthenticationAccess
+
+    @Binds
+    abstract fun bindHomeAccess(authenticationAccess: AuthenticationAccess): IAuthenticationAccess
 }

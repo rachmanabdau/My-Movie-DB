@@ -5,8 +5,9 @@ import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
+import javax.inject.Inject
 
-class HomeAccess(private val access: NetworkService) : IHomeAccess {
+class HomeAccess @Inject constructor(private val access: NetworkService) : IHomeAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
         return try {
