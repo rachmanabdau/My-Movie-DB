@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
 
 android {
     compileSdkVersion 30
@@ -180,5 +182,10 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-core:$version_mockito"
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$version_dexMaker"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$version_espresso"
+
+    // Hilt for DI
+    implementation "com.google.dagger:hilt-android:$version_hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$version_hilt"
+
 
 }
