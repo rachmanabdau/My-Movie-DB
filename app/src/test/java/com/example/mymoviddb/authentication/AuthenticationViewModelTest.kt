@@ -10,7 +10,7 @@ import com.example.mymoviddb.sharedData.FakeAuthenticationAccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
@@ -33,7 +33,7 @@ class AuthenticationViewModelTest {
 
     private lateinit var fakeRemoteSource: IAuthenticationAccess
     private lateinit var authenticationVM: AuthenticationViewModel
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    private val mainThreadSurrogate = TestCoroutineDispatcher()
 
     @Before
     fun setupViewModel() {
@@ -48,7 +48,7 @@ class AuthenticationViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
+        mainThreadSurrogate.cleanupTestCoroutines()
     }
 
     @ExperimentalCoroutinesApi
