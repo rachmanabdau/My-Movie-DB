@@ -6,8 +6,12 @@ import com.example.mymoviddb.model.LoginTokenModel
 import com.example.mymoviddb.model.RequestTokenModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Util
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthenticationAccess(private val access: NetworkService) : IAuthenticationAccess {
+@Singleton
+class AuthenticationAccess @Inject constructor(private val access: NetworkService) :
+    IAuthenticationAccess {
 
     override suspend fun loginAsUser(
         username: String,

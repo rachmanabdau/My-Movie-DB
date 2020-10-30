@@ -1,7 +1,11 @@
 package com.example.mymoviddb.authentication.guest
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.model.GuestSessionModel
@@ -11,7 +15,8 @@ import com.example.mymoviddb.utils.PreferenceUtil
 import com.example.mymoviddb.utils.Util
 import kotlinx.coroutines.launch
 
-class AuthenticationViewModel(
+
+class AuthenticationViewModel @ViewModelInject constructor(
     private val app: Application,
     private val remoteSource: IAuthenticationAccess
 ) : ViewModel() {
@@ -67,7 +72,7 @@ class AuthenticationViewModel(
         return expireTime < 0 && currentTime > expireTime
     }
 
-    class Factory(
+    /*class Factory(
         private val app: Application,
         private val remoteSource: IAuthenticationAccess
     ) : ViewModelProvider.Factory {
@@ -78,5 +83,5 @@ class AuthenticationViewModel(
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
-    }
+    }*/
 }

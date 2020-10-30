@@ -1,7 +1,6 @@
 package com.example.mymoviddb.authentication.guest
 
 import android.os.Bundle
-import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
@@ -12,43 +11,53 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
-import com.example.mymoviddb.authentication.IAuthenticationAccess
-import com.example.mymoviddb.authentication.ServiceLocatorAuthentication
-import com.example.mymoviddb.sharedData.FakeAuthenticationAccess
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.After
+import com.example.mymoviddb.authentication.di.ServiceModule
+import com.example.mymoviddb.datasource.remote.NetworkService
+import com.example.mymoviddb.launchFragmentInHiltContainer
+import com.example.mymoviddb.sharedData.FakeRemoteServer
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import javax.inject.Singleton
 
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-@ExperimentalCoroutinesApi
+@HiltAndroidTest
+@UninstallModules(ServiceModule::class)
 class AuthenticationFragmentTest {
 
-    private lateinit var authAccess: IAuthenticationAccess
+    @get:Rule
+    var hiltRulehiltRule = HiltAndroidRule(this)
 
     @Before
     fun setup() {
-        authAccess = FakeAuthenticationAccess()
-        ServiceLocatorAuthentication.authenticationAccess = authAccess
+        hiltRulehiltRule.inject()
     }
 
-    @After
-    fun reset() {
-        ServiceLocatorAuthentication.resetAuthenticationAccess()
+    @Module
+    @InstallIn(ApplicationComponent::class)
+    object TestModule {
+        @Provides
+        @Singleton
+        fun ProvideAccess(): NetworkService = FakeRemoteServer()
     }
 
     @Test
     fun loginAsGuestLoginValidApiKey() {
-        val scenario = launchFragmentInContainer<AuthenticationFragment>(Bundle(), R.style.AppTheme)
-
         val navController = mock(NavController::class.java)
-        scenario.onFragment {
+        launchFragmentInHiltContainer<AuthenticationFragment>(Bundle(), R.style.AppTheme) {
             // Do not use it.requireView() because it won't work. instead use it.view!!
-            Navigation.setViewNavController(it.view!!, navController)
+            Navigation.setViewNavController(this.view!!, navController)
         }
 
         onView(withId(R.id.login_as_guest)).check(matches(isDisplayed()))
