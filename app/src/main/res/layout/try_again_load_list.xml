@@ -12,7 +12,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding__medium">
+            android:padding="@dimen/padding_small">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/error_message"
@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:text="@string/try_again_action"
                 android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf="@id/error_message"
@@ -39,8 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
