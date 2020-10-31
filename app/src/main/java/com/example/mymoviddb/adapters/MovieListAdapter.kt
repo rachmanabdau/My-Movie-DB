@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.model.MovieModel
@@ -58,16 +59,20 @@ class MovieListAdapter(private val retry: () -> Unit) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val data = getItem(position)
-        if (holder is ShowViewHolder) {
+        if (holder is ShowViewHolder && position < itemCount - 2) {
+            val data = getItem(position)
             holder.onBind(data)
-        } else {
+        } else if (holder is ErrorViewHolder) {
             val errorMessage = if (state is Result.Error) {
                 (state as Result.Error).exception.localizedMessage ?: "Unknown error has occured"
             } else {
                 "Unknown error has occured"
             }
-            (holder as ErrorViewHolder).onBind(errorMessage) { retry() }
+            val staggaredLayoutParam =
+                holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+            staggaredLayoutParam.isFullSpan = true
+
+            (holder).onBind(errorMessage) { retry() }
         }
     }
 
