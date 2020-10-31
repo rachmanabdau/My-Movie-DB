@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.databinding.TvListItemBinding
 import com.example.mymoviddb.model.Result
@@ -35,6 +36,10 @@ class TVListAdapter(private val retry: () -> Unit) :
 
     }
 
+    override fun getItemCount(): Int {
+        return if (super.getItemCount() > 1) super.getItemCount() + 1 else super.getItemCount()
+    }
+
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount - 1 && (state is Result.Error || state is Result.Loading))
             errorViewType
@@ -54,16 +59,20 @@ class TVListAdapter(private val retry: () -> Unit) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val data = getItem(position)
-        if (holder is TVListViewHolder) {
+        if (holder is TVListViewHolder && position < itemCount - 2) {
+            val data = getItem(position)
             holder.onBind(data)
-        } else {
+        } else if (holder is ErrorViewHolder) {
             val errorMessage = if (state is Result.Error) {
                 (state as Result.Error).exception.localizedMessage ?: "Unknown error has occured"
             } else {
                 "Unknown error has occured"
             }
-            (holder as ErrorViewHolder).onBind(state, errorMessage) { retry() }
+
+            val staggaredLayoutParam =
+                holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+            staggaredLayoutParam.isFullSpan = true
+            (holder).onBind(state, errorMessage) { retry() }
         }
     }
 
