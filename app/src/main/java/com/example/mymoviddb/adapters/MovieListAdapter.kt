@@ -35,6 +35,10 @@ class MovieListAdapter(private val retry: () -> Unit) :
 
     }
 
+    override fun getItemCount(): Int {
+        return if (super.getItemCount() > 1) super.getItemCount() + 1 else super.getItemCount()
+    }
+
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount - 1 && (state is Result.Error || state is Result.Loading))
             errorViewType
