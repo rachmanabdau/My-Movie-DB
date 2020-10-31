@@ -77,6 +77,11 @@ android {
     hilt {
         enableTransformForLocalTests = true
     }
+
+    testOptions.unitTests {
+        includeAndroidResources = true
+        returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -84,7 +89,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$version_kotlin"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.activity:activity-ktx:$version_activity"
     implementation "androidx.fragment:fragment-ktx:$version_fragment"
@@ -178,8 +183,9 @@ dependencies {
     implementation "androidx.test:core:$version_androidXTest"
 
     // espresso
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    implementation "androidx.test.espresso:espresso-idling-resource:$version_espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$version_espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$version_espresso"
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
