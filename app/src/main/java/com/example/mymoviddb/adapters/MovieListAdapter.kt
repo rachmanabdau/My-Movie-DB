@@ -72,7 +72,7 @@ class MovieListAdapter(private val retry: () -> Unit) :
                 holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
             staggaredLayoutParam.isFullSpan = true
 
-            (holder).onBind(errorMessage) { retry() }
+            (holder).onBind(state, errorMessage) { retry() }
         }
     }
 

@@ -63,7 +63,7 @@ class TVListAdapter(private val retry: () -> Unit) :
             } else {
                 "Unknown error has occured"
             }
-            (holder as ErrorViewHolder).onBind(errorMessage) { retry() }
+            (holder as ErrorViewHolder).onBind(state, errorMessage) { retry() }
         }
     }
 
