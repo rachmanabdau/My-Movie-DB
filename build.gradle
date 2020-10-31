@@ -13,7 +13,7 @@ buildscript {
         version_kotlin = "1.4.10"
         version_lifecycle = "2.2.0"
         version_mockito = "2.8.9" // Do not upgrade mockito to v3+ there is a bug
-        version_navigation = "1.0.0"
+        version_navigation = "2.2.1"
         version_paging = "2.1.2"
         version_retrofit = "2.9.0"
         version_room = "2.2.5"
