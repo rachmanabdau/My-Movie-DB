@@ -7,14 +7,13 @@ import kotlinx.coroutines.CoroutineScope
 
 class TVDataSourceFactory(
     private val networkService: ICategoryTVListAccess,
-    private val scope: CoroutineScope,
-    private val movieId: Int
+    private val scope: CoroutineScope
 ) : DataSource.Factory<Int, TVShowModel.Result>() {
 
     val sourceLiveData = MutableLiveData<TVDataSource>()
 
     override fun create(): DataSource<Int, TVShowModel.Result> {
-        val source = TVDataSource(networkService, scope, movieId)
+        val source = TVDataSource(networkService, scope)
         sourceLiveData.postValue(source)
         return source
     }
