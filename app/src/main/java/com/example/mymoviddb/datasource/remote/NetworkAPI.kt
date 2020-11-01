@@ -72,6 +72,20 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<TVShowModel>>
+
+    @GET("search/movie")
+    fun searchMoviesAsync(
+        @Query("query") title: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<MovieModel>>
+
+    @GET("search/tv")
+    fun searchTvShowsAsync(
+        @Query("query") title: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<TVShowModel>>
 }
 
 object NetworkAPI {
