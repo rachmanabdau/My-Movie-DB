@@ -76,7 +76,6 @@ class HomeFragmentTest {
         // check if we clicked on load more popular movie navigation to category movies is clicked
         verify(navController).navigate(
             HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                1,
                 R.string.popular_movie_list_contentDesc
             )
         )
@@ -111,7 +110,6 @@ class HomeFragmentTest {
         // check if we clicked on load more now playing movie navigation to category movies is clicked
         verify(navController).navigate(
             HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                2,
                 R.string.now_playing_movie_list_contentDesc
             )
         )
@@ -147,7 +145,6 @@ class HomeFragmentTest {
         // check if we clicked on load more popular tv show navigation to category tv show is clicked
         verify(navController).navigate(
             HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                1,
                 R.string.popular_tv_show_list_contentDesc
             )
         )
@@ -186,7 +183,6 @@ class HomeFragmentTest {
         // check if we clicked on load more on air tv show navigation to category tv show is clicked
         verify(navController).navigate(
             HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                2,
                 R.string.now_airing_tv_show_list_contentDesc
             )
         )
