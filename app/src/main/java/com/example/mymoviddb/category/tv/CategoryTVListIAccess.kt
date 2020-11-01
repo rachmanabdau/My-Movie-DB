@@ -5,9 +5,11 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
+import javax.inject.Inject
 
 //Add Try-Catch in Category Movie
-class CategoryTVListIAccess(private val access: NetworkService) : ICategoryTVListAccess {
+class CategoryTVListIAccess @Inject constructor(private val access: NetworkService) :
+    ICategoryTVListAccess {
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
         wrapEspressoIdlingResource {
