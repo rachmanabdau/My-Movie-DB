@@ -76,12 +76,18 @@ class MovieDataSource(
                     result.value = Result.Loading
                     val movieResult =
                         if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {
-                            networkService.searchMovies(title, 1, BuildConfig.V3_AUTH)
+                            networkService.searchMovies(title, params.key + 1, BuildConfig.V3_AUTH)
                         } else {
                             if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
-                                networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                                networkService.getPopularMovieList(
+                                    params.key + 1,
+                                    BuildConfig.V3_AUTH
+                                )
                             } else {
-                                networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                                networkService.getNowPlayingMovieList(
+                                    params.key + 1,
+                                    BuildConfig.V3_AUTH
+                                )
                             }
                         }
 
@@ -114,7 +120,7 @@ class MovieDataSource(
     companion object {
         const val POPULAR_MOVIE_ID = 1
         const val NOW_PLAYING_MOVIE_ID = 2
-        const val SEARCH_MOVIES = 3
+        const val SEARCH_MOVIES = 31
         var MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
     }
 }

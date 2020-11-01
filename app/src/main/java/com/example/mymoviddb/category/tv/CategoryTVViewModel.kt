@@ -15,7 +15,7 @@ class CategoryTVViewModel @ViewModelInject constructor(categoryTvAccess: ICatego
     ViewModel() {
 
     val tvList: LiveData<PagedList<TVShowModel.Result>>
-    val dataSourceFactory = TVDataSourceFactory(categoryTvAccess, viewModelScope)
+    val dataSourceFactory = TVDataSourceFactory(categoryTvAccess, viewModelScope, "")
 
     init {
         val config = PagedList.Config.Builder()

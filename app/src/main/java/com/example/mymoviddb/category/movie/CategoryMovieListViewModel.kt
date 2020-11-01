@@ -15,7 +15,7 @@ class CategoryMovieListViewModel @ViewModelInject constructor(categoryMovieListA
     ViewModel() {
 
     val movieList: LiveData<PagedList<MovieModel.Result>>
-    val dataSourceFactory = MovieDataSourceFactory(categoryMovieListAccess, viewModelScope)
+    val dataSourceFactory = MovieDataSourceFactory(categoryMovieListAccess, viewModelScope, "")
 
     init {
         val config = PagedList.Config.Builder()
