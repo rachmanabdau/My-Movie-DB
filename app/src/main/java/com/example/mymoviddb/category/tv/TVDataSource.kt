@@ -5,6 +5,7 @@ import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
+import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -30,29 +31,31 @@ class TVDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, TVShowModel.Result>
     ) {
-        scope.launch {
-            try {
-                result.value = Result.Loading
-                val tvShowResult = if (categoryId == POPULAR_TV_ID) {
-                    networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
-                } else {
-                    networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
-                }
+        wrapEspressoIdlingResource {
+            scope.launch {
+                try {
+                    result.value = Result.Loading
+                    val tvShowResult = if (categoryId == POPULAR_TV_ID) {
+                        networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
+                    } else {
+                        networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
+                    }
 
-                if (tvShowResult is Result.Success) {
-                    result.value = tvShowResult
-                    val tvShowList = tvShowResult.data?.results ?: emptyList()
-                    callback.onResult(tvShowList, 0, 2)
-                } else {
-                    result.value = tvShowResult
+                    if (tvShowResult is Result.Success) {
+                        result.value = tvShowResult
+                        val tvShowList = tvShowResult.data?.results ?: emptyList()
+                        callback.onResult(tvShowList, 0, 2)
+                    } else {
+                        result.value = tvShowResult
+                        retry = {
+                            loadInitial(params, callback)
+                        }
+                    }
+                } catch (e: Exception) {
+                    result.value = Result.Error(e)
                     retry = {
                         loadInitial(params, callback)
                     }
-                }
-            } catch (e: Exception) {
-                result.value = Result.Error(e)
-                retry = {
-                    loadInitial(params, callback)
                 }
             }
         }
@@ -69,29 +72,31 @@ class TVDataSource(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, TVShowModel.Result>
     ) {
-        scope.launch {
-            try {
-                result.value = Result.Loading
-                val tvResult = if (categoryId == POPULAR_TV_ID) {
-                    networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
-                } else {
-                    networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
-                }
+        wrapEspressoIdlingResource {
+            scope.launch {
+                try {
+                    result.value = Result.Loading
+                    val tvResult = if (categoryId == POPULAR_TV_ID) {
+                        networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                    } else {
+                        networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                    }
 
-                if (tvResult is Result.Success) {
-                    result.value = tvResult
-                    val tvList = tvResult.data?.results ?: emptyList()
-                    callback.onResult(tvList, params.key + 1)
-                } else {
-                    result.value = tvResult
+                    if (tvResult is Result.Success) {
+                        result.value = tvResult
+                        val tvList = tvResult.data?.results ?: emptyList()
+                        callback.onResult(tvList, params.key + 1)
+                    } else {
+                        result.value = tvResult
+                        retry = {
+                            loadAfter(params, callback)
+                        }
+                    }
+                } catch (e: Exception) {
+                    result.value = Result.Error(e)
                     retry = {
                         loadAfter(params, callback)
                     }
-                }
-            } catch (e: Exception) {
-                result.value = Result.Error(e)
-                retry = {
-                    loadAfter(params, callback)
                 }
             }
         }

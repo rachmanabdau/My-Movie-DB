@@ -5,6 +5,7 @@ import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -30,29 +31,31 @@ class MovieDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, MovieModel.Result>
     ) {
-        scope.launch {
-            try {
-                result.value = Result.Loading
-                val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
-                    networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
-                } else {
-                    networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
-                }
+        wrapEspressoIdlingResource {
+            scope.launch {
+                try {
+                    result.value = Result.Loading
+                    val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
+                        networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                    } else {
+                        networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                    }
 
-                if (movieResult is Result.Success) {
-                    result.value = movieResult
-                    val movieList = movieResult.data?.results ?: emptyList()
-                    callback.onResult(movieList, 0, 2)
-                } else {
-                    result.value = movieResult
+                    if (movieResult is Result.Success) {
+                        result.value = movieResult
+                        val movieList = movieResult.data?.results ?: emptyList()
+                        callback.onResult(movieList, 0, 2)
+                    } else {
+                        result.value = movieResult
+                        retry = {
+                            loadInitial(params, callback)
+                        }
+                    }
+                } catch (e: Exception) {
+                    result.value = Result.Error(e)
                     retry = {
                         loadInitial(params, callback)
                     }
-                }
-            } catch (e: Exception) {
-                result.value = Result.Error(e)
-                retry = {
-                    loadInitial(params, callback)
                 }
             }
         }
@@ -62,29 +65,31 @@ class MovieDataSource(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, MovieModel.Result>
     ) {
-        scope.launch {
-            try {
-                result.value = Result.Loading
-                val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
-                    networkService.getPopularMovieList(params.key + 1, BuildConfig.V3_AUTH)
-                } else {
-                    networkService.getNowPlayingMovieList(params.key + 1, BuildConfig.V3_AUTH)
-                }
+        wrapEspressoIdlingResource {
+            scope.launch {
+                try {
+                    result.value = Result.Loading
+                    val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
+                        networkService.getPopularMovieList(params.key + 1, BuildConfig.V3_AUTH)
+                    } else {
+                        networkService.getNowPlayingMovieList(params.key + 1, BuildConfig.V3_AUTH)
+                    }
 
-                if (movieResult is Result.Success) {
-                    result.value = movieResult
-                    val movieList = movieResult.data?.results ?: emptyList()
-                    callback.onResult(movieList, params.key + 1)
-                } else {
-                    result.value = movieResult
+                    if (movieResult is Result.Success) {
+                        result.value = movieResult
+                        val movieList = movieResult.data?.results ?: emptyList()
+                        callback.onResult(movieList, params.key + 1)
+                    } else {
+                        result.value = movieResult
+                        retry = {
+                            loadAfter(params, callback)
+                        }
+                    }
+                } catch (e: Exception) {
+                    result.value = Result.Error(e)
                     retry = {
                         loadAfter(params, callback)
                     }
-                }
-            } catch (e: Exception) {
-                result.value = Result.Error(e)
-                retry = {
-                    loadAfter(params, callback)
                 }
             }
         }
