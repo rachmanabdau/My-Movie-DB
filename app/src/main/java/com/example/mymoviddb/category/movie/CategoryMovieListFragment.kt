@@ -8,27 +8,20 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.mymoviddb.MyMovieDBApplication
 import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
 import com.example.mymoviddb.model.Result
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CategoryMovieListFragment : Fragment() {
 
     private lateinit var binding: FragmentCategoryMovieListBinding
 
     private val arguments by navArgs<CategoryMovieListFragmentArgs>()
 
-    private val showViewModels by viewModels<CategoryMovieListViewModel> {
-        val access =
-            (requireActivity().applicationContext as MyMovieDBApplication).categoryMovieListAccess
-        val movieDataSourceFactory =
-            MovieDataSourceFactory(access, lifecycleScope, arguments.movieCategoryId)
-        CategoryMovieListViewModel.Factory(movieDataSourceFactory)
-    }
+    private val showViewModels by viewModels<CategoryMovieListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
