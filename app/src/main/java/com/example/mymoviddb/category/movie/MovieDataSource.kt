@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 
 class MovieDataSource(
     private val networkService: ICategoryMovieListAccess,
-    private val scope: CoroutineScope,
-    private val categoryId: Int
+    private val scope: CoroutineScope
 ) : PageKeyedDataSource<Int, MovieModel.Result>() {
 
     val result: MutableLiveData<Result<MovieModel?>> = MutableLiveData()
@@ -35,7 +34,7 @@ class MovieDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
+                    val movieResult = if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
                         networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
                     } else {
                         networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
@@ -69,7 +68,7 @@ class MovieDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val movieResult = if (categoryId == POPULAR_MOVIE_ID) {
+                    val movieResult = if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
                         networkService.getPopularMovieList(params.key + 1, BuildConfig.V3_AUTH)
                     } else {
                         networkService.getNowPlayingMovieList(params.key + 1, BuildConfig.V3_AUTH)
@@ -104,5 +103,6 @@ class MovieDataSource(
     companion object {
         const val POPULAR_MOVIE_ID = 1
         const val NOW_PLAYING_MOVIE_ID = 2
+        const val MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
     }
 }
