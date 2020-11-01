@@ -42,4 +42,24 @@ class CategoryMovieListAccess @Inject constructor(private val access: NetworkSer
         }
     }
 
+    override suspend fun searchMovies(
+        title: String,
+        page: Int,
+        apiKey: String
+    ): Result<MovieModel?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val movieResult = access.searchMoviesAsync(title, page, apiKey).await()
+
+                if (movieResult.isSuccessful) {
+                    Result.Success(movieResult.body())
+                } else {
+                    Util.returnError(movieResult)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
 }
