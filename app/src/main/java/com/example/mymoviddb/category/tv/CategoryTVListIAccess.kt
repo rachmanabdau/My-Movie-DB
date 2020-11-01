@@ -42,4 +42,24 @@ class CategoryTVListIAccess @Inject constructor(private val access: NetworkServi
             }
         }
     }
+
+    override suspend fun searchTvShowList(
+        title: String,
+        page: Int,
+        apiKey: String
+    ): Result<TVShowModel?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val movieResult = access.searchTvShowsAsync(title, page, apiKey).await()
+
+                if (movieResult.isSuccessful) {
+                    Result.Success(movieResult.body())
+                } else {
+                    Util.returnError(movieResult)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
 }
