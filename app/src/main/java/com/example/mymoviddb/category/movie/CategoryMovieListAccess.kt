@@ -5,8 +5,10 @@ import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
+import javax.inject.Inject
 
-class CategoryMovieListAccess(private val access: NetworkService) : ICategoryMovieListAccess {
+class CategoryMovieListAccess @Inject constructor(private val access: NetworkService) :
+    ICategoryMovieListAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
         wrapEspressoIdlingResource {
