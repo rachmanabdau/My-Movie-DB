@@ -1,16 +1,21 @@
 package com.example.mymoviddb.category.tv
 
-import androidx.lifecycle.*
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import kotlinx.coroutines.cancel
 
-class CategoryTVViewModel(private val dataSourceFactory: TVDataSourceFactory) :
+class CategoryTVViewModel @ViewModelInject constructor(categoryTvAccess: ICategoryTVListAccess) :
     ViewModel() {
 
     val tvList: LiveData<PagedList<TVShowModel.Result>>
+    val dataSourceFactory = TVDataSourceFactory(categoryTvAccess, viewModelScope)
 
     init {
         val config = PagedList.Config.Builder()
@@ -19,7 +24,6 @@ class CategoryTVViewModel(private val dataSourceFactory: TVDataSourceFactory) :
             .setPrefetchDistance(5)
             .setEnablePlaceholders(true)
             .build()
-
         tvList = LivePagedListBuilder(dataSourceFactory, config).build()
     }
 
@@ -35,17 +39,5 @@ class CategoryTVViewModel(private val dataSourceFactory: TVDataSourceFactory) :
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()
-    }
-
-    class Factory(
-        private val dataSourceFactory: TVDataSourceFactory
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CategoryTVViewModel::class.java)) {
-                return CategoryTVViewModel(dataSourceFactory) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
     }
 }
