@@ -27,4 +27,4 @@ My Movie DB Using android Jetpack, include :
 
 Or Scan Here
 
-[APK here.](/img/apk_qr_code.png)
+![APK here.](/img/apk_qr_code.png)
