@@ -1,9 +1,13 @@
 package com.example.mymoviddb.utils
 
 import android.net.ParseException
+import androidx.navigation.NavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.Result
+import com.google.android.material.appbar.MaterialToolbar
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,5 +48,13 @@ object Util {
             errorAdapter.fromJson(errorMessage)
 
         return Result.Error(Exception(errorJson?.statusMessage))
+    }
+
+    /**
+     * This function used in a helper to et up toolbar in each fragment
+     */
+    fun setupToolbar(toolbar: MaterialToolbar, navcontroller: NavController) {
+        val appBarConfiguration = AppBarConfiguration(navcontroller.graph)
+        toolbar.setupWithNavController(navcontroller, appBarConfiguration)
     }
 }
