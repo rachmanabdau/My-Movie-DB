@@ -3,6 +3,7 @@ package com.example.mymoviddb.category.tv
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
@@ -11,7 +12,8 @@ import kotlinx.coroutines.launch
 
 class TVDataSource(
     private val networkService: ICategoryTVListAccess,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val title: String
 ) : PageKeyedDataSource<Int, TVShowModel.Result>() {
 
     val result = MutableLiveData<Result<TVShowModel?>>()
@@ -34,10 +36,14 @@ class TVDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val tvShowResult = if (TV_CATEGORY_ID == POPULAR_TV_ID) {
-                        networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
+                    val tvShowResult = if (TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank()) {
+                        networkService.searchTvShowList(title, 1, BuildConfig.V3_AUTH)
                     } else {
-                        networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
+                        if (TV_CATEGORY_ID == MovieDataSource.POPULAR_MOVIE_ID) {
+                            networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
+                        } else {
+                            networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
+                        }
                     }
 
                     if (tvShowResult is Result.Success) {
@@ -75,10 +81,14 @@ class TVDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val tvResult = if (TV_CATEGORY_ID == POPULAR_TV_ID) {
-                        networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                    val tvResult = if (TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank()) {
+                        networkService.searchTvShowList(title, params.key + 1, BuildConfig.V3_AUTH)
                     } else {
-                        networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                        if (TV_CATEGORY_ID == MovieDataSource.POPULAR_MOVIE_ID) {
+                            networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                        } else {
+                            networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                        }
                     }
 
                     if (tvResult is Result.Success) {
@@ -104,6 +114,7 @@ class TVDataSource(
     companion object {
         const val POPULAR_TV_ID = 1
         const val ON_AIR_TV_ID = 2
+        const val SEARCH_TV = 32
         var TV_CATEGORY_ID = POPULAR_TV_ID
     }
 }
