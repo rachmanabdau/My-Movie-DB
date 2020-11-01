@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 
 class TVDataSource(
     private val networkService: ICategoryTVListAccess,
-    private val scope: CoroutineScope,
-    private val categoryId: Int
+    private val scope: CoroutineScope
 ) : PageKeyedDataSource<Int, TVShowModel.Result>() {
 
     val result = MutableLiveData<Result<TVShowModel?>>()
@@ -35,7 +34,7 @@ class TVDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val tvShowResult = if (categoryId == POPULAR_TV_ID) {
+                    val tvShowResult = if (TV_CATEGORY_ID == POPULAR_TV_ID) {
                         networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
                     } else {
                         networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
@@ -76,7 +75,7 @@ class TVDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val tvResult = if (categoryId == POPULAR_TV_ID) {
+                    val tvResult = if (TV_CATEGORY_ID == POPULAR_TV_ID) {
                         networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
                     } else {
                         networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
@@ -104,6 +103,7 @@ class TVDataSource(
 
     companion object {
         const val POPULAR_TV_ID = 1
-        const val NOW_PLAYING_TV_ID = 2
+        const val ON_AIR_TV_ID = 2
+        var TV_CATEGORY_ID = POPULAR_TV_ID
     }
 }
