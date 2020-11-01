@@ -1,16 +1,21 @@
 package com.example.mymoviddb.category.movie
 
-import androidx.lifecycle.*
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.cancel
 
-class CategoryMovieListViewModel(private val dataSourceFactory: MovieDataSourceFactory) :
+class CategoryMovieListViewModel @ViewModelInject constructor(categoryMovieListAccess: ICategoryMovieListAccess) :
     ViewModel() {
 
     val movieList: LiveData<PagedList<MovieModel.Result>>
+    val dataSourceFactory = MovieDataSourceFactory(categoryMovieListAccess, viewModelScope)
 
     init {
         val config = PagedList.Config.Builder()
@@ -35,17 +40,5 @@ class CategoryMovieListViewModel(private val dataSourceFactory: MovieDataSourceF
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()
-    }
-
-    class Factory(
-        private val dataSourceFactory: MovieDataSourceFactory
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CategoryMovieListViewModel::class.java)) {
-                return CategoryMovieListViewModel(dataSourceFactory) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
     }
 }
