@@ -30,7 +30,7 @@ class AuthenticationFragment : Fragment() {
         binding = FragmentAuthenticationBinding.inflate(inflater, container, false)
 
         setHasOptionsMenu(true)
-        Util.setupToolbar(binding.authToolbar.toolbar, findNavController())
+        Util.setupToolbar(requireActivity(), binding.authToolbar.toolbar, findNavController())
         binding.lifecycleOwner = this
         binding.authenticationVM = authenticationViewModel
 

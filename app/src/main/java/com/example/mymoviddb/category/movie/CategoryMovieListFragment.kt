@@ -31,7 +31,7 @@ class CategoryMovieListFragment : Fragment() {
     ): View? {
         binding = FragmentCategoryMovieListBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-        Util.setupToolbar(binding.movieToolbar.toolbar, findNavController())
+        Util.setupToolbar(requireActivity(), binding.movieToolbar.toolbar, findNavController())
         setUpToolbar(arguments.title)
 
         val adapter = MovieListAdapter { showViewModels.retry() }

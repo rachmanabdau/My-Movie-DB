@@ -32,7 +32,7 @@ class CategoryTvFragment : Fragment() {
 
         binding = FragmentCategoryTvBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-        Util.setupToolbar(binding.tvToolbar.toolbar, findNavController())
+        Util.setupToolbar(requireActivity(), binding.tvToolbar.toolbar, findNavController())
         setUpToolbar(arguments.title)
 
         val adapter = TVListAdapter { categoryTvViewmodel.retry() }
