@@ -30,7 +30,6 @@ class CategoryTvFragment : Fragment() {
 
         binding = FragmentCategoryTvBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
-        TVDataSource.TV_CATEGORY_ID = arguments.tvCategoryId
 
         val adapter = TVListAdapter { categoryTvViewmodel.retry() }
         binding.showRv.adapter = adapter

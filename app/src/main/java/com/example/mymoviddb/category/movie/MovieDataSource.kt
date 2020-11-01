@@ -103,6 +103,6 @@ class MovieDataSource(
     companion object {
         const val POPULAR_MOVIE_ID = 1
         const val NOW_PLAYING_MOVIE_ID = 2
-        const val MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
+        var MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
     }
 }

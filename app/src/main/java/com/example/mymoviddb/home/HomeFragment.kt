@@ -51,9 +51,10 @@ class HomeFragment : Fragment() {
         binding.popularMovieRv.adapter = MoviesAdapter {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                    MovieDataSource.POPULAR_MOVIE_ID, R.string.popular_movie_list_contentDesc
+                    R.string.popular_movie_list_contentDesc
                 )
             )
+            MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
         }
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -65,10 +66,11 @@ class HomeFragment : Fragment() {
         binding.nowPlayingMovieRv.adapter = MoviesAdapter {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                    MovieDataSource.NOW_PLAYING_MOVIE_ID,
                     R.string.now_playing_movie_list_contentDesc
                 )
             )
+
+            MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.NOW_PLAYING_MOVIE_ID
         }
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -80,9 +82,10 @@ class HomeFragment : Fragment() {
         binding.popularTvRv.adapter = TVAdapter {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                    TVDataSource.POPULAR_TV_ID, R.string.popular_tv_show_list_contentDesc
+                    R.string.popular_tv_show_list_contentDesc
                 )
             )
+            TVDataSource.TV_CATEGORY_ID = TVDataSource.POPULAR_TV_ID
         }
         binding.popularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -94,9 +97,10 @@ class HomeFragment : Fragment() {
         binding.onAirPopularTvRv.adapter = TVAdapter {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                    TVDataSource.NOW_PLAYING_TV_ID, R.string.now_airing_tv_show_list_contentDesc
+                    R.string.now_airing_tv_show_list_contentDesc
                 )
             )
+            TVDataSource.TV_CATEGORY_ID = TVDataSource.ON_AIR_TV_ID
         }
         binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
