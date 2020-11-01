@@ -29,4 +29,7 @@
     <string name="load_more">Load More</string>
     <string name="search_hint">Enter a title here</string>
     <string name="Search_label">Search</string>
+    <string name="movies_label">Movies</string>
+    <string name="tv_shows_label">TV Shows</string>
+    <string name="chooser_dialog_hint">Choose a Category to search</string>
 </resources>

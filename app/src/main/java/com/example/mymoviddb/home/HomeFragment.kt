@@ -1,6 +1,5 @@
 package com.example.mymoviddb.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -9,12 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.R
+import com.example.mymoviddb.SearchDialogChooser
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
-import com.example.mymoviddb.search.SearchActivity
 import com.example.mymoviddb.utils.DeviceUtils
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.Util
@@ -57,8 +56,7 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> {
-                val intent = Intent(requireContext(), SearchActivity::class.java)
-                startActivity(intent)
+                SearchDialogChooser().show(parentFragmentManager, null)
             }
         }
         return super.onOptionsItemSelected(item)
