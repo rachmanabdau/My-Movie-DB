@@ -10,17 +10,27 @@
         tools:context=".category.tv.CategoryTvFragment">
 
         <include
+            android:id="@+id/tv_toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
             android:id="@+id/error_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             layout="@layout/try_again_load_list"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tv_toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/show_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:spanCount="2"
-            tools:listitem="@layout/tv_list_item" />
+            tools:listitem="@layout/tv_list_item"
+            app:layout_constraintTop_toBottomOf="@id/tv_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ProgressBar
             android:id="@+id/loading_bar"
