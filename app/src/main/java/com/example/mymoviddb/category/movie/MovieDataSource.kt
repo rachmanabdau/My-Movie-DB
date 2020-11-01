@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 
 class MovieDataSource(
     private val networkService: ICategoryMovieListAccess,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val title: String
 ) : PageKeyedDataSource<Int, MovieModel.Result>() {
 
     val result: MutableLiveData<Result<MovieModel?>> = MutableLiveData()
@@ -34,11 +35,16 @@ class MovieDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val movieResult = if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
-                        networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
-                    } else {
-                        networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
-                    }
+                    val movieResult =
+                        if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {
+                            networkService.searchMovies(title, 1, BuildConfig.V3_AUTH)
+                        } else {
+                            if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
+                                networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                            } else {
+                                networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                            }
+                        }
 
                     if (movieResult is Result.Success) {
                         result.value = movieResult
@@ -68,11 +74,16 @@ class MovieDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val movieResult = if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
-                        networkService.getPopularMovieList(params.key + 1, BuildConfig.V3_AUTH)
-                    } else {
-                        networkService.getNowPlayingMovieList(params.key + 1, BuildConfig.V3_AUTH)
-                    }
+                    val movieResult =
+                        if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {
+                            networkService.searchMovies(title, 1, BuildConfig.V3_AUTH)
+                        } else {
+                            if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
+                                networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                            } else {
+                                networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                            }
+                        }
 
                     if (movieResult is Result.Success) {
                         result.value = movieResult
@@ -103,6 +114,7 @@ class MovieDataSource(
     companion object {
         const val POPULAR_MOVIE_ID = 1
         const val NOW_PLAYING_MOVIE_ID = 2
+        const val SEARCH_MOVIES = 3
         var MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
     }
 }
