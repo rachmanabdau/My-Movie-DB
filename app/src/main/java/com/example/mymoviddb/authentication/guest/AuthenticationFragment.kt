@@ -12,6 +12,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
+import com.example.mymoviddb.utils.Util
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +29,8 @@ class AuthenticationFragment : Fragment() {
     ): View? {
         binding = FragmentAuthenticationBinding.inflate(inflater, container, false)
 
+        setHasOptionsMenu(true)
+        Util.setupToolbar(binding.authToolbar.toolbar, findNavController())
         binding.lifecycleOwner = this
         binding.authenticationVM = authenticationViewModel
 
