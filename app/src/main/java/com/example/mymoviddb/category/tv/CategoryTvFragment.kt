@@ -8,24 +8,20 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.mymoviddb.MyMovieDBApplication
 import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
 import com.example.mymoviddb.model.Result
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryTvFragment : Fragment() {
 
     private lateinit var binding: FragmentCategoryTvBinding
 
     private val arguments by navArgs<CategoryTvFragmentArgs>()
 
-    private val categoryTvViewmodel by viewModels<CategoryTVViewModel> {
-        val access = (requireActivity().application as MyMovieDBApplication).categoryTVListAccess
-        val tvDataSource = TVDataSourceFactory(access, lifecycleScope, arguments.tvCategoryId)
-        CategoryTVViewModel.Factory(tvDataSource)
-    }
+    private val categoryTvViewmodel by viewModels<CategoryTVViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +30,7 @@ class CategoryTvFragment : Fragment() {
 
         binding = FragmentCategoryTvBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
+        TVDataSource.TV_CATEGORY_ID = arguments.tvCategoryId
 
         val adapter = TVListAdapter { categoryTvViewmodel.retry() }
         binding.showRv.adapter = adapter
