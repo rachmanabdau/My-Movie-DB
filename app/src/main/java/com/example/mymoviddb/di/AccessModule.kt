@@ -2,6 +2,8 @@ package com.example.mymoviddb.di
 
 import com.example.mymoviddb.authentication.AuthenticationAccess
 import com.example.mymoviddb.authentication.IAuthenticationAccess
+import com.example.mymoviddb.category.movie.CategoryMovieListAccess
+import com.example.mymoviddb.category.movie.ICategoryMovieListAccess
 import com.example.mymoviddb.category.tv.CategoryTVListIAccess
 import com.example.mymoviddb.category.tv.ICategoryTVListAccess
 import com.example.mymoviddb.home.HomeAccess
@@ -21,9 +23,9 @@ abstract class AccessModule {
     @Binds
     abstract fun bindHomeAccess(homeAccess: HomeAccess): IHomeAccess
 
-    /*@Binds
-    abstract fun bindCategoryMovieAccess(authenticationAccess: CategoryMovieListAccess): ICategoryMovieListAccess*/
+    @Binds
+    abstract fun bindCategoryMovieAccess(categoryMovieAccess: CategoryMovieListAccess): ICategoryMovieListAccess
 
     @Binds
-    abstract fun bindCategoryTVAccess(CategoryTVAccess: CategoryTVListIAccess): ICategoryTVListAccess
+    abstract fun bindCategoryTVAccess(categoryTVAccess: CategoryTVListIAccess): ICategoryTVListAccess
 }
