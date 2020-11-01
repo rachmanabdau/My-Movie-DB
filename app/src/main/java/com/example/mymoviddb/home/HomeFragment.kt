@@ -1,9 +1,9 @@
 package com.example.mymoviddb.home
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +17,7 @@ import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.utils.DeviceUtils
 import com.example.mymoviddb.utils.EventObserver
+import com.example.mymoviddb.utils.Util
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,6 +37,8 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.homeViewModel = homeViewModel
 
+        Util.setupToolbar(binding.homeToolbar.toolbar, findNavController())
+
         initializeAdapter()
         setClickListener()
 
@@ -44,6 +47,31 @@ class HomeFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+
+        /*// Get the SearchView and set the searchable configuration
+        val searchManager = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.action_search).actionView as SearchView).apply {
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(ComponentName(requireContext(), SearchActivity::class.java)))
+            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
+        }*/
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_search -> {
+                val searchManager =
+                    requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initializeAdapter() {

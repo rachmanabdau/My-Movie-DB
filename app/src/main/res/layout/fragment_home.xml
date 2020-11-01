@@ -20,6 +20,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <include
+                android:id="@+id/home_toolbar"
+                layout="@layout/toolbar"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ProgressBar
                 android:id="@+id/inital_loading"
                 android:layout_width="match_parent"
