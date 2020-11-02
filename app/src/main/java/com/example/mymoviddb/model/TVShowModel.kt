@@ -35,7 +35,7 @@ data class TVShowModel(
         @Json(name = "popularity")
         val popularity: Double,
         @Json(name = "poster_path")
-        val posterPath: String,
+        val posterPath: String?,
         @Json(name = "vote_average")
         val voteAverage: Double,
         @Json(name = "vote_count")

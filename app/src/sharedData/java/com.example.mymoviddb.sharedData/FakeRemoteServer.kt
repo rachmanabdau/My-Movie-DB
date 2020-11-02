@@ -251,6 +251,22 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
+    override fun searchMoviesAsync(
+        title: String,
+        page: Int,
+        apiKey: String
+    ): Deferred<Response<MovieModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun searchTvShowsAsync(
+        title: String,
+        page: Int,
+        apiKey: String
+    ): Deferred<Response<TVShowModel>> {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         const val popularMovieResponse = """{
   "page": 1,

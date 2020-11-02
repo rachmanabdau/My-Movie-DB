@@ -10,6 +10,9 @@ import com.example.mymoviddb.category.movie.ICategoryMovieListAccess
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.movie.MovieDataSourceFactory
 import com.example.mymoviddb.category.tv.ICategoryTVListAccess
+import com.example.mymoviddb.category.tv.TVDataSource
+import com.example.mymoviddb.category.tv.TVDataSourceFactory
+import timber.log.Timber
 
 class SearchViewModel @ViewModelInject constructor(
     private val categoryMovieListAccess: ICategoryMovieListAccess,
@@ -36,7 +39,7 @@ class SearchViewModel @ViewModelInject constructor(
         MovieDataSource::result
     )
 
-    fun searchTitle(title: String) {
+    fun searchMovieTitle(title: String) {
         if (savedStateHandle.get<String>(SearchManager.QUERY) == title && title.isBlank()) return
 
         savedStateHandle.set(SearchManager.QUERY, title)
@@ -44,6 +47,30 @@ class SearchViewModel @ViewModelInject constructor(
 
     fun retrySearchMovies() {
         moviedataSourceFactory.sourceLiveData.value?.retry()
+    }
+
+    var tvDataSourceFactory = TVDataSourceFactory(categoryTVListIAccess, viewModelScope, "")
+
+    val tvList = savedStateHandle.getLiveData<String>(SearchManager.QUERY).switchMap {
+        Timber.d("query in switch map ${it}")
+        tvDataSourceFactory = TVDataSourceFactory(categoryTVListIAccess, viewModelScope, it)
+        LivePagedListBuilder(tvDataSourceFactory, config).build()
+    }
+
+    val resultTV = Transformations.switchMap(
+        tvDataSourceFactory.sourceLiveData,
+        TVDataSource::result
+    )
+
+    fun searchTvTitle(title: String) {
+        if (savedStateHandle.get<String>(SearchManager.QUERY) == title && title.isBlank()) return
+
+        savedStateHandle.set(SearchManager.QUERY, title)
+        Timber.d("in search title $title and query ${savedStateHandle.get<String>(SearchManager.QUERY)}")
+    }
+
+    fun retrySearchTV() {
+        tvDataSourceFactory.sourceLiveData.value?.retry()
     }
 
 
