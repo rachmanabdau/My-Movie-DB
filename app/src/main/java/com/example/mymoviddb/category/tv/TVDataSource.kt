@@ -3,7 +3,6 @@ package com.example.mymoviddb.category.tv
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
@@ -36,13 +35,18 @@ class TVDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val tvShowResult = if (TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank()) {
-                        networkService.searchTvShowList(title, 1, BuildConfig.V3_AUTH)
-                    } else {
-                        if (TV_CATEGORY_ID == MovieDataSource.POPULAR_MOVIE_ID) {
+                    val tvShowResult = when {
+                        TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank() -> {
+                            networkService.searchTvShowList(title, 1, BuildConfig.V3_AUTH)
+                        }
+                        TV_CATEGORY_ID == POPULAR_TV_ID -> {
                             networkService.getPopularTvShowList(1, BuildConfig.V3_AUTH)
-                        } else {
+                        }
+                        TV_CATEGORY_ID == ON_AIR_TV_ID -> {
                             networkService.getOnAirTvShowList(1, BuildConfig.V3_AUTH)
+                        }
+                        else -> {
+                            Result.Success(null)
                         }
                     }
 
@@ -81,15 +85,32 @@ class TVDataSource(
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val tvResult = if (TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank()) {
-                        networkService.searchTvShowList(title, params.key + 1, BuildConfig.V3_AUTH)
-                    } else {
-                        if (TV_CATEGORY_ID == MovieDataSource.POPULAR_MOVIE_ID) {
-                            networkService.getPopularTvShowList(params.key + 1, BuildConfig.V3_AUTH)
-                        } else {
-                            networkService.getOnAirTvShowList(params.key + 1, BuildConfig.V3_AUTH)
+                    val tvResult =
+                        when {
+                            TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank() -> {
+                                networkService.searchTvShowList(
+                                    title,
+                                    params.key + 1,
+                                    BuildConfig.V3_AUTH
+                                )
+                            }
+                            TV_CATEGORY_ID == POPULAR_TV_ID -> {
+                                networkService.getPopularTvShowList(
+                                    params.key + 1,
+                                    BuildConfig.V3_AUTH
+                                )
+                            }
+                            TV_CATEGORY_ID == ON_AIR_TV_ID -> {
+                                networkService.getOnAirTvShowList(
+                                    params.key + 1,
+                                    BuildConfig.V3_AUTH
+                                )
+                            }
+                            else -> {
+                                Result.Success(null)
+                            }
                         }
-                    }
+
 
                     if (tvResult is Result.Success) {
                         result.value = tvResult

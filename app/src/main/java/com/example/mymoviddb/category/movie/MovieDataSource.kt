@@ -37,14 +37,19 @@ class MovieDataSource(
                 try {
                     result.value = Result.Loading
                     val movieResult: Result<MovieModel?> =
-                        if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {
-                            networkService.searchMovies(title, 1, BuildConfig.V3_AUTH)
-                        } else if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
-                            networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
-                        } else if (MOVIE_CATEGORY_ID == NOW_PLAYING_MOVIE_ID) {
-                            networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
-                        } else {
-                            Result.Success(null)
+                        when {
+                            MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank() -> {
+                                networkService.searchMovies(title, 1, BuildConfig.V3_AUTH)
+                            }
+                            MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID -> {
+                                networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                            }
+                            MOVIE_CATEGORY_ID == NOW_PLAYING_MOVIE_ID -> {
+                                networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
+                            }
+                            else -> {
+                                Result.Success(null)
+                            }
                         }
 
 
@@ -77,19 +82,28 @@ class MovieDataSource(
                 try {
                     result.value = Result.Loading
                     val movieResult =
-                        if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {
-                            networkService.searchMovies(title, params.key + 1, BuildConfig.V3_AUTH)
-                        } else {
-                            if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
+                        when {
+                            MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank() -> {
+                                networkService.searchMovies(
+                                    title,
+                                    params.key + 1,
+                                    BuildConfig.V3_AUTH
+                                )
+                            }
+                            MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID -> {
                                 networkService.getPopularMovieList(
                                     params.key + 1,
                                     BuildConfig.V3_AUTH
                                 )
-                            } else {
+                            }
+                            MOVIE_CATEGORY_ID == NOW_PLAYING_MOVIE_ID -> {
                                 networkService.getNowPlayingMovieList(
                                     params.key + 1,
                                     BuildConfig.V3_AUTH
                                 )
+                            }
+                            else -> {
+                                Result.Success(null)
                             }
                         }
 
@@ -124,6 +138,5 @@ class MovieDataSource(
         const val NOW_PLAYING_MOVIE_ID = 2
         const val SEARCH_MOVIES = 31
         var MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
-        //var TITLE = ""
     }
 }
