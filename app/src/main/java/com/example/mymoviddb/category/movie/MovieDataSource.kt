@@ -8,6 +8,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MovieDataSource(
     private val networkService: ICategoryMovieListAccess,
@@ -31,20 +32,23 @@ class MovieDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, MovieModel.Result>
     ) {
+        emptyList<String>()
         wrapEspressoIdlingResource {
             scope.launch {
                 try {
+                    Timber.d("query is ${title}")
                     result.value = Result.Loading
-                    val movieResult =
+                    val movieResult: Result<MovieModel?> =
                         if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {
                             networkService.searchMovies(title, 1, BuildConfig.V3_AUTH)
+                        } else if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
+                            networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
+                        } else if (MOVIE_CATEGORY_ID == NOW_PLAYING_MOVIE_ID) {
+                            networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
                         } else {
-                            if (MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID) {
-                                networkService.getPopularMovieList(1, BuildConfig.V3_AUTH)
-                            } else {
-                                networkService.getNowPlayingMovieList(1, BuildConfig.V3_AUTH)
-                            }
+                            Result.Success(null)
                         }
+
 
                     if (movieResult is Result.Success) {
                         result.value = movieResult
@@ -122,5 +126,6 @@ class MovieDataSource(
         const val NOW_PLAYING_MOVIE_ID = 2
         const val SEARCH_MOVIES = 31
         var MOVIE_CATEGORY_ID = POPULAR_MOVIE_ID
+        //var TITLE = ""
     }
 }
