@@ -22,8 +22,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val searchViewModel by viewModels<SearchViewModel>()
     private var id = 0
-    private var counter = 0
-    var firstInitialize = true
+    //var firstInitialize = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,13 +57,13 @@ class SearchActivity : AppCompatActivity() {
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 if (query.isNotBlank()) {
-                    if (id == SEARCH_MOVIES) {
-                        val adapter = MovieListAdapter { /*searchViewModel.retrySearchMovies() */ }
+                    if (id == MovieDataSource.SEARCH_MOVIES) {
+                        val adapter = MovieListAdapter { }
                         binding.moviesRv.adapter = adapter
                         observeSearchMovies(adapter)
 
                         MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.SEARCH_MOVIES
-                        searchViewModel.searchTitle(query)
+                        searchViewModel.searchTitle(query.trim())
                     }
                 }
             }
@@ -72,6 +71,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun observeSearchMovies(adapter: MovieListAdapter) {
+
+        searchViewModel.movieList.observe(this, {
+            adapter.submitList(it)
+        })
 
         /*searchViewModel.resultMovie.observe(this, {
             adapter.setState(it)
@@ -88,20 +91,11 @@ class SearchActivity : AppCompatActivity() {
             } else if (it is Result.Loading && firstInitialize) {
                 binding.loadingBar.visibility = View.VISIBLE
             }
-        })*/
-
-        searchViewModel.movieList.observe(this, {
-            adapter.submitList(it)
-        })/*
+        })
 
         binding.errorLayout.tryAgainButton.setOnClickListener {
             searchViewModel.retrySearchMovies()
         }*/
-    }
-
-    companion object {
-        const val SEARCH_MOVIES = 31
-        const val SEARCH_TV = 32
     }
 
 }

@@ -8,7 +8,6 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MovieDataSource(
     private val networkService: ICategoryMovieListAccess,
@@ -36,7 +35,6 @@ class MovieDataSource(
         wrapEspressoIdlingResource {
             scope.launch {
                 try {
-                    Timber.d("query is ${title}")
                     result.value = Result.Loading
                     val movieResult: Result<MovieModel?> =
                         if (MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank()) {

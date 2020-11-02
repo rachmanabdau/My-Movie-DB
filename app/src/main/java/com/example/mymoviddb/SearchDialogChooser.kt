@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mymoviddb.category.SearchActivity
+import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.ShowChooserDialogBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -25,13 +27,13 @@ class SearchDialogChooser : BottomSheetDialogFragment() {
 
         binding.movieChooserContainer.setOnClickListener {
             requireActivity().onSearchRequested()
-            intent.putExtra(SEARCH_ID, SearchActivity.SEARCH_MOVIES)
+            intent.putExtra(SEARCH_ID, MovieDataSource.SEARCH_MOVIES)
             startActivity(intent)
             this.dismiss()
         }
 
         binding.tvChooserContainer.setOnClickListener {
-            intent.putExtra(SEARCH_ID, SearchActivity.SEARCH_TV)
+            intent.putExtra(SEARCH_ID, TVDataSource.SEARCH_TV)
             startActivity(intent)
             this.dismiss()
         }
