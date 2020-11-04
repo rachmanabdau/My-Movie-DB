@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".category.SearchActivity"
+            android:name=".category.search.SearchActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTop">
             <intent-filter>

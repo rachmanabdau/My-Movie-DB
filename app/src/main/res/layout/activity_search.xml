@@ -7,14 +7,14 @@
 
         <variable
             name="searchViewModel"
-            type="com.example.mymoviddb.category.SearchViewModel" />
+            type="com.example.mymoviddb.category.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
-        tools:context=".category.SearchActivity">
+        tools:context=".category.search.SearchActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/search_toolbar"

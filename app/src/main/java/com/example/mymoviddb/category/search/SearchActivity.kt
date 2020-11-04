@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.category.search
 
 import android.app.SearchManager
 import android.content.ComponentName
@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.mymoviddb.R
-import com.example.mymoviddb.SearchDialogChooser
 import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource

@@ -1,11 +1,10 @@
-package com.example.mymoviddb
+package com.example.mymoviddb.category.search
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.mymoviddb.category.SearchActivity
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.ShowChooserDialogBinding

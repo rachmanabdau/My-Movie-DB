@@ -8,10 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.R
-import com.example.mymoviddb.SearchDialogChooser
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.search.SearchDialogChooser
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.utils.DeviceUtils
