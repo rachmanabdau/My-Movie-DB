@@ -256,7 +256,41 @@ class FakeRemoteServer : NetworkService {
         page: Int,
         apiKey: String
     ): Deferred<Response<MovieModel>> {
-        TODO("Not yet implemented")
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val jsonConverter = moshi.adapter(MovieModel::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as MovieModel
+
+        return when {
+            // api key is valid and title is not blank return response success
+            apiKey == realApiKey && title.isNotBlank() -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            // api key is valid and title is blank return success with empty list
+            apiKey == realApiKey && title.isBlank() -> {
+                val emptyMovies = MovieModel(
+                    page = 1, totalResults = 0, totalPages = 0,
+                    results = emptyList()
+                )
+                CompletableDeferred(Response.success(emptyMovies))
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun searchTvShowsAsync(
@@ -264,7 +298,39 @@ class FakeRemoteServer : NetworkService {
         page: Int,
         apiKey: String
     ): Deferred<Response<TVShowModel>> {
-        TODO("Not yet implemented")
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val jsonConverter = moshi.adapter(TVShowModel::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as TVShowModel
+
+        return when {
+            apiKey == realApiKey && title.isNotBlank() -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            apiKey == realApiKey && title.isBlank() -> {
+                val emptyMovies = TVShowModel(
+                    page = 1, totalResults = 0, totalPages = 0,
+                    results = emptyList()
+                )
+                CompletableDeferred(Response.success(emptyMovies))
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     companion object {
