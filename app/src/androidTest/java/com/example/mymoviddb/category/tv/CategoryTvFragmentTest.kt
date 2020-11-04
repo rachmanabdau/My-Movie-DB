@@ -1,16 +1,16 @@
-package com.example.mymoviddb.category.movie
+package com.example.mymoviddb.category.tv
 
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
+import com.example.mymoviddb.category.movie.CategoryMovieListFragmentArgs
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
@@ -22,7 +22,7 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import org.hamcrest.core.IsNot.not
+import org.hamcrest.core.IsNot
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,7 +32,8 @@ import org.mockito.Mockito
 @UninstallModules(ServiceModule::class)
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class CategoryMovieListFragmentTest {
+class CategoryTvFragmentTest {
+
     @get:Rule
     var hiltRulehiltRule = HiltAndroidRule(this)
 
@@ -44,27 +45,29 @@ class CategoryMovieListFragmentTest {
     }
 
     /**
-     * Check category movies is loading the right data (Popular movies)
+     * Check category movies is loading the right data (Popular TV Shows)
      */
     @Test
-    fun test_PopularMovieCategoryList() {
+    fun test_PoplarTVShows() {
         // GIVEN a mock  NavController class
         val navController = Mockito.mock(NavController::class.java)
 
         // Launch Home Fragment
-        MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
+        TVDataSource.TV_CATEGORY_ID = TVDataSource.POPULAR_TV_ID
         val bundle =
-            CategoryMovieListFragmentArgs(R.string.popular_movie_list_contentDesc).toBundle()
-        launchFragmentInHiltContainer<CategoryMovieListFragment>(bundle, R.style.AppTheme) {
+            CategoryMovieListFragmentArgs(R.string.now_airing_tv_show_list_contentDesc).toBundle()
+        launchFragmentInHiltContainer<CategoryTvFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }
 
         // chack if recyclerview is showing data
-        onView(withId(R.id.show_rv)).check(matches(isCompletelyDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.show_rv))
+            .check(ViewAssertions.matches(ViewMatchers.isCompletelyDisplayed()))
         // check that the list os not showing error message
-        onView(withId(R.id.error_layout)).check(matches(not(isCompletelyDisplayed())))
+        Espresso.onView(ViewMatchers.withId(R.id.error_layout))
+            .check(ViewAssertions.matches(IsNot.not(ViewMatchers.isCompletelyDisplayed())))
         // click last item / 'load more' in popular movies list
-        onView(withId(R.id.show_rv)).perform(
+        Espresso.onView(ViewMatchers.withId(R.id.show_rv)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 20
             )
@@ -72,27 +75,29 @@ class CategoryMovieListFragmentTest {
     }
 
     /**
-     * Check category movies is loading the right data (Now Playing movies)
+     * Check category movies is loading the right data (Popular TV Shows)
      */
     @Test
-    fun test_NowPlayingMovies() {
+    fun test_NowAiringTVShows() {
         // GIVEN a mock  NavController class
         val navController = Mockito.mock(NavController::class.java)
 
         // Launch Home Fragment
-        MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
+        TVDataSource.TV_CATEGORY_ID = TVDataSource.ON_AIR_TV_ID
         val bundle =
-            CategoryMovieListFragmentArgs(R.string.now_playing_movie_list_contentDesc).toBundle()
-        launchFragmentInHiltContainer<CategoryMovieListFragment>(bundle, R.style.AppTheme) {
+            CategoryMovieListFragmentArgs(R.string.now_airing_tv_show_list_contentDesc).toBundle()
+        launchFragmentInHiltContainer<CategoryTvFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }
 
         // chack if recyclerview is showing data
-        onView(withId(R.id.show_rv)).check(matches(isCompletelyDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.show_rv))
+            .check(ViewAssertions.matches(ViewMatchers.isCompletelyDisplayed()))
         // check that the list os not showing error message
-        onView(withId(R.id.error_layout)).check(matches(not(isCompletelyDisplayed())))
+        Espresso.onView(ViewMatchers.withId(R.id.error_layout))
+            .check(ViewAssertions.matches(IsNot.not(ViewMatchers.isCompletelyDisplayed())))
         // click last item / 'load more' in popular movies list
-        onView(withId(R.id.show_rv)).perform(
+        Espresso.onView(ViewMatchers.withId(R.id.show_rv)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 20
             )
