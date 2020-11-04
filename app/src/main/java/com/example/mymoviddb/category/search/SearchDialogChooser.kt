@@ -1,10 +1,10 @@
 package com.example.mymoviddb.category.search
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.ShowChooserDialogBinding
@@ -22,18 +22,20 @@ class SearchDialogChooser : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = ShowChooserDialogBinding.inflate(inflater, container, false)
-        val intent = Intent(requireContext(), SearchActivity::class.java)
 
         binding.movieChooserContainer.setOnClickListener {
-            requireActivity().onSearchRequested()
-            intent.putExtra(SEARCH_ID, MovieDataSource.SEARCH_MOVIES)
-            startActivity(intent)
+            findNavController().navigate(
+                SearchDialogChooserDirections.actionSearchDialogChooserToSearchActivity(
+                    MovieDataSource.SEARCH_MOVIES
+                )
+            )
             this.dismiss()
         }
 
         binding.tvChooserContainer.setOnClickListener {
-            intent.putExtra(SEARCH_ID, TVDataSource.SEARCH_TV)
-            startActivity(intent)
+            findNavController().navigate(
+                SearchDialogChooserDirections.actionSearchDialogChooserToSearchActivity(TVDataSource.SEARCH_TV)
+            )
             this.dismiss()
         }
 

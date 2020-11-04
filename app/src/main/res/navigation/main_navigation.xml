@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryTvFragment"
             app:destination="@id/categoryTvFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchDialogChooser"
+            app:destination="@id/searchDialogChooser" />
     </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
@@ -55,4 +58,20 @@
             android:name="title"
             app:argType="integer" />
     </fragment>
+    <activity
+        android:id="@+id/searchActivity"
+        android:name="com.example.mymoviddb.category.search.SearchActivity"
+        tools:layout="@layout/activity_search">
+        <argument
+            android:name="searchID"
+            app:argType="integer" />
+    </activity>
+    <dialog
+        android:id="@+id/searchDialogChooser"
+        android:name="com.example.mymoviddb.category.search.SearchDialogChooser"
+        tools:layout="@layout/show_chooser_dialog">
+        <action
+            android:id="@+id/action_searchDialogChooser_to_searchActivity"
+            app:destination="@id/searchActivity" />
+    </dialog>
 </navigation>

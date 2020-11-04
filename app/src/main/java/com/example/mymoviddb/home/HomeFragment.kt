@@ -11,7 +11,6 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
-import com.example.mymoviddb.category.search.SearchDialogChooser
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.utils.DeviceUtils
@@ -56,7 +55,9 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> {
-                SearchDialogChooser().show(parentFragmentManager, null)
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToSearchDialogChooser()
+                )
             }
         }
         return super.onOptionsItemSelected(item)
