@@ -1,13 +1,14 @@
 package com.example.mymoviddb.category.search
 
 import android.app.SearchManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
 import com.example.mymoviddb.R
@@ -41,30 +42,34 @@ class SearchActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         binding.lifecycleOwner = this
         id = args.searchID
+
         setupToolbar()
         initAdapter(id)
         handleIntent(intent)
-
-        // Get the SearchView and set the searchable configuration
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        binding.searchView.apply {
-            // Assumes current activity is the searchable activity
-            setSearchableInfo(
-                searchManager.getSearchableInfo(
-                    ComponentName(
-                        this@SearchActivity,
-                        SearchActivity::class.java
-                    )
-                )
-            )
-            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
-        }
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
         handleIntent(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the options menu from XML
+        val inflater = menuInflater
+        inflater.inflate(R.menu.search_menu, menu)
+
+        // Get the SearchView and set the searchable configuration
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu?.findItem(R.id.searchable_menu)?.actionView as SearchView).apply {
+            setMaxWidth(Integer.MAX_VALUE)
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
+        }
+
+        return true
+
     }
 
     private fun handleIntent(intent: Intent) {

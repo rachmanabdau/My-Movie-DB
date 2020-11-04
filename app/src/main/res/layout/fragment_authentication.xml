@@ -19,11 +19,6 @@
         android:background="@color/colorBackgroound"
         tools:context=".authentication.AuthenticationActivity">
 
-        <include
-            android:id="@+id/auth_toolbar"
-            layout="@layout/toolbar"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/tmdb_icon"
             android:layout_width="200dp"
@@ -35,7 +30,7 @@
             app:layout_constraintBottom_toTopOf="@id/login_with_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/auth_toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_with_account"

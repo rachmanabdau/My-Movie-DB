@@ -15,7 +15,6 @@ import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.utils.DeviceUtils
 import com.example.mymoviddb.utils.EventObserver
-import com.example.mymoviddb.utils.Util
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,7 +33,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.homeViewModel = homeViewModel
-        Util.setupToolbar(requireActivity(), binding.homeToolbar.toolbar, findNavController())
         setHasOptionsMenu(true)
 
         initializeAdapter()
@@ -48,7 +46,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+        //super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
     }
 

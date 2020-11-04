@@ -8,12 +8,10 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.utils.Util
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,8 +28,6 @@ class CategoryMovieListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCategoryMovieListBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
-        Util.setupToolbar(requireActivity(), binding.movieToolbar.toolbar, findNavController())
         setUpToolbar(arguments.title)
 
         val adapter = MovieListAdapter { showViewModels.retry() }
