@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.navArgs
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.adapters.TVListAdapter
@@ -17,22 +18,31 @@ import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
+    lateinit var movieAdapter: MovieListAdapter
+
+    lateinit var tvAdapter: TVListAdapter
+
     private val searchViewModel by viewModels<SearchViewModel>()
+
+    private val args by navArgs<SearchActivityArgs>()
+
     private var id = 0
-    var firstInitialize = true
+
+    private var firstInitialize = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         binding.lifecycleOwner = this
-        id = intent.getIntExtra(SearchDialogChooser.SEARCH_ID, 0)
+        id = args.searchID
+        setupToolbar()
+        initAdapter(id)
         handleIntent(intent)
 
         // Get the SearchView and set the searchable configuration
@@ -63,37 +73,31 @@ class SearchActivity : AppCompatActivity() {
                 if (query.isNotBlank()) {
                     if (id == MovieDataSource.SEARCH_MOVIES) {
                         binding.tvRv.visibility = View.GONE
-                        val adapter = MovieListAdapter { }
-                        binding.moviesRv.adapter = adapter
-                        observeSearchMovies(adapter)
+                        movieAdapter.submitList(null)
+                        movieAdapter.notifyDataSetChanged()
 
                         MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.SEARCH_MOVIES
                         searchViewModel.searchMovieTitle(query.trim())
-                        Timber.d("search movie executed")
-
                     } else if (id == TVDataSource.SEARCH_TV) {
                         binding.moviesRv.visibility = View.GONE
-                        val adapter = TVListAdapter { }
-                        binding.tvRv.adapter = adapter
-                        observeSearchTV(adapter)
+                        tvAdapter.submitList(null)
 
                         TVDataSource.TV_CATEGORY_ID = TVDataSource.SEARCH_TV
                         searchViewModel.searchTvTitle(query.trim())
-                        Timber.d("search tv executed")
                     }
                 }
             }
         }
     }
 
-    private fun observeSearchMovies(adapter: MovieListAdapter) {
+    private fun observeSearchMovies() {
 
         searchViewModel.movieList.observe(this, {
-            adapter.submitList(it)
+            movieAdapter.submitList(it)
         })
 
         searchViewModel.resultMovie.observe(this, {
-            adapter.setState(it)
+            movieAdapter.setState(it)
 
             if (it is Result.Error && firstInitialize) {
                 val message = it.exception.localizedMessage ?: "Unknown error has occured"
@@ -114,15 +118,14 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeSearchTV(adapter: TVListAdapter) {
+    private fun observeSearchTV() {
 
         searchViewModel.tvList.observe(this, {
-            adapter.submitList(it)
-            Timber.d(it.toString())
+            tvAdapter.submitList(it)
         })
 
         searchViewModel.resultTV.observe(this, {
-            adapter.setState(it)
+            tvAdapter.setState(it)
 
             if (it is Result.Error && firstInitialize) {
                 val message = it.exception.localizedMessage ?: "Unknown error has occured"
@@ -143,4 +146,22 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun initAdapter(id: Int) {
+        if (id == 31) {
+            movieAdapter = MovieListAdapter { searchViewModel.retrySearchMovies() }
+            binding.moviesRv.adapter = movieAdapter
+            observeSearchMovies()
+        } else {
+            tvAdapter = TVListAdapter { searchViewModel.retrySearchTV() }
+            binding.tvRv.adapter = tvAdapter
+            observeSearchTV()
+        }
+    }
+
+    private fun setupToolbar() {
+        // my_child_toolbar is defined in the layout file
+        setSupportActionBar(binding.searchToolbar)
+        // Get a support ActionBar corresponding to this toolbar and enable the Up button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 }
