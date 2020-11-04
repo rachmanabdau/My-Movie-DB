@@ -111,10 +111,12 @@ dependencies {
 
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
-    implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
-    // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:2.3.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
+
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$version_navigation"
+
 
 
     // Kotlin Android Coroutines
