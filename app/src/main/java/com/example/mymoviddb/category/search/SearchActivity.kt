@@ -100,17 +100,35 @@ class SearchActivity : AppCompatActivity() {
         searchViewModel.resultMovie.observe(this, {
             movieAdapter.setState(it)
 
-            if (it is Result.Error && firstInitialize) {
-                val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                binding.errorLayout.errorMessage.text = message
-                binding.errorLayout.root.visibility = View.VISIBLE
-                binding.loadingBar.visibility = View.GONE
-            } else if (it is Result.Success) {
-                firstInitialize = false
-                binding.errorLayout.root.visibility = View.GONE
-                binding.loadingBar.visibility = View.GONE
-            } else if (it is Result.Loading && firstInitialize) {
-                binding.loadingBar.visibility = View.VISIBLE
+            when {
+                // when result is error
+                it is Result.Error && firstInitialize -> {
+                    val message = it.exception.localizedMessage ?: "Unknown error has occured"
+                    // show error message
+                    binding.errorLayout.errorMessage.text = message
+                    // show error layout visibility
+                    binding.errorLayout.root.visibility = View.VISIBLE
+                    // hide loading progressbar
+                    binding.loadingBar.visibility = View.GONE
+                }
+                // when result is success
+                it is Result.Success -> {
+                    // hide try again button visibility
+                    binding.errorLayout.tryAgainButton.visibility = View.GONE
+                    // hide progress bar visibility
+                    binding.loadingBar.visibility = View.GONE
+                    // show data not found text when list is empty
+                    binding.errorLayout.root.visibility =
+                        if (it.data?.totalResults == 0) View.VISIBLE else View.GONE
+                    binding.errorLayout.errorMessage.text = getString(R.string.movie_not_found)
+                    // if list empty then first inital state still/return to true else false
+                    firstInitialize = it.data?.totalResults == 0
+                }
+                // when fething data in process
+                it is Result.Loading && firstInitialize -> {
+                    // show loading bar inside error essage container (not from error mesage recyclerview)
+                    binding.loadingBar.visibility = View.VISIBLE
+                }
             }
         })
 
@@ -128,17 +146,31 @@ class SearchActivity : AppCompatActivity() {
         searchViewModel.resultTV.observe(this, {
             tvAdapter.setState(it)
 
-            if (it is Result.Error && firstInitialize) {
-                val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                binding.errorLayout.errorMessage.text = message
-                binding.errorLayout.root.visibility = View.VISIBLE
-                binding.loadingBar.visibility = View.GONE
-            } else if (it is Result.Success) {
-                firstInitialize = false
-                binding.errorLayout.root.visibility = View.GONE
-                binding.loadingBar.visibility = View.GONE
-            } else if (it is Result.Loading && firstInitialize) {
-                binding.loadingBar.visibility = View.VISIBLE
+            when {
+                it is Result.Error && firstInitialize -> {
+                    val message = it.exception.localizedMessage ?: "Unknown error has occured"
+                    // show error message
+                    binding.errorLayout.errorMessage.text = message
+                    // show error container
+                    binding.errorLayout.root.visibility = View.VISIBLE
+                    // hide progress bar
+                    binding.loadingBar.visibility = View.GONE
+                }
+                it is Result.Success -> {
+                    // hide try again button and loading bar ...
+                    binding.errorLayout.tryAgainButton.visibility = View.GONE
+                    binding.loadingBar.visibility = View.GONE
+                    // ... but still show error message and error container visibility to show empty list message
+                    binding.errorLayout.root.visibility =
+                        if (it.data?.totalResults == 0) View.VISIBLE else View.GONE
+                    binding.errorLayout.errorMessage.text = getString(R.string.tv_show_not_found)
+                    // set first initial if list data empty
+                    firstInitialize = it.data?.totalResults == 0
+                }
+                it is Result.Loading && firstInitialize -> {
+                    // show progressbar in roor view (not in the recyclerview one)
+                    binding.loadingBar.visibility = View.VISIBLE
+                }
             }
         })
 
@@ -149,10 +181,12 @@ class SearchActivity : AppCompatActivity() {
 
     private fun initAdapter(id: Int) {
         if (id == 31) {
+            // when id is to earch movie set movie adapter
             movieAdapter = MovieListAdapter { searchViewModel.retrySearchMovies() }
             binding.moviesRv.adapter = movieAdapter
             observeSearchMovies()
         } else {
+            // else set tv adapter
             tvAdapter = TVListAdapter { searchViewModel.retrySearchTV() }
             binding.tvRv.adapter = tvAdapter
             observeSearchTV()
