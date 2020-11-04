@@ -81,6 +81,7 @@ class SearchActivity : AppCompatActivity() {
                     } else if (id == TVDataSource.SEARCH_TV) {
                         binding.moviesRv.visibility = View.GONE
                         tvAdapter.submitList(null)
+                        tvAdapter.notifyDataSetChanged()
 
                         TVDataSource.TV_CATEGORY_ID = TVDataSource.SEARCH_TV
                         searchViewModel.searchTvTitle(query.trim())
