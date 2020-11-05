@@ -17,7 +17,7 @@ data class TVDetail(
     @Json(name = "homepage")
     val homepage: String,
     @Json(name = "id")
-    val id: Int,
+    val id: Long,
     @Json(name = "in_production")
     val inProduction: Boolean,
     @Json(name = "languages")

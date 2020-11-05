@@ -69,7 +69,7 @@ class TVShowViewHolder(private val binding: TvItemBinding) :
         binding.popularTv = data
         binding.rating = (data.voteAverage * 10).toInt()
         binding.tvCardItem.setOnClickListener {
-            detailAction(data.id.toLong())
+            detailAction(data.id)
         }
 
     }

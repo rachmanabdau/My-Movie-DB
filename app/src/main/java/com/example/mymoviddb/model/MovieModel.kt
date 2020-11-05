@@ -21,7 +21,7 @@ data class MovieModel(
         @Json(name = "genre_ids")
         val genreIds: List<Int>,
         @Json(name = "id")
-        val id: Int,
+        val id: Long,
         @Json(name = "original_language")
         val originalLanguage: String,
         @Json(name = "original_title")

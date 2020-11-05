@@ -90,7 +90,7 @@ class ShowViewHolder(private val binding: MovieListItemBinding) :
             binding.show = data
             binding.rating = (data.voteAverage * 10).toInt()
             binding.cardMovieListItem.setOnClickListener {
-                actionDetail(data.id.toLong())
+                actionDetail(data.id)
             }
         }
     }

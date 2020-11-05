@@ -69,7 +69,7 @@ class MovieViewHolder(private val binding: MovieItemBinding) :
         binding.popularMovie = data
         binding.rating = (data.voteAverage * 10).toInt()
         binding.cardMovieItem.setOnClickListener {
-            detailAction(data.id.toLong())
+            detailAction(data.id)
         }
     }
 }
