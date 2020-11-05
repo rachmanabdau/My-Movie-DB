@@ -28,13 +28,14 @@ class DetailActivity : AppCompatActivity() {
         setupToolbar()
         showHideActionButton()
         loadData()
-        observeViewModel()
+        observeViewModel(args.showId)
     }
 
     companion object {
         const val DETAIL_KEY = "com.example.mymoviddb.detail.DetailActivity.DETAIL_KEY"
         const val SHOW_ID_KEY = "com.example.mymoviddb.detail.DetailActivity.SHOW_ID_KEY"
         const val DETAIL_MOVIE = 1
+        const val DETAIL_TV = 2
     }
 
     private fun showHideActionButton() {
@@ -63,11 +64,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(showId: Long) {
         detailViewModel.movieDetail.observe(this) {
             when (it) {
                 is Result.Success -> {
-                    binding.nestedScrollDetail.visibility = View.VISIBLE
+                    binding.detailContainer.visibility = View.VISIBLE
                     binding.detailProgress.visibility = View.GONE
                     binding.errorDetail.root.visibility = View.GONE
                     binding.detailToolbar.titleCustom.visibility = View.VISIBLE
@@ -91,14 +92,17 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Loading -> {
                     binding.detailProgress.visibility = View.VISIBLE
                     binding.errorDetail.root.visibility = View.GONE
-                    binding.nestedScrollDetail.visibility = View.GONE
+                    binding.detailContainer.visibility = View.GONE
                 }
 
                 is Result.Error -> {
                     binding.errorDetail.root.visibility = View.VISIBLE
                     binding.detailProgress.visibility = View.GONE
-                    binding.nestedScrollDetail.visibility = View.GONE
+                    binding.detailContainer.visibility = View.GONE
                     binding.errorDetail.errorMessage.text = it.exception.localizedMessage
+                    binding.errorDetail.tryAgainButton.setOnClickListener {
+                        detailViewModel.getMovieDetail(showId)
+                    }
                 }
             }
         }
@@ -106,12 +110,12 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.tvDetail.observe(this) {
             when (it) {
                 is Result.Success -> {
-                    binding.nestedScrollDetail.visibility = View.VISIBLE
+                    binding.detailContainer.visibility = View.VISIBLE
                     binding.detailProgress.visibility = View.GONE
                     binding.errorDetail.root.visibility = View.GONE
                     binding.detailToolbar.titleCustom.visibility = View.VISIBLE
                     it.data?.apply {
-                        binding.detailToolbar.titleCustom.text = title
+                        binding.detailToolbar.titleCustom.text = name
                         binding.ratingDetail.text =
                             getString(R.string.rate_detail, (voteAverage * 10).toInt())
                         binding.releaseDateDetail.text =
@@ -130,14 +134,17 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Loading -> {
                     binding.detailProgress.visibility = View.VISIBLE
                     binding.errorDetail.root.visibility = View.GONE
-                    binding.nestedScrollDetail.visibility = View.GONE
+                    binding.detailContainer.visibility = View.GONE
                 }
 
                 is Result.Error -> {
                     binding.errorDetail.root.visibility = View.VISIBLE
                     binding.detailProgress.visibility = View.GONE
-                    binding.nestedScrollDetail.visibility = View.GONE
+                    binding.detailContainer.visibility = View.GONE
                     binding.errorDetail.errorMessage.text = it.exception.localizedMessage
+                    binding.errorDetail.tryAgainButton.setOnClickListener {
+                        detailViewModel.getTVDetail(showId)
+                    }
                 }
             }
         }

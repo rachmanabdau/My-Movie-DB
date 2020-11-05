@@ -10,7 +10,7 @@ import com.example.mymoviddb.databinding.TvItemBinding
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.LoadMoreViewHolder
 
-class TVAdapter(private val action: () -> Unit) :
+class TVAdapter(private val action: () -> Unit, private val detailAction: (Long) -> Unit) :
     ListAdapter<TVShowModel.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
     private val loadMoreType = 0
@@ -55,7 +55,7 @@ class TVAdapter(private val action: () -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TVShowViewHolder && position < itemCount - 1) {
             val data = getItem(position)
-            holder.onBind(data)
+            holder.onBind(data, detailAction)
         } else {
             (holder as LoadMoreViewHolder).onBind { action() }
         }
@@ -65,8 +65,12 @@ class TVAdapter(private val action: () -> Unit) :
 class TVShowViewHolder(private val binding: TvItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: TVShowModel.Result/*, action: () -> Unit*/) {
+    fun onBind(data: TVShowModel.Result, detailAction: (Long) -> Unit) {
         binding.popularTv = data
         binding.rating = (data.voteAverage * 10).toInt()
+        binding.tvCardItem.setOnClickListener {
+            detailAction(data.id.toLong())
+        }
+
     }
 }

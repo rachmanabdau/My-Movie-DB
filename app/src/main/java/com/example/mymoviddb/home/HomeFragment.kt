@@ -109,14 +109,22 @@ class HomeFragment : Fragment() {
         }
 
         // Adapter for popular tv shows
-        binding.popularTvRv.adapter = TVAdapter {
+        binding.popularTvRv.adapter = TVAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
                     R.string.popular_tv_show_list_contentDesc
                 )
             )
             TVDataSource.TV_CATEGORY_ID = TVDataSource.POPULAR_TV_ID
-        }
+        }, {
+            findNavController()
+                .navigate(
+                    HomeFragmentDirections
+                        .actionHomeFragmentToDetailActivity(
+                            DetailActivity.DETAIL_TV, it
+                        )
+                )
+        })
         binding.popularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
@@ -124,14 +132,22 @@ class HomeFragment : Fragment() {
         }
 
         // Adapter for on air tv shows
-        binding.onAirPopularTvRv.adapter = TVAdapter {
+        binding.onAirPopularTvRv.adapter = TVAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
                     R.string.now_airing_tv_show_list_contentDesc
                 )
             )
             TVDataSource.TV_CATEGORY_ID = TVDataSource.ON_AIR_TV_ID
-        }
+        }, {
+            findNavController()
+                .navigate(
+                    HomeFragmentDirections
+                        .actionHomeFragmentToDetailActivity(
+                            DetailActivity.DETAIL_TV, it
+                        )
+                )
+        })
         binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {

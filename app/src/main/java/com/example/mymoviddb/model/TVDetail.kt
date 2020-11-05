@@ -71,7 +71,7 @@ data class TVDetail(
         @Json(name = "name")
         val name: String,
         @Json(name = "profile_path")
-        val profilePath: String
+        val profilePath: String?
     )
 
     data class Genre(
@@ -101,7 +101,7 @@ data class TVDetail(
         @Json(name = "still_path")
         val stillPath: String,
         @Json(name = "vote_average")
-        val voteAverage: Int?,
+        val voteAverage: Double?,
         @Json(name = "vote_count")
         val voteCount: Int
     )
@@ -135,7 +135,7 @@ data class TVDetail(
         @Json(name = "show_id")
         val showId: Int,
         @Json(name = "still_path")
-        val stillPath: Any,
+        val stillPath: String?,
         @Json(name = "vote_average")
         val voteAverage: Int,
         @Json(name = "vote_count")
@@ -146,7 +146,7 @@ data class TVDetail(
         @Json(name = "id")
         val id: Int,
         @Json(name = "logo_path")
-        val logoPath: String,
+        val logoPath: String?,
         @Json(name = "name")
         val name: String,
         @Json(name = "origin_country")
@@ -155,7 +155,7 @@ data class TVDetail(
 
     data class Season(
         @Json(name = "air_date")
-        val airDate: String,
+        val airDate: String?,
         @Json(name = "episode_count")
         val episodeCount: Int,
         @Json(name = "id")
@@ -165,7 +165,7 @@ data class TVDetail(
         @Json(name = "overview")
         val overview: String,
         @Json(name = "poster_path")
-        val posterPath: String,
+        val posterPath: String?,
         @Json(name = "season_number")
         val seasonNumber: Int
     )
