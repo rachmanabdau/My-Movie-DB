@@ -9,7 +9,7 @@ data class MovieDetail(
     @Json(name = "backdrop_path")
     val backdropPath: String,
     @Json(name = "belongs_to_collection")
-    val belongsToCollection: Any,
+    val belongsToCollection: BelongsToCollection?,
     @Json(name = "budget")
     val budget: Int,
     @Json(name = "genres")
@@ -29,7 +29,7 @@ data class MovieDetail(
     @Json(name = "popularity")
     val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: Any,
+    val posterPath: String?,
     @Json(name = "production_companies")
     val productionCompanies: List<ProductionCompany>,
     @Json(name = "production_countries")
@@ -55,6 +55,17 @@ data class MovieDetail(
     @Json(name = "vote_count")
     val voteCount: Int
 ) {
+    data class BelongsToCollection(
+        @Json(name = "backdrop_path")
+        val backdropPath: String,
+        @Json(name = "id")
+        val id: Int,
+        @Json(name = "name")
+        val name: String,
+        @Json(name = "poster_path")
+        val posterPath: String
+    )
+
     data class Genre(
         @Json(name = "id")
         val id: Int,
@@ -66,7 +77,7 @@ data class MovieDetail(
         @Json(name = "id")
         val id: Int,
         @Json(name = "logo_path")
-        val logoPath: String,
+        val logoPath: String?,
         @Json(name = "name")
         val name: String,
         @Json(name = "origin_country")
