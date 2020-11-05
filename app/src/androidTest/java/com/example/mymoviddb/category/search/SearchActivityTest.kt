@@ -150,4 +150,98 @@ class SearchActivityTest {
         activityScenario.close()
     }
 
+
+    /**
+     * Check category movies is loading the right data (Popular movies)
+     */
+    @Test
+    fun test_searchTVShowsActivity() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        //verify that authentication fragment is displayed and click button login as a guest
+        onView(withText(R.string.login_as_guest))
+            .check(matches(isDisplayed()))
+            .perform(click())
+
+        onView(withId(R.id.action_search)).perform(click())
+        onView(withId(R.id.chooser_dialog_hint)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.tv_chooser_container)).perform(click())
+
+        // inpu title keyword with blank string
+        // chack if recyclerview is not showing data
+        onView(withHint(R.string.search_hint))
+            .perform(replaceText(" "))
+            .perform(pressImeActionButton())
+        // check that the list os not showing error message
+        onView(withId(R.id.error_layout))
+            .check(matches(not(isCompletelyDisplayed())))
+        // chack if snackbar hint is poped out
+        /*onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(R.string.invalid_search_title)))*/
+
+        // inpu title keyword with empty string
+        // chack if recyclerview is not showing data
+        onView(withHint(R.string.search_hint))
+            .perform(replaceText(""))
+            .perform(pressImeActionButton())
+        // check that the list os not showing error message
+        onView(withId(R.id.error_layout))
+            .check(matches(not(isCompletelyDisplayed())))
+        // chack if snackbar hint is poped out
+        /*onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(R.string.invalid_search_title)))*/
+
+        // input title keyword with movie that does not exist
+        // chack if recyclerview is not showing data
+        onView(withHint(R.string.search_hint))
+            .perform(replaceText("sfasdf"))
+            .perform(pressImeActionButton())
+        // check that the list os not showing error message
+        onView(withId(R.id.error_layout))
+            .check(matches(isCompletelyDisplayed()))
+
+        // input title with valid keyboard
+        // chack if recyclerview is showing data
+        onView(withHint(R.string.search_hint))
+            .perform(replaceText("the"))
+            .perform(pressImeActionButton())
+        // check that the list os not showing error message
+        onView(withId(R.id.error_layout))
+            .check(matches(not(isCompletelyDisplayed())))
+        // scroll to position 20
+        onView(withId(R.id.tv_rv)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                20
+            )
+        )
+
+        // chack if recyclerview is showing data
+        onView(withHint(R.string.search_hint))
+            .perform(replaceText("is"))
+            .perform(pressImeActionButton())
+        // check that the list os not showing error message
+        onView(withId(R.id.error_layout))
+            .check(matches(not(isCompletelyDisplayed())))
+        // scroll to position 20
+        onView(withId(R.id.tv_rv)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                20
+            )
+        )
+
+        // close soft keyboard
+        Espresso.pressBack()
+        // press back to main activity with home fragmnet
+        Espresso.pressBack()
+        onView(withText(R.string.home_label)).check(matches(isDisplayed()))
+        onView(withText(R.string.popular_movie)).check(matches(isDisplayed()))
+        onView(withText(R.string.now_playing_movies)).check(matches(isDisplayed()))
+        Espresso.pressBack()
+        // press back to authentocation fragment
+        onView(withText(R.string.app_name)).check(matches(isDisplayed()))
+
+        activityScenario.close()
+    }
+
 }
