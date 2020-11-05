@@ -13,6 +13,7 @@ import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
+import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.utils.DeviceUtils
 import com.example.mymoviddb.utils.EventObserver
 import com.google.android.material.snackbar.Snackbar
@@ -63,14 +64,21 @@ class HomeFragment : Fragment() {
 
     private fun initializeAdapter() {
         // Adapter for popular movies
-        binding.popularMovieRv.adapter = MoviesAdapter {
+        binding.popularMovieRv.adapter = MoviesAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     R.string.popular_movie_list_contentDesc
                 )
             )
             MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
-        }
+        }, {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailActivity(
+                    DetailActivity.DETAIL_MOVIE,
+                    it
+                )
+            )
+        })
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {
@@ -78,7 +86,7 @@ class HomeFragment : Fragment() {
         }
 
         // Adapter for now playing movies
-        binding.nowPlayingMovieRv.adapter = MoviesAdapter {
+        binding.nowPlayingMovieRv.adapter = MoviesAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     R.string.now_playing_movie_list_contentDesc
@@ -86,7 +94,14 @@ class HomeFragment : Fragment() {
             )
 
             MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.NOW_PLAYING_MOVIE_ID
-        }
+        }, {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailActivity(
+                    DetailActivity.DETAIL_MOVIE,
+                    it
+                )
+            )
+        })
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         ).apply {

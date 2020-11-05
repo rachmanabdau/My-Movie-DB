@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".detail.DetailActivity"
-            android:screenOrientation="sensorPortrait" />
+            android:screenOrientation="sensorPortrait"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".category.search.SearchActivity"
             android:screenOrientation="sensorPortrait"

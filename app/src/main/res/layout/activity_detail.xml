@@ -9,19 +9,15 @@
 
         <variable
             name="title"
-            type="String" />
-
-        <variable
-            name="rate"
-            type="Double" />
+            type="CharSequence" />
 
         <variable
             name="genre"
-            type="String" />
+            type="CharSequence" />
 
         <variable
-            name="overviw"
-            type="String" />
+            name="overview"
+            type="CharSequence" />
 
         <variable
             name="showFAB"
@@ -31,104 +27,157 @@
             name="favouriteState"
             type="Boolean" />
 
+        <variable
+            name="posterPath"
+            type="String" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
-        tools:context=".detail.DetailActivity">
+        android:orientation="vertical">
 
         <include
             android:id="@+id/detail_toolbar"
             layout="@layout/toolbar"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/back_drop_detail"
+        <ProgressBar
+            android:id="@+id/detail_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_detail"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:contentDescription="@string/movie_content_description"
-            android:background="@color/colorBackgroound"
-            app:layout_constraintDimensionRatio="1.5:1"
-            app:layout_constraintTop_toBottomOf="@id/detail_toolbar" />
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/poster_detail"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@{@string/movie_content_description(title)}"
-            app:layout_constraintDimensionRatio="1:1.5"
-            app:layout_constraintTop_toTopOf="@id/back_drop_detail"
-            app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
-            app:layout_constraintStart_toStartOf="@id/back_drop_detail"
-            tools:background="@color/colorPrimary" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".detail.DetailActivity">
 
-        <TextView
-            android:id="@+id/rating_detail"
-            style="@style/DefaultFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintStart_toEndOf="@id/poster_detail"
-            app:layout_constraintTop_toTopOf="@id/back_drop_detail"
-            tools:text="Rate : 60%" />
+                <include
+                    android:id="@+id/error_detail"
+                    layout="@layout/try_again_load_list"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/genre_detail"
-            style="@style/DefaultFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/rating_detail"
-            app:layout_constraintTop_toBottomOf="@id/rating_detail"
-            tools:text="Horor" />
+                <View
+                    android:id="@+id/back_drop_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/colorBackgroound"
+                    app:layout_constraintDimensionRatio="1.5:1"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/overview_detail"
-            style="@style/DefaultFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="@id/genre_detail"
-            app:layout_constraintTop_toBottomOf="@id/genre_detail"
-            tools:text="Overview: " />
+                <ImageView
+                    android:id="@+id/poster_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="@{@string/movie_content_description(title)}"
+                    app:loadImage="@{posterPath}"
+                    app:error="@{@drawable/ic_error}"
+                    app:layout_constraintDimensionRatio="1:1.5"
+                    app:layout_constraintTop_toTopOf="@id/back_drop_detail"
+                    app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
+                    app:layout_constraintStart_toStartOf="@id/back_drop_detail"
+                    tools:background="@color/colorPrimary" />
 
-        <LinearLayout
-            android:id="@+id/fab_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="@{showFAB ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
-            app:layout_constraintStart_toStartOf="@id/overview_detail"
-            app:layout_constraintEnd_toEndOf="@id/back_drop_detail"
-            tools:visibility="visible">
+                <TextView
+                    android:id="@+id/rating_detail"
+                    style="@style/DefaultFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintStart_toEndOf="@id/poster_detail"
+                    app:layout_constraintTop_toTopOf="@id/back_drop_detail"
+                    tools:text="Rate : 60%" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/favourite_fab_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/favourite_hint_detail"
-                app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_star"
-                app:tint="@color/colorBackgroound"
-                app:fabSize="mini" />
+                <TextView
+                    android:id="@+id/genre_detail"
+                    style="@style/DefaultFont"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:text="@{genre}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/rating_detail"
+                    app:layout_constraintTop_toBottomOf="@id/rating_detail"
+                    tools:text="Horor" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/rate_fab_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/rate_hint_detail"
-                app:srcCompat="@drawable/ic_favourite_disable"
-                app:backgroundTint="@color/colorPrimary"
-                app:tint="@color/colorBackgroound"
-                app:fabSize="mini" />
+                <TextView
+                    android:id="@+id/release_date_detail"
+                    style="@style/DefaultFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    app:layout_constraintTop_toBottomOf="@id/genre_detail"
+                    app:layout_constraintStart_toStartOf="@id/genre_detail" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/overview_detail"
+                    style="@style/DefaultFont"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/over_view_detail(overview)}"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/poster_detail"
+                    tools:text="Overview: " />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/fab_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="@{showFAB ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/poster_detail"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/favourite_fab_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/favourite_hint_detail"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_star"
+                        app:tint="@color/colorBackgroound"
+                        app:fabSize="mini" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/rate_fab_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/rate_hint_detail"
+                        app:srcCompat="@drawable/ic_favourite_disable"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:tint="@color/colorBackgroound"
+                        app:fabSize="mini" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
 </layout>

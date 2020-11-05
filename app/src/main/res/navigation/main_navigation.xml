@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchDialogChooser"
             app:destination="@id/searchDialogChooser" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
     </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
@@ -49,6 +52,9 @@
         <argument
             android:name="title"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_categoryMovieListFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
     </fragment>
     <fragment
         android:id="@+id/categoryTvFragment"
@@ -57,6 +63,9 @@
         <argument
             android:name="title"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_categoryTvFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
     </fragment>
     <activity
         android:id="@+id/searchActivity"
@@ -74,4 +83,17 @@
             android:id="@+id/action_searchDialogChooser_to_searchActivity"
             app:destination="@id/searchActivity" />
     </dialog>
+    <activity
+        android:id="@+id/detailActivity"
+        android:name="com.example.mymoviddb.detail.DetailActivity"
+        tools:layout="@layout/activity_detail">
+        <argument
+            android:name="loadDetailId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="showId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </activity>
 </navigation>

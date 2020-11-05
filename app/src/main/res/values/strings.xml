@@ -37,4 +37,8 @@
     <string name="home_label">Home</string>
     <string name="favourite_hint_detail">Favourite Button</string>
     <string name="rate_hint_detail">Rate Button</string>
+    <string name="over_view_detail">Overview: \n%1$s</string>
+    <string name="rate_detail">Rate: %1$d%%</string>
+    <string name="release_date_detail">Release Date: \n%1$s</string>
+    <string name="first_air_date_detail">Firs Air Date: \n%1$s</string>
 </resources>
