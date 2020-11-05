@@ -35,4 +35,6 @@
     <string name="movie_not_found">Movie not found.</string>
     <string name="tv_show_not_found">TV Shows Data Not Found</string>
     <string name="home_label">Home</string>
+    <string name="favourite_hint_detail">Favourite Button</string>
+    <string name="rate_hint_detail">Rate Button</string>
 </resources>

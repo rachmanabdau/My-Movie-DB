@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="rate"
+            type="Double" />
+
+        <variable
+            name="genre"
+            type="String" />
+
+        <variable
+            name="overviw"
+            type="String" />
+
+        <variable
+            name="showFAB"
+            type="Boolean" />
+
+        <variable
+            name="favouriteState"
+            type="Boolean" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroound"
+        tools:context=".detail.DetailActivity">
+
+        <include
+            android:id="@+id/detail_toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/back_drop_detail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/movie_content_description"
+            android:background="@color/colorBackgroound"
+            app:layout_constraintDimensionRatio="1.5:1"
+            app:layout_constraintTop_toBottomOf="@id/detail_toolbar" />
+
+        <ImageView
+            android:id="@+id/poster_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@{@string/movie_content_description(title)}"
+            app:layout_constraintDimensionRatio="1:1.5"
+            app:layout_constraintTop_toTopOf="@id/back_drop_detail"
+            app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
+            app:layout_constraintStart_toStartOf="@id/back_drop_detail"
+            tools:background="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/rating_detail"
+            style="@style/DefaultFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintStart_toEndOf="@id/poster_detail"
+            app:layout_constraintTop_toTopOf="@id/back_drop_detail"
+            tools:text="Rate : 60%" />
+
+        <TextView
+            android:id="@+id/genre_detail"
+            style="@style/DefaultFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/rating_detail"
+            app:layout_constraintTop_toBottomOf="@id/rating_detail"
+            tools:text="Horor" />
+
+        <TextView
+            android:id="@+id/overview_detail"
+            style="@style/DefaultFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintStart_toStartOf="@id/genre_detail"
+            app:layout_constraintTop_toBottomOf="@id/genre_detail"
+            tools:text="Overview: " />
+
+        <LinearLayout
+            android:id="@+id/fab_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="@{showFAB ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
+            app:layout_constraintStart_toStartOf="@id/overview_detail"
+            app:layout_constraintEnd_toEndOf="@id/back_drop_detail"
+            tools:visibility="visible">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/favourite_fab_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/favourite_hint_detail"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_star"
+                app:tint="@color/colorBackgroound"
+                app:fabSize="mini" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/rate_fab_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/rate_hint_detail"
+                app:srcCompat="@drawable/ic_favourite_disable"
+                app:backgroundTint="@color/colorPrimary"
+                app:tint="@color/colorBackgroound"
+                app:fabSize="mini" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

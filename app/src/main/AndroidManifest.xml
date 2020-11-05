@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".detail.DetailActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
             android:name=".category.search.SearchActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTop"
