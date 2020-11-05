@@ -2,6 +2,7 @@ package com.example.mymoviddb.detail
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.model.MovieDetail
+import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVDetail
 import com.example.mymoviddb.utils.Util
@@ -14,6 +15,41 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getDetailhMoviesAsync(movieId, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun getRecommendationMovies(
+        movieId: Long,
+        apiKey: String
+    ): Result<MovieModel?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getRecommendationMoviesAsync(movieId, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun getSimialrMovies(movieId: Long, apiKey: String): Result<MovieModel?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getSimilarMoviesAsync(movieId, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())
