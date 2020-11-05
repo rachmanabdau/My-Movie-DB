@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/upcoming_movies"
+                    android:text="@string/now_playing_movies"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/popular_movie_container" />
 
