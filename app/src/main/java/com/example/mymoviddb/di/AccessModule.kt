@@ -6,6 +6,8 @@ import com.example.mymoviddb.category.movie.CategoryMovieListAccess
 import com.example.mymoviddb.category.movie.ICategoryMovieListAccess
 import com.example.mymoviddb.category.tv.CategoryTVListIAccess
 import com.example.mymoviddb.category.tv.ICategoryTVListAccess
+import com.example.mymoviddb.detail.DetailAccess
+import com.example.mymoviddb.detail.IDetailAccess
 import com.example.mymoviddb.home.HomeAccess
 import com.example.mymoviddb.home.IHomeAccess
 import dagger.Binds
@@ -28,4 +30,7 @@ abstract class AccessModule {
 
     @Binds
     abstract fun bindCategoryTVAccess(categoryTVAccess: CategoryTVListIAccess): ICategoryTVListAccess
+
+    @Binds
+    abstract fun bindShowDetail(detailAccess: DetailAccess): IDetailAccess
 }
