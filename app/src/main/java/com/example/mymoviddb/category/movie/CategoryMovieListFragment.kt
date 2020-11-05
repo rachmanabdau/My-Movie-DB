@@ -8,9 +8,12 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mymoviddb.adapters.MovieListAdapter
+import com.example.mymoviddb.category.tv.CategoryTvFragmentDirections
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
+import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +33,14 @@ class CategoryMovieListFragment : Fragment() {
         binding = FragmentCategoryMovieListBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
 
-        val adapter = MovieListAdapter { showViewModels.retry() }
+        val adapter = MovieListAdapter({ showViewModels.retry() },
+            {
+                findNavController().navigate(
+                    CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
+                        DetailActivity.DETAIL_MOVIE, it
+                    )
+                )
+            })
         binding.showRv.adapter = adapter
         binding.lifecycleOwner = this
         var firstInitialize = true

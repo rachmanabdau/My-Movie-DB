@@ -17,6 +17,7 @@ import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.ActivitySearchBinding
+import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,6 +67,8 @@ class SearchActivity : AppCompatActivity() {
             // Assumes current activity is the searchable activity
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
+            isFocusable = true
+            requestFocusFromTouch()
         }
 
         return true
@@ -187,7 +190,13 @@ class SearchActivity : AppCompatActivity() {
     private fun initAdapter(id: Int) {
         if (id == 31) {
             // when id is to earch movie set movie adapter
-            movieAdapter = MovieListAdapter { searchViewModel.retrySearchMovies() }
+            movieAdapter = MovieListAdapter({ searchViewModel.retrySearchMovies() },
+                {
+                    intent = Intent(this, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.DETAIL_KEY, DetailActivity.DETAIL_MOVIE)
+                    intent.putExtra(DetailActivity.SHOW_ID_KEY, it)
+                    startActivity(intent)
+                })
             binding.moviesRv.adapter = movieAdapter
             observeSearchMovies()
         } else {

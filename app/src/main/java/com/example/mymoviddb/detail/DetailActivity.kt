@@ -1,6 +1,7 @@
 package com.example.mymoviddb.detail
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,14 @@ class DetailActivity : AppCompatActivity() {
         const val DETAIL_TV = 2
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun showHideActionButton() {
         val state = PreferenceUtil.getAuthState(this)
         binding.fabContainer.visibility =
@@ -48,7 +57,7 @@ class DetailActivity : AppCompatActivity() {
         val loadId = if (args.loadDetailId != 0) {
             args.loadDetailId
         } else {
-            intent.getLongExtra(DETAIL_KEY, 0)
+            intent.getIntExtra(DETAIL_KEY, 0)
         }
 
         val showId = if (args.showId != 0L) {
@@ -65,6 +74,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel(showId: Long) {
+        // this code make marquee on text view works
+        binding.detailToolbar.titleCustom.isSelected = true
         detailViewModel.movieDetail.observe(this) {
             when (it) {
                 is Result.Success -> {
