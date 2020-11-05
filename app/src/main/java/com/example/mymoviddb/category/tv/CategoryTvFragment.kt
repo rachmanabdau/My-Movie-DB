@@ -8,9 +8,11 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
+import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +34,14 @@ class CategoryTvFragment : Fragment() {
         setHasOptionsMenu(true)
         setUpToolbar(arguments.title)
 
-        val adapter = TVListAdapter { categoryTvViewmodel.retry() }
+        val adapter = TVListAdapter({ categoryTvViewmodel.retry() },
+            {
+                findNavController().navigate(
+                    CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
+                        DetailActivity.DETAIL_TV, it
+                    )
+                )
+            })
         binding.showRv.adapter = adapter
         binding.lifecycleOwner = this
         var firstInitialize = true

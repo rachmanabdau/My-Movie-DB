@@ -99,7 +99,7 @@ data class TVDetail(
         @Json(name = "show_id")
         val showId: Int,
         @Json(name = "still_path")
-        val stillPath: String,
+        val stillPath: String?,
         @Json(name = "vote_average")
         val voteAverage: Double?,
         @Json(name = "vote_count")

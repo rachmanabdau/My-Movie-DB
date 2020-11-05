@@ -12,7 +12,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.ErrorViewHolder
 
-class TVListAdapter(private val retry: () -> Unit) :
+class TVListAdapter(private val retry: () -> Unit, private val actionDetail: (Long) -> Unit) :
     PagedListAdapter<TVShowModel.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
     private val dataViewType = 1
@@ -61,7 +61,7 @@ class TVListAdapter(private val retry: () -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TVListViewHolder && position < itemCount - 2) {
             val data = getItem(position)
-            holder.onBind(data)
+            holder.onBind(data, actionDetail)
         } else if (holder is ErrorViewHolder) {
             val errorMessage = if (state is Result.Error) {
                 (state as Result.Error).exception.localizedMessage ?: "Unknown error has occured"
@@ -86,10 +86,14 @@ class TVListAdapter(private val retry: () -> Unit) :
 class TVListViewHolder(private val binding: TvListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: TVShowModel.Result?) {
+    fun onBind(data: TVShowModel.Result?, actionDetail: (Long) -> Unit) {
         if (data != null) {
             binding.show = data
             binding.rating = (data.voteAverage * 10).toInt()
+
+            binding.cardTvListItem.setOnClickListener {
+                actionDetail(data.id.toLong())
+            }
         }
     }
 }

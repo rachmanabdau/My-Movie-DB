@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mymoviddb.adapters.MovieListAdapter
-import com.example.mymoviddb.category.tv.CategoryTvFragmentDirections
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
@@ -36,7 +35,7 @@ class CategoryMovieListFragment : Fragment() {
         val adapter = MovieListAdapter({ showViewModels.retry() },
             {
                 findNavController().navigate(
-                    CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
+                    CategoryMovieListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
                         DetailActivity.DETAIL_MOVIE, it
                     )
                 )

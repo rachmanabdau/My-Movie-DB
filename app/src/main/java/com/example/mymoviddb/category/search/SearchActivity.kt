@@ -192,16 +192,16 @@ class SearchActivity : AppCompatActivity() {
             // when id is to earch movie set movie adapter
             movieAdapter = MovieListAdapter({ searchViewModel.retrySearchMovies() },
                 {
-                    intent = Intent(this, DetailActivity::class.java)
-                    intent.putExtra(DetailActivity.DETAIL_KEY, DetailActivity.DETAIL_MOVIE)
-                    intent.putExtra(DetailActivity.SHOW_ID_KEY, it)
-                    startActivity(intent)
+                    setIntentDetail(it, DetailActivity.DETAIL_MOVIE)
                 })
             binding.moviesRv.adapter = movieAdapter
             observeSearchMovies()
         } else {
             // else set tv adapter
-            tvAdapter = TVListAdapter { searchViewModel.retrySearchTV() }
+            tvAdapter = TVListAdapter({ searchViewModel.retrySearchTV() },
+                {
+                    setIntentDetail(it, DetailActivity.DETAIL_TV)
+                })
             binding.tvRv.adapter = tvAdapter
             observeSearchTV()
         }
@@ -212,5 +212,12 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(binding.searchToolbar)
         // Get a support ActionBar corresponding to this toolbar and enable the Up button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setIntentDetail(showId: Long, detailKey: Int) {
+        intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.DETAIL_KEY, detailKey)
+        intent.putExtra(DetailActivity.SHOW_ID_KEY, showId)
+        startActivity(intent)
     }
 }
