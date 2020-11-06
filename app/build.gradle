@@ -173,7 +173,7 @@ dependencies {
     // Timber for debugging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.0'
 
     // Dependencies for Android instrumented unit tests
     androidTestImplementation "junit:junit:$version_junit"
@@ -217,5 +217,7 @@ dependencies {
     // ...with Kotlin.
     kaptTest "com.google.dagger:hilt-android-compiler:$version_hilt"
 
+    // Circulat Image View
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
