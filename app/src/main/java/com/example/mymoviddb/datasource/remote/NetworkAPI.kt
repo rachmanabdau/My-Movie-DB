@@ -44,7 +44,7 @@ interface NetworkService {
 
     @FormUrlEncoded
     @POST("authentication/session/new")
-    fun createSeesionAsync(
+    fun createSessionAsync(
         @Field("request_token") requestToken: String,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<NewSessionModel>>

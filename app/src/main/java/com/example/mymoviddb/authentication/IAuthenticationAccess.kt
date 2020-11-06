@@ -17,8 +17,8 @@ interface IAuthenticationAccess {
     ): Result<LoginTokenModel?>
 
     suspend fun createNewSession(
-        apiKey: String,
-        requestToken: String
+        requestToken: String,
+        apiKey: String
     ): Result<NewSessionModel?>
 
     suspend fun loginAsGuest(apiKey: String = BuildConfig.V3_AUTH): Result<GuestSessionModel?>

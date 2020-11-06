@@ -179,7 +179,7 @@ class NetowrkkApiTest {
                 service.retrofitService.getRequestTokenAsync().await().body()?.requestToken ?: ""
 
             // WHEN user createa new session
-            val newSession = service.retrofitService.createSeesionAsync(requestToken).await()
+            val newSession = service.retrofitService.createSessionAsync(requestToken).await()
 
 
             if (newSession.isSuccessful) {
@@ -205,7 +205,7 @@ class NetowrkkApiTest {
 
             // WHEN user createa new session
             val newSession =
-                service.retrofitService.createSeesionAsync(requestToken = requestToken).await()
+                service.retrofitService.createSessionAsync(requestToken = requestToken).await()
 
             val recievedJson = newSession.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(recievedJson)
@@ -235,7 +235,7 @@ class NetowrkkApiTest {
 
             // WHEN user reate new session
             val newSession =
-                service.retrofitService.createSeesionAsync(requestToken = loginToken).await()
+                service.retrofitService.createSessionAsync(requestToken = loginToken).await()
 
             val recievedJson = newSession.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(recievedJson)
@@ -259,7 +259,7 @@ class NetowrkkApiTest {
 
             // WHEN user has request token and create new session
             val newSession =
-                service.retrofitService.createSeesionAsync(requestToken = loginToken).await()
+                service.retrofitService.createSessionAsync(requestToken = loginToken).await()
 
             val recievedJson = newSession.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(recievedJson)

@@ -111,7 +111,7 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
-    override fun createSeesionAsync(
+    override fun createSessionAsync(
         requestToken: String,
         apiKey: String
     ): Deferred<Response<NewSessionModel>> {
@@ -331,6 +331,45 @@ class FakeRemoteServer : NetworkService {
                 )
             }
         }
+    }
+
+    override fun getDetailhMoviesAsync(
+        movieId: Long,
+        apiKey: String
+    ): Deferred<Response<MovieDetail>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getDetailTvShowsAsync(tvId: Long, apiKey: String): Deferred<Response<TVDetail>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRecommendationMoviesAsync(
+        movieId: Long,
+        apiKey: String
+    ): Deferred<Response<MovieModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSimilarMoviesAsync(
+        movieId: Long,
+        apiKey: String
+    ): Deferred<Response<MovieModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getRecommendationTVShowsAsync(
+        tvId: Long,
+        apiKey: String
+    ): Deferred<Response<TVShowModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSimilarTVShowsAsync(
+        tvId: Long,
+        apiKey: String
+    ): Deferred<Response<TVShowModel>> {
+        TODO("Not yet implemented")
     }
 
     companion object {

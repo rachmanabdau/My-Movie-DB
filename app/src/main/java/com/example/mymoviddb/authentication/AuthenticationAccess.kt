@@ -51,12 +51,12 @@ class AuthenticationAccess @Inject constructor(private val access: NetworkServic
     }
 
     override suspend fun createNewSession(
-        apiKey: String,
-        requestToken: String
+        requestToken: String,
+        apiKey: String
     ): Result<NewSessionModel?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.createSeesionAsync(requestToken, apiKey).await()
+                val result = access.createSessionAsync(requestToken, apiKey).await()
 
                 if (result.isSuccessful && result.body() != null) {
                     Result.Success(result.body())
