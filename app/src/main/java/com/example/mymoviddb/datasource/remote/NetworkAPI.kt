@@ -117,7 +117,7 @@ interface NetworkService {
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
-    @GET("tv/{{tv_id}}/similar")
+    @GET("tv/{tv_id}/similar")
     fun getSimilarTVShowsAsync(
         @Path("tv_id") tvId: Long,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH

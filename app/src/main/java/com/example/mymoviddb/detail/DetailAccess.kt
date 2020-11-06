@@ -43,7 +43,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         }
     }
 
-    override suspend fun getSimialrMovies(movieId: Long, apiKey: String): Result<MovieModel?> {
+    override suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<MovieModel?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getSimilarMoviesAsync(movieId, apiKey).await()
@@ -76,12 +76,12 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
     }
 
     override suspend fun getRecommendationTVShows(
-        movieId: Long,
+        tvId: Long,
         apiKey: String
     ): Result<TVShowModel?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getRecommendationTVShowsAsync(movieId, apiKey).await()
+                val result = access.getRecommendationTVShowsAsync(tvId, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())
@@ -94,10 +94,10 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         }
     }
 
-    override suspend fun getSimialrTVShows(movieId: Long, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getSimilarTVShows(tvId: Long, apiKey: String): Result<TVShowModel?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getSimilarTVShowsAsync(movieId, apiKey).await()
+                val result = access.getSimilarTVShowsAsync(tvId, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())

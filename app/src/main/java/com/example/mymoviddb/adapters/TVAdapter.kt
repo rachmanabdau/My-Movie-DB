@@ -10,7 +10,11 @@ import com.example.mymoviddb.databinding.TvItemBinding
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.LoadMoreViewHolder
 
-class TVAdapter(private val action: () -> Unit, private val detailAction: (Long) -> Unit) :
+class TVAdapter(
+    private val action: () -> Unit,
+    private val detailAction: (Long) -> Unit,
+    private val showLoadMore: Boolean = true
+) :
     ListAdapter<TVShowModel.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
     private val loadMoreType = 0
@@ -34,11 +38,11 @@ class TVAdapter(private val action: () -> Unit, private val detailAction: (Long)
     }
 
     override fun getItemCount(): Int {
-        return if (super.getItemCount() > 1) super.getItemCount() + 1 else super.getItemCount()
+        return if (super.getItemCount() > 1 && showLoadMore) super.getItemCount() + 1 else super.getItemCount()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position < itemCount - 1) tvShowType else loadMoreType
+        return if (position == itemCount - 1 && showLoadMore) loadMoreType else tvShowType
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -56,8 +60,8 @@ class TVAdapter(private val action: () -> Unit, private val detailAction: (Long)
         if (holder is TVShowViewHolder && position < itemCount - 1) {
             val data = getItem(position)
             holder.onBind(data, detailAction)
-        } else {
-            (holder as LoadMoreViewHolder).onBind { action() }
+        } else if (holder is LoadMoreViewHolder) {
+            (holder).onBind { action() }
         }
     }
 }

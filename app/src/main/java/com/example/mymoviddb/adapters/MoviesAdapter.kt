@@ -42,7 +42,6 @@ class MoviesAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        //return if (position < itemCount - 1) movieType else loadMoreType
         return if (position == itemCount - 1 && showLoadMore) loadMoreType else movieType
     }
 

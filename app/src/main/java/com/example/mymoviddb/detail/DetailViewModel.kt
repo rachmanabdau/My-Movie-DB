@@ -50,19 +50,19 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
 
     fun getSimilarMovies(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _similarMovies.value = detailaAccess.getSimialrMovies(movieId, apiKey)
+            _similarMovies.value = detailaAccess.getSimilarMovies(movieId, apiKey)
         }
     }
 
-    fun getRecommendationTVShows(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getRecommendationTVShows(tvId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _recommendationTVShows.value = detailaAccess.getRecommendationTVShows(movieId, apiKey)
+            _recommendationTVShows.value = detailaAccess.getRecommendationTVShows(tvId, apiKey)
         }
     }
 
-    fun getSimilarTVShows(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getSimilarTVShows(tvId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _similarTVShows.value = detailaAccess.getSimialrTVShows(movieId, apiKey)
+            _similarTVShows.value = detailaAccess.getSimilarTVShows(tvId, apiKey)
         }
     }
 }
