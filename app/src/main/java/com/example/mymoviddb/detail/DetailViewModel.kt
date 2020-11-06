@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.MovieDetail
-import com.example.mymoviddb.model.MovieModel
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVDetail
+import com.example.mymoviddb.model.*
 import kotlinx.coroutines.launch
 
 class DetailViewModel @ViewModelInject constructor(private val detailaAccess: IDetailAccess) :
@@ -23,6 +20,12 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
 
     private val _similarMovies = MutableLiveData<Result<MovieModel?>>()
     val similarMovies: LiveData<Result<MovieModel?>> = _similarMovies
+
+    private val _recommendationTVShows = MutableLiveData<Result<TVShowModel?>>()
+    val recommendationTVShows: LiveData<Result<TVShowModel?>> = _recommendationTVShows
+
+    private val _similarTVShows = MutableLiveData<Result<TVShowModel?>>()
+    val similarTVShows: LiveData<Result<TVShowModel?>> = _similarTVShows
 
     private val _tvDetail = MutableLiveData<Result<TVDetail?>>()
     val tvDetail: LiveData<Result<TVDetail?>> = _tvDetail
@@ -48,6 +51,18 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     fun getSimilarMovies(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _similarMovies.value = detailaAccess.getSimialrMovies(movieId, apiKey)
+        }
+    }
+
+    fun getRecommendationTVShows(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _recommendationTVShows.value = detailaAccess.getRecommendationTVShows(movieId, apiKey)
+        }
+    }
+
+    fun getSimilarTVShows(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _similarTVShows.value = detailaAccess.getSimialrTVShows(movieId, apiKey)
         }
     }
 }
