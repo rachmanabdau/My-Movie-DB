@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -26,9 +27,9 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    lateinit var movieAdapter: MovieListAdapter
+    private lateinit var movieAdapter: MovieListAdapter
 
-    lateinit var tvAdapter: TVListAdapter
+    private lateinit var tvAdapter: TVListAdapter
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
@@ -63,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
         // Get the SearchView and set the searchable configuration
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.searchable_menu)?.actionView as SearchView).apply {
-            setMaxWidth(Integer.MAX_VALUE)
+            maxWidth = Integer.MAX_VALUE
             // Assumes current activity is the searchable activity
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
             setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
@@ -73,6 +74,14 @@ class SearchActivity : AppCompatActivity() {
 
         return true
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun handleIntent(intent: Intent) {

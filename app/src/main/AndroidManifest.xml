@@ -18,8 +18,7 @@
         <activity
             android:name=".category.search.SearchActivity"
             android:screenOrientation="sensorPortrait"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -39,8 +38,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="sensorPortrait"
-            android:launchMode="singleTop">
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
