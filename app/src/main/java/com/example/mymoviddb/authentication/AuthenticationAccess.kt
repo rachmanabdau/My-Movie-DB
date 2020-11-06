@@ -56,7 +56,7 @@ class AuthenticationAccess @Inject constructor(private val access: NetworkServic
     ): Result<NewSessionModel?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.createSeesionAsync(apiKey, requestToken).await()
+                val result = access.createSeesionAsync(requestToken, apiKey).await()
 
                 if (result.isSuccessful && result.body() != null) {
                     Result.Success(result.body())
