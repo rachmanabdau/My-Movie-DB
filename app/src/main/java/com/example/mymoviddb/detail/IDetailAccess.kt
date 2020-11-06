@@ -1,9 +1,6 @@
 package com.example.mymoviddb.detail
 
-import com.example.mymoviddb.model.MovieDetail
-import com.example.mymoviddb.model.MovieModel
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVDetail
+import com.example.mymoviddb.model.*
 
 interface IDetailAccess {
 
@@ -14,4 +11,8 @@ interface IDetailAccess {
     suspend fun getSimialrMovies(movieId: Long, apiKey: String): Result<MovieModel?>
 
     suspend fun getDetailTV(tvId: Long, apiKey: String): Result<TVDetail?>
+
+    suspend fun getRecommendationTVShows(movieId: Long, apiKey: String): Result<TVShowModel?>
+
+    suspend fun getSimialrTVShows(movieId: Long, apiKey: String): Result<TVShowModel?>
 }

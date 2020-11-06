@@ -110,6 +110,18 @@ interface NetworkService {
         @Path("movie_id") movieId: Long,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<MovieModel>>
+
+    @GET("tv/{tv_id}/recommendations")
+    fun getRecommendationTVShowsAsync(
+        @Path("tv_id") tvId: Long,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<TVShowModel>>
+
+    @GET("tv/{{tv_id}}/similar")
+    fun getSimilarTVShowsAsync(
+        @Path("tv_id") tvId: Long,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<TVShowModel>>
 }
 
 object NetworkAPI {
