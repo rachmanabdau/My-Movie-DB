@@ -194,7 +194,7 @@
                     android:orientation="vertical"
                     android:layout_marginTop="@dimen/margin_small"
                     app:layout_constraintTop_toBottomOf="@id/recommendation_container"
-                    app:layout_constraintStart_toStartOf="@id/recommendation_container"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <TextView

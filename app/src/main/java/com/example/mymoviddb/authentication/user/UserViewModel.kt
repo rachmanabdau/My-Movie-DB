@@ -13,7 +13,6 @@ import com.example.mymoviddb.utils.Event
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class UserViewModel @ViewModelInject constructor(
     private val access: IAuthenticationAccess,
@@ -35,15 +34,12 @@ class UserViewModel @ViewModelInject constructor(
                         PreferenceUtil.setAuthState(app, LoginState.AS_USER)
                         _loginResult.value = Event("success")
                     } else if (newSession is Result.Error) {
-                        Timber.d("error occured in request new session")
                         _loginResult.value = Event(newSession.exception.localizedMessage)
                     }
                 } else if (login is Result.Error) {
-                    Timber.d("error occured in request login")
                     _loginResult.value = Event(login.exception.localizedMessage)
                 }
             } else if (requestToken is Result.Error) {
-                Timber.d("error occured in request token")
                 _loginResult.value = Event(requestToken.exception.localizedMessage)
             }
         }

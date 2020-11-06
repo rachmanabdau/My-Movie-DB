@@ -202,6 +202,10 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Success -> {
                     recommendationMoviesAdapter.submitList(it.data?.results)
                     binding.errorRecommendationDetail.root.visibility = View.GONE
+
+                    if (it.data?.results.isNullOrEmpty()) {
+                        binding.recommendationContainer.visibility = View.GONE
+                    }
                 }
 
                 is Result.Loading -> {
@@ -228,6 +232,10 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Success -> {
                     similarMoviesAdapter.submitList(it.data?.results)
                     binding.errorSimilarDetail.root.visibility = View.GONE
+
+                    if (it.data?.results.isNullOrEmpty()) {
+                        binding.similarContainer.visibility = View.GONE
+                    }
                 }
 
                 is Result.Loading -> {
@@ -300,6 +308,10 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Success -> {
                     recommendationTVAdapter.submitList(it.data?.results)
                     binding.errorRecommendationDetail.root.visibility = View.GONE
+
+                    if (it.data?.results.isNullOrEmpty()) {
+                        binding.recommendationContainer.visibility = View.GONE
+                    }
                 }
 
                 is Result.Loading -> {
@@ -328,6 +340,10 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Success -> {
                     similarTVAdapter.submitList(it.data?.results)
                     binding.errorRecommendationDetail.root.visibility = View.GONE
+
+                    if (it.data?.results.isNullOrEmpty()) {
+                        binding.similarContainer.visibility = View.GONE
+                    }
                 }
 
                 is Result.Loading -> {
