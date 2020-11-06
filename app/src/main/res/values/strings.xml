@@ -41,4 +41,6 @@
     <string name="rate_detail">Rate: %1$d%%</string>
     <string name="release_date_detail">Release Date: \n%1$s</string>
     <string name="first_air_date_detail">Firs Air Date: \n%1$s</string>
+    <string name="recommendation_detail_label">Recommendation %1$s</string>
+    <string name="similar_detail_label">Similar %1$s</string>
 </resources>

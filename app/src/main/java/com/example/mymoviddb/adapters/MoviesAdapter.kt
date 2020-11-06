@@ -10,7 +10,11 @@ import com.example.mymoviddb.databinding.MovieItemBinding
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.utils.LoadMoreViewHolder
 
-class MoviesAdapter(private val action: () -> Unit, private val detailAction: (Long) -> Unit) :
+class MoviesAdapter(
+    private val action: () -> Unit,
+    private val detailAction: (Long) -> Unit,
+    private val showLoadMore: Boolean = true
+) :
     ListAdapter<MovieModel.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
     private val loadMoreType = 0
@@ -34,11 +38,12 @@ class MoviesAdapter(private val action: () -> Unit, private val detailAction: (L
     }
 
     override fun getItemCount(): Int {
-        return if (super.getItemCount() > 0) super.getItemCount() + 1 else super.getItemCount()
+        return if (super.getItemCount() > 0 && showLoadMore) super.getItemCount() + 1 else super.getItemCount()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position < itemCount - 1) movieType else loadMoreType
+        //return if (position < itemCount - 1) movieType else loadMoreType
+        return if (position == itemCount - 1 && showLoadMore) loadMoreType else movieType
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

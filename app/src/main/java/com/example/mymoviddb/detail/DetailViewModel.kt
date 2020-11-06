@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class DetailViewModel @ViewModelInject constructor(private val detailaAccess: IDetailAccess) :
     ViewModel() {
 
-    private val _movieDetail = MutableLiveData<Result<MovieDetail?>>()
+    private val _movieDetail = MutableLiveData<Result<MovieDetail?>>(Result.Loading)
     val movieDetail: LiveData<Result<MovieDetail?>> = _movieDetail
 
     private val _recommendationMovies = MutableLiveData<Result<MovieModel?>>()
@@ -47,7 +47,7 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
 
     fun getSimilarMovies(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _recommendationMovies.value = detailaAccess.getRecommendationMovies(movieId, apiKey)
+            _similarMovies.value = detailaAccess.getSimialrMovies(movieId, apiKey)
         }
     }
 }

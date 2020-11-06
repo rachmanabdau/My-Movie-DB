@@ -7,6 +7,16 @@
 
         <import type="android.view.View" />
 
+        <import type="androidx.lifecycle.ViewModel" />
+
+        <variable
+            name="detailId"
+            type="Integer" />
+
+        <variable
+            name="test"
+            type="ViewModel" />
+
         <variable
             name="title"
             type="CharSequence" />
@@ -140,6 +150,78 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/poster_detail"
                     tools:text="Overview: " />
+
+                <LinearLayout
+                    android:id="@+id/recommendation_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/overview_detail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/recommendation_label_detail"
+                        style="@style/DefaultFont"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/error_recommendation_detail"
+                        layout="@layout/try_again_load_list"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recommendtaion_detail_rv"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_small"
+                        android:paddingEnd="@dimen/padding_small"
+                        android:clipToPadding="false"
+                        tools:listitem="@layout/movie_item"
+                        tools:itemCount="2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/similar_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/recommendation_container"
+                    app:layout_constraintStart_toStartOf="@id/recommendation_container"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/similar_label_detail"
+                        style="@style/DefaultFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium" />
+
+                    <include
+                        android:id="@+id/error_similar_detail"
+                        layout="@layout/try_again_load_list"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/similar_detail_rv"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_small"
+                        android:paddingEnd="@dimen/padding_small"
+                        android:clipToPadding="false"
+                        tools:listitem="@layout/movie_item"
+                        tools:itemCount="2" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/fab_container"
