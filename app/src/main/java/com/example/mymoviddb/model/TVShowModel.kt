@@ -17,7 +17,7 @@ data class TVShowModel(
         @Json(name = "backdrop_path")
         val backdropPath: String?,
         @Json(name = "first_air_date")
-        val firstAirDate: String,
+        val firstAirDate: String?,
         @Json(name = "genre_ids")
         val genreIds: List<Int>,
         @Json(name = "id")

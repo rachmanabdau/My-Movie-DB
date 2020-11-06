@@ -15,7 +15,7 @@ data class TVDetail(
     @Json(name = "genres")
     val genres: List<Genre>,
     @Json(name = "homepage")
-    val homepage: String,
+    val homepage: String?,
     @Json(name = "id")
     val id: Long,
     @Json(name = "in_production")
@@ -47,7 +47,7 @@ data class TVDetail(
     @Json(name = "popularity")
     val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @Json(name = "production_companies")
     val productionCompanies: List<ProductionCompany>,
     @Json(name = "seasons")
