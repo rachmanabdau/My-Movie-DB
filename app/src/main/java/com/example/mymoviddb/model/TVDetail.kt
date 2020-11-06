@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 
 data class TVDetail(
     @Json(name = "backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @Json(name = "created_by")
     val createdBy: List<CreatedBy>,
     @Json(name = "episode_run_time")
