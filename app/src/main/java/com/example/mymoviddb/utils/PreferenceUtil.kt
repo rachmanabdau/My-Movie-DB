@@ -9,6 +9,7 @@ import androidx.preference.PreferenceManager
 object PreferenceUtil {
 
     private val GUEST_TOKEN_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.guesttokenKey"
+    private val USER_TOKEN_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.userTokenKey"
     private val LOGIN_STATE_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.loginStateKey"
     private val TIME_STAMP_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.timeStampKey"
 
@@ -34,6 +35,18 @@ object PreferenceUtil {
     fun readGuestToken(context: Context): String {
         val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
         return tokenPreference.getString(GUEST_TOKEN_KEY, "") ?: ""
+    }
+
+    fun writeUserSession(context: Context, token: String) {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferenceEditor = tokenPreference.edit()
+        preferenceEditor.putString(USER_TOKEN_KEY, token)
+        preferenceEditor.commit()
+    }
+
+    fun readUserSession(context: Context): String {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        return tokenPreference.getString(USER_TOKEN_KEY, "") ?: ""
     }
 
     fun writeGuestTokenExpiry(context: Context, timeStamp: Long) {
