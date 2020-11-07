@@ -26,7 +26,10 @@ class MainAccess @Inject constructor(private val access: NetworkService) : IMain
         }
     }
 
-    override suspend fun logout(sessionId: String, apiKey: String): Result<Error401Model?> {
+    override suspend fun logout(
+        sessionId: Map<String, String>,
+        apiKey: String
+    ): Result<Error401Model?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.logoutAsync(sessionId, apiKey).await()

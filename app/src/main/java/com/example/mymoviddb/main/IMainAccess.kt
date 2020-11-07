@@ -8,5 +8,5 @@ interface IMainAccess {
 
     suspend fun getUserDetail(sessionId: String, apiKey: String): Result<UserDetail?>
 
-    suspend fun logout(sessionId: String, apiKey: String): Result<Error401Model?>
+    suspend fun logout(sessionId: Map<String, String>, apiKey: String): Result<Error401Model?>
 }

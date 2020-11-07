@@ -129,9 +129,9 @@ interface NetworkService {
         @Query("api_key") apiKey: String
     ): Deferred<Response<UserDetail>>
 
-    @DELETE("authentication/session")
+    @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     fun logoutAsync(
-        @Field("session_id") userSessionId: String,
+        @Body userSessionId: Map<String, String>,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<Error401Model>>
 }

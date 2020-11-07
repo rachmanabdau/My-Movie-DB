@@ -1,5 +1,6 @@
 package com.example.mymoviddb.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -23,6 +24,7 @@ import com.example.mymoviddb.utils.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onserveUserAvatar(readUserSession: String) {
         mainViewModel.getUserDetail(readUserSession)
+
         mainViewModel.userDetail.observe(this) {
             val headerItem = binding.navView.getHeaderView(0)
             val profileAvaterHeader =
@@ -72,18 +75,29 @@ class MainActivity : AppCompatActivity() {
                     Glide.with(this)
                         .load(BuildConfig.LOAD_POSTER_BASE_URL + it.data.avatar.tmdb.avatarPath)
                         .into(profileAvaterHeader)
-                    Snackbar.make(binding.root, "available avatar executed", Snackbar.LENGTH_SHORT)
-                        .show()
                 } else {
                     Glide.with(this)
                         .load("https://eu.ui-avatars.com/api/?background=random&name=${profileUsernameHeader.text}")
                         .into(profileAvaterHeader)
-                    Snackbar.make(
-                        binding.root,
-                        "unavailable avatar executed",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
                 }
+            }
+        }
+
+        mainViewModel.logoutResult.observe(this) {
+            if (it is Result.Success && it.data?.success == true) {
+                PreferenceUtil.writeUserSession(this, "")
+                PreferenceUtil.setAuthState(this, LoginState.AS_GUEST)
+                intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            if (it is Result.Error) {
+                Timber.d(it.exception.message.toString())
+                Snackbar.make(
+                    binding.root,
+                    it.exception.localizedMessage ?: "Unknows error occured",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -96,7 +110,20 @@ class MainActivity : AppCompatActivity() {
             navController,
             appbarConfig
         )
-        binding.navView.setupWithNavController(navController)
+
+        // listener click for logout menu. it has to be placed right after NavigationUI.setupWithNavController
+        binding.navView.setNavigationItemSelectedListener {
+            if (it.itemId == R.id.logout_drawer_menu) {
+                mainViewModel.logout(PreferenceUtil.readUserSession(this))
+            }
+
+            // to maintain navigation component still work
+            NavigationUI.onNavDestinationSelected(it, navController)
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            return@setNavigationItemSelectedListener true
+        }
+
+        Timber.d(PreferenceUtil.readUserSession(this))
     }
 
     private fun setupToolbarOnly(navController: NavController) {
@@ -106,7 +133,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        //without drawer menu or appbar configuration
         return Navigation.findNavController(this, R.id.main_host_fragment).navigateUp()
                 || super.onSupportNavigateUp()
     }
