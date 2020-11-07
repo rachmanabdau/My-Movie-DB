@@ -122,6 +122,12 @@ interface NetworkService {
         @Path("tv_id") tvId: Long,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<TVShowModel>>
+
+    @GET("account")
+    fun getAccountDetailAsync(
+        @Query("session_id") sessionId: String,
+        @Query("api_key") apiKey: String
+    ): Deferred<Response<UserDetail>>
 }
 
 object NetworkAPI {
