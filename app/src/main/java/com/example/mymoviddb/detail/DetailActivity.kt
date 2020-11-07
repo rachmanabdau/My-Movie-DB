@@ -61,8 +61,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showHideActionButton() {
         val state = PreferenceUtil.getAuthState(this)
-        binding.fabContainer.visibility =
-            if (state == LoginState.AS_GUEST.ordinal) View.GONE else View.VISIBLE
+        binding.showFAB = state != LoginState.AS_GUEST.stateId
     }
 
     private fun initAdapter(showId: Long, loadId: Int) {

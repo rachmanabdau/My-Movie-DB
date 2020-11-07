@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val navigationInflater = navHostFragment.navController.navInflater
         val graph = navigationInflater.inflate(R.navigation.main_navigation)
         graph.startDestination =
-            if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.ordinal) {
+            if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId) {
                 R.id.homeFragment
             } else {
                 R.id.authenticationFragment
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.graph = graph
 
-        if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.ordinal) {
+        if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId) {
             setupDrawerMenu(navController)
             onserveUserAvatar(PreferenceUtil.readUserSession(this))
         } else {

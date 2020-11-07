@@ -16,7 +16,7 @@ object PreferenceUtil {
     fun setAuthState(context: Context, state: LoginState) {
         val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
         val preferenceEditor = tokenPreference.edit()
-        preferenceEditor.putInt(LOGIN_STATE_KEY, state.ordinal)
+        preferenceEditor.putInt(LOGIN_STATE_KEY, state.stateId)
         preferenceEditor.commit()
     }
 
@@ -62,7 +62,7 @@ object PreferenceUtil {
     }
 }
 
-enum class LoginState(stateId: Int = 1) {
+enum class LoginState(val stateId: Int) {
     AS_GUEST(1),
     AS_USER(2)
 }

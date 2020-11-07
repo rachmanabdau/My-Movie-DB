@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import com.example.mymoviddb.databinding.FragmentUserBinding
 import com.example.mymoviddb.main.MainActivity
 import com.example.mymoviddb.utils.EventObserver
+import com.example.mymoviddb.utils.LoginState
+import com.example.mymoviddb.utils.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +41,7 @@ class UserFragment : Fragment() {
 
         userViewModel.loginResult.observe(viewLifecycleOwner, EventObserver {
             if (it.equals("success", true)) {
+                PreferenceUtil.setAuthState(requireContext(), LoginState.AS_USER)
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
