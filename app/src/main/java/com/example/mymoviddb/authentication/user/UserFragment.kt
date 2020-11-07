@@ -33,6 +33,7 @@ class UserFragment : Fragment() {
                 val password = binding.passwordInputText.text.toString()
                 binding.login.isEnabled = false
                 userViewModel.login(username, password)
+                binding.loginProgress.visibility = View.VISIBLE
             }
         }
 
@@ -45,6 +46,7 @@ class UserFragment : Fragment() {
                 Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
                 binding.login.isEnabled = true
             }
+            binding.loginProgress.visibility = View.GONE
         })
 
         return binding.root
