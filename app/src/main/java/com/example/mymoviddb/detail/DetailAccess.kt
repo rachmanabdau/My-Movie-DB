@@ -151,15 +151,15 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
     }
 
     override suspend fun markAsFavorite(
+        accoundId: Int,
         sessionId: String,
         sendMediaType: MarkAsFavorite,
-        accoundId: Int,
         apiKey: String
     ): Result<Error401Model?> {
         wrapEspressoIdlingResource {
             return try {
                 val result =
-                    access.markAsFavoriteAsync(sessionId, sendMediaType, accoundId, apiKey).await()
+                    access.markAsFavoriteAsync(accoundId, sessionId, sendMediaType, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())

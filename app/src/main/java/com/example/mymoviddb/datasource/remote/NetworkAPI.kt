@@ -151,9 +151,9 @@ interface NetworkService {
 
     @POST("/account/{account_id}/favorite")
     fun markAsFavoriteAsync(
+        @Path("account_id") accoundId: Int,
         @Query("session_id") sessionId: String,
         @Body sendMediaType: MarkAsFavorite,
-        @Path("account_id") accoundId: Int,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH,
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
     ): Deferred<Response<Error401Model>>

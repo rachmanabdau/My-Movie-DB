@@ -30,9 +30,9 @@ interface IDetailAccess {
     ): Result<MediaState?>
 
     suspend fun markAsFavorite(
+        accoundId: Int,
         sessionId: String,
         sendMediaType: MarkAsFavorite,
-        accoundId: Int,
         apiKey: String = BuildConfig.V3_AUTH
     ): Result<Error401Model?>
 }
