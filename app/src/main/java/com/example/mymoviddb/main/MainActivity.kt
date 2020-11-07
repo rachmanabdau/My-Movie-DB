@@ -1,4 +1,4 @@
-package com.example.mymoviddb
+package com.example.mymoviddb.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +10,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.example.mymoviddb.R
 import com.example.mymoviddb.databinding.ActivityMainBinding
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.ordinal) {
             setupDrawerMenu(navController)
+            Timber.d(PreferenceUtil.readUserSession(this))
         } else {
             setupToolbarOnly(navController)
         }

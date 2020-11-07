@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.mymoviddb.MainActivity
 import com.example.mymoviddb.databinding.FragmentUserBinding
+import com.example.mymoviddb.main.MainActivity
 import com.example.mymoviddb.utils.EventObserver
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
