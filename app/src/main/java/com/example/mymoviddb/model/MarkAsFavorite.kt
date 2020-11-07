@@ -9,7 +9,7 @@ data class MarkAsFavorite(
     @Json(name = "favorite")
     val favorite: Boolean,
     @Json(name = "media_id")
-    val mediaId: Int,
+    val mediaId: Long,
     @Json(name = "media_type")
     val mediaType: String
 )
