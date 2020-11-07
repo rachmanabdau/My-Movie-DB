@@ -1,6 +1,7 @@
 package com.example.mymoviddb.main
 
 import com.example.mymoviddb.datasource.remote.NetworkService
+import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.UserDetail
 import com.example.mymoviddb.utils.Util
@@ -13,6 +14,22 @@ class MainAccess @Inject constructor(private val access: NetworkService) : IMain
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getAccountDetailAsync(sessionId, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun logout(sessionId: String, apiKey: String): Result<Error401Model?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.logoutAsync(sessionId, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())

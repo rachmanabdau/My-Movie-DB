@@ -128,6 +128,12 @@ interface NetworkService {
         @Query("session_id") sessionId: String,
         @Query("api_key") apiKey: String
     ): Deferred<Response<UserDetail>>
+
+    @DELETE("authentication/session")
+    fun logoutAsync(
+        @Field("session_id") userSessionId: String,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<Error401Model>>
 }
 
 object NetworkAPI {
