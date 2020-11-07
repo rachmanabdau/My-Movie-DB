@@ -54,13 +54,13 @@ class MainActivity : AppCompatActivity() {
 
         if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId) {
             setupDrawerMenu(navController)
-            onserveUserAvatar(PreferenceUtil.readUserSession(this))
+            observeUserAvatar(PreferenceUtil.readUserSession(this))
         } else {
             setupToolbarOnly(navController)
         }
     }
 
-    private fun onserveUserAvatar(readUserSession: String) {
+    private fun observeUserAvatar(readUserSession: String) {
         mainViewModel.getUserDetail(readUserSession)
 
         mainViewModel.userDetail.observe(this) {
@@ -69,9 +69,10 @@ class MainActivity : AppCompatActivity() {
                 (headerItem.findViewById<CircleImageView>(R.id.user_avatar_header))
             val profileUsernameHeader =
                 (headerItem.findViewById<TextView>(R.id.username_header))
-            if (it is Result.Success) {
-                profileUsernameHeader.text = it.data?.username
-                if (it.data?.avatar?.tmdb != null) {
+            if (it is Result.Success && it.data != null) {
+                profileUsernameHeader.text = it.data.username
+                PreferenceUtil.writeAccountId(this, it.data.id)
+                if (it.data.avatar.tmdb != null) {
                     Glide.with(this)
                         .load(BuildConfig.LOAD_POSTER_BASE_URL + it.data.avatar.tmdb.avatarPath)
                         .into(profileAvaterHeader)
@@ -85,8 +86,11 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.logoutResult.observe(this) {
             if (it is Result.Success && it.data?.success == true) {
-                PreferenceUtil.writeUserSession(this, "")
-                PreferenceUtil.setAuthState(this, LoginState.AS_GUEST)
+                PreferenceUtil.apply {
+                    writeUserSession(this@MainActivity, "")
+                    writeAccountId(this@MainActivity, 0)
+                    setAuthState(this@MainActivity, LoginState.AS_GUEST)
+                }
                 intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

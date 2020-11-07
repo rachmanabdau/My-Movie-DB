@@ -8,10 +8,16 @@ import androidx.preference.PreferenceManager
 @SuppressLint("ApplySharedPref")
 object PreferenceUtil {
 
-    private val GUEST_TOKEN_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.guesttokenKey"
-    private val USER_TOKEN_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.userTokenKey"
-    private val LOGIN_STATE_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.loginStateKey"
-    private val TIME_STAMP_KEY = "package com.example.mymoviddb.utils.PreferenceUtil.timeStampKey"
+    private const val GUEST_TOKEN_KEY =
+        "package com.example.mymoviddb.utils.PreferenceUtil.guesttokenKey"
+    private const val USER_TOKEN_KEY =
+        "package com.example.mymoviddb.utils.PreferenceUtil.userTokenKey"
+    private const val LOGIN_STATE_KEY =
+        "package com.example.mymoviddb.utils.PreferenceUtil.loginStateKey"
+    private const val TIME_STAMP_KEY =
+        "package com.example.mymoviddb.utils.PreferenceUtil.timeStampKey"
+    private const val ACCOUNT_ID_KEY =
+        "package com.example.mymoviddb.utils.PreferenceUtil.accountIdKey"
 
     fun setAuthState(context: Context, state: LoginState) {
         val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
@@ -59,6 +65,18 @@ object PreferenceUtil {
     fun readGuestTokenExpiry(context: Context): Long {
         val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
         return tokenPreference.getLong(TIME_STAMP_KEY, -1)
+    }
+
+    fun writeAccountId(context: Context, accountId: Int) {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferenceEditor = tokenPreference.edit()
+        preferenceEditor.putInt(ACCOUNT_ID_KEY, accountId)
+        preferenceEditor.commit()
+    }
+
+    fun readAccountId(context: Context): Int {
+        val tokenPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        return tokenPreference.getInt(ACCOUNT_ID_KEY, -1)
     }
 }
 

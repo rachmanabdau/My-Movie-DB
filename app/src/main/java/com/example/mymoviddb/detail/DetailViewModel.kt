@@ -33,6 +33,9 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     private val _mediaAccountState = MutableLiveData<Result<MediaState?>>()
     val mediaState: LiveData<Result<MediaState?>> = _mediaAccountState
 
+    private val _favouriteResult = MutableLiveData<Result<Error401Model?>>()
+    val favouriteResult: LiveData<Result<Error401Model?>> = _favouriteResult
+
     fun getMovieDetail(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _movieDetail.value = detailaAccess.getDetailMovie(movieId, apiKey)
@@ -82,6 +85,18 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     fun getTVAccountState(tvId: Long, sessionId: String, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _mediaAccountState.value = detailaAccess.getTVAuthState(tvId, sessionId, apiKey)
+        }
+    }
+
+    fun markAsFavorite(
+        accountId: Int,
+        sessionId: String,
+        mediaType: MarkAsFavorite,
+        apiKey: String = BuildConfig.V3_AUTH
+    ) {
+        viewModelScope.launch {
+            _favouriteResult.value =
+                detailaAccess.markAsFavorite(accountId, sessionId, mediaType, apiKey)
         }
     }
 }

@@ -149,7 +149,7 @@ interface NetworkService {
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<MediaState>>
 
-    @POST("/account/{account_id}/favorite")
+    @POST("account/{account_id}/favorite")
     fun markAsFavoriteAsync(
         @Path("account_id") accoundId: Int,
         @Query("session_id") sessionId: String,

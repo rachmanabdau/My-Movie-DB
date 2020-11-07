@@ -14,6 +14,7 @@ import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.ActivityDetailBinding
 import com.example.mymoviddb.home.PreloadLinearLayout
+import com.example.mymoviddb.model.MarkAsFavorite
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
@@ -31,6 +32,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var recommendationTVAdapter: TVAdapter
 
     private lateinit var similarTVAdapter: TVAdapter
+
+    private var favoriteState = false
 
     private val detailViewModel by viewModels<DetailViewModel>()
 
@@ -111,6 +114,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
+        var mediaType = ""
         val loadId = if (args.loadDetailId != 0) {
             args.loadDetailId
         } else {
@@ -127,6 +131,7 @@ class DetailActivity : AppCompatActivity() {
 
         val userState = PreferenceUtil.getAuthState(this)
         if (loadId == DETAIL_MOVIE) {
+            mediaType = "movie"
             detailViewModel.getMovieDetail(showId)
             detailViewModel.getRecommendationMovies(showId)
             detailViewModel.getSimilarMovies(showId)
@@ -143,6 +148,7 @@ class DetailActivity : AppCompatActivity() {
             binding.similarLabelDetail.text =
                 getString(R.string.similar_detail_label, getString(R.string.movies_label))
         } else {
+            mediaType = "tv"
             detailViewModel.getTVDetail(showId)
             detailViewModel.getRecommendationTVShows(showId)
             detailViewModel.getSimilarTVShows(showId)
@@ -158,6 +164,14 @@ class DetailActivity : AppCompatActivity() {
                 getString(R.string.recommendation_detail_label, getString(R.string.tv_shows_label))
             binding.similarLabelDetail.text =
                 getString(R.string.similar_detail_label, getString(R.string.tv_shows_label))
+        }
+
+        binding.favouriteFabDetail.setOnClickListener {
+            val sessionId = PreferenceUtil.readUserSession(this)
+
+            val mediatype = MarkAsFavorite(favoriteState, showId, mediaType)
+            val userId = PreferenceUtil.readAccountId(this)
+            detailViewModel.markAsFavorite(userId, sessionId, mediatype)
         }
     }
 
@@ -387,6 +401,16 @@ class DetailActivity : AppCompatActivity() {
                 binding.favouriteFabDetail.setImageResource(
                     if (it.data.favorite) R.drawable.ic_favourite_active else R.drawable.ic_favourite_disable
                 )
+                favoriteState = (it.data.favorite).not()
+            }
+        }
+
+        detailViewModel.favouriteResult.observe(this) {
+            if (it is Result.Success && it.data?.statusCode != null) {
+                binding.favouriteFabDetail.setImageResource(
+                    if (it.data.statusCode == 13) R.drawable.ic_favourite_disable else R.drawable.ic_favourite_active
+                )
+                favoriteState = it.data.statusCode == 13
             }
         }
     }
