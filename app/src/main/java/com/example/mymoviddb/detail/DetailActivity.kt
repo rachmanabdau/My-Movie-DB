@@ -125,10 +125,18 @@ class DetailActivity : AppCompatActivity() {
 
         initAdapter(showId, loadId)
 
+        val userState = PreferenceUtil.getAuthState(this)
         if (loadId == DETAIL_MOVIE) {
             detailViewModel.getMovieDetail(showId)
             detailViewModel.getRecommendationMovies(showId)
             detailViewModel.getSimilarMovies(showId)
+
+            if (userState == LoginState.AS_USER.stateId) {
+                val userSessionId = PreferenceUtil.readUserSession(this)
+                detailViewModel.getMovieAccountState(showId, userSessionId)
+                observeAccountState()
+            }
+
             observeMoviesDetail(showId)
             binding.recommendationLabelDetail.text =
                 getString(R.string.recommendation_detail_label, getString(R.string.movies_label))
@@ -138,6 +146,13 @@ class DetailActivity : AppCompatActivity() {
             detailViewModel.getTVDetail(showId)
             detailViewModel.getRecommendationTVShows(showId)
             detailViewModel.getSimilarTVShows(showId)
+
+            if (userState == LoginState.AS_USER.stateId) {
+                val userSessionId = PreferenceUtil.readUserSession(this)
+                detailViewModel.getTVAccountState(showId, userSessionId)
+                observeAccountState()
+            }
+
             observeTVDetail(showId)
             binding.recommendationLabelDetail.text =
                 getString(R.string.recommendation_detail_label, getString(R.string.tv_shows_label))
@@ -365,6 +380,17 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun observeAccountState() {
+        detailViewModel.mediaState.observe(this) {
+            if (it is Result.Success && it.data != null) {
+                binding.favouriteFabDetail.setImageResource(
+                    if (it.data.favorite) R.drawable.ic_favourite_active else R.drawable.ic_favourite_disable
+                )
+            }
+        }
+    }
+
 
     private fun setupToolbar() {
         // my_child_toolbar is defined in the layout file

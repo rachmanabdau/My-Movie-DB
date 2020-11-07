@@ -30,6 +30,9 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     private val _tvDetail = MutableLiveData<Result<TVDetail?>>()
     val tvDetail: LiveData<Result<TVDetail?>> = _tvDetail
 
+    private val _mediaAccountState = MutableLiveData<Result<MediaState?>>()
+    val mediaState: LiveData<Result<MediaState?>> = _mediaAccountState
+
     fun getMovieDetail(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _movieDetail.value = detailaAccess.getDetailMovie(movieId, apiKey)
@@ -63,6 +66,22 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     fun getSimilarTVShows(tvId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _similarTVShows.value = detailaAccess.getSimilarTVShows(tvId, apiKey)
+        }
+    }
+
+    fun getMovieAccountState(
+        movieId: Long,
+        sessionId: String,
+        apiKey: String = BuildConfig.V3_AUTH
+    ) {
+        viewModelScope.launch {
+            _mediaAccountState.value = detailaAccess.getMovieAuthState(movieId, sessionId, apiKey)
+        }
+    }
+
+    fun getTVAccountState(tvId: Long, sessionId: String, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _mediaAccountState.value = detailaAccess.getTVAuthState(tvId, sessionId, apiKey)
         }
     }
 }
