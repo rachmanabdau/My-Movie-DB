@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class DetailAccess @Inject constructor(private val access: NetworkService) : IDetailAccess {
 
-    suspend override fun getDetailMovie(movieId: Long, apiKey: String): Result<MovieDetail?> {
+    override suspend fun getDetailMovie(movieId: Long, apiKey: String): Result<MovieDetail?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getDetailhMoviesAsync(movieId, apiKey).await()
@@ -59,7 +59,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         }
     }
 
-    suspend override fun getDetailTV(tvId: Long, apiKey: String): Result<TVDetail?> {
+    override suspend fun getDetailTV(tvId: Long, apiKey: String): Result<TVDetail?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getDetailTvShowsAsync(tvId, apiKey).await()
@@ -138,6 +138,28 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getTVAuthStateAsync(tvId, sessionId, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun markAsFavorite(
+        sessionId: String,
+        sendMediaType: MarkAsFavorite,
+        accoundId: Int,
+        apiKey: String
+    ): Result<Error401Model?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result =
+                    access.markAsFavoriteAsync(sessionId, sendMediaType, accoundId, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())
