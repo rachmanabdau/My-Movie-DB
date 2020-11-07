@@ -134,6 +134,20 @@ interface NetworkService {
         @Body userSessionId: Map<String, String>,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
     ): Deferred<Response<Error401Model>>
+
+    @GET("movie/{movie_id}/account_states")
+    fun getMovieAuthStateAsync(
+        @Path("movie_id") movieId: Long,
+        @Query("sesion_id") sessionId: String,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<MediaState>>
+
+    @GET("tv/{tv_id}/account_states")
+    fun getTVAuthStateAsync(
+        @Path("tv_id") movieId: Long,
+        @Query("sesion_id") sessionId: String,
+        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+    ): Deferred<Response<MediaState>>
 }
 
 object NetworkAPI {

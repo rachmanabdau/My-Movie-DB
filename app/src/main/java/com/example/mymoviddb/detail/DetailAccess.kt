@@ -110,4 +110,44 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         }
     }
 
+    override suspend fun getMovieAuthState(
+        movieId: Long,
+        sessionId: String,
+        apiKey: String
+    ): Result<MediaState?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getMovieAuthStateAsync(movieId, sessionId, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
+    override suspend fun getTVAuthState(
+        tvId: Long,
+        sessionId: String,
+        apiKey: String
+    ): Result<MediaState?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getTVAuthStateAsync(tvId, sessionId, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
 }
