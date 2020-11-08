@@ -15,7 +15,6 @@ My Movie DB Using android Jetpack, include :
 * [Glide](https://bumptech.github.io/glide/) - Load Image from API
 
 ## NAvigation Graph
-*Login as registered user fragment is not yet included
 ![Navigation Graph](/img/navigation_graph.png)
 
 ## Testing Result
