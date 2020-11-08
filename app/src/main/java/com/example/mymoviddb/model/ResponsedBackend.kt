@@ -3,7 +3,7 @@ package com.example.mymoviddb.model
 
 import com.squareup.moshi.Json
 
-data class Error401Model(
+data class ResponsedBackend(
     @Json(name = "status_code")
     val statusCode: Int?,
     @Json(name = "status_message")

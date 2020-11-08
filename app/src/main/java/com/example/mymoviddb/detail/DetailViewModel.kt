@@ -33,8 +33,8 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     private val _mediaAccountState = MutableLiveData<Result<MediaState?>>()
     val mediaState: LiveData<Result<MediaState?>> = _mediaAccountState
 
-    private val _favouriteResult = MutableLiveData<Result<Error401Model?>>()
-    val favouriteResult: LiveData<Result<Error401Model?>> = _favouriteResult
+    private val _favouriteResult = MutableLiveData<Result<ResponsedBackend?>>()
+    val favouriteResult: LiveData<Result<ResponsedBackend?>> = _favouriteResult
 
     fun getMovieDetail(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {

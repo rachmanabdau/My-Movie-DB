@@ -3,7 +3,7 @@ package com.example.mymoviddb.category.tv
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
-import com.example.mymoviddb.model.Error401Model
+import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.sharedData.FakeRemoteServer
@@ -20,14 +20,14 @@ import org.junit.Test
 class CategoryTVListIAccessTest {
 
     private lateinit var fakeRemoteSource: NetworkService
-    private lateinit var errorConverter: JsonAdapter<Error401Model>
+    private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
     private lateinit var access: ICategoryTVListAccess
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
         access = CategoryTVListIAccess(fakeRemoteSource)
-        errorConverter = moshi.adapter(Error401Model::class.java)
+        errorConverter = moshi.adapter(ResponsedBackend::class.java)
     }
 
     @Test

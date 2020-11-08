@@ -34,5 +34,5 @@ interface IDetailAccess {
         sessionId: String,
         sendMediaType: MarkAsFavorite,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<Error401Model?>
+    ): Result<ResponsedBackend?>
 }

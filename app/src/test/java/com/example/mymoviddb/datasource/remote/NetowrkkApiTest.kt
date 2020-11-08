@@ -3,9 +3,9 @@ package com.example.mymoviddb.datasource.remote
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.NewSessionModel
+import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.TVShowModel
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.runBlocking
@@ -27,13 +27,13 @@ class NetowrkkApiTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var service: NetworkAPI
-    private lateinit var failedAdapter: JsonAdapter<Error401Model>
+    private lateinit var failedAdapter: JsonAdapter<ResponsedBackend>
 
 
     @Before
     fun setupApi() {
         service = NetworkAPI
-        failedAdapter = moshi.adapter(Error401Model::class.java)
+        failedAdapter = moshi.adapter(ResponsedBackend::class.java)
     }
 
     /**
@@ -211,7 +211,7 @@ class NetowrkkApiTest {
             val result = failedAdapter.fromJson(recievedJson)
 
             // THEN session result return with object [NesSessionModel]
-            assertThat(result, (instanceOf(Error401Model::class.java)))
+            assertThat(result, (instanceOf(ResponsedBackend::class.java)))
             // success value from server should be false
             assertThat(result?.success, `is`(false))
         }
@@ -241,7 +241,7 @@ class NetowrkkApiTest {
             val result = failedAdapter.fromJson(recievedJson)
 
             // THEN session result return with object [NesSessionModel]
-            assertThat(result, (instanceOf(Error401Model::class.java)))
+            assertThat(result, (instanceOf(ResponsedBackend::class.java)))
             // success value from server should be false
             assertThat(result?.success, `is`(false))
         }
@@ -265,7 +265,7 @@ class NetowrkkApiTest {
             val result = failedAdapter.fromJson(recievedJson)
 
             // THEN session result return with object [NesSessionModel]
-            assertThat(result, (instanceOf(Error401Model::class.java)))
+            assertThat(result, (instanceOf(ResponsedBackend::class.java)))
             // success value from server should be false
             assertThat(result?.success, `is`(false))
         }
@@ -304,7 +304,7 @@ class NetowrkkApiTest {
             val errorJson = movieList.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(errorJson)
             // THEN session result return with object [NesSessionModel]
-            assertThat(result, (instanceOf(Error401Model::class.java)))
+            assertThat(result, (instanceOf(ResponsedBackend::class.java)))
             // success value from server should be false
             assertThat(result?.success, `is`(false))
         }
@@ -343,7 +343,7 @@ class NetowrkkApiTest {
             val errorJson = movieList.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(errorJson)
             // THEN session result return with object [NesSessionModel]
-            assertThat(result, (instanceOf(Error401Model::class.java)))
+            assertThat(result, (instanceOf(ResponsedBackend::class.java)))
             // success value from server should be false
             assertThat(result?.success, `is`(false))
         }
@@ -382,7 +382,7 @@ class NetowrkkApiTest {
             val errorJson = movieList.errorBody()?.string().toString()
             val result = failedAdapter.fromJson(errorJson)
             // THEN session result return with object [NesSessionModel]
-            assertThat(result, (instanceOf(Error401Model::class.java)))
+            assertThat(result, (instanceOf(ResponsedBackend::class.java)))
             // success value from server should be false
             assertThat(result?.success, `is`(false))
         }

@@ -155,7 +155,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         sessionId: String,
         sendMediaType: MarkAsFavorite,
         apiKey: String
-    ): Result<Error401Model?> {
+    ): Result<ResponsedBackend?> {
         wrapEspressoIdlingResource {
             return try {
                 val result =

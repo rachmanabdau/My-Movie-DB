@@ -133,7 +133,7 @@ interface NetworkService {
     fun logoutAsync(
         @Body userSessionId: Map<String, String>,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
-    ): Deferred<Response<Error401Model>>
+    ): Deferred<Response<ResponsedBackend>>
 
     @GET("movie/{movie_id}/account_states")
     fun getMovieAuthStateAsync(
@@ -156,7 +156,7 @@ interface NetworkService {
         @Body sendMediaType: MarkAsFavorite,
         @Query("api_key") apiKey: String = BuildConfig.V3_AUTH,
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
-    ): Deferred<Response<Error401Model>>
+    ): Deferred<Response<ResponsedBackend>>
 }
 
 object NetworkAPI {

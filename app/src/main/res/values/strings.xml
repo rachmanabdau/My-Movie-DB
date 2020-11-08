@@ -44,4 +44,6 @@
     <string name="recommendation_detail_label">Recommendation %1$s</string>
     <string name="similar_detail_label">Similar %1$s</string>
     <string name="logout_label">Logout</string>
+    <string name="rate_title_label">Give your rate</string>
+    <string name="submit_label">Submit</string>
 </resources>

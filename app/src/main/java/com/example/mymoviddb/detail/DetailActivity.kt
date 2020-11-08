@@ -114,7 +114,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
-        var mediaType = ""
+        val mediaType: String
         val loadId = if (args.loadDetailId != 0) {
             args.loadDetailId
         } else {

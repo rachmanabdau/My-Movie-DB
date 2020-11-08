@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.mymoviddb.datasource.remote.moshi
-import com.example.mymoviddb.model.Error401Model
+import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.google.android.material.appbar.MaterialToolbar
 import retrofit2.Response
@@ -44,7 +44,7 @@ object Util {
     }
 
     fun returnError(result: Response<*>): Result.Error {
-        val errorAdapter = moshi.adapter(Error401Model::class.java)
+        val errorAdapter = moshi.adapter(ResponsedBackend::class.java)
         val errorMessage = result.errorBody()?.string() ?: "Unknown error has occured"
         val errorJson =
             errorAdapter.fromJson(errorMessage)

@@ -2,8 +2,8 @@ package com.example.mymoviddb.authentication
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
-import com.example.mymoviddb.model.Error401Model
 import com.example.mymoviddb.model.GuestSessionModel
+import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
@@ -22,14 +22,14 @@ class AuthenticationAccessTest {
 
 
     private lateinit var fakeRemoteSource: NetworkService
-    private lateinit var errorConverter: JsonAdapter<Error401Model>
+    private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
     private lateinit var access: AuthenticationAccess
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
         access = AuthenticationAccess(fakeRemoteSource)
-        errorConverter = moshi.adapter(Error401Model::class.java)
+        errorConverter = moshi.adapter(ResponsedBackend::class.java)
 
     }
 
