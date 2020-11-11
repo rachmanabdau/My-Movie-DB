@@ -8,6 +8,8 @@ import com.example.mymoviddb.category.tv.CategoryTVListIAccess
 import com.example.mymoviddb.category.tv.ICategoryTVListAccess
 import com.example.mymoviddb.detail.DetailAccess
 import com.example.mymoviddb.detail.IDetailAccess
+import com.example.mymoviddb.favourite.IShowFavouriteAccess
+import com.example.mymoviddb.favourite.ShowFavouriteAccess
 import com.example.mymoviddb.home.HomeAccess
 import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.main.IMainAccess
@@ -37,5 +39,8 @@ abstract class AccessModule {
     abstract fun bindShowDetail(detailAccess: DetailAccess): IDetailAccess
 
     @Binds
-    abstract fun bindUseretial(userDetailAccess: MainAccess): IMainAccess
+    abstract fun bindUserDetial(userDetailAccess: MainAccess): IMainAccess
+
+    @Binds
+    abstract fun bindshowFavourite(showFavouriteAccess: ShowFavouriteAccess): IShowFavouriteAccess
 }
