@@ -1,6 +1,7 @@
 package com.example.mymoviddb.datasource.remote
 
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.BuildConfig.V3_AUTH
 import com.example.mymoviddb.model.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -11,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-val moshi = Moshi.Builder()
+val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
@@ -25,12 +26,12 @@ interface NetworkService {
 
     @GET("authentication/token/new")
     fun getRequestTokenAsync(
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<RequestTokenModel?>>
 
     @GET("authentication/guest_session/new")
     fun loginAsGuestAsync(
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<GuestSessionModel?>>
 
     @FormUrlEncoded
@@ -39,88 +40,88 @@ interface NetworkService {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("request_token") requestToken: String,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<LoginTokenModel?>>
 
     @FormUrlEncoded
     @POST("authentication/session/new")
     fun createSessionAsync(
         @Field("request_token") requestToken: String,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<NewSessionModel>>
 
     @GET("movie/popular")
     fun getPopularMoviesAsync(
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MovieModel>>
 
     @GET("movie/now_playing")
     fun getNowPlayingMoviesAsync(
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MovieModel>>
 
     @GET("tv/popular")
     fun getPopularTvShowAsync(
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
     @GET("tv/on_the_air")
     fun getOnAirTvShowAsync(
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
     @GET("search/movie")
     fun searchMoviesAsync(
         @Query("query") title: String,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MovieModel>>
 
     @GET("search/tv")
     fun searchTvShowsAsync(
         @Query("query") title: String,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
     @GET("movie/{movie_id}")
     fun getDetailhMoviesAsync(
         @Path("movie_id") movieId: Long,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MovieDetail>>
 
     @GET("tv/{tv_id}")
     fun getDetailTvShowsAsync(
         @Path("tv_id") tvId: Long,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<TVDetail>>
 
     @GET("movie/{movie_id}/recommendations")
     fun getRecommendationMoviesAsync(
         @Path("movie_id") movieId: Long,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MovieModel>>
 
     @GET("movie/{movie_id}/similar")
     fun getSimilarMoviesAsync(
         @Path("movie_id") movieId: Long,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MovieModel>>
 
     @GET("tv/{tv_id}/recommendations")
     fun getRecommendationTVShowsAsync(
         @Path("tv_id") tvId: Long,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
     @GET("tv/{tv_id}/similar")
     fun getSimilarTVShowsAsync(
         @Path("tv_id") tvId: Long,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<TVShowModel>>
 
     @GET("account")
@@ -132,21 +133,21 @@ interface NetworkService {
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     fun logoutAsync(
         @Body userSessionId: Map<String, String>,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<ResponsedBackend>>
 
     @GET("movie/{movie_id}/account_states")
     fun getMovieAuthStateAsync(
         @Path("movie_id") movieId: Long,
         @Query("session_id") sessionId: String,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MediaState>>
 
     @GET("tv/{tv_id}/account_states")
     fun getTVAuthStateAsync(
         @Path("tv_id") tvId: Long,
         @Query("session_id") sessionId: String,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH
+        @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<MediaState>>
 
     @POST("account/{account_id}/favorite")
@@ -154,9 +155,19 @@ interface NetworkService {
         @Path("account_id") accoundId: Int,
         @Query("session_id") sessionId: String,
         @Body sendMediaType: MarkAsFavorite,
-        @Query("api_key") apiKey: String = BuildConfig.V3_AUTH,
+        @Query("api_key") apiKey: String = V3_AUTH,
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
     ): Deferred<Response<ResponsedBackend>>
+
+    @GET("account/{account_id}/favorite/{show_type}")
+    fun getFavoriteAsync(
+        @Path("account_id") accountId: Int,
+        @Path("show_type") showType: String,
+        @Query("session_id") sessionId: String,
+        @Query("page") page: Int,
+        @Query("sort_by") sortBy: String = "created_at.desc",
+        @Query("api_key") apiKey: String = V3_AUTH
+    ): Deferred<Response<ShowFavourite>>
 }
 
 object NetworkAPI {
