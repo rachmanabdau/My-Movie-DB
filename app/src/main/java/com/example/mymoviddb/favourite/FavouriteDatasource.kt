@@ -1,6 +1,6 @@
 package com.example.mymoviddb.favourite
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.mymoviddb.model.Result
@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class FavouriteDatasource(
-    context: Context,
+    app: Application,
     private val networkService: IShowFavouriteAccess,
     private val scope: CoroutineScope,
     private val showType: Int
@@ -23,10 +23,10 @@ class FavouriteDatasource(
     private var retry: (() -> Any)? = null
 
     // for sessionId
-    private val sessionId: String = PreferenceUtil.readUserSession(context)
+    private val sessionId: String = PreferenceUtil.readUserSession(app)
 
     // for user id
-    private val userId = PreferenceUtil.readAccountId(context)
+    private val userId = PreferenceUtil.readAccountId(app)
 
     fun retry() {
         val prevRetry = retry

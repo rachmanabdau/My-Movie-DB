@@ -5,8 +5,10 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.ShowFavourite
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
+import javax.inject.Inject
 
-class ShowFavouriteAccess(private val access: NetworkService) : IShowFavouriteAccess {
+class ShowFavouriteAccess @Inject constructor(private val access: NetworkService) :
+    IShowFavouriteAccess {
 
     override suspend fun getFavouriteTVShows(
         accountId: Int,
