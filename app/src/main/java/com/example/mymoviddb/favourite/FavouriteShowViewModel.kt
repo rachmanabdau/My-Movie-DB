@@ -29,8 +29,12 @@ class FavouriteShowViewModel @ViewModelInject constructor(
         it.getResult()
     }
 
-    fun setFavouriteShowType(title: Int) {
-        savedStateHandle.set("showType", title)
+    fun getFavouriteTVShows() {
+        savedStateHandle.set("showType", FavouriteDatasource.FAVOURITE_TVSHOWS)
+    }
+
+    fun getFavouriteMovies() {
+        savedStateHandle.set("showType", FavouriteDatasource.FAVOURITE_MOVIES)
     }
 
     fun retryLoadFavourite() {
