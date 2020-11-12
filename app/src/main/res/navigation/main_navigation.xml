@@ -95,6 +95,11 @@
     <fragment
         android:id="@+id/favouriteMoviesFragment"
         android:name="com.example.mymoviddb.favourite.FavouriteMoviesFragment"
-        android:label="Favourite Movies"
+        android:label="@string/favourite_movies_label"
         tools:layout="@layout/fragment_favourite_movies" />
+    <fragment
+        android:id="@+id/favouriteTVShowsFragment"
+        android:name="com.example.mymoviddb.favourite.FavouriteTVShowsFragment"
+        android:label="@string/favourite_tv_shows_label"
+        tools:layout="@layout/fragment_favourite_tv_shows" />
 </navigation>

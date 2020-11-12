@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_movie_chooser" />
 
     <item
+        android:id="@+id/favouriteTVShowsFragment"
+        android:title="@string/favourite_movies_label"
+        android:icon="@drawable/ic_tv_chooser" />
+
+    <item
         android:id="@+id/logout_drawer_menu"
         android:title="@string/logout_label"
         android:icon="@drawable/ic_logout" />
