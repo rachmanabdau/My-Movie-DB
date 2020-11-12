@@ -8,6 +8,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MovieDataSource(
     private val networkService: ICategoryMovieListAccess,
@@ -69,6 +70,7 @@ class MovieDataSource(
                         loadInitial(params, callback)
                     }
                 }
+                Timber.d((result.value.toString()))
             }
         }
     }
@@ -86,19 +88,19 @@ class MovieDataSource(
                             MOVIE_CATEGORY_ID == SEARCH_MOVIES && title.isNotBlank() -> {
                                 networkService.searchMovies(
                                     title,
-                                    params.key + 1,
+                                    params.key,
                                     BuildConfig.V3_AUTH
                                 )
                             }
                             MOVIE_CATEGORY_ID == POPULAR_MOVIE_ID -> {
                                 networkService.getPopularMovieList(
-                                    params.key + 1,
+                                    params.key,
                                     BuildConfig.V3_AUTH
                                 )
                             }
                             MOVIE_CATEGORY_ID == NOW_PLAYING_MOVIE_ID -> {
                                 networkService.getNowPlayingMovieList(
-                                    params.key + 1,
+                                    params.key,
                                     BuildConfig.V3_AUTH
                                 )
                             }
@@ -123,6 +125,7 @@ class MovieDataSource(
                         loadAfter(params, callback)
                     }
                 }
+                Timber.d((result.value.toString()))
             }
         }
     }

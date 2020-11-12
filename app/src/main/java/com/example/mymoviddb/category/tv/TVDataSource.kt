@@ -90,19 +90,19 @@ class TVDataSource(
                             TV_CATEGORY_ID == SEARCH_TV && title.isNotBlank() -> {
                                 networkService.searchTvShowList(
                                     title,
-                                    params.key + 1,
+                                    params.key,
                                     BuildConfig.V3_AUTH
                                 )
                             }
                             TV_CATEGORY_ID == POPULAR_TV_ID -> {
                                 networkService.getPopularTvShowList(
-                                    params.key + 1,
+                                    params.key,
                                     BuildConfig.V3_AUTH
                                 )
                             }
                             TV_CATEGORY_ID == ON_AIR_TV_ID -> {
                                 networkService.getOnAirTvShowList(
-                                    params.key + 1,
+                                    params.key,
                                     BuildConfig.V3_AUTH
                                 )
                             }
