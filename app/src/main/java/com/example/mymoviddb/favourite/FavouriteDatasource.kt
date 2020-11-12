@@ -3,8 +3,8 @@ package com.example.mymoviddb.favourite
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.example.mymoviddb.model.FavouriteShow
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.ShowFavourite
 import com.example.mymoviddb.utils.PreferenceUtil
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
@@ -15,9 +15,9 @@ class FavouriteDatasource(
     private val networkService: IShowFavouriteAccess,
     private val scope: CoroutineScope,
     private val showType: Int
-) : PageKeyedDataSource<Int, ShowFavourite.Result>() {
+) : PageKeyedDataSource<Int, FavouriteShow.Result>() {
 
-    val result: MutableLiveData<Result<ShowFavourite?>> = MutableLiveData()
+    val result: MutableLiveData<Result<FavouriteShow?>> = MutableLiveData()
 
     // keep a function reference for the retry event
     private var retry: (() -> Any)? = null
@@ -37,14 +37,14 @@ class FavouriteDatasource(
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, ShowFavourite.Result>
+        callback: LoadInitialCallback<Int, FavouriteShow.Result>
     ) {
         emptyList<String>()
         wrapEspressoIdlingResource {
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val movieResult: Result<ShowFavourite?> =
+                    val listShow: Result<FavouriteShow?> =
                         when (showType) {
                             FAVOURITE_MOVIES -> {
                                 networkService.getFavouriteMovies(
@@ -59,12 +59,12 @@ class FavouriteDatasource(
                         }
 
 
-                    if (movieResult is Result.Success) {
-                        result.value = movieResult
-                        val movieList = movieResult.data?.results ?: emptyList()
-                        callback.onResult(movieList, 0, 2)
+                    if (listShow is Result.Success) {
+                        result.value = listShow
+                        val movieList = listShow.data?.results ?: emptyList()
+                        callback.onResult(movieList, null, 2)
                     } else {
-                        result.value = movieResult
+                        result.value = listShow
                         retry = {
                             loadInitial(params, callback)
                         }
@@ -81,32 +81,32 @@ class FavouriteDatasource(
 
     override fun loadAfter(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, ShowFavourite.Result>
+        callback: LoadCallback<Int, FavouriteShow.Result>
     ) {
         wrapEspressoIdlingResource {
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val movieResult: Result<ShowFavourite?> =
+                    val listShow: Result<FavouriteShow?> =
                         when (showType) {
                             FAVOURITE_MOVIES -> {
                                 networkService.getFavouriteMovies(
-                                    accountId = userId, sessionId = sessionId, params.key + 1
+                                    accountId = userId, sessionId = sessionId, params.key
                                 )
                             }
                             else -> {
                                 networkService.getFavouriteTVShows(
-                                    accountId = userId, sessionId = sessionId, params.key + 1
+                                    accountId = userId, sessionId = sessionId, params.key
                                 )
                             }
                         }
 
-                    if (movieResult is Result.Success) {
-                        result.value = movieResult
-                        val movieList = movieResult.data?.results ?: emptyList()
+                    if (listShow is Result.Success) {
+                        result.value = listShow
+                        val movieList = listShow.data?.results ?: emptyList()
                         callback.onResult(movieList, params.key + 1)
                     } else {
-                        result.value = movieResult
+                        result.value = listShow
                         retry = {
                             loadAfter(params, callback)
                         }
@@ -123,7 +123,7 @@ class FavouriteDatasource(
 
     override fun loadBefore(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, ShowFavourite.Result>
+        callback: LoadCallback<Int, FavouriteShow.Result>
     ) {
     }
 

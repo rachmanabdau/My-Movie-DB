@@ -3,7 +3,7 @@ package com.example.mymoviddb.model
 
 import com.squareup.moshi.Json
 
-data class ShowFavourite(
+data class FavouriteShow(
     @Json(name = "page")
     val page: Int,
     @Json(name = "results")
@@ -26,7 +26,7 @@ data class ShowFavourite(
         @Json(name = "genre_ids")
         val genreIds: List<Int>,
         @Json(name = "id")
-        val id: Int,
+        val id: Long,
         // parameter for favourite tv shows
         @Json(name = "name")
         val tvName: String?,

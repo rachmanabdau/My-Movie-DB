@@ -1,8 +1,8 @@
 package com.example.mymoviddb.favourite
 
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.model.FavouriteShow
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.ShowFavourite
 
 interface IShowFavouriteAccess {
 
@@ -12,7 +12,7 @@ interface IShowFavouriteAccess {
         page: Int,
         showType: String = "tv",
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<ShowFavourite?>
+    ): Result<FavouriteShow?>
 
     suspend fun getFavouriteMovies(
         accountId: Int,
@@ -20,5 +20,5 @@ interface IShowFavouriteAccess {
         page: Int,
         showType: String = "movies",
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<ShowFavourite?>
+    ): Result<FavouriteShow?>
 }

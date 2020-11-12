@@ -46,4 +46,5 @@
     <string name="logout_label">Logout</string>
     <string name="rate_title_label">Give your rate</string>
     <string name="submit_label">Submit</string>
+    <string name="swipe_refresh_hint">%1$s. Swipe down to refresh</string>
 </resources>
