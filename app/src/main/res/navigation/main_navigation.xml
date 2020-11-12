@@ -92,4 +92,9 @@
             app:argType="long"
             android:defaultValue="0L" />
     </activity>
+    <fragment
+        android:id="@+id/favouriteMoviesFragment"
+        android:name="com.example.mymoviddb.favourite.FavouriteMoviesFragment"
+        android:label="Favourite Movies"
+        tools:layout="@layout/fragment_favourite_movies" />
 </navigation>
