@@ -46,7 +46,7 @@ class FavouriteMoviesFragment : Fragment() {
             favouriteViewModel.getFavouriteMovies()
         }
 
-        favouriteViewModel.getFavouriteTVShows()
+        favouriteViewModel.getFavouriteMovies()
         favouriteViewModel.favouriteList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             Timber.d(it.toString())
@@ -67,7 +67,6 @@ class FavouriteMoviesFragment : Fragment() {
             } else if (it is Result.Loading && firstInitialize) {
                 binding.favouriteSwipeRefresh.isRefreshing = true
             }
-            Timber.d(it.toString())
         })
 
 
