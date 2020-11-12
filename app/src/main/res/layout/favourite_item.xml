@@ -6,26 +6,32 @@
     <data>
 
         <variable
-            name="favouriteviewmodel"
-            type="com.example.mymoviddb.model.ShowFavourite" />
+            name="favouriteData"
+            type="com.example.mymoviddb.model.FavouriteShow.Result" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/favourite_item_card_container"
+        android:layout_margin="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackgroound">
 
             <ImageView
                 android:id="@+id/show_poster_favourite_item"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="fitXY"
+                app:loadImage="@{favouriteData.posterPath}"
+                app:error="@{@drawable/ic_error}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:src="@tools:sample/backgrounds/scenic" />
+                tools:src="@tools:sample/backgrounds/scenic"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title_favourite_item"
