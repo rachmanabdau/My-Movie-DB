@@ -19,6 +19,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -280,7 +281,7 @@ class DetailActivity : AppCompatActivity() {
                     binding.errorSimilarDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorSimilarDetail.errorMessage.text = it.exception.localizedMessage
                     binding.errorSimilarDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getRecommendationMovies(showId)
+                        detailViewModel.getSimilarMovies(showId)
                     }
                 }
             }
@@ -356,8 +357,8 @@ class DetailActivity : AppCompatActivity() {
                     binding.errorRecommendationDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorRecommendationDetail.errorMessage.text =
                         it.exception.localizedMessage
-                    binding.errorDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getRecommendationMovies(showId)
+                    binding.errorRecommendationDetail.tryAgainButton.setOnClickListener {
+                        detailViewModel.getRecommendationTVShows(showId)
                     }
                 }
             }
@@ -367,7 +368,7 @@ class DetailActivity : AppCompatActivity() {
             when (it) {
                 is Result.Success -> {
                     similarTVAdapter.submitList(it.data?.results)
-                    binding.errorRecommendationDetail.root.visibility = View.GONE
+                    binding.errorSimilarDetail.root.visibility = View.GONE
 
                     if (it.data?.results.isNullOrEmpty()) {
                         binding.similarContainer.visibility = View.GONE
@@ -388,10 +389,12 @@ class DetailActivity : AppCompatActivity() {
                     binding.errorSimilarDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorSimilarDetail.errorMessage.text = it.exception.localizedMessage
                     binding.errorSimilarDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getRecommendationMovies(showId)
+                        detailViewModel.getSimilarTVShows(showId)
+                        Timber.d("similar tv shows clicked")
                     }
                 }
             }
+            Timber.d("similar tv shows result $it")
         }
     }
 
