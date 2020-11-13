@@ -37,10 +37,6 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
 
     }
 
-    override fun getItemCount(): Int {
-        return if (super.getItemCount() > 1) super.getItemCount() + 1 else super.getItemCount()
-    }
-
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount - 1 && state !is Result.Success)
             typeError
@@ -67,7 +63,7 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is FavouriteViewHolder && position < itemCount - 2) {
+        if (holder is FavouriteViewHolder) {
             val data = getItem(position)
             holder.onBind(data, actionDetail)
         } else if (holder is ErrorViewHolder && state !is Result.Success) {
@@ -79,7 +75,7 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
 
     fun setState(state: Result<FavouriteShow?>) {
         this.state = state
-        notifyItemChanged(super.getItemCount())
+        notifyDataSetChanged()
     }
 
 }
