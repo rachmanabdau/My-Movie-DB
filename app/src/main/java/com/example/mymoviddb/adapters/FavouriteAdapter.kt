@@ -11,7 +11,6 @@ import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.model.FavouriteShow
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.ErrorViewHolder
-import timber.log.Timber
 
 class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: (Long) -> Unit) :
     PagedListAdapter<FavouriteShow.Result, RecyclerView.ViewHolder>(DiffUtil) {
@@ -43,7 +42,7 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == itemCount - 1 && state is Result.Error)
+        return if (position == itemCount - 1 && state !is Result.Success)
             typeError
         else typeFavouriteShows
     }
@@ -71,10 +70,10 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
         if (holder is FavouriteViewHolder && position < itemCount - 2) {
             val data = getItem(position)
             holder.onBind(data, actionDetail)
-        } else if (holder is ErrorViewHolder && state is Result.Error) {
+        } else if (holder is ErrorViewHolder && state !is Result.Success) {
             val errorMessage =
-                (state as Result.Error).exception.localizedMessage ?: "Unknown error has occured"
-            (holder).onBind(state, errorMessage) { retry() }
+                if (state is Result.Error) (state as Result.Error).exception.localizedMessage else "Unknown error has occured"
+            holder.onBind(state, errorMessage) { retry() }
         }
     }
 
@@ -89,18 +88,19 @@ class FavouriteViewHolder(private val binding: FavouriteItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(data: FavouriteShow.Result?, actionDetail: (Long) -> Unit) {
-        val context = binding.root.context
-        binding.favouriteData = data
-        binding.titleFavouriteItem.text = /*data?.tvName ?:*/ data?.movieTitle
+        data?.let {
+            val context = binding.root.context
+            binding.favouriteData = data
+            binding.titleFavouriteItem.text = it.tvName ?: it.movieTitle
 
-        Timber.d(binding.titleFavouriteItem.text.toString())
-        binding.showPosterFavouriteItem.contentDescription = context.getString(
-            R.string.movie_content_description,
-            binding.titleFavouriteItem.text.toString()
-        )
+            binding.showPosterFavouriteItem.contentDescription = context.getString(
+                R.string.movie_content_description,
+                binding.titleFavouriteItem.text.toString()
+            )
 
-        binding.favouriteItemCardContainer.setOnClickListener {
-            actionDetail(data?.id ?: 0L)
+            binding.favouriteItemCardContainer.setOnClickListener {
+                actionDetail(data.id)
+            }
         }
     }
 }
