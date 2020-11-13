@@ -37,6 +37,10 @@ class DetailActivity : AppCompatActivity() {
 
     private var favoriteState = false
 
+    private var loadId = 0
+
+    private var showId = 0L
+
     private val detailViewModel by viewModels<DetailViewModel>()
 
     private val args by navArgs<DetailActivityArgs>()
@@ -44,9 +48,41 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+
+
+        loadId = if (args.loadDetailId != 0) {
+            args.loadDetailId
+        } else {
+            intent.getIntExtra(DETAIL_KEY, 0)
+        }
+
+        showId = if (args.showId != 0L) {
+            args.showId
+        } else {
+            intent.getLongExtra(SHOW_ID_KEY, 0L)
+        }
+
         setupToolbar()
         showHideActionButton()
         loadData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val userState = PreferenceUtil.getAuthState(this)
+
+        if (userState == LoginState.AS_USER.stateId) {
+            if (loadId == DETAIL_MOVIE) {
+                val userSessionId = PreferenceUtil.readUserSession(this)
+                detailViewModel.getMovieAccountState(showId, userSessionId)
+                observeAccountState()
+            } else {
+                val userSessionId = PreferenceUtil.readUserSession(this)
+                detailViewModel.getTVAccountState(showId, userSessionId)
+                observeAccountState()
+            }
+        }
     }
 
     companion object {
@@ -117,32 +153,14 @@ class DetailActivity : AppCompatActivity() {
 
     private fun loadData() {
         val mediaType: String
-        val loadId = if (args.loadDetailId != 0) {
-            args.loadDetailId
-        } else {
-            intent.getIntExtra(DETAIL_KEY, 0)
-        }
-
-        val showId = if (args.showId != 0L) {
-            args.showId
-        } else {
-            intent.getLongExtra(SHOW_ID_KEY, 0L)
-        }
 
         initAdapter(showId, loadId)
 
-        val userState = PreferenceUtil.getAuthState(this)
         if (loadId == DETAIL_MOVIE) {
             mediaType = "movie"
             detailViewModel.getMovieDetail(showId)
             detailViewModel.getRecommendationMovies(showId)
             detailViewModel.getSimilarMovies(showId)
-
-            if (userState == LoginState.AS_USER.stateId) {
-                val userSessionId = PreferenceUtil.readUserSession(this)
-                detailViewModel.getMovieAccountState(showId, userSessionId)
-                observeAccountState()
-            }
 
             observeMoviesDetail(showId)
             binding.recommendationLabelDetail.text =
@@ -154,12 +172,6 @@ class DetailActivity : AppCompatActivity() {
             detailViewModel.getTVDetail(showId)
             detailViewModel.getRecommendationTVShows(showId)
             detailViewModel.getSimilarTVShows(showId)
-
-            if (userState == LoginState.AS_USER.stateId) {
-                val userSessionId = PreferenceUtil.readUserSession(this)
-                detailViewModel.getTVAccountState(showId, userSessionId)
-                observeAccountState()
-            }
 
             observeTVDetail(showId)
             binding.recommendationLabelDetail.text =
