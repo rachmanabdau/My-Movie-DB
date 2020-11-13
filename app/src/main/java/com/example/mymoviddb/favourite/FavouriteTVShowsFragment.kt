@@ -19,7 +19,7 @@ class FavouriteTVShowsFragment : Fragment() {
 
     private val favouriteViewModel by viewModels<FavouriteShowViewModel>()
 
-    private var firstInitialize = false
+    private var firstInitialize = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

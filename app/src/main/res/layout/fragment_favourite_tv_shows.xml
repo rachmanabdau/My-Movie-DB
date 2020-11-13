@@ -20,7 +20,12 @@
         <include
             android:id="@+id/favourite_error_layout"
             layout="@layout/try_again_load_list"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/favourite_swipe_refresh"
