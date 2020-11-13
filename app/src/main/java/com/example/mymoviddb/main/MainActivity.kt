@@ -24,7 +24,6 @@ import com.example.mymoviddb.utils.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,10 +53,15 @@ class MainActivity : AppCompatActivity() {
 
         if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId) {
             setupDrawerMenu(navController)
-            observeUserAvatar(PreferenceUtil.readUserSession(this))
         } else {
             setupToolbarOnly(navController)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId)
+            observeUserAvatar(PreferenceUtil.readUserSession(this))
     }
 
     private fun observeUserAvatar(readUserSession: String) {
@@ -96,7 +100,6 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
             if (it is Result.Error) {
-                Timber.d(it.exception.message.toString())
                 Snackbar.make(
                     binding.root,
                     it.exception.localizedMessage ?: "Unknows error occured",
@@ -127,7 +130,6 @@ class MainActivity : AppCompatActivity() {
             return@setNavigationItemSelectedListener true
         }
 
-        Timber.d(PreferenceUtil.readUserSession(this))
     }
 
     private fun setupToolbarOnly(navController: NavController) {
