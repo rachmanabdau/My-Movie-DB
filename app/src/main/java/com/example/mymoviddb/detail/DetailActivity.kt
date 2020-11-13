@@ -18,6 +18,7 @@ import com.example.mymoviddb.model.MarkAsFavorite
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -409,12 +410,22 @@ class DetailActivity : AppCompatActivity() {
         }
 
         detailViewModel.favouriteResult.observe(this) {
+            var message = ""
             if (it is Result.Success && it.data?.statusCode != null) {
                 binding.favouriteFabDetail.setImageResource(
                     if (it.data.statusCode == 13) R.drawable.ic_favourite_disable else R.drawable.ic_favourite_active
                 )
                 favoriteState = it.data.statusCode == 13
+                message =
+                    if (favoriteState) getString(R.string.add_to_favourite_success)
+                    else getString(R.string.remove_from_favourite_success)
+            } else if (it is Result.Error) {
+                message =
+                    if (favoriteState) getString(R.string.add_to_favourite_failed)
+                    else getString(R.string.remove_from_favourite_failed)
+                message += it.exception.localizedMessage ?: "Unknown error has occured"
             }
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
         }
     }
 

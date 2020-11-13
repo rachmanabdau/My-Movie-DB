@@ -50,4 +50,8 @@
     <string name="favourite_movies_label">Favourite Movies</string>
     <string name="favourite_tv_shows_label">Favourite TV Shows</string>
     <string name="favourite_shows_label">Favourite Shows</string>
+    <string name="add_to_favourite_success">The show successfully removed from your favourite list</string>
+    <string name="add_to_favourite_failed">Adding the show to favourite list is failed</string>
+    <string name="remove_from_favourite_failed">\"Removing the show from favourite list is failed. \"</string>
+    <string name="remove_from_favourite_success">The show successfully added to your favourite list</string>
 </resources>
