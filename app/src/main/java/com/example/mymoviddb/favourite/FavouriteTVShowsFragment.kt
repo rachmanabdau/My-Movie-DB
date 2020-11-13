@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.FavouriteAdapter
 import com.example.mymoviddb.databinding.FragmentFavouriteTvShowsBinding
+import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +36,12 @@ class FavouriteTVShowsFragment : Fragment() {
                 favouriteViewModel.retryLoadFavourite()
             },
             {
-                // navigate to detail activity
+                findNavController().navigate(
+                    FavouriteTVShowsFragmentDirections.actionFavouriteTVShowsFragmentToDetailActivity(
+                        DetailActivity.DETAIL_TV,
+                        it
+                    )
+                )
             }
         )
         binding.favouriteRv.adapter = adapter
