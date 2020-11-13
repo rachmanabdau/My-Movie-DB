@@ -54,4 +54,6 @@
     <string name="add_to_favourite_failed">Adding the show to favourite list is failed</string>
     <string name="remove_from_favourite_failed">\"Removing the show from favourite list is failed. \"</string>
     <string name="remove_from_favourite_success">The show successfully added to your favourite list</string>
+    <string name="empty_favourite_movie">Yuu do not have favourite movie.</string>
+    <string name="empty_favourite_tv_show">Yuu do not have favourite tv show.</string>
 </resources>

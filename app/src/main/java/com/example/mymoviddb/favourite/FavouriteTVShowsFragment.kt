@@ -66,7 +66,11 @@ class FavouriteTVShowsFragment : Fragment() {
                 binding.favouriteSwipeRefresh.isRefreshing = false
             } else if (it is Result.Success) {
                 firstInitialize = false
-                binding.favouriteErrorLayout.root.visibility = View.GONE
+                binding.favouriteErrorLayout.root.visibility =
+                    if (!it.data?.results.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.favouriteErrorLayout.errorMessage.text =
+                    getString(R.string.empty_favourite_tv_show)
+                binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
                 binding.favouriteSwipeRefresh.isRefreshing = false
             } else if (it is Result.Loading && firstInitialize) {
                 binding.favouriteSwipeRefresh.isRefreshing = true
