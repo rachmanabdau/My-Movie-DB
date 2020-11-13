@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/favouriteMoviesFragment"
-        android:title="@string/favourite_movies_label"
-        android:icon="@drawable/ic_movie_chooser" />
+    <item android:title="@string/favourite_shows_label">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/favouriteMoviesFragment"
+                    android:title="@string/favourite_movies_label"
+                    android:icon="@drawable/ic_movie_chooser" />
 
-    <item
-        android:id="@+id/favouriteTVShowsFragment"
-        android:title="@string/favourite_movies_label"
-        android:icon="@drawable/ic_tv_chooser" />
+                <item
+                    android:id="@+id/favouriteTVShowsFragment"
+                    android:title="@string/favourite_tv_shows_label"
+                    android:icon="@drawable/ic_tv_chooser" />
+
+            </group>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/logout_drawer_menu"
