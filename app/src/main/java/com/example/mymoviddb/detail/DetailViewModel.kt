@@ -91,7 +91,7 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     fun markAsFavorite(
         accountId: Int,
         sessionId: String,
-        mediaType: MarkAsFavorite,
+        mediaType: MarkMediaAs,
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {

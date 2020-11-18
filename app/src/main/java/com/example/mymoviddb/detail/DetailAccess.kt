@@ -153,7 +153,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
     override suspend fun markAsFavorite(
         accoundId: Int,
         sessionId: String,
-        sendMediaType: MarkAsFavorite,
+        sendMediaType: MarkMediaAs,
         apiKey: String
     ): Result<ResponsedBackend?> {
         wrapEspressoIdlingResource {

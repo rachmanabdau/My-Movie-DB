@@ -14,7 +14,7 @@ import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.ActivityDetailBinding
 import com.example.mymoviddb.home.PreloadLinearLayout
-import com.example.mymoviddb.model.MarkAsFavorite
+import com.example.mymoviddb.model.MarkMediaAs
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
@@ -183,7 +183,7 @@ class DetailActivity : AppCompatActivity() {
         binding.favouriteFabDetail.setOnClickListener {
             val sessionId = PreferenceUtil.readUserSession(this)
 
-            val mediatype = MarkAsFavorite(favoriteState, showId, mediaType)
+            val mediatype = MarkMediaAs(showId, mediaType, favoriteState, null)
             val userId = PreferenceUtil.readAccountId(this)
             detailViewModel.markAsFavorite(userId, sessionId, mediatype)
         }

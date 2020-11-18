@@ -32,7 +32,7 @@ interface IDetailAccess {
     suspend fun markAsFavorite(
         accoundId: Int,
         sessionId: String,
-        sendMediaType: MarkAsFavorite,
+        sendMediaType: MarkMediaAs,
         apiKey: String = BuildConfig.V3_AUTH
     ): Result<ResponsedBackend?>
 }
