@@ -67,7 +67,7 @@ class FavouriteTVShowsFragment : Fragment() {
             } else if (it is Result.Success) {
                 firstInitialize = false
                 binding.favouriteErrorLayout.root.visibility =
-                    if (!it.data?.results.isNullOrEmpty()) View.GONE else View.VISIBLE
+                    if (it.data?.results.isNullOrEmpty() && firstInitialize) View.VISIBLE else View.GONE
                 binding.favouriteErrorLayout.errorMessage.text =
                     getString(R.string.empty_favourite_tv_show)
                 binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE

@@ -13,7 +13,6 @@ import com.example.mymoviddb.databinding.FragmentFavouriteMoviesBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FavouriteMoviesFragment : Fragment() {
@@ -60,8 +59,6 @@ class FavouriteMoviesFragment : Fragment() {
         favouriteViewModel.resultFavourite.observe(viewLifecycleOwner, {
             adapter.setState(it)
 
-            Timber.d(it.toString())
-
             if (it is Result.Error && firstInitialize) {
                 val message = it.exception.localizedMessage ?: "Unknown error has occured"
                 binding.favouriteErrorLayout.errorMessage.text =
@@ -69,10 +66,9 @@ class FavouriteMoviesFragment : Fragment() {
                 binding.favouriteErrorLayout.root.visibility = View.VISIBLE
                 binding.favouriteSwipeRefresh.isRefreshing = false
             } else if (it is Result.Success) {
-                Timber.d(it.data?.results.isNullOrEmpty().toString())
                 firstInitialize = false
                 binding.favouriteErrorLayout.root.visibility =
-                    if (!it.data?.results.isNullOrEmpty()) View.GONE else View.VISIBLE
+                    if (it.data?.results.isNullOrEmpty() && firstInitialize) View.VISIBLE else View.GONE
                 binding.favouriteErrorLayout.errorMessage.text =
                     getString(R.string.empty_favourite_movie)
                 binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
