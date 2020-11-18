@@ -35,4 +35,11 @@ interface IDetailAccess {
         sendMediaType: MarkMediaAs,
         apiKey: String = BuildConfig.V3_AUTH
     ): Result<ResponsedBackend?>
+
+    suspend fun addToWatchList(
+        accoundId: Int,
+        sessionId: String,
+        sendMediaType: MarkMediaAs,
+        apiKey: String = BuildConfig.V3_AUTH
+    ): Result<ResponsedBackend?>
 }

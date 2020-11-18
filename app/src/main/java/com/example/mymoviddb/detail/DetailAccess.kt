@@ -172,4 +172,26 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         }
     }
 
+    override suspend fun addToWatchList(
+        accoundId: Int,
+        sessionId: String,
+        sendMediaType: MarkMediaAs,
+        apiKey: String
+    ): Result<ResponsedBackend?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result =
+                    access.addToWatchList(accoundId, sessionId, sendMediaType, apiKey).await()
+
+                if (result.isSuccessful) {
+                    Result.Success(result.body())
+                } else {
+                    Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+    }
+
 }
