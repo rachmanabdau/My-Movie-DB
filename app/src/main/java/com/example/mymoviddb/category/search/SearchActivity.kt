@@ -4,12 +4,10 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
 import com.example.mymoviddb.R
@@ -21,6 +19,7 @@ import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
@@ -48,22 +47,10 @@ class SearchActivity : AppCompatActivity() {
         setupToolbar()
         initAdapter(id)
         handleIntent(intent)
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        handleIntent(intent)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the options menu from XML
-        val inflater = menuInflater
-        inflater.inflate(R.menu.search_menu, menu)
 
         // Get the SearchView and set the searchable configuration
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        (menu?.findItem(R.id.searchable_menu)?.actionView as SearchView).apply {
+        binding.searchView.apply {
             maxWidth = Integer.MAX_VALUE
             // Assumes current activity is the searchable activity
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
@@ -71,9 +58,12 @@ class SearchActivity : AppCompatActivity() {
             isFocusable = true
             requestFocusFromTouch()
         }
+    }
 
-        return true
-
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -104,6 +94,7 @@ class SearchActivity : AppCompatActivity() {
                         searchViewModel.searchTvTitle(query.trim())
                     }
                 }
+                binding.searchView.setQuery(query, false)
             }
         }
     }
