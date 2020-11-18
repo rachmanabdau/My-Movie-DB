@@ -97,7 +97,7 @@ data class TVDetail(
         @Json(name = "season_number")
         val seasonNumber: Int,
         @Json(name = "show_id")
-        val showId: Int,
+        val showId: Int?,
         @Json(name = "still_path")
         val stillPath: String?,
         @Json(name = "vote_average")
@@ -125,7 +125,7 @@ data class TVDetail(
         @Json(name = "id")
         val id: Int,
         @Json(name = "name")
-        val name: String,
+        val name: String?,
         @Json(name = "overview")
         val overview: String,
         @Json(name = "production_code")
@@ -133,7 +133,7 @@ data class TVDetail(
         @Json(name = "season_number")
         val seasonNumber: Int,
         @Json(name = "show_id")
-        val showId: Int,
+        val showId: Int?,
         @Json(name = "still_path")
         val stillPath: String?,
         @Json(name = "vote_average")
