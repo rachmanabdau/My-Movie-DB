@@ -177,6 +177,16 @@ interface NetworkService {
         @Query("api_key") apiKey: String = V3_AUTH,
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
     ): Deferred<Response<ResponsedBackend>>
+
+    @GET("account/{account_id}/watchlist/{show_type}")
+    fun getWatchListAsync(
+        @Path("account_id") accountId: Int,
+        @Path("show_type") showType: String,
+        @Query("session_id") sessionId: String,
+        @Query("page") page: Int,
+        @Query("sort_by") sortBy: String = "created_at.desc",
+        @Query("api_key") apiKey: String = V3_AUTH
+    ): Deferred<Response<FavouriteAndWatchListShow>>
 }
 
 object NetworkAPI {
