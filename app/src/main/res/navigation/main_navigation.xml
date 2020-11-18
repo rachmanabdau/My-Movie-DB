@@ -113,10 +113,19 @@
     <fragment
         android:id="@+id/watchListMovieFragment"
         android:name="com.example.mymoviddb.account.watchlist.WatchListMovieFragment"
-        android:label="Watch List Movie"
+        android:label="@string/movie_watch_list_menu"
         tools:layout="@layout/fragment_watch_list_movie">
         <action
             android:id="@+id/action_watchListMovieFragment_to_detailActivity"
+            app:destination="@id/detailActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/watchListTVFragment"
+        android:name="com.example.mymoviddb.account.watchlist.WatchListTVFragment"
+        android:label="@string/tv_watch_list_menu"
+        tools:layout="@layout/fragment_watch_list_tv">
+        <action
+            android:id="@+id/action_watchListTVFragment_to_detailActivity"
             app:destination="@id/detailActivity" />
     </fragment>
 </navigation>
