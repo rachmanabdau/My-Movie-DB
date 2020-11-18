@@ -36,6 +36,9 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
     private val _favouriteResult = MutableLiveData<Result<ResponsedBackend?>>()
     val favouriteResult: LiveData<Result<ResponsedBackend?>> = _favouriteResult
 
+    private val _watchListResult = MutableLiveData<Result<ResponsedBackend?>>()
+    val watchListResult: LiveData<Result<ResponsedBackend?>> = _watchListResult
+
     fun getMovieDetail(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _movieDetail.value = detailaAccess.getDetailMovie(movieId, apiKey)
@@ -97,6 +100,18 @@ class DetailViewModel @ViewModelInject constructor(private val detailaAccess: ID
         viewModelScope.launch {
             _favouriteResult.value =
                 detailaAccess.markAsFavorite(accountId, sessionId, mediaType, apiKey)
+        }
+    }
+
+    fun addToWatchList(
+        accountId: Int,
+        sessionId: String,
+        mediaType: MarkMediaAs,
+        apiKey: String = BuildConfig.V3_AUTH
+    ) {
+        viewModelScope.launch {
+            _watchListResult.value =
+                detailaAccess.addToWatchList(accountId, sessionId, mediaType, apiKey)
         }
     }
 }
