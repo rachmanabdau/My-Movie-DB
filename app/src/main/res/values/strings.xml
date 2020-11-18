@@ -36,7 +36,7 @@
     <string name="tv_show_not_found">TV Shows Data Not Found</string>
     <string name="home_label">Home</string>
     <string name="favourite_hint_detail">Favourite Button</string>
-    <string name="rate_hint_detail">Rate Button</string>
+    <string name="add_to_watchlist_detail">Add To Watch List Button</string>
     <string name="over_view_detail">Overview: \n%1$s</string>
     <string name="rate_detail">Rate: %1$d%%</string>
     <string name="release_date_detail">Release Date: \n%1$s</string>
@@ -52,8 +52,12 @@
     <string name="favourite_shows_label">Favourite Shows</string>
     <string name="add_to_favourite_success">The show successfully removed from your favourite list</string>
     <string name="add_to_favourite_failed">Adding the show to favourite list is failed</string>
-    <string name="remove_from_favourite_failed">\"Removing the show from favourite list is failed. \"</string>
+    <string name="remove_from_favourite_failed">Removing the show from favourite list is failed. </string>
     <string name="remove_from_favourite_success">The show successfully added to your favourite list</string>
+    <string name="add_to_watchlist_success">The show successfully removed from your watch list</string>
+    <string name="add_to_watchlist_failed">Adding the show to watch list is failed</string>
+    <string name="remove_from_watchlist_failed">Removing the show from watch list is failed. </string>
+    <string name="remove_from_watchlist_success">The show successfully added to your watch list</string>
     <string name="empty_favourite_movie">Yuu do not have favourite movie.</string>
     <string name="empty_favourite_tv_show">Yuu do not have favourite tv show.</string>
 </resources>

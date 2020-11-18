@@ -20,7 +20,6 @@ import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -36,6 +35,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var similarTVAdapter: TVAdapter
 
     private var favoriteState = false
+
+    private var watchListState = false
 
     private var loadId = 0
 
@@ -187,6 +188,15 @@ class DetailActivity : AppCompatActivity() {
             val userId = PreferenceUtil.readAccountId(this)
             detailViewModel.markAsFavorite(userId, sessionId, mediatype)
         }
+
+        binding.addToWatchlistFabDetail.setOnClickListener {
+            val sessionId = PreferenceUtil.readUserSession(this)
+
+            val mediatype = MarkMediaAs(showId, mediaType, null, watchListState)
+            val userId = PreferenceUtil.readAccountId(this)
+            detailViewModel.addToWatchList(userId, sessionId, mediatype)
+        }
+
     }
 
     private fun setIntentDetail(showId: Long, detailKey: Int) {
@@ -403,11 +413,9 @@ class DetailActivity : AppCompatActivity() {
                     binding.errorSimilarDetail.errorMessage.text = it.exception.localizedMessage
                     binding.errorSimilarDetail.tryAgainButton.setOnClickListener {
                         detailViewModel.getSimilarTVShows(showId)
-                        Timber.d("similar tv shows clicked")
                     }
                 }
             }
-            Timber.d("similar tv shows result $it")
         }
     }
 
@@ -418,7 +426,32 @@ class DetailActivity : AppCompatActivity() {
                     if (it.data.favorite) R.drawable.ic_favourite_active else R.drawable.ic_favourite_disable
                 )
                 favoriteState = (it.data.favorite).not()
+
+
+                binding.addToWatchlistFabDetail.setImageResource(
+                    if (it.data.watchlist) R.drawable.ic_playlist_add_check else R.drawable.ic_playlist_add
+                )
+                watchListState = (it.data.watchlist).not()
             }
+        }
+
+        detailViewModel.watchListResult.observe(this) {
+            var message = ""
+            if (it is Result.Success && it.data?.statusCode != null) {
+                binding.addToWatchlistFabDetail.setImageResource(
+                    if (it.data.statusCode == 13) R.drawable.ic_playlist_add else R.drawable.ic_playlist_add_check
+                )
+                watchListState = it.data.statusCode == 13
+                message =
+                    if (watchListState) getString(R.string.add_to_watchlist_success)
+                    else getString(R.string.remove_from_watchlist_success)
+            } else if (it is Result.Error) {
+                message =
+                    if (watchListState) getString(R.string.add_to_watchlist_failed)
+                    else getString(R.string.remove_from_watchlist_failed)
+                message += it.exception.localizedMessage ?: "Unknown error has occured"
+            }
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
         }
 
         detailViewModel.favouriteResult.observe(this) {
