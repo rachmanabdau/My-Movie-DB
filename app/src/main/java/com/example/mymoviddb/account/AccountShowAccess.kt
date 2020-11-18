@@ -65,4 +65,60 @@ class AccountShowAccess @Inject constructor(private val access: NetworkService) 
             }
         }
     }
+
+    override suspend fun getWatchlistTVShows(
+        accountId: Int,
+        sessionId: String,
+        page: Int,
+        showType: String,
+        apiKey: String
+    ): Result<FavouriteAndWatchListShow?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getWatchListAsync(
+                    accountId = accountId,
+                    sessionId = sessionId,
+                    page = page,
+                    showType = showType,
+                    apiKey = apiKey
+                ).await()
+
+                if (result.isSuccessful && result.body() != null) {
+                    Result.Success(result.body())
+                } else {
+                    return Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                return Result.Error(Exception(e.message))
+            }
+        }
+    }
+
+    override suspend fun getWatchlistMovies(
+        accountId: Int,
+        sessionId: String,
+        page: Int,
+        showType: String,
+        apiKey: String
+    ): Result<FavouriteAndWatchListShow?> {
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getWatchListAsync(
+                    accountId = accountId,
+                    sessionId = sessionId,
+                    page = page,
+                    showType = showType,
+                    apiKey = apiKey
+                ).await()
+
+                if (result.isSuccessful && result.body() != null) {
+                    Result.Success(result.body())
+                } else {
+                    return Util.returnError(result)
+                }
+            } catch (e: Exception) {
+                return Result.Error(Exception(e.message))
+            }
+        }
+    }
 }
