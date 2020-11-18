@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/rate_hint_detail"
-                        app:srcCompat="@drawable/ic_star"
+                        app:srcCompat="@drawable/ic_playlist_add"
                         app:backgroundTint="@color/colorPrimary"
                         app:tint="@color/colorBackgroound"
                         app:fabSize="mini" />
