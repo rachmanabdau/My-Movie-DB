@@ -1,7 +1,7 @@
 package com.example.mymoviddb.favourite
 
 import com.example.mymoviddb.datasource.remote.NetworkService
-import com.example.mymoviddb.model.FavouriteShow
+import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
@@ -16,7 +16,7 @@ class ShowFavouriteAccess @Inject constructor(private val access: NetworkService
         page: Int,
         showType: String,
         apiKey: String
-    ): Result<FavouriteShow?> {
+    ): Result<FavouriteAndWatchListShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getFavoriteAsync(
@@ -44,7 +44,7 @@ class ShowFavouriteAccess @Inject constructor(private val access: NetworkService
         page: Int,
         showType: String,
         apiKey: String
-    ): Result<FavouriteShow?> {
+    ): Result<FavouriteAndWatchListShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getFavoriteAsync(

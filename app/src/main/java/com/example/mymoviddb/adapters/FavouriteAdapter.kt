@@ -8,29 +8,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.R
 import com.example.mymoviddb.databinding.FavouriteItemBinding
 import com.example.mymoviddb.databinding.TryAgainLoadListBinding
-import com.example.mymoviddb.model.FavouriteShow
+import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.ErrorViewHolder
 
 class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: (Long) -> Unit) :
-    PagedListAdapter<FavouriteShow.Result, RecyclerView.ViewHolder>(DiffUtil) {
+    PagedListAdapter<FavouriteAndWatchListShow.Result, RecyclerView.ViewHolder>(DiffUtil) {
 
     private val typeError = 0
     private val typeFavouriteShows = 1
-    private var state: Result<FavouriteShow?> = Result.Loading
+    private var state: Result<FavouriteAndWatchListShow?> = Result.Loading
 
 
-    companion object DiffUtil : ItemCallback<FavouriteShow.Result>() {
+    companion object DiffUtil : ItemCallback<FavouriteAndWatchListShow.Result>() {
         override fun areItemsTheSame(
-            oldItem: FavouriteShow.Result,
-            newItem: FavouriteShow.Result
+            oldItem: FavouriteAndWatchListShow.Result,
+            newItem: FavouriteAndWatchListShow.Result
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: FavouriteShow.Result,
-            newItem: FavouriteShow.Result
+            oldItem: FavouriteAndWatchListShow.Result,
+            newItem: FavouriteAndWatchListShow.Result
         ): Boolean {
             return oldItem == newItem
         }
@@ -73,7 +73,7 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
         }
     }
 
-    fun setState(state: Result<FavouriteShow?>) {
+    fun setState(state: Result<FavouriteAndWatchListShow?>) {
         this.state = state
         notifyDataSetChanged()
     }
@@ -83,7 +83,7 @@ class FavouriteAdapter(private val retry: () -> Unit, private val actionDetail: 
 class FavouriteViewHolder(private val binding: FavouriteItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: FavouriteShow.Result?, actionDetail: (Long) -> Unit) {
+    fun onBind(data: FavouriteAndWatchListShow.Result?, actionDetail: (Long) -> Unit) {
         data?.let {
             val context = binding.root.context
             binding.favouriteData = data

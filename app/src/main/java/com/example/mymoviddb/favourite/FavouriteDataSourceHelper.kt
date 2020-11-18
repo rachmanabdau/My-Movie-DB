@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.mymoviddb.model.FavouriteShow
+import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.CoroutineScope
 
@@ -22,11 +22,11 @@ class FavouriteDataSourceHelper(
         showType
     )
 
-    fun getPageList(config: PagedList.Config): LiveData<PagedList<FavouriteShow.Result>> {
+    fun getPageList(config: PagedList.Config): LiveData<PagedList<FavouriteAndWatchListShow.Result>> {
         return LivePagedListBuilder(favouriteMovieDataSourceFactory, config).build()
     }
 
-    fun getResult(): LiveData<Result<FavouriteShow?>> {
+    fun getResult(): LiveData<Result<FavouriteAndWatchListShow?>> {
         return Transformations.switchMap(
             favouriteMovieDataSourceFactory.sourceLiveData,
             FavouriteDatasource::result

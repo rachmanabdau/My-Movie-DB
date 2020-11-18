@@ -3,7 +3,7 @@ package com.example.mymoviddb.favourite
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.example.mymoviddb.model.FavouriteShow
+import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.PreferenceUtil
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
@@ -15,9 +15,9 @@ class FavouriteDatasource(
     private val networkService: IShowFavouriteAccess,
     private val scope: CoroutineScope,
     private val showType: Int
-) : PageKeyedDataSource<Int, FavouriteShow.Result>() {
+) : PageKeyedDataSource<Int, FavouriteAndWatchListShow.Result>() {
 
-    val result: MutableLiveData<Result<FavouriteShow?>> = MutableLiveData()
+    val result: MutableLiveData<Result<FavouriteAndWatchListShow?>> = MutableLiveData()
 
     // keep a function reference for the retry event
     private var retry: (() -> Any)? = null
@@ -37,14 +37,14 @@ class FavouriteDatasource(
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, FavouriteShow.Result>
+        callback: LoadInitialCallback<Int, FavouriteAndWatchListShow.Result>
     ) {
         emptyList<String>()
         wrapEspressoIdlingResource {
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val listShow: Result<FavouriteShow?> =
+                    val listAndWatchListShow: Result<FavouriteAndWatchListShow?> =
                         when (showType) {
                             FAVOURITE_MOVIES -> {
                                 networkService.getFavouriteMovies(
@@ -59,12 +59,12 @@ class FavouriteDatasource(
                         }
 
 
-                    if (listShow is Result.Success) {
-                        result.value = listShow
-                        val movieList = listShow.data?.results ?: emptyList()
+                    if (listAndWatchListShow is Result.Success) {
+                        result.value = listAndWatchListShow
+                        val movieList = listAndWatchListShow.data?.results ?: emptyList()
                         callback.onResult(movieList, null, 2)
                     } else {
-                        result.value = listShow
+                        result.value = listAndWatchListShow
                         retry = {
                             loadInitial(params, callback)
                         }
@@ -81,13 +81,13 @@ class FavouriteDatasource(
 
     override fun loadAfter(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, FavouriteShow.Result>
+        callback: LoadCallback<Int, FavouriteAndWatchListShow.Result>
     ) {
         wrapEspressoIdlingResource {
             scope.launch {
                 try {
                     result.value = Result.Loading
-                    val listShow: Result<FavouriteShow?> =
+                    val listAndWatchListShow: Result<FavouriteAndWatchListShow?> =
                         when (showType) {
                             FAVOURITE_MOVIES -> {
                                 networkService.getFavouriteMovies(
@@ -101,12 +101,12 @@ class FavouriteDatasource(
                             }
                         }
 
-                    if (listShow is Result.Success) {
-                        result.value = listShow
-                        val movieList = listShow.data?.results ?: emptyList()
+                    if (listAndWatchListShow is Result.Success) {
+                        result.value = listAndWatchListShow
+                        val movieList = listAndWatchListShow.data?.results ?: emptyList()
                         callback.onResult(movieList, params.key + 1)
                     } else {
-                        result.value = listShow
+                        result.value = listAndWatchListShow
                         retry = {
                             loadAfter(params, callback)
                         }
@@ -123,7 +123,7 @@ class FavouriteDatasource(
 
     override fun loadBefore(
         params: LoadParams<Int>,
-        callback: LoadCallback<Int, FavouriteShow.Result>
+        callback: LoadCallback<Int, FavouriteAndWatchListShow.Result>
     ) {
     }
 

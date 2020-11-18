@@ -7,7 +7,7 @@
 
         <variable
             name="favouriteData"
-            type="com.example.mymoviddb.model.FavouriteShow.Result" />
+            type="com.example.mymoviddb.model.FavouriteAndWatchListShow.Result" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

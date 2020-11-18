@@ -167,7 +167,7 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<FavouriteShow>>
+    ): Deferred<Response<FavouriteAndWatchListShow>>
 
     @POST("account/{account_id}/watchlist")
     fun addToWatchList(
