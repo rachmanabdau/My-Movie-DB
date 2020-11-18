@@ -64,7 +64,7 @@ class AccountShowDatasource(
                                     1
                                 )
 
-                            else -> networkService.getWatchlistMovies(
+                            else -> networkService.getWatchlistTVShows(
                                 accountId = userId,
                                 sessionId = sessionId,
                                 1
@@ -119,7 +119,7 @@ class AccountShowDatasource(
                                     params.key
                                 )
 
-                            else -> networkService.getWatchlistMovies(
+                            else -> networkService.getWatchlistTVShows(
                                 accountId = userId,
                                 sessionId = sessionId,
                                 params.key
