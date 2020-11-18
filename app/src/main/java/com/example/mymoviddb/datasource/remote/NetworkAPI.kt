@@ -154,7 +154,7 @@ interface NetworkService {
     fun markAsFavoriteAsync(
         @Path("account_id") accoundId: Int,
         @Query("session_id") sessionId: String,
-        @Body sendMediaType: MarkAsFavorite,
+        @Body sendMediaType: MarkMediaAs,
         @Query("api_key") apiKey: String = V3_AUTH,
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
     ): Deferred<Response<ResponsedBackend>>
@@ -168,6 +168,15 @@ interface NetworkService {
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
     ): Deferred<Response<FavouriteShow>>
+
+    @POST("account/{account_id}/watchlist")
+    fun addToWatchList(
+        @Path("account_id") accoundId: Int,
+        @Query("session_id") sessionId: String,
+        @Body sendMediaType: MarkMediaAs,
+        @Query("api_key") apiKey: String = V3_AUTH,
+        @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
+    ): Deferred<Response<ResponsedBackend>>
 }
 
 object NetworkAPI {
