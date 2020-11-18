@@ -14,7 +14,6 @@ import com.example.mymoviddb.databinding.FragmentWatchListMovieBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class WatchListMovieFragment : Fragment() {
@@ -70,10 +69,8 @@ class WatchListMovieFragment : Fragment() {
             } else if (it is Result.Success) {
                 binding.watchlistErrorLayout.root.visibility =
                     if (it.data?.results.isNullOrEmpty() && firstInitialize) View.VISIBLE else View.GONE
-                Timber.d((it.data?.results.isNullOrEmpty()).toString())
-                Timber.d((it.data?.results.isNullOrEmpty() && firstInitialize).toString())
                 binding.watchlistErrorLayout.errorMessage.text =
-                    getString(R.string.empty_favourite_movie)
+                    getString(R.string.empty_watchlist_movie)
                 binding.watchlistErrorLayout.tryAgainButton.visibility = View.GONE
                 binding.watchlistSwipeRefresh.isRefreshing = false
                 firstInitialize = false

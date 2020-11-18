@@ -63,4 +63,6 @@
     <string name="watch_list_show_label">Watch List</string>
     <string name="movie_watch_list_menu">Movie Watch List</string>
     <string name="tv_watch_list_menu">TV Watch List</string>
+    <string name="empty_watchlist_movie">You do not have watch list movie.</string>
+    <string name="empty_watchlist_tv_show">You do not have watch list tv show.</string>
 </resources>

@@ -69,7 +69,7 @@ class WatchListTVFragment : Fragment() {
                 binding.watchlistTvErrorLayout.root.visibility =
                     if (it.data?.results.isNullOrEmpty() && firstInitialize) View.VISIBLE else View.GONE
                 binding.watchlistTvErrorLayout.errorMessage.text =
-                    getString(R.string.empty_favourite_tv_show)
+                    getString(R.string.empty_watchlist_tv_show)
                 binding.watchlistTvErrorLayout.tryAgainButton.visibility = View.GONE
                 binding.watchlistTvSwipeRefresh.isRefreshing = false
                 firstInitialize = false
