@@ -1,10 +1,11 @@
-package com.example.mymoviddb.account
+package com.example.mymoviddb.account.paging
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.example.mymoviddb.account.IAccountShowAccess
 import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.CoroutineScope

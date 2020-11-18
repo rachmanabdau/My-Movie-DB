@@ -1,8 +1,9 @@
-package com.example.mymoviddb.account
+package com.example.mymoviddb.account.paging
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import com.example.mymoviddb.account.IAccountShowAccess
 import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import kotlinx.coroutines.CoroutineScope
 
