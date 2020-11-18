@@ -1,10 +1,10 @@
-package com.example.mymoviddb.favourite
+package com.example.mymoviddb.account
 
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 
-interface IShowFavouriteAccess {
+interface IAccountShowAccess {
 
     suspend fun getFavouriteTVShows(
         accountId: Int,

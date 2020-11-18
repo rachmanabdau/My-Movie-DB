@@ -1,4 +1,4 @@
-package com.example.mymoviddb.favourite
+package com.example.mymoviddb.account
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -9,13 +9,13 @@ import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
 import kotlinx.coroutines.CoroutineScope
 
-class FavouriteDataSourceHelper(
+class AccountShowDataSourceHelper(
     app: Application,
-    networkService: IShowFavouriteAccess,
+    networkService: IAccountShowAccess,
     scope: CoroutineScope,
     showType: Int
 ) {
-    val favouriteMovieDataSourceFactory = FavouriteDatasourceFactory(
+    val favouriteMovieDataSourceFactory = AccountShowDatasourceFactory(
         app,
         networkService,
         scope,
@@ -29,7 +29,7 @@ class FavouriteDataSourceHelper(
     fun getResult(): LiveData<Result<FavouriteAndWatchListShow?>> {
         return Transformations.switchMap(
             favouriteMovieDataSourceFactory.sourceLiveData,
-            FavouriteDatasource::result
+            AccountShowDatasource::result
         )
     }
 

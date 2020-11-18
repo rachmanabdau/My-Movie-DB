@@ -5,14 +5,14 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.PagedList
-import com.example.mymoviddb.account.FavouriteDataSourceHelper
-import com.example.mymoviddb.account.FavouriteDatasource
-import com.example.mymoviddb.account.IShowFavouriteAccess
+import com.example.mymoviddb.account.AccountShowDataSourceHelper
+import com.example.mymoviddb.account.AccountShowDatasource
+import com.example.mymoviddb.account.IAccountShowAccess
 
 class FavouriteShowViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
     app: Application,
-    favourtieshowAccess: IShowFavouriteAccess,
+    favourtieshowAccessAccount: IAccountShowAccess,
 ) : AndroidViewModel(app) {
 
     val config = PagedList.Config.Builder()
@@ -23,7 +23,7 @@ class FavouriteShowViewModel @ViewModelInject constructor(
         .build()
 
     private val resultLFavourite = savedStateHandle.getLiveData<Int>("showType").map {
-        FavouriteDataSourceHelper(app, favourtieshowAccess, viewModelScope, it)
+        AccountShowDataSourceHelper(app, favourtieshowAccessAccount, viewModelScope, it)
     }
 
     val favouriteList = resultLFavourite.switchMap { it.getPageList(config) }
@@ -33,11 +33,11 @@ class FavouriteShowViewModel @ViewModelInject constructor(
     }
 
     fun getFavouriteTVShows() {
-        savedStateHandle.set("showType", FavouriteDatasource.FAVOURITE_TVSHOWS)
+        savedStateHandle.set("showType", AccountShowDatasource.FAVOURITE_TVSHOWS)
     }
 
     fun getFavouriteMovies() {
-        savedStateHandle.set("showType", FavouriteDatasource.FAVOURITE_MOVIES)
+        savedStateHandle.set("showType", AccountShowDatasource.FAVOURITE_MOVIES)
     }
 
     fun retryLoadFavourite() {

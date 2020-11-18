@@ -1,4 +1,4 @@
-package com.example.mymoviddb.favourite
+package com.example.mymoviddb.account
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -10,9 +10,9 @@ import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class FavouriteDatasource(
+class AccountShowDatasource(
     app: Application,
-    private val networkService: IShowFavouriteAccess,
+    private val networkService: IAccountShowAccess,
     private val scope: CoroutineScope,
     private val showType: Int
 ) : PageKeyedDataSource<Int, FavouriteAndWatchListShow.Result>() {
