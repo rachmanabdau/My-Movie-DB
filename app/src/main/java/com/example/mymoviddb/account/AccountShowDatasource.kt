@@ -46,16 +46,28 @@ class AccountShowDatasource(
                     result.value = Result.Loading
                     val listAndWatchListShow: Result<FavouriteAndWatchListShow?> =
                         when (showType) {
-                            FAVOURITE_MOVIES -> {
+                            FAVOURITE_MOVIES ->
                                 networkService.getFavouriteMovies(
                                     accountId = userId, sessionId = sessionId, 1
                                 )
-                            }
-                            else -> {
+
+                            FAVOURITE_TVSHOWS ->
                                 networkService.getFavouriteTVShows(
                                     accountId = userId, sessionId = sessionId, 1
                                 )
-                            }
+
+                            WATCHLIST_MOVIES ->
+                                networkService.getWatchlistMovies(
+                                    accountId = userId,
+                                    sessionId = sessionId,
+                                    1
+                                )
+
+                            else -> networkService.getWatchlistMovies(
+                                accountId = userId,
+                                sessionId = sessionId,
+                                1
+                            )
                         }
 
 
@@ -89,16 +101,28 @@ class AccountShowDatasource(
                     result.value = Result.Loading
                     val listAndWatchListShow: Result<FavouriteAndWatchListShow?> =
                         when (showType) {
-                            FAVOURITE_MOVIES -> {
+                            FAVOURITE_MOVIES ->
                                 networkService.getFavouriteMovies(
                                     accountId = userId, sessionId = sessionId, params.key
                                 )
-                            }
-                            else -> {
+
+                            FAVOURITE_TVSHOWS ->
                                 networkService.getFavouriteTVShows(
                                     accountId = userId, sessionId = sessionId, params.key
                                 )
-                            }
+
+                            WATCHLIST_MOVIES ->
+                                networkService.getWatchlistMovies(
+                                    accountId = userId,
+                                    sessionId = sessionId,
+                                    params.key
+                                )
+
+                            else -> networkService.getWatchlistMovies(
+                                accountId = userId,
+                                sessionId = sessionId,
+                                params.key
+                            )
                         }
 
                     if (listAndWatchListShow is Result.Success) {
@@ -130,5 +154,7 @@ class AccountShowDatasource(
     companion object {
         const val FAVOURITE_MOVIES = 31
         const val FAVOURITE_TVSHOWS = 32
+        const val WATCHLIST_MOVIES = 41
+        const val WATCHLIST_TVSHOWS = 42
     }
 }
