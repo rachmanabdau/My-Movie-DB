@@ -39,6 +39,14 @@ class AccountShowViewModel @ViewModelInject constructor(
         savedStateHandle.set("showType", AccountShowDatasource.FAVOURITE_MOVIES)
     }
 
+    fun getWatchListTVShows() {
+        savedStateHandle.set("showType", AccountShowDatasource.WATCHLIST_TVSHOWS)
+    }
+
+    fun getWatchListMovies() {
+        savedStateHandle.set("showType", AccountShowDatasource.WATCHLIST_MOVIES)
+    }
+
     fun retryLoadFavourite() {
         resultAccountList.value?.getRetry()
     }
