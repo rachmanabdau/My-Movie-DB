@@ -60,4 +60,7 @@
     <string name="remove_from_watchlist_success">The show successfully added to your watch list</string>
     <string name="empty_favourite_movie">Yuu do not have favourite movie.</string>
     <string name="empty_favourite_tv_show">Yuu do not have favourite tv show.</string>
+    <string name="watch_list_show_label">Watch List</string>
+    <string name="movie_watch_list_menu">Movie Watch List</string>
+    <string name="tv_watch_list_menu">TV Watch List</string>
 </resources>
