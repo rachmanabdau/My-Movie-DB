@@ -1,4 +1,4 @@
-package com.example.mymoviddb.favourite
+package com.example.mymoviddb.account.favourite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,15 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.FavouriteAdapter
-import com.example.mymoviddb.databinding.FragmentFavouriteMoviesBinding
+import com.example.mymoviddb.databinding.FragmentFavouriteTvShowsBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavouriteMoviesFragment : Fragment() {
+class FavouriteTVShowsFragment : Fragment() {
 
-    private lateinit var binding: FragmentFavouriteMoviesBinding
+    private lateinit var binding: FragmentFavouriteTvShowsBinding
 
     private val favouriteViewModel by viewModels<FavouriteShowViewModel>()
 
@@ -27,8 +27,7 @@ class FavouriteMoviesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentFavouriteMoviesBinding.inflate(inflater, container, false)
+        binding = FragmentFavouriteTvShowsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
 
@@ -38,8 +37,8 @@ class FavouriteMoviesFragment : Fragment() {
             },
             {
                 findNavController().navigate(
-                    FavouriteMoviesFragmentDirections.actionFavouriteMoviesFragmentToDetailActivity(
-                        DetailActivity.DETAIL_MOVIE,
+                    FavouriteTVShowsFragmentDirections.actionFavouriteTVShowsFragmentToDetailActivity(
+                        DetailActivity.DETAIL_TV,
                         it
                     )
                 )
@@ -49,10 +48,10 @@ class FavouriteMoviesFragment : Fragment() {
         binding.favouriteSwipeRefresh.setOnRefreshListener {
             adapter.submitList(null)
             adapter.notifyDataSetChanged()
-            favouriteViewModel.getFavouriteMovies()
+            favouriteViewModel.getFavouriteTVShows()
         }
 
-        favouriteViewModel.getFavouriteMovies()
+        favouriteViewModel.getFavouriteTVShows()
         favouriteViewModel.favouriteList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
@@ -70,15 +69,13 @@ class FavouriteMoviesFragment : Fragment() {
                 binding.favouriteErrorLayout.root.visibility =
                     if (it.data?.results.isNullOrEmpty() && firstInitialize) View.VISIBLE else View.GONE
                 binding.favouriteErrorLayout.errorMessage.text =
-                    getString(R.string.empty_favourite_movie)
+                    getString(R.string.empty_favourite_tv_show)
                 binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
                 binding.favouriteSwipeRefresh.isRefreshing = false
             } else if (it is Result.Loading && firstInitialize) {
                 binding.favouriteSwipeRefresh.isRefreshing = true
             }
         })
-
-
         return binding.root
     }
 

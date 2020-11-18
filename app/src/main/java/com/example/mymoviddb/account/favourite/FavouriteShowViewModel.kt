@@ -1,10 +1,13 @@
-package com.example.mymoviddb.favourite
+package com.example.mymoviddb.account.favourite
 
 import android.app.Application
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.PagedList
+import com.example.mymoviddb.account.FavouriteDataSourceHelper
+import com.example.mymoviddb.account.FavouriteDatasource
+import com.example.mymoviddb.account.IShowFavouriteAccess
 
 class FavouriteShowViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
