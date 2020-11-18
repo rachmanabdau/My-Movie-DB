@@ -27,7 +27,7 @@
                     android:icon="@drawable/ic_movie_watchlist" />
 
                 <item
-                    android:id="@+id/watchListTvShowFragment"
+                    android:id="@+id/watchListTVFragment"
                     android:title="@string/tv_watch_list_menu"
                     android:icon="@drawable/ic_tv_watchlist" />
 
