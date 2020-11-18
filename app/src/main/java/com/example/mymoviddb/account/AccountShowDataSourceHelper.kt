@@ -15,7 +15,7 @@ class AccountShowDataSourceHelper(
     scope: CoroutineScope,
     showType: Int
 ) {
-    val favouriteMovieDataSourceFactory = AccountShowDatasourceFactory(
+    val accountShowDataSourceFactory = AccountShowDatasourceFactory(
         app,
         networkService,
         scope,
@@ -23,17 +23,17 @@ class AccountShowDataSourceHelper(
     )
 
     fun getPageList(config: PagedList.Config): LiveData<PagedList<FavouriteAndWatchListShow.Result>> {
-        return LivePagedListBuilder(favouriteMovieDataSourceFactory, config).build()
+        return LivePagedListBuilder(accountShowDataSourceFactory, config).build()
     }
 
     fun getResult(): LiveData<Result<FavouriteAndWatchListShow?>> {
         return Transformations.switchMap(
-            favouriteMovieDataSourceFactory.sourceLiveData,
+            accountShowDataSourceFactory.sourceLiveData,
             AccountShowDatasource::result
         )
     }
 
     fun getRetry() {
-        favouriteMovieDataSourceFactory.sourceLiveData.value?.retry()
+        accountShowDataSourceFactory.sourceLiveData.value?.retry()
     }
 }

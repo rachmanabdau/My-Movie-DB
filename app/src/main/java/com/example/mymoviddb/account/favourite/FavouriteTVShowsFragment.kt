@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.R
+import com.example.mymoviddb.account.AccountShowViewModel
 import com.example.mymoviddb.adapters.FavouriteAdapter
 import com.example.mymoviddb.databinding.FragmentFavouriteTvShowsBinding
 import com.example.mymoviddb.detail.DetailActivity
@@ -19,7 +20,7 @@ class FavouriteTVShowsFragment : Fragment() {
 
     private lateinit var binding: FragmentFavouriteTvShowsBinding
 
-    private val favouriteViewModel by viewModels<FavouriteShowViewModel>()
+    private val favouriteViewModel by viewModels<AccountShowViewModel>()
 
     private var firstInitialize = true
 
@@ -52,7 +53,7 @@ class FavouriteTVShowsFragment : Fragment() {
         }
 
         favouriteViewModel.getFavouriteTVShows()
-        favouriteViewModel.favouriteList.observe(viewLifecycleOwner) {
+        favouriteViewModel.accountShowList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
         favouriteViewModel.resultFavourite.observe(viewLifecycleOwner, {

@@ -1,18 +1,15 @@
-package com.example.mymoviddb.account.favourite
+package com.example.mymoviddb.account
 
 import android.app.Application
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.PagedList
-import com.example.mymoviddb.account.AccountShowDataSourceHelper
-import com.example.mymoviddb.account.AccountShowDatasource
-import com.example.mymoviddb.account.IAccountShowAccess
 
-class FavouriteShowViewModel @ViewModelInject constructor(
+class AccountShowViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
     app: Application,
-    favourtieshowAccessAccount: IAccountShowAccess,
+    accountShowAccess: IAccountShowAccess,
 ) : AndroidViewModel(app) {
 
     val config = PagedList.Config.Builder()
@@ -22,13 +19,13 @@ class FavouriteShowViewModel @ViewModelInject constructor(
         .setEnablePlaceholders(true)
         .build()
 
-    private val resultLFavourite = savedStateHandle.getLiveData<Int>("showType").map {
-        AccountShowDataSourceHelper(app, favourtieshowAccessAccount, viewModelScope, it)
+    private val resultAccountList = savedStateHandle.getLiveData<Int>("showType").map {
+        AccountShowDataSourceHelper(app, accountShowAccess, viewModelScope, it)
     }
 
-    val favouriteList = resultLFavourite.switchMap { it.getPageList(config) }
+    val accountShowList = resultAccountList.switchMap { it.getPageList(config) }
 
-    val resultFavourite = resultLFavourite.switchMap {
+    val resultFavourite = resultAccountList.switchMap {
         it.getResult()
     }
 
@@ -41,6 +38,6 @@ class FavouriteShowViewModel @ViewModelInject constructor(
     }
 
     fun retryLoadFavourite() {
-        resultLFavourite.value?.getRetry()
+        resultAccountList.value?.getRetry()
     }
 }
