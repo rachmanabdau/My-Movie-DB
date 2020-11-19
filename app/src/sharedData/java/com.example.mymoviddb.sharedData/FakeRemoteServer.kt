@@ -598,7 +598,34 @@ class FakeRemoteServer : NetworkService {
         sessionId: String,
         apiKey: String
     ): Deferred<Response<UserDetail>> {
-        TODO("Not yet implemented")
+
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "success": false,
+  "status_code": 3,
+  "status_message": "Authentication failed: You do not have permissions to access the service."
+}"""
+        val jsonConverter = moshi.adapter(UserDetail::class.java)
+        val responseSuccess = jsonConverter.fromJson(accountDetailResponse) as UserDetail
+
+        return when {
+            // api key is valid and title is not blank return response success
+            apiKey == realApiKey && sessionId == sampleSessionId -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun logoutAsync(
@@ -4439,6 +4466,25 @@ class FakeRemoteServer : NetworkService {
   ],
   "total_pages": 48,
   "total_results": 958
+}"""
+
+        const val sampleSessionId = "f5c1c3b446df720962376168620907f8052d4e95"
+
+        const val accountDetailResponse = """{
+  "avatar": {
+    "gravatar": {
+      "hash": "c4bc3a0eae31820916cfbabf17cb29a9"
+    },
+    "tmdb": {
+      "avatar_path": "/3bk7ZEoQ1XU5dJSe1qp6oJxEJMd.jpg"
+    }
+  },
+  "id": 8781441,
+  "iso_639_1": "en",
+  "iso_3166_1": "US",
+  "name": "",
+  "include_adult": false,
+  "username": "rachamanabdau"
 }"""
     }
 }
