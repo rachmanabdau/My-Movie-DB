@@ -632,7 +632,7 @@ class FakeRemoteServer : NetworkService {
         userSessionId: Map<String, String>,
         apiKey: String
     ): Deferred<Response<ResponsedBackend>> {
-        val logoutSuccessResponse = """{success: true}"""
+        val logoutSuccessResponse = """{"success": true}"""
         val jsonConverter = moshi.adapter(ResponsedBackend::class.java)
         val responseSuccess = jsonConverter.fromJson(logoutSuccessResponse) as ResponsedBackend
 
@@ -729,7 +729,43 @@ class FakeRemoteServer : NetworkService {
         apiKey: String,
         contentType: String
     ): Deferred<Response<ResponsedBackend>> {
-        TODO("Not yet implemented")
+        val addToFavouriteSuccessResponse = """{
+  "success": true.
+  "status_code": 12,
+  "status_message": "The item/record was updated successfully."
+}"""
+        val removeFromFavouriteSuccessResponse = """{
+  "success": true.
+  "status_code": 12,
+  "status_message": "The item/record was removed successfully."
+}"""
+
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+        val jsonConverter = moshi.adapter(ResponsedBackend::class.java)
+        val responseAddToFavouriteSuccess =
+            jsonConverter.fromJson(addToFavouriteSuccessResponse) as ResponsedBackend
+        val responseRemoveFromFavouriteSuccess =
+            jsonConverter.fromJson(removeFromFavouriteSuccessResponse) as ResponsedBackend
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
+            if (sendMediaType.favorite != null && (sendMediaType.favorite as Boolean)) CompletableDeferred(
+                Response.success(responseAddToFavouriteSuccess)
+            )
+            else CompletableDeferred(Response.success(responseRemoveFromFavouriteSuccess))
+        } else {
+            // Response Error 401: invalid api key
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     override fun getFavoriteAsync(
@@ -750,7 +786,43 @@ class FakeRemoteServer : NetworkService {
         apiKey: String,
         contentType: String
     ): Deferred<Response<ResponsedBackend>> {
-        TODO("Not yet implemented")
+        val addToWatchlistSuccessResponse = """{
+  "success": true.
+  "status_code": 12,
+  "status_message": "The item/record was updated successfully."
+}"""
+        val removeFromWatchlistSuccessResponse = """{
+  "success": true.
+  "status_code": 13,
+  "status_message": "The item/record was removed successfully."
+}"""
+
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+        val jsonConverter = moshi.adapter(ResponsedBackend::class.java)
+        val responseAddToFavouriteSuccess =
+            jsonConverter.fromJson(addToWatchlistSuccessResponse) as ResponsedBackend
+        val responseRemoveFromFavouriteSuccess =
+            jsonConverter.fromJson(removeFromWatchlistSuccessResponse) as ResponsedBackend
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
+            if (sendMediaType.favorite != null && (sendMediaType.favorite as Boolean)) CompletableDeferred(
+                Response.success(responseAddToFavouriteSuccess)
+            )
+            else CompletableDeferred(Response.success(responseRemoveFromFavouriteSuccess))
+        } else {
+            // Response Error 401: invalid api key
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     override fun getWatchListAsync(
