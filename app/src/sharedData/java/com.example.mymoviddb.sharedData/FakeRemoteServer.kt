@@ -429,14 +429,85 @@ class FakeRemoteServer : NetworkService {
         movieId: Long,
         apiKey: String
     ): Deferred<Response<MovieModel>> {
-        TODO("Not yet implemented")
+
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val jsonConverter = moshi.adapter(MovieModel::class.java)
+        val responseSuccess = jsonConverter.fromJson(recommendationMoviesResponse) as MovieModel
+
+        return when {
+            // api key is valid and title is not blank return response success
+            apiKey == realApiKey && movieId == 741067L -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            // api key is valid and title is blank return success with empty list
+            apiKey == realApiKey && movieId != 741067L -> {
+                val emptyMovies = MovieModel(
+                    page = 1, totalResults = 0, totalPages = 0,
+                    results = emptyList()
+                )
+                CompletableDeferred(Response.success(emptyMovies))
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun getSimilarMoviesAsync(
         movieId: Long,
         apiKey: String
     ): Deferred<Response<MovieModel>> {
-        TODO("Not yet implemented")
+
+
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val jsonConverter = moshi.adapter(MovieModel::class.java)
+        val responseSuccess = jsonConverter.fromJson(similarMoviesResponse) as MovieModel
+
+        return when {
+            // api key is valid and title is not blank return response success
+            apiKey == realApiKey && movieId == 741067L -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            // api key is valid and title is blank return success with empty list
+            apiKey == realApiKey && movieId != 741067L -> {
+                val emptyMovies = MovieModel(
+                    page = 1, totalResults = 0, totalPages = 0,
+                    results = emptyList()
+                )
+                CompletableDeferred(Response.success(emptyMovies))
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun getRecommendationTVShowsAsync(
@@ -526,187 +597,7 @@ class FakeRemoteServer : NetworkService {
     }
 
     companion object {
-        const val detailTVShowResponse = """{
-  "backdrop_path": "/58PON1OrnBiX6CqEHgeWKVwrCn6.jpg",
-  "created_by": [
-    {
-      "id": 63554,
-      "credit_id": "5d77e07539549a000f96cc12",
-      "name": "Dave Erickson",
-      "gender": 2,
-      "profile_path": null
-    },
-    {
-      "id": 1223867,
-      "credit_id": "5521364b9251417be2002abc",
-      "name": "Robert Kirkman",
-      "gender": 2,
-      "profile_path": "/ulYOkxtk8lUvg4Ltkg2q22ibg4R.jpg"
-    }
-  ],
-  "episode_run_time": [
-    43,
-    60
-  ],
-  "first_air_date": "2015-08-23",
-  "genres": [
-    {
-      "id": 10759,
-      "name": "Action & Adventure"
-    },
-    {
-      "id": 18,
-      "name": "Drama"
-    }
-  ],
-  "homepage": "http://www.amc.com/shows/fear-the-walking-dead",
-  "id": 62286,
-  "in_production": true,
-  "languages": [
-    "en",
-    "es"
-  ],
-  "last_air_date": "2020-11-15",
-  "last_episode_to_air": {
-    "air_date": "2020-11-15",
-    "episode_number": 6,
-    "id": 2370332,
-    "name": "Bury Her Next to Jasper's Leg",
-    "overview": "A deadly explosion in the oil fields sends June on a mission to save as many lives as possible. Meanwhile, an investigation by Virginia threatens to undermine June's work.",
-    "production_code": "",
-    "season_number": 6,
-    "still_path": "/aSWLDpD6nX4r2VX09AhLjH3mklV.jpg",
-    "vote_average": 5,
-    "vote_count": 2
-  },
-  "name": "Fear the Walking Dead",
-  "next_episode_to_air": {
-    "air_date": "2020-11-22",
-    "episode_number": 7,
-    "id": 2370333,
-    "name": "Damage From the Inside",
-    "overview": "When Dakota goes missing, Strand sends Alicia and Charlie on a search and rescue mission to find her. An unlikely ally provides a new possibility of escape from Virginia.",
-    "production_code": "",
-    "season_number": 6,
-    "still_path": null,
-    "vote_average": 0,
-    "vote_count": 0
-  },
-  "networks": [
-    {
-      "name": "AMC",
-      "id": 174,
-      "logo_path": "/pmvRmATOCaDykE6JrVoeYxlFHw3.png",
-      "origin_country": "US"
-    }
-  ],
-  "number_of_episodes": 77,
-  "number_of_seasons": 6,
-  "origin_country": [
-    "US"
-  ],
-  "original_language": "en",
-  "original_name": "Fear the Walking Dead",
-  "overview": "What did the world look like as it was transforming into the horrifying apocalypse depicted in \"The Walking Dead\"? This spin-off set in Los Angeles, following new characters as they face the beginning of the end of the world, will answer that question.",
-  "popularity": 627.312,
-  "poster_path": "/wGFUewXPeMErCe2xnCmmLEiHOGh.jpg",
-  "production_companies": [
-    {
-      "id": 11533,
-      "logo_path": "/tWM9pmzVYxok4GbQIttxdcml1yT.png",
-      "name": "Valhalla Motion Pictures",
-      "origin_country": "US"
-    },
-    {
-      "id": 23242,
-      "logo_path": "/fOALFvgnO1ZdIaA9PNIAAuaDKWd.png",
-      "name": "AMC Networks",
-      "origin_country": "US"
-    },
-    {
-      "id": 43346,
-      "logo_path": null,
-      "name": "Fox Productions",
-      "origin_country": "US"
-    },
-    {
-      "id": 23921,
-      "logo_path": "/simDvqT8y6jhP530ggUMbikvVKc.png",
-      "name": "Circle of Confusion",
-      "origin_country": "US"
-    }
-  ],
-  "seasons": [
-    {
-      "air_date": "2015-10-04",
-      "episode_count": 38,
-      "id": 70218,
-      "name": "Specials",
-      "overview": "Fear the Walking Dead: Flight 462 follows the story of a group of airline passengers who discover that one of their fellow travelers is infected with the virus, putting their lives at risk.\n\nA new installment of the 16-part series is available every sunday online, and on-air as promos during two commercial breaks of The Walking Dead.",
-      "poster_path": "/nlFKhmcDK0JVmvqvxqmOeRZsJVU.jpg",
-      "season_number": 0
-    },
-    {
-      "air_date": "2015-08-23",
-      "episode_count": 6,
-      "id": 65692,
-      "name": "Season 1",
-      "overview": "After a string of ominous warnings, guidance counselor Madison Clark and the rest of her family are horrified to see their world descend into a zombie nightmare -- which will soon become their new reality.",
-      "poster_path": "/i2bXSzpKWw0RVmLdldhBFT3a0Ty.jpg",
-      "season_number": 1
-    },
-    {
-      "air_date": "2016-04-10",
-      "episode_count": 15,
-      "id": 73780,
-      "name": "Season 2",
-      "overview": "Season two returns aboard the Abigail. Abandoning land, the group sets out for ports unknown, some place where Infection has not hit. They will discover that the water may be no safer than land.",
-      "poster_path": "/oxAm6varqgV3WOGYX2OrgCGKnZo.jpg",
-      "season_number": 2
-    },
-    {
-      "air_date": "2017-06-04",
-      "episode_count": 16,
-      "id": 87822,
-      "name": "Season 3",
-      "overview": "As Fear the Walking Dead returns for season three, our families will be brought together in the vibrant and violent ecotone of the U.S.-Mexico border.",
-      "poster_path": "/cMh46P517YVBedpMtO3ucBvK1jM.jpg",
-      "season_number": 3
-    },
-    {
-      "air_date": "2018-04-15",
-      "episode_count": 16,
-      "id": 99582,
-      "name": "Season 4",
-      "overview": "In season four, we see the world of Madison Clark and her family through new eyes -- the eyes of Morgan Jones. The characters' immediate past mixes with an uncertain present of struggle and discovery as they meet new friends, foes and threats. They fight for each other, against each other and against a legion of the dead to somehow build an existence against the crushing pressure of lives coming apart. There will be darkness and light; terror and grace; the heroic, mercenary, and craven, all crashing together towards a new reality.",
-      "poster_path": "/k8T1iiKU9zQ8NAvwsB95KZXJ3O6.jpg",
-      "season_number": 4
-    },
-    {
-      "air_date": "2019-06-02",
-      "episode_count": 16,
-      "id": 121629,
-      "name": "Season 5",
-      "overview": "In season 5, the mission to help others will be put to the ultimate test when our group lands in uncharted territory. They will be forced to face not just their pasts but also their fears, leaving them forever changed.",
-      "poster_path": "/aUBFD7zPl4fyE8e4FjASq4OgOUc.jpg",
-      "season_number": 5
-    },
-    {
-      "air_date": "2020-10-11",
-      "episode_count": 8,
-      "id": 157589,
-      "name": "Season 6",
-      "overview": "Heading into Season 5 of \"Fear the Walking Dead,\" the group's mission is clear: locate survivors and help make what's left of the world a slightly better place. With dogged determination, Morgan Jones leads the group with a philosophy rooted in benevolence, community and hope. Each character believes that helping others will allow them to make up for the wrongs of their pasts. But trust won't be easily earned. Their mission of helping others will be put to the ultimate test when the members of the group find themselves in uncharted territory, forced to face not just their pasts but also their fears. It is only by facing those fears that the group will discover an entirely new way to live, one that will leave them changed forever changed.",
-      "poster_path": "/66zTxl3DMy1WH4U4SoeTkl5Yvpe.jpg",
-      "season_number": 6
-    }
-  ],
-  "status": "Returning Series",
-  "tagline": "Every decision is life or death.",
-  "type": "Scripted",
-  "vote_average": 7.4,
-  "vote_count": 2623
-}"""
+
         const val detailMovieResponse = """{
   "adult": false,
   "backdrop_path": "/mc48QVtMhohMFrHGca8OHTB6C2B.jpg",
@@ -1187,6 +1078,7 @@ class FakeRemoteServer : NetworkService {
     }
   ]
 }"""
+
         const val nowPlayingMoviesResponse = """{
   "results": [
     {
@@ -1604,6 +1496,986 @@ class FakeRemoteServer : NetworkService {
     "minimum": "2020-09-17"
   },
   "total_pages": 75
+}"""
+
+        const val recommendationMoviesResponse = """{
+  "page": 1,
+  "results": [
+    {
+      "id": 472815,
+      "video": false,
+      "vote_count": 5,
+      "vote_average": 6,
+      "title": "Buddy Games",
+      "release_date": "2019-02-10",
+      "original_language": "en",
+      "original_title": "Buddy Games",
+      "genre_ids": [
+        35,
+        18
+      ],
+      "backdrop_path": "/hDQEzfrFkQJg5qblG2Tv7ragth.jpg",
+      "adult": false,
+      "overview": "A group of friends reunite to play The Buddy Games, a wild assortment of absurd physical and mental challenges. In the process, they'll heal old wounds, right past wrongs and figure out the true meaning of friendship...or die trying.",
+      "poster_path": "/qK56ahbY4382N0kKMIf1ypqf99j.jpg",
+      "popularity": 18.773
+    },
+    {
+      "id": 738256,
+      "video": false,
+      "vote_count": 4,
+      "vote_average": 7.3,
+      "title": "Magari resto",
+      "release_date": "2020-09-10",
+      "original_language": "it",
+      "original_title": "Magari resto",
+      "genre_ids": [
+        35
+      ],
+      "backdrop_path": "/1JgQIwAVNVm0n3Ym5nPMt9eHHL4.jpg",
+      "adult": false,
+      "overview": "",
+      "poster_path": "/c2BItOH2Dex6ExypexKTn6JjPpT.jpg",
+      "popularity": 1.4
+    },
+    {
+      "id": 755401,
+      "video": false,
+      "vote_count": 4,
+      "vote_average": 7,
+      "title": "Skydog",
+      "release_date": "2020-10-20",
+      "original_language": "en",
+      "original_title": "Skydog",
+      "genre_ids": [
+        28,
+        18,
+        12,
+        9648,
+        53
+      ],
+      "backdrop_path": "/4mmrgZW9bcgMRFdV1lCcXqCEXEr.jpg",
+      "adult": false,
+      "overview": "After a high school senior working on his pilot’s license rescues a dog named Oreo, he finds out his mom is a CIA agent who’s been captured. He teams up with Oreo and a new friend to find his mother and uncover double agents inside the CIA.",
+      "poster_path": "/dWtMI34vh1oloILjgO8qeE4jaxY.jpg",
+      "popularity": 12.112
+    },
+    {
+      "id": 706822,
+      "video": false,
+      "vote_count": 3,
+      "vote_average": 6.3,
+      "title": "La piazza della mia città - Bologna e Lo Stato Sociale",
+      "release_date": "2020-09-17",
+      "original_language": "it",
+      "original_title": "La piazza della mia città - Bologna e Lo Stato Sociale",
+      "genre_ids": [
+        99
+      ],
+      "backdrop_path": "/6QxlkVkkC6pi47MtVT9tB670loU.jpg",
+      "adult": false,
+      "overview": "",
+      "poster_path": "/joAuVNEFVKqyMOaMX61FCzNiOWy.jpg",
+      "popularity": 1.093
+    },
+    {
+      "id": 546121,
+      "video": false,
+      "vote_count": 6,
+      "vote_average": 8.5,
+      "title": "Run",
+      "release_date": "2020-10-08",
+      "original_language": "en",
+      "original_title": "Run",
+      "genre_ids": [
+        27,
+        9648,
+        53
+      ],
+      "backdrop_path": "/4rsxZjZppytn0dWO1Yi002olVku.jpg",
+      "adult": false,
+      "overview": "A homeschooled teenager begins to suspect her mother is keeping a dark secret from her.",
+      "poster_path": "/ducK4LxP6csEHqRv2VeXgvfS10m.jpg",
+      "popularity": 20.574
+    },
+    {
+      "id": 627076,
+      "video": false,
+      "vote_count": 7,
+      "vote_average": 6.9,
+      "title": "Savage",
+      "release_date": "2020-08-27",
+      "original_language": "en",
+      "original_title": "Savage",
+      "genre_ids": [
+        18,
+        80
+      ],
+      "backdrop_path": "/53eze0tucDBUdanar78rVCfIGvl.jpg",
+      "adult": false,
+      "overview": "Inspired by the true stories of New Zealand's street gangs across 30 years, we follow Danny at three defining moments in his life as he grows from a boy into the violent enforcer of a gang.",
+      "poster_path": "/1XixAUZcBhdqxqkDAimbZQcLnHE.jpg",
+      "popularity": 7.67
+    },
+    {
+      "id": 646106,
+      "video": false,
+      "vote_count": 4,
+      "vote_average": 7.8,
+      "title": "The Crossing",
+      "release_date": "2020-02-14",
+      "original_language": "no",
+      "original_title": "Flukten over grensen",
+      "genre_ids": [
+        53,
+        10751,
+        10752
+      ],
+      "backdrop_path": "/ooATGkHxlPXE1CTSAdeaHscuon6.jpg",
+      "adult": false,
+      "overview": "One day, just before Christmas in 1942, Gerda's and Otto's parents are arrested for being part of the Norwegian resistance movement during the  Second World War, leaving the siblings on their own. Following the arrest, they discover two Jewish children, Sarah and Daniel, hidden in a secret cupboard in their basement at home. It is now up to Gerda and Otto to finish what their parents started: To help Sarah and Daniel flee from the Nazis cross the border to neutral Sweden and reunite them with their parents.",
+      "poster_path": "/x2gi261egmQ1pVs5CRly2AIgWAs.jpg",
+      "popularity": 1.903
+    },
+    {
+      "id": 627064,
+      "video": false,
+      "vote_count": 4,
+      "vote_average": 7.5,
+      "title": "Real",
+      "release_date": "2019-10-06",
+      "original_language": "en",
+      "original_title": "Real",
+      "genre_ids": [
+        18,
+        10749
+      ],
+      "backdrop_path": "/hqByiNd1gabtv94oF5OdiiwrL09.jpg",
+      "adult": false,
+      "overview": "Aki Omoshaybi’s earnest debut explores the love between two people who work hard to keep their romance on track while struggling to manage personal hardship.",
+      "poster_path": "/qeIgzcCW4wBsdy9Fv824XDmi56r.jpg",
+      "popularity": 6.994
+    },
+    {
+      "id": 754053,
+      "video": false,
+      "vote_count": 5,
+      "vote_average": 5.4,
+      "title": "My Dads Christmas Date",
+      "release_date": "2020-11-06",
+      "original_language": "en",
+      "original_title": "My Dad's Christmas Date",
+      "genre_ids": [
+        35
+      ],
+      "backdrop_path": "/auT7g27gXXE23jxu6VCLsYFb14r.jpg",
+      "adult": false,
+      "overview": "It’s Christmas and the charming city of York, home to Jules, 16 and her Dad, David is decked out ready for the festive season. In many ways, David and Jules’ relationship is no different from that of most fathers and their sixteen-year-old daughters. He struggles to understand her, she refuses to communicate with him. He wants to be involved in her life, she wants her own space. In one important respect, however, David and Jules share a profound bond: the death of Jules’ mum, and David’s wife, in a car crash two years before. With both struggling to cope with everyday life in the shadow of their loss, Jules, inspired by happy memories of her mum, decides to take matters into her own hands.",
+      "poster_path": "/mAfeEGYIwEG4YmVk77pv8fk0Dpr.jpg",
+      "popularity": 19.948
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/8gJu9LA8R0LijzaeaYALgTEyQ3S.jpg",
+      "genre_ids": [
+        16,
+        28,
+        12,
+        10751,
+        35
+      ],
+      "id": 523604,
+      "original_language": "en",
+      "original_title": "The Legend of Hallowaiian",
+      "overview": "After releasing a mythical monster upon the islands, a group of three young friends must use local legends to restore peace to their home.",
+      "poster_path": "/kbrdooJBiYRMQuYSNntaNmkXNy7.jpg",
+      "release_date": "2018-10-18",
+      "title": "The Legend of Hallowaiian",
+      "video": false,
+      "vote_average": 8.8,
+      "vote_count": 5,
+      "popularity": 4.281
+    },
+    {
+      "id": 566675,
+      "video": false,
+      "vote_count": 6,
+      "vote_average": 6,
+      "title": "Remember Me",
+      "release_date": "2019-08-02",
+      "original_language": "en",
+      "original_title": "Remember Me",
+      "genre_ids": [
+        35,
+        18,
+        10749
+      ],
+      "backdrop_path": "/25fP9OL55kNc0TuBBEZ6MFg9wxu.jpg",
+      "adult": false,
+      "overview": "After discovering his old flame now has Alzheimer's, a hopelessly in love widower fakes his way into her senior living community in an effort to reunite with her.",
+      "poster_path": "/97b0xywgjen8zENjyTWGukBYlAz.jpg",
+      "popularity": 10.69
+    },
+    {
+      "id": 664184,
+      "video": false,
+      "vote_count": 5,
+      "vote_average": 5.3,
+      "title": "The Opening Act",
+      "release_date": "2020-10-16",
+      "original_language": "en",
+      "original_title": "The Opening Act",
+      "genre_ids": [
+        35
+      ],
+      "backdrop_path": "/2GhyI4g28OoT3QtaQL3S2FDSWtZ.jpg",
+      "adult": false,
+      "overview": "The film follows Will Chu whose true life passion is to become a stand-up comedian. He is given the opportunity to emcee a comedy show, opening for his hero, Billy G. Chu has to decide if he wants to continue the life he has set up or to pursue his dream, the life of a comedian.",
+      "poster_path": "/dLzrhDvKXT7KVIDTglnTOhz19cW.jpg",
+      "popularity": 12.652
+    },
+    {
+      "id": 602211,
+      "video": false,
+      "vote_count": 2,
+      "vote_average": 3,
+      "title": "Fatman",
+      "release_date": "2020-11-13",
+      "original_language": "en",
+      "original_title": "Fatman",
+      "genre_ids": [
+        28,
+        35
+      ],
+      "backdrop_path": "/8TKusadLJHQfsfwTBN9UBoHtY8l.jpg",
+      "adult": false,
+      "overview": "A rowdy, unorthodox Santa Claus is fighting to save his declining business. Meanwhile, Billy, a neglected and precocious 12 year old, hires a hit man to kill Santa after receiving a lump of coal in his stocking.",
+      "poster_path": "/xZR3dm2wdKEFWJrqIVFnNyjhAQX.jpg",
+      "popularity": 17.453
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/23XgY6hoKYnZK3oTChN4Xlp9kdO.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 679898,
+      "original_language": "es",
+      "original_title": "La maldición del guapo",
+      "overview": "Humberto, a seductive con artist, lives a quiet life in Madrid after having done his time for a big job that cost him his relationship with his son Jorge, who reaches out to him for help when the jewellery where he works is robbed.",
+      "poster_path": "/7ABPIUINn2zZWtyW8xPsCppT7OB.jpg",
+      "release_date": "2020-07-10",
+      "title": "La maldición del guapo",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 5,
+      "popularity": 59.035
+    },
+    {
+      "id": 593059,
+      "video": false,
+      "vote_count": 5,
+      "vote_average": 6.8,
+      "title": "A Piece of My Heart",
+      "release_date": "2019-12-25",
+      "original_language": "sv",
+      "original_title": "En del av mitt hjärta",
+      "genre_ids": [
+        35
+      ],
+      "backdrop_path": "/hGjDoSHlBzPZcTbSBFfXGJHhUpJ.jpg",
+      "adult": false,
+      "overview": "Isabella (35) is a driven business woman in Stockholm’s finance world. When she goes home to the small town she grew up in to celebrate her father’s sixtieth birthday, she feels like a winner, the only one in her old school gang that things have really gone well for. Isabella’s selfconfidence falters when she realizes that Simon, her great love from her teen years, is going to marry Isabella’s childhood friend Molly, and that she isn’t invited to the wedding. Isabella is accustomed to getting what she wants, and it disturbs her to see Simon so happy with someone else. Unfortunately, there are some feelings that never go away.",
+      "poster_path": "/etLJZWW3zw9avVoRr5rZWG6h2ak.jpg",
+      "popularity": 15.523
+    },
+    {
+      "id": 679796,
+      "video": false,
+      "vote_count": 14,
+      "vote_average": 5.9,
+      "title": "Enemy Lines",
+      "release_date": "2020-04-24",
+      "original_language": "en",
+      "original_title": "Enemy Lines",
+      "genre_ids": [
+        10752,
+        28
+      ],
+      "backdrop_path": "/eTb7csUniZdYr4dXGJYuLJRRBvm.jpg",
+      "adult": false,
+      "overview": "In the frozen, war torn landscape of occupied Poland during World War II, a crack team of allied commandos are sent on a deadly mission behind enemy lines to extract a rocket scientist from the hands of the Nazis.",
+      "poster_path": "/vG8qBkByy9naORB6zahcntIC2N.jpg",
+      "popularity": 109.041
+    },
+    {
+      "id": 615790,
+      "video": false,
+      "vote_count": 4,
+      "vote_average": 4.3,
+      "title": "The Cleansing",
+      "release_date": "2019-08-05",
+      "original_language": "en",
+      "original_title": "The Cleansing",
+      "genre_ids": [
+        18,
+        27,
+        53
+      ],
+      "backdrop_path": "/cnzo5jTthrAfRMPid8TpsZDG7W3.jpg",
+      "adult": false,
+      "overview": "Set in a small isolated village in 14th century Wales, Alice is a sixteen year old girl who is accused of being a witch and causing the plague that has ravaged the village, taking the lives of many, including Alice's own father. When it is revealed that Alice has been hiding her mother's infection, she is forced to watch The Cleanser, an ominous masked figure, brutally dispatch her mother. The town preacher and de-facto leader Tom has eyes for Alice, and subjects her to five torturous trials after she spurns his advances. Escaping the night before her execution, with the help of her mother's friend Mary, she flees into the forest and discovers the secluded hut of a mysterious healer, with his own troubled past and demons to face. He nurses her back to health, and teaches her how to exact revenge upon those that persecuted her.",
+      "poster_path": "/woJfpWhsEdQ2cLkpF0L45b7RBQO.jpg",
+      "popularity": 3.502
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wViqLlwLIvUAwE54KZHcBKPZKv4.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 733906,
+      "original_language": "en",
+      "original_title": "John Bronco",
+      "overview": "The unbelievable story of the rise, fall and ultimate redemption of the legendary pitchman for the Ford Bronco.",
+      "poster_path": "/7jpPXcV4yUQeuRmgjmIRVQnEayQ.jpg",
+      "release_date": "2020-10-15",
+      "title": "John Bronco",
+      "video": false,
+      "vote_average": 5.2,
+      "vote_count": 5,
+      "popularity": 6.563
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/A6ep53BjCg6vAQaEzXjrwMIzOs8.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 646363,
+      "original_language": "pl",
+      "original_title": "Lubię mówić z Tobą",
+      "overview": "Morgue worker starts talking to the dead.",
+      "poster_path": "/vvQVxMpbMmuDbWKuPp8W7jMhBBL.jpg",
+      "release_date": "2013-01-01",
+      "title": "Lubię mówić z Tobą",
+      "video": false,
+      "vote_average": 5.5,
+      "vote_count": 4,
+      "popularity": 1.649
+    },
+    {
+      "id": 505746,
+      "video": false,
+      "vote_count": 4,
+      "vote_average": 6.8,
+      "title": "Burnout 3",
+      "release_date": "2020-10-14",
+      "original_language": "no",
+      "original_title": "Børning 3",
+      "genre_ids": [
+        28,
+        35
+      ],
+      "backdrop_path": "/yvZUTqBQP7y0pzoPqBVF3fNczkh.jpg",
+      "adult": false,
+      "overview": "The third and final instalment in the Burnout trilogy. This time, the road leads trough Norway, to Sweden, Denmark and finally Germany to race on the famous racing track, Nürburgring.",
+      "poster_path": "/A2NIXTSmGjqAqJmnFr5ZwpOva9l.jpg",
+      "popularity": 6.987
+    }
+  ],
+  "total_pages": 2,
+  "total_results": 40
+}"""
+
+        const val similarMoviesResponse = """{
+  "page": 1,
+  "results": [
+    {
+      "id": 744,
+      "video": false,
+      "vote_count": 4348,
+      "vote_average": 6.9,
+      "title": "Top Gun",
+      "release_date": "1986-05-16",
+      "original_language": "en",
+      "original_title": "Top Gun",
+      "genre_ids": [
+        28,
+        18
+      ],
+      "backdrop_path": "/jILeJ60zPpIjjJHGSmIeY4eO30t.jpg",
+      "adult": false,
+      "overview": "For Lieutenant Pete 'Maverick' Mitchell and his friend and co-pilot Nick 'Goose' Bradshaw, being accepted into an elite training school for fighter pilots is a dream come true. But a tragedy, as well as personal demons, will threaten Pete's dreams of becoming an ace pilot.",
+      "poster_path": "/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+      "popularity": 28.709
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/p01c4KaaI8oqmKQqfrQiqYlHR6W.jpg",
+      "genre_ids": [
+        28,
+        53,
+        9648
+      ],
+      "id": 146198,
+      "original_language": "en",
+      "original_title": "Triple 9",
+      "overview": "A gang of criminals and corrupt cops plan the murder of a police officer in order to pull off their biggest heist yet across town.",
+      "poster_path": "/kQY3cX8DhNtWDXoYfXnqp3imZ1U.jpg",
+      "release_date": "2016-02-19",
+      "title": "Triple 9",
+      "video": false,
+      "vote_average": 5.9,
+      "vote_count": 1535,
+      "popularity": 18.513
+    },
+    {
+      "id": 787,
+      "video": false,
+      "vote_count": 7290,
+      "vote_average": 6.7,
+      "title": "Mr. & Mrs. Smith",
+      "release_date": "2005-06-07",
+      "original_language": "en",
+      "original_title": "Mr. & Mrs. Smith",
+      "genre_ids": [
+        28,
+        35,
+        18,
+        53
+      ],
+      "backdrop_path": "/gaZK3jT9sSsLfT479nGVXWxN0Hz.jpg",
+      "adult": false,
+      "overview": "After five (or six) years of vanilla-wedded bliss, ordinary suburbanites John and Jane Smith are stuck in a huge rut. Unbeknownst to each other, they are both coolly lethal, highly-paid assassins working for rival organisations. When they discover they're each other's next target, their secret lives collide in a spicy, explosive mix of wicked comedy, pent-up passion, nonstop action and high-tech weaponry.",
+      "poster_path": "/eMftEiMCZPEtzzEFyYLjbNkgRQ5.jpg",
+      "popularity": 24.82
+    },
+    {
+      "id": 300671,
+      "video": false,
+      "vote_count": 2181,
+      "vote_average": 7.2,
+      "title": "13 Hours: The Secret Soldiers of Benghazi",
+      "release_date": "2016-01-13",
+      "original_language": "en",
+      "original_title": "13 Hours: The Secret Soldiers of Benghazi",
+      "genre_ids": [
+        28,
+        18,
+        36,
+        53,
+        10752
+      ],
+      "backdrop_path": "/ayDMYGUNVvXS76wQgFwTiUIDNb5.jpg",
+      "adult": false,
+      "overview": "An American Ambassador is killed during an attack at a U.S. compound in Libya as a security team struggles to make sense out of the chaos.",
+      "poster_path": "/4qnEeVPM8Yn5dIVC4k4yyjrUXeR.jpg",
+      "popularity": 33.766
+    },
+    {
+      "id": 10908,
+      "video": false,
+      "vote_count": 125,
+      "vote_average": 5.6,
+      "title": "Inferno",
+      "release_date": "1999-09-25",
+      "original_language": "en",
+      "original_title": "Inferno",
+      "genre_ids": [
+        28,
+        18,
+        10749
+      ],
+      "backdrop_path": "/45iOWQhW9vdaoeETepClEaEVozk.jpg",
+      "adult": false,
+      "overview": "Eddie Lomax (Jean-Claude Van Damme) is a drifter who has been in a suicidal funk since the death of his close friend Johnny (Danny Trejo). Riding his motorcycle into a small desert town where Johnny once lived, Lomax is confronted by a gang of toughs, who beat him and steal his bike. However, Lomax is not a man to take an injustice lying down, and soon he begins exacting a violent revenge on the men who stole his motorcycle, with local handyman Jubal Early (Pat Morita) lending a hand and several area ladies offering aid and comfort.",
+      "poster_path": "/dFlI0Vb4JOsRXG1JSS2Ufs6Sp8k.jpg",
+      "popularity": 15.345
+    },
+    {
+      "id": 121,
+      "video": false,
+      "vote_count": 15556,
+      "vote_average": 8.3,
+      "title": "The Lord of the Rings: The Two Towers",
+      "release_date": "2002-12-18",
+      "original_language": "en",
+      "original_title": "The Lord of the Rings: The Two Towers",
+      "genre_ids": [
+        28,
+        12,
+        14
+      ],
+      "backdrop_path": "/9BUvLUz1GhbNpcyQRyZm1HNqMq4.jpg",
+      "adult": false,
+      "overview": "Frodo and Sam are trekking to Mordor to destroy the One Ring of Power while Gimli, Legolas and Aragorn search for the orc-captured Merry and Pippin. All along, nefarious wizard Saruman awaits the Fellowship members at the Orthanc Tower in Isengard.",
+      "poster_path": "/5VTN0pR8gcqV3EPUHHfMGnJYN9L.jpg",
+      "popularity": 53.331
+    },
+    {
+      "id": 10015,
+      "video": false,
+      "vote_count": 568,
+      "vote_average": 6.7,
+      "title": "Heartbreak Ridge",
+      "release_date": "1986-12-05",
+      "original_language": "en",
+      "original_title": "Heartbreak Ridge",
+      "genre_ids": [
+        28,
+        35,
+        18,
+        10752
+      ],
+      "backdrop_path": "/91u48Ye19SesVaBuoaETtwa8CxK.jpg",
+      "adult": false,
+      "overview": "A hard-nosed, hard-living Marine gunnery sergeant clashes with his superiors and his ex-wife as he takes command of a spoiled recon platoon with a bad attitude.",
+      "poster_path": "/x5qob9cZEPDcmd1Sc0PbvOp2OIg.jpg",
+      "popularity": 14.611
+    },
+    {
+      "id": 10839,
+      "video": false,
+      "vote_count": 206,
+      "vote_average": 6.9,
+      "title": "Cross of Iron",
+      "release_date": "1977-01-29",
+      "original_language": "en",
+      "original_title": "Cross of Iron",
+      "genre_ids": [
+        18,
+        28,
+        36,
+        10752
+      ],
+      "backdrop_path": "/edUMdGAWTwc6RA2uhvagZJkrhAw.jpg",
+      "adult": false,
+      "overview": "It is 1943, and the German army—ravaged and demoralised—is hastily retreating from the Russian front. In the midst of the madness, conflict brews between the aristocratic yet ultimately pusillanimous Captain Stransky and the courageous Corporal Steiner. Stransky is the only man who believes that the Third Reich is still vastly superior to the Russian army. However, within his pompous persona lies a quivering coward who longs for the Iron Cross so that he can return to Berlin a hero. Steiner, on the other hand is cynical, defiantly non-conformist and more concerned with the safety of his own men rather than the horde of military decorations offered to him by his superiors.",
+      "poster_path": "/tpExYgspVudTQvC82m7kvePcXqr.jpg",
+      "popularity": 11.325
+    },
+    {
+      "id": 238636,
+      "video": false,
+      "vote_count": 4766,
+      "vote_average": 6.6,
+      "title": "The Purge: Anarchy",
+      "release_date": "2014-07-17",
+      "original_language": "en",
+      "original_title": "The Purge: Anarchy",
+      "genre_ids": [
+        27,
+        53
+      ],
+      "backdrop_path": "/kFFyh3mPukknIQBPMinoSeZIUOq.jpg",
+      "adult": false,
+      "overview": "One night per year, the government sanctions a 12-hour period in which citizens can commit any crime they wish -- including murder -- without fear of punishment or imprisonment. Leo, a sergeant who lost his son, plans a vigilante mission of revenge during the mayhem. However, instead of a death-dealing avenger, he becomes the unexpected protector of four innocent strangers who desperately need his help if they are to survive the night.",
+      "poster_path": "/f2HD5iVhJWWv72QVWThUKk09zYy.jpg",
+      "popularity": 71.908
+    },
+    {
+      "id": 826,
+      "video": false,
+      "vote_count": 1238,
+      "vote_average": 7.8,
+      "title": "The Bridge on the River Kwai",
+      "release_date": "1957-10-02",
+      "original_language": "en",
+      "original_title": "The Bridge on the River Kwai",
+      "genre_ids": [
+        18,
+        36,
+        10752
+      ],
+      "backdrop_path": "/EcQKZcVYZ8EjK3eN1quPvkMrL9.jpg",
+      "adult": false,
+      "overview": "The classic story of English POWs in Burma forced to build a bridge to aid the war effort of their Japanese captors. British and American intelligence officers conspire to blow up the structure, but Col. Nicholson , the commander who supervised the bridge's construction, has acquired a sense of pride in his creation and tries to foil their plans.",
+      "poster_path": "/rVWacfczT3i1GOjqp2u4K9wahta.jpg",
+      "popularity": 16.199
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/fy8E5sF1Phf5aihA3nxx4Qqxotl.jpg",
+      "genre_ids": [
+        37,
+        36,
+        10752
+      ],
+      "id": 10733,
+      "original_language": "en",
+      "original_title": "The Alamo",
+      "overview": "Based on the 1836 standoff between a group of Texan and Tejano men, led by Davy Crockett and Jim Bowie, and Mexican dictator Santa Anna's forces at the Alamo in San Antonio, Texas.",
+      "poster_path": "/yU800quJAC1lQNcZGeTGD5QQtV.jpg",
+      "release_date": "2004-04-07",
+      "title": "The Alamo",
+      "video": false,
+      "vote_average": 5.8,
+      "vote_count": 211,
+      "popularity": 9.756
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3CMT4APmiXBuFn3NYUZVGoA4knF.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 14626,
+      "original_language": "fr",
+      "original_title": "Beau travail",
+      "overview": "Foreign Legion officer, Galoup, recalls his once glorious life, leading troops in the Gulf of Djibouti. His existence there was happy, strict and regimented, but the arrival of a promising young recruit, Sentain, plants the seeds of jealousy in Galoup's mind.",
+      "poster_path": "/8liInyfcnyn0vizoQNGmJohtsCm.jpg",
+      "release_date": "1999-09-16",
+      "title": "Beau Travail",
+      "video": false,
+      "vote_average": 7,
+      "vote_count": 104,
+      "popularity": 8.398
+    },
+    {
+      "id": 11589,
+      "video": false,
+      "vote_count": 400,
+      "vote_average": 7.4,
+      "title": "Kelly's Heroes",
+      "release_date": "1970-06-22",
+      "original_language": "en",
+      "original_title": "Kelly's Heroes",
+      "genre_ids": [
+        12,
+        35,
+        10752
+      ],
+      "backdrop_path": "/js7WdYkmPDx8zHX0pgzhNuOTk77.jpg",
+      "adult": false,
+      "overview": "A misfit group of World War II American soldiers goes AWOL to rob a bank behind German lines.",
+      "poster_path": "/hleMxFKSC42yT0TClS4G29HV11n.jpg",
+      "popularity": 14.42
+    },
+    {
+      "id": 10652,
+      "video": false,
+      "vote_count": 244,
+      "vote_average": 6.6,
+      "title": "Hamburger Hill",
+      "release_date": "1987-08-07",
+      "original_language": "en",
+      "original_title": "Hamburger Hill",
+      "genre_ids": [
+        28,
+        18,
+        10752
+      ],
+      "backdrop_path": "/qkwlPlub5kx7NNz1rX8S3TKZUWe.jpg",
+      "adult": false,
+      "overview": "The men of Bravo Company are facing a battle that's all uphill… up Hamburger Hill. Fourteen war-weary soldiers are battling for a mud-covered mound of earth so named because it chews up soldiers like chopped meat. They are fighting for their country, their fellow soldiers and their lives. War is hell, but this is worse. Hamburger Hill tells it the way it was, the way it really was. It's a raw, gritty and totally unrelenting dramatic depiction of one of the fiercest battles of America's bloodiest war. This happened. Hamburger Hill - war at its worst, men at their best.",
+      "poster_path": "/a84FDoIm64qcyKq6BEMB9Ycldpt.jpg",
+      "popularity": 9.858
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qsN29Wb7sqw06I9TzEnJE3soxHM.jpg",
+      "genre_ids": [
+        18,
+        10752
+      ],
+      "id": 438259,
+      "original_language": "en",
+      "original_title": "Journey's End",
+      "overview": "Set in a dugout in Aisne in 1918, a group of British officers, led by the mentally disintegrating young officer Stanhope, variously await their fate.",
+      "poster_path": "/5gGkt84bCPt7XRo35FcsrOeer78.jpg",
+      "release_date": "2017-12-14",
+      "title": "Journey's End",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 149,
+      "popularity": 11.7
+    },
+    {
+      "id": 1722,
+      "video": false,
+      "vote_count": 330,
+      "vote_average": 5.8,
+      "title": "Captain Corelli's Mandolin",
+      "release_date": "2001-04-18",
+      "original_language": "en",
+      "original_title": "Captain Corelli's Mandolin",
+      "genre_ids": [
+        18,
+        36,
+        10749
+      ],
+      "backdrop_path": "/6pOV0Ig0RF5AOUpIxv0YkAjBPh5.jpg",
+      "adult": false,
+      "overview": "When a Greek fisherman leaves to fight with the Greek army during WWII, his fiancee falls in love with the local Italian commander. The film is based on a novel about an Italian soldier's experiences during the Italian occupation of the Greek island of Cephalonia (Kefalonia), but Hollywood made it into a pure love story by removing much of the \"unpleasant\" stuff.",
+      "poster_path": "/dNNjMmZwQvq48Pw71BIzd8ky6Rh.jpg",
+      "popularity": 11.398
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/5kmoreEiqaU0JoE8GZmLwLvAsJq.jpg",
+      "genre_ids": [
+        10749,
+        18,
+        10752
+      ],
+      "id": 433356,
+      "original_language": "en",
+      "original_title": "The Ottoman Lieutenant",
+      "overview": "Lillie, a determined American woman, ventures overseas to join Dr. Jude at a remote medical mission in the Ottoman Empire (now Turkey). However, Lillie soon finds herself at odds with Jude and the mission’s founder, Woodruff, when she falls for the titular military man, Ismail, just as the war is about to erupt.",
+      "poster_path": "/c5E8KTDuGNdF4Lmv3OhsQ0W1zPw.jpg",
+      "release_date": "2017-03-10",
+      "title": "The Ottoman Lieutenant",
+      "video": false,
+      "vote_average": 6.1,
+      "vote_count": 174,
+      "popularity": 12.795
+    },
+    {
+      "id": 1829,
+      "video": false,
+      "vote_count": 93,
+      "vote_average": 7,
+      "title": "The Story of Adele H.",
+      "release_date": "1975-10-08",
+      "original_language": "fr",
+      "original_title": "L'Histoire d'Adèle H.",
+      "genre_ids": [
+        18,
+        36
+      ],
+      "backdrop_path": "/l74RI23VnGOjqBX7EjHk6gJ5NWp.jpg",
+      "adult": false,
+      "overview": "Adèle Hugo, daughter of renowned French writer Victor Hugo, falls in love with British soldier Albert Pinson while living in exile off the coast of England. Though he spurns her affections, she follows him to Nova Scotia and takes on the alias of Adèle Lewly. Albert continues to reject her, but she remains obsessive in her quest to win him over.",
+      "poster_path": "/2t3mHLBNigYfwjIpiAGkWGdF7M3.jpg",
+      "popularity": 8.912
+    },
+    {
+      "id": 11702,
+      "video": false,
+      "vote_count": 253,
+      "vote_average": 6,
+      "title": "The Replacement Killers",
+      "release_date": "1998-02-06",
+      "original_language": "en",
+      "original_title": "The Replacement Killers",
+      "genre_ids": [
+        28,
+        80,
+        18,
+        9648,
+        53
+      ],
+      "backdrop_path": "/yYY0eWwfbvb1OTUx5cMNvHogDvs.jpg",
+      "adult": false,
+      "overview": "Hired assassin John Lee is asked by Chinatown crime boss Terence Wei to murder the young son of policeman Stan Zedkov. Lee has the boy in his sights, but his conscience gets the better of him, and he spares the child's life. Afraid that Wei will take revenge on his family in China, Lee seeks out expert forger Meg Coburn to obtain the passport he needs to get out of the country, but a band of replacement killers is soon on his trail.",
+      "poster_path": "/5JAVd0lYhkB2dsDtt84Qt6grNIn.jpg",
+      "popularity": 10.752
+    },
+    {
+      "id": 2623,
+      "video": false,
+      "vote_count": 665,
+      "vote_average": 7,
+      "title": "An Officer and a Gentleman",
+      "release_date": "1982-07-28",
+      "original_language": "en",
+      "original_title": "An Officer and a Gentleman",
+      "genre_ids": [
+        18,
+        10749
+      ],
+      "backdrop_path": "/xzyHYTcN4RPqk7gPzuguPFIjsG1.jpg",
+      "adult": false,
+      "overview": "Zack Mayo is an aloof, taciturn man who aspires to be a navy pilot. Once he arrives at training camp for his 13-week officer's course, Mayo runs afoul of abrasive, no-nonsense drill Sergeant Emil Foley. Mayo is an excellent cadet, but a little cold around the heart, so Foley rides him mercilessly, sensing that the young man would be prime officer material if he weren't so self-involved. Zack's affair with a working girl is likewise compromised by his unwillingness to give of himself.",
+      "poster_path": "/nloIjLT5EFl4PUfbV6acxx4yiH7.jpg",
+      "popularity": 9.605
+    }
+  ],
+  "total_pages": 5,
+  "total_results": 100
+}"""
+
+        const val detailTVShowResponse = """{
+  "backdrop_path": "/58PON1OrnBiX6CqEHgeWKVwrCn6.jpg",
+  "created_by": [
+    {
+      "id": 63554,
+      "credit_id": "5d77e07539549a000f96cc12",
+      "name": "Dave Erickson",
+      "gender": 2,
+      "profile_path": null
+    },
+    {
+      "id": 1223867,
+      "credit_id": "5521364b9251417be2002abc",
+      "name": "Robert Kirkman",
+      "gender": 2,
+      "profile_path": "/ulYOkxtk8lUvg4Ltkg2q22ibg4R.jpg"
+    }
+  ],
+  "episode_run_time": [
+    43,
+    60
+  ],
+  "first_air_date": "2015-08-23",
+  "genres": [
+    {
+      "id": 10759,
+      "name": "Action & Adventure"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    }
+  ],
+  "homepage": "http://www.amc.com/shows/fear-the-walking-dead",
+  "id": 62286,
+  "in_production": true,
+  "languages": [
+    "en",
+    "es"
+  ],
+  "last_air_date": "2020-11-15",
+  "last_episode_to_air": {
+    "air_date": "2020-11-15",
+    "episode_number": 6,
+    "id": 2370332,
+    "name": "Bury Her Next to Jasper's Leg",
+    "overview": "A deadly explosion in the oil fields sends June on a mission to save as many lives as possible. Meanwhile, an investigation by Virginia threatens to undermine June's work.",
+    "production_code": "",
+    "season_number": 6,
+    "still_path": "/aSWLDpD6nX4r2VX09AhLjH3mklV.jpg",
+    "vote_average": 5,
+    "vote_count": 2
+  },
+  "name": "Fear the Walking Dead",
+  "next_episode_to_air": {
+    "air_date": "2020-11-22",
+    "episode_number": 7,
+    "id": 2370333,
+    "name": "Damage From the Inside",
+    "overview": "When Dakota goes missing, Strand sends Alicia and Charlie on a search and rescue mission to find her. An unlikely ally provides a new possibility of escape from Virginia.",
+    "production_code": "",
+    "season_number": 6,
+    "still_path": null,
+    "vote_average": 0,
+    "vote_count": 0
+  },
+  "networks": [
+    {
+      "name": "AMC",
+      "id": 174,
+      "logo_path": "/pmvRmATOCaDykE6JrVoeYxlFHw3.png",
+      "origin_country": "US"
+    }
+  ],
+  "number_of_episodes": 77,
+  "number_of_seasons": 6,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "Fear the Walking Dead",
+  "overview": "What did the world look like as it was transforming into the horrifying apocalypse depicted in \"The Walking Dead\"? This spin-off set in Los Angeles, following new characters as they face the beginning of the end of the world, will answer that question.",
+  "popularity": 627.312,
+  "poster_path": "/wGFUewXPeMErCe2xnCmmLEiHOGh.jpg",
+  "production_companies": [
+    {
+      "id": 11533,
+      "logo_path": "/tWM9pmzVYxok4GbQIttxdcml1yT.png",
+      "name": "Valhalla Motion Pictures",
+      "origin_country": "US"
+    },
+    {
+      "id": 23242,
+      "logo_path": "/fOALFvgnO1ZdIaA9PNIAAuaDKWd.png",
+      "name": "AMC Networks",
+      "origin_country": "US"
+    },
+    {
+      "id": 43346,
+      "logo_path": null,
+      "name": "Fox Productions",
+      "origin_country": "US"
+    },
+    {
+      "id": 23921,
+      "logo_path": "/simDvqT8y6jhP530ggUMbikvVKc.png",
+      "name": "Circle of Confusion",
+      "origin_country": "US"
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "2015-10-04",
+      "episode_count": 38,
+      "id": 70218,
+      "name": "Specials",
+      "overview": "Fear the Walking Dead: Flight 462 follows the story of a group of airline passengers who discover that one of their fellow travelers is infected with the virus, putting their lives at risk.\n\nA new installment of the 16-part series is available every sunday online, and on-air as promos during two commercial breaks of The Walking Dead.",
+      "poster_path": "/nlFKhmcDK0JVmvqvxqmOeRZsJVU.jpg",
+      "season_number": 0
+    },
+    {
+      "air_date": "2015-08-23",
+      "episode_count": 6,
+      "id": 65692,
+      "name": "Season 1",
+      "overview": "After a string of ominous warnings, guidance counselor Madison Clark and the rest of her family are horrified to see their world descend into a zombie nightmare -- which will soon become their new reality.",
+      "poster_path": "/i2bXSzpKWw0RVmLdldhBFT3a0Ty.jpg",
+      "season_number": 1
+    },
+    {
+      "air_date": "2016-04-10",
+      "episode_count": 15,
+      "id": 73780,
+      "name": "Season 2",
+      "overview": "Season two returns aboard the Abigail. Abandoning land, the group sets out for ports unknown, some place where Infection has not hit. They will discover that the water may be no safer than land.",
+      "poster_path": "/oxAm6varqgV3WOGYX2OrgCGKnZo.jpg",
+      "season_number": 2
+    },
+    {
+      "air_date": "2017-06-04",
+      "episode_count": 16,
+      "id": 87822,
+      "name": "Season 3",
+      "overview": "As Fear the Walking Dead returns for season three, our families will be brought together in the vibrant and violent ecotone of the U.S.-Mexico border.",
+      "poster_path": "/cMh46P517YVBedpMtO3ucBvK1jM.jpg",
+      "season_number": 3
+    },
+    {
+      "air_date": "2018-04-15",
+      "episode_count": 16,
+      "id": 99582,
+      "name": "Season 4",
+      "overview": "In season four, we see the world of Madison Clark and her family through new eyes -- the eyes of Morgan Jones. The characters' immediate past mixes with an uncertain present of struggle and discovery as they meet new friends, foes and threats. They fight for each other, against each other and against a legion of the dead to somehow build an existence against the crushing pressure of lives coming apart. There will be darkness and light; terror and grace; the heroic, mercenary, and craven, all crashing together towards a new reality.",
+      "poster_path": "/k8T1iiKU9zQ8NAvwsB95KZXJ3O6.jpg",
+      "season_number": 4
+    },
+    {
+      "air_date": "2019-06-02",
+      "episode_count": 16,
+      "id": 121629,
+      "name": "Season 5",
+      "overview": "In season 5, the mission to help others will be put to the ultimate test when our group lands in uncharted territory. They will be forced to face not just their pasts but also their fears, leaving them forever changed.",
+      "poster_path": "/aUBFD7zPl4fyE8e4FjASq4OgOUc.jpg",
+      "season_number": 5
+    },
+    {
+      "air_date": "2020-10-11",
+      "episode_count": 8,
+      "id": 157589,
+      "name": "Season 6",
+      "overview": "Heading into Season 5 of \"Fear the Walking Dead,\" the group's mission is clear: locate survivors and help make what's left of the world a slightly better place. With dogged determination, Morgan Jones leads the group with a philosophy rooted in benevolence, community and hope. Each character believes that helping others will allow them to make up for the wrongs of their pasts. But trust won't be easily earned. Their mission of helping others will be put to the ultimate test when the members of the group find themselves in uncharted territory, forced to face not just their pasts but also their fears. It is only by facing those fears that the group will discover an entirely new way to live, one that will leave them changed forever changed.",
+      "poster_path": "/66zTxl3DMy1WH4U4SoeTkl5Yvpe.jpg",
+      "season_number": 6
+    }
+  ],
+  "status": "Returning Series",
+  "tagline": "Every decision is life or death.",
+  "type": "Scripted",
+  "vote_average": 7.4,
+  "vote_count": 2623
 }"""
 
         const val popularTvResponse = """{
