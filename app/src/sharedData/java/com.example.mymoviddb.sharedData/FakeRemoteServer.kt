@@ -632,7 +632,28 @@ class FakeRemoteServer : NetworkService {
         userSessionId: Map<String, String>,
         apiKey: String
     ): Deferred<Response<ResponsedBackend>> {
-        TODO("Not yet implemented")
+        val logoutSuccessResponse = """{success: true}"""
+        val jsonConverter = moshi.adapter(ResponsedBackend::class.java)
+        val responseSuccess = jsonConverter.fromJson(logoutSuccessResponse) as ResponsedBackend
+
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+
+        return if (apiKey == BuildConfig.V3_AUTH && userSessionId["session_id"] == sampleSessionId) {
+            CompletableDeferred(Response.success(responseSuccess))
+        } else {
+            // Response Error 401: invalid api key
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     override fun getMovieAuthStateAsync(
