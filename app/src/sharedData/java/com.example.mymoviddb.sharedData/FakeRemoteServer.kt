@@ -661,7 +661,32 @@ class FakeRemoteServer : NetworkService {
         sessionId: String,
         apiKey: String
     ): Deferred<Response<MediaState>> {
-        TODO("Not yet implemented")
+        val movieStateResponse = """{
+  "id": 741067,
+  "favorite": true,
+  "rated": false,
+  "watchlist": true
+}"""
+        val error401Response = """{
+  "success": false,
+  "status_code": 3,
+  "status_message": "Authentication failed: You do not have permissions to access the service."
+}"""
+        val jsonConverter = moshi.adapter(MediaState::class.java)
+        val responseSuccess = jsonConverter.fromJson(movieStateResponse) as MediaState
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId && movieId == 741067L) {
+            CompletableDeferred(Response.success(responseSuccess))
+        } else {
+            // Response Error 401: invalid api key
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     override fun getTVAuthStateAsync(
@@ -669,7 +694,32 @@ class FakeRemoteServer : NetworkService {
         sessionId: String,
         apiKey: String
     ): Deferred<Response<MediaState>> {
-        TODO("Not yet implemented")
+        val movieStateResponse = """{
+  "id": 741067,
+  "favorite": true,
+  "rated": false,
+  "watchlist": true
+}"""
+        val error401Response = """{
+  "success": false,
+  "status_code": 3,
+  "status_message": "Authentication failed: You do not have permissions to access the service."
+}"""
+        val jsonConverter = moshi.adapter(MediaState::class.java)
+        val responseSuccess = jsonConverter.fromJson(movieStateResponse) as MediaState
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId && tvId == 62286L) {
+            CompletableDeferred(Response.success(responseSuccess))
+        } else {
+            // Response Error 401: invalid api key
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     override fun markAsFavoriteAsync(
