@@ -514,14 +514,84 @@ class FakeRemoteServer : NetworkService {
         tvId: Long,
         apiKey: String
     ): Deferred<Response<TVShowModel>> {
-        TODO("Not yet implemented")
+
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val jsonConverter = moshi.adapter(TVShowModel::class.java)
+        val responseSuccess = jsonConverter.fromJson(recommendationTVShowsResponse) as TVShowModel
+
+        return when {
+            // api key is valid and title is not blank return response success
+            apiKey == realApiKey && tvId == 62286L -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            // api key is valid and title is blank return success with empty list
+            apiKey == realApiKey && tvId != 62286L -> {
+                val emptyMovies = TVShowModel(
+                    page = 1, totalResults = 0, totalPages = 0,
+                    results = emptyList()
+                )
+                CompletableDeferred(Response.success(emptyMovies))
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun getSimilarTVShowsAsync(
         tvId: Long,
         apiKey: String
     ): Deferred<Response<TVShowModel>> {
-        TODO("Not yet implemented")
+
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val jsonConverter = moshi.adapter(TVShowModel::class.java)
+        val responseSuccess = jsonConverter.fromJson(similarTVShowsResponse) as TVShowModel
+
+        return when {
+            // api key is valid and title is not blank return response success
+            apiKey == realApiKey && tvId == 62286L -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            // api key is valid and title is blank return success with empty list
+            apiKey == realApiKey && tvId != 62286L -> {
+                val emptyMovies = TVShowModel(
+                    page = 1, totalResults = 0, totalPages = 0,
+                    results = emptyList()
+                )
+                CompletableDeferred(Response.success(emptyMovies))
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun getAccountDetailAsync(
@@ -3301,6 +3371,1074 @@ class FakeRemoteServer : NetworkService {
       "poster_path": "/c3EurMWJu1hXKUeJVvLIoJaN26j.jpg"
     }
   ]
+}"""
+
+        const val recommendationTVShowsResponse = """{
+  "page": 1,
+  "results": [
+    {
+      "backdrop_path": "/jCvwvSH5i9bLaql1rR21j9U9LS.jpg",
+      "first_air_date": "2014-09-12",
+      "genre_ids": [
+        9648,
+        10759,
+        18
+      ],
+      "id": 61345,
+      "name": "Z Nation",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Z Nation",
+      "overview": "Three years after the zombie virus has gutted the country, a team of everyday heroes must transport the only known survivor of the plague from New York to California, where the last functioning viral lab waits for his blood.",
+      "poster_path": "/gXfeDMkEcHoYBvtkbU11g3F81b.jpg",
+      "vote_average": 6.8,
+      "vote_count": 402,
+      "networks": [
+        {
+          "id": 77,
+          "logo": {
+            "path": "/iYfrkobwDhTOFJ4AXYPSLIEeaAT.png",
+            "aspect_ratio": 4.081632653061225
+          },
+          "name": "Syfy",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 73.713
+    },
+    {
+      "backdrop_path": "/wXXaPMgrv96NkH8KD1TMdS2d7iq.jpg",
+      "first_air_date": "2010-10-31",
+      "genre_ids": [
+        10759,
+        18,
+        10765
+      ],
+      "id": 1402,
+      "name": "The Walking Dead",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Walking Dead",
+      "overview": "Sheriff's deputy Rick Grimes awakens from a coma to find a post-apocalyptic world dominated by flesh-eating zombies. He sets out to find his family and encounters many other survivors along the way.",
+      "poster_path": "/qgjP2OrrX9gc6M270xdPnEmE9tC.jpg",
+      "vote_average": 7.9,
+      "vote_count": 8642,
+      "networks": [
+        {
+          "id": 174,
+          "logo": {
+            "path": "/pmvRmATOCaDykE6JrVoeYxlFHw3.png",
+            "aspect_ratio": 1.768
+          },
+          "name": "AMC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 307.258
+    },
+    {
+      "backdrop_path": "/aNXKB65a6hTlyxJOi6Xt2vzVqAl.jpg",
+      "first_air_date": "2015-05-14",
+      "genre_ids": [
+        18,
+        9648,
+        10765
+      ],
+      "id": 53425,
+      "name": "Wayward Pines",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Wayward Pines",
+      "overview": "Imagine the perfect American town... beautiful homes, manicured lawns, children playing safely in the streets. Now imagine never being able to leave. You have no communication with the outside world. You think you're going insane. You must be in Wayward Pines.",
+      "poster_path": "/mK9MowBCPEn7RbsDXqN0MxyPc4.jpg",
+      "vote_average": 6.7,
+      "vote_count": 423,
+      "networks": [
+        {
+          "id": 19,
+          "logo": {
+            "path": "/1DSpHrWyOORkL9N2QHX7Adt31mQ.png",
+            "aspect_ratio": 2.325581395348837
+          },
+          "name": "FOX",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 23.628
+    },
+    {
+      "backdrop_path": "/i1wJZlBdQkEv9RGirvHti7hu86m.jpg",
+      "first_air_date": "2014-06-22",
+      "genre_ids": [
+        10759,
+        18,
+        10765
+      ],
+      "id": 60802,
+      "name": "The Last Ship",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Last Ship",
+      "overview": "Their mission is simple: Find a cure. Stop the virus. Save the world. When a global pandemic wipes out eighty percent of the planet's population, the crew of a lone naval destroyer must find a way to pull humanity from the brink of extinction.",
+      "poster_path": "/43pAddeD10rllMQMGN7ucuOi4NI.jpg",
+      "vote_average": 6.3,
+      "vote_count": 539,
+      "networks": [
+        {
+          "id": 41,
+          "logo": {
+            "path": "/6ISsKwa2XUhSC6oBtHZjYf6xFqv.png",
+            "aspect_ratio": 1
+          },
+          "name": "TNT",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 52.675
+    },
+    {
+      "backdrop_path": "/cVTXRNJps13QeVKDJ7NhDaHMK0v.jpg",
+      "first_air_date": "2016-05-22",
+      "genre_ids": [
+        9648,
+        18,
+        10765
+      ],
+      "id": 64230,
+      "name": "Preacher",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Preacher",
+      "overview": "A preacher sets out on a mission to make the almighty himself confess his sin of abandoning the world. With his best friend Cassidy, an alcoholic Irish vampire, his love Tulip, a red blooded gun towing Texan, and the power of genesis, an unholy child born from an angel and a devil, Jesse gives up everything to set the world straight with its creator.",
+      "poster_path": "/ey1WQajA25E5sFGHSApcqSWUSEc.jpg",
+      "vote_average": 7.4,
+      "vote_count": 648,
+      "networks": [
+        {
+          "id": 174,
+          "logo": {
+            "path": "/alqLicR1ZMHMaZGP3xRQxn9sq7p.png",
+            "aspect_ratio": 1.774011299435028
+          },
+          "name": "AMC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 37.895
+    },
+    {
+      "backdrop_path": "/gZQxmxvm5D54o8t0RMgPSihv2K.jpg",
+      "first_air_date": "2016-01-14",
+      "genre_ids": [
+        878,
+        18
+      ],
+      "id": 62858,
+      "name": "Colony",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Colony",
+      "overview": "In the near future a family must make difficult decisions as they balance staying together with trying to survive. They live in Los Angeles, which has been occupied by a force of outside intruders.  While some people have chosen to collaborate with the authorities and benefit from the new order, others have rebelled — and suffer the consequences.",
+      "poster_path": "/qfS0mp22XfTig2EK3jWKiyx7kNy.jpg",
+      "vote_average": 6.8,
+      "vote_count": 379,
+      "networks": [
+        {
+          "id": 30,
+          "logo": {
+            "path": "/g1e0H0Ka97IG5SyInMXdJkHGKiH.png",
+            "aspect_ratio": 2.278755074424899
+          },
+          "name": "USA Network",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 28.996
+    },
+    {
+      "backdrop_path": "/qpZ7dcM5yDyBDP4JSQr9LRUIBRm.jpg",
+      "first_air_date": "2004-09-22",
+      "genre_ids": [
+        10759,
+        9648
+      ],
+      "id": 4607,
+      "name": "Lost",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Lost",
+      "overview": "Stripped of everything, the survivors of a horrific plane crash  must work together to stay alive. But the island holds many secrets.",
+      "poster_path": "/og6S0aTZU6YUJAbqxeKjCa3kY1E.jpg",
+      "vote_average": 7.9,
+      "vote_count": 1967,
+      "networks": [
+        {
+          "id": 2,
+          "logo": {
+            "path": "/ndAvF4JLsliGreX87jAc9GdjmJY.png",
+            "aspect_ratio": 1
+          },
+          "name": "ABC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 112.72
+    },
+    {
+      "backdrop_path": "/q8FS5ZtkV98MYbUR1wJRyvVJGav.jpg",
+      "first_air_date": "2015-03-01",
+      "genre_ids": [
+        18,
+        35
+      ],
+      "id": 61888,
+      "name": "The Last Man on Earth",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Last Man on Earth",
+      "overview": "The year is 2022, and after an unlikely event, only one man is left on earth: Phil Miller, who used to be just an average guy who loved his family and hated his job at the bank. Now, in his RV, Phil searches the country for other survivors.",
+      "poster_path": "/9TcvdOIBEnIDXbLvFUKluRDa3tZ.jpg",
+      "vote_average": 6.6,
+      "vote_count": 363,
+      "networks": [
+        {
+          "id": 19,
+          "logo": {
+            "path": "/1DSpHrWyOORkL9N2QHX7Adt31mQ.png",
+            "aspect_ratio": 2.325581395348837
+          },
+          "name": "FOX",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 27.526
+    },
+    {
+      "backdrop_path": "/qXm5j4jxl69kp7bO6O8VbDriMPA.jpg",
+      "first_air_date": "2014-06-29",
+      "genre_ids": [
+        10765,
+        18
+      ],
+      "id": 54344,
+      "name": "The Leftovers",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Leftovers",
+      "overview": "When 2% of the world's population abruptly disappears without explanation, the world struggles to understand just what they're supposed to do about it. The drama series 'The Leftovers' is the story of the people who didn't make the cut.\n\nBased on the bestselling novel by Tom Perrotta, 'The Leftovers' follows Kevin Garvey, a father of two and the chief of police in a small New York suburb, as he tries to maintain some semblance of normalcy when the notion no longer applies.",
+      "poster_path": "/ri8xr223xBb2TeHX3GKypvQPV2B.jpg",
+      "vote_average": 7.7,
+      "vote_count": 497,
+      "networks": [
+        {
+          "id": 49,
+          "logo": {
+            "path": "/tuomPhY2UtuPTqqFnKMVHvSb724.png",
+            "aspect_ratio": 2.425287356321839
+          },
+          "name": "HBO",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 39.859
+    },
+    {
+      "backdrop_path": "/AlqSvfI6bmxh31iaJTgjNSemF3D.jpg",
+      "first_air_date": "2015-02-08",
+      "genre_ids": [
+        35,
+        80,
+        18
+      ],
+      "id": 60059,
+      "name": "Better Call Saul",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Better Call Saul",
+      "overview": "Six years before Saul Goodman meets Walter White. We meet him when the man who will become Saul Goodman is known as Jimmy McGill, a small-time lawyer searching for his destiny, and, more immediately, hustling to make ends meet. Working alongside, and, often, against Jimmy, is “fixer” Mike Ehrmantraut. The series tracks Jimmy’s transformation into Saul Goodman, the man who puts “criminal” in “criminal lawyer\".",
+      "poster_path": "/cU0kAjGjA6d2XjBzJMUIEVKiGDb.jpg",
+      "vote_average": 8.3,
+      "vote_count": 1885,
+      "networks": [
+        {
+          "id": 174,
+          "logo": {
+            "path": "/alqLicR1ZMHMaZGP3xRQxn9sq7p.png",
+            "aspect_ratio": 1.774011299435028
+          },
+          "name": "AMC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 88.996
+    },
+    {
+      "backdrop_path": "/lFlO6ZWC3yZHDvfiuy3Ni1XuIqu.jpg",
+      "first_air_date": "2012-09-17",
+      "genre_ids": [
+        28,
+        878,
+        18,
+        12
+      ],
+      "id": 1410,
+      "name": "Revolution",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Revolution",
+      "overview": "One day, electricity just stopped working and the world was suddenly thrust back into the dark ages. Now, 15 years later, a young woman's life is dramatically changed when a local militia arrives and kills her father, who mysteriously—and unbeknownst to her—had something to do with the blackout. An unlikely group sets out off on a daring journey to find answers about the past in the hopes of reclaiming the future.",
+      "poster_path": "/pNyg4V6kuDstSSxk6Q9GgaBn4B8.jpg",
+      "vote_average": 6.3,
+      "vote_count": 312,
+      "networks": [
+        {
+          "id": 6,
+          "logo": {
+            "path": "/o3OedEP0f9mfZr33jz2BfXOUK5.png",
+            "aspect_ratio": 4.083582089552239
+          },
+          "name": "NBC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 12.741
+    },
+    {
+      "backdrop_path": "/4YnAZ1KO9goeS4c06VO7HXiO3oO.jpg",
+      "first_air_date": "2014-07-13",
+      "genre_ids": [
+        878,
+        18,
+        9648
+      ],
+      "id": 47640,
+      "name": "The Strain",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Strain",
+      "overview": "A high concept thriller that tells the story of Dr. Ephraim Goodweather, the head of the Center for Disease Control Canary Team in New York City. He and his team are called upon to investigate a mysterious viral outbreak with hallmarks of an ancient and evil strain of vampirism. As the strain spreads, Eph, his team, and an assembly of everyday New Yorkers, wage war for the fate of humanity itself.",
+      "poster_path": "/2BWErT9QcADpf2G4BZ769eSnFTP.jpg",
+      "vote_average": 7.3,
+      "vote_count": 933,
+      "networks": [
+        {
+          "id": 88,
+          "logo": {
+            "path": "/aexGjtcs42DgRtZh7zOxayiry4J.png",
+            "aspect_ratio": 1.677852348993289
+          },
+          "name": "FX",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 58.533
+    },
+    {
+      "backdrop_path": "/xcJLhsFGVC4LVvucSqVXks2mnUJ.jpg",
+      "first_air_date": "2014-04-15",
+      "genre_ids": [
+        80,
+        18
+      ],
+      "id": 60622,
+      "name": "Fargo",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Fargo",
+      "overview": "A close-knit anthology series dealing with stories involving malice, violence and murder based in and around Minnesota.",
+      "poster_path": "/9ZIhl17uFlXCNUputSEDHwZYIEJ.jpg",
+      "vote_average": 8.3,
+      "vote_count": 1375,
+      "networks": [
+        {
+          "id": 88,
+          "logo": {
+            "path": "/aexGjtcs42DgRtZh7zOxayiry4J.png",
+            "aspect_ratio": 1.677852348993289
+          },
+          "name": "FX",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 61.437
+    },
+    {
+      "backdrop_path": "/a7fRjgWc37Ml6bSlWoNaG7wbaqP.jpg",
+      "first_air_date": "2006-10-01",
+      "genre_ids": [
+        80,
+        18,
+        9648
+      ],
+      "id": 1405,
+      "name": "Dexter",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Dexter",
+      "overview": "Dexter Morgan, a blood spatter pattern analyst for the Miami Metro Police also leads a secret life as a serial killer, hunting down criminals who have slipped through the cracks of justice.",
+      "poster_path": "/p4rx3FW14Ayx1dLHJQBqDGw9YiX.jpg",
+      "vote_average": 8.1,
+      "vote_count": 2030,
+      "networks": [
+        {
+          "id": 67,
+          "logo": {
+            "path": "/Allse9kbjiP6ExaQrnSpIhkurEi.png",
+            "aspect_ratio": 2.42080378250591
+          },
+          "name": "Showtime",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 97.392
+    },
+    {
+      "backdrop_path": "/qsnXwGS7KBbX4JLqHvICngtR8qg.jpg",
+      "first_air_date": "2015-04-10",
+      "genre_ids": [
+        28,
+        80
+      ],
+      "id": 61889,
+      "name": "Marvel's Daredevil",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Marvel's Daredevil",
+      "overview": "Lawyer-by-day Matt Murdock uses his heightened senses from being blinded as a young boy to fight crime at night on the streets of Hell’s Kitchen as Daredevil.",
+      "poster_path": "/QWbPaDxiB6LW2LjASknzYBvjMj.jpg",
+      "vote_average": 7.9,
+      "vote_count": 2104,
+      "networks": [
+        {
+          "id": 213,
+          "logo": {
+            "path": "/wwemzKWzjKYJFfCeiB57q3r4Bcm.png",
+            "aspect_ratio": 3.73134328358209
+          },
+          "name": "Netflix",
+          "origin_country": ""
+        }
+      ],
+      "popularity": 73.113
+    },
+    {
+      "backdrop_path": "/pLVrN9B750ehwTFdQ6n3HRUERLd.jpg",
+      "first_air_date": "2020-10-04",
+      "genre_ids": [
+        18,
+        10765,
+        9648
+      ],
+      "id": 94305,
+      "name": "The Walking Dead: World Beyond",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "The Walking Dead: World Beyond",
+      "overview": "A heroic group of teens sheltered from the dangers of the post-apocalyptic world receive a message that inspires them to leave the safety of the only home they have ever known and embark on a cross-country journey to find the one man who can possibly save the world.",
+      "poster_path": "/z31GxpVgDsFAF4paZR8PRsiP16D.jpg",
+      "vote_average": 7.8,
+      "vote_count": 421,
+      "networks": [
+        {
+          "id": 174,
+          "logo": {
+            "path": "/alqLicR1ZMHMaZGP3xRQxn9sq7p.png",
+            "aspect_ratio": 1.774011299435028
+          },
+          "name": "AMC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 367.83
+    },
+    {
+      "backdrop_path": "/4DgAubucJP6y2yX2Yx4CLEgdIPA.jpg",
+      "first_air_date": "2006-09-25",
+      "genre_ids": [
+        10765,
+        18
+      ],
+      "id": 1639,
+      "name": "Heroes",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Heroes",
+      "overview": "Common people discover that they have super powers. Their lives intertwine as a devastating event must be prevented.",
+      "poster_path": "/lf0TcOkheYUZKpeh7c8lqJHNk5O.jpg",
+      "vote_average": 7.3,
+      "vote_count": 1008,
+      "networks": [
+        {
+          "id": 6,
+          "logo": {
+            "path": "/o3OedEP0f9mfZr33jz2BfXOUK5.png",
+            "aspect_ratio": 4.083582089552239
+          },
+          "name": "NBC",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 137.266
+    },
+    {
+      "backdrop_path": "/s9kC7NkVolxkG2gPHvWLFj0FIk4.jpg",
+      "first_air_date": "2011-06-19",
+      "genre_ids": [
+        10759,
+        10765
+      ],
+      "id": 34967,
+      "name": "Falling Skies",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Falling Skies",
+      "overview": "Falling Skies opens in the chaotic aftermath of an alien attack that has left most of the world completely incapacitated. In the six months since the initial invasion, the few survivors have banded together outside major cities to begin the difficult task of fighting back. Each day is a test of survival as citizen soldiers work to protect the people in their care while also engaging in an insurgency campaign against the occupying alien force.",
+      "poster_path": "/i2ctkUM209mRyvWRrERXCbSarKr.jpg",
+      "vote_average": 7,
+      "vote_count": 711,
+      "networks": [
+        {
+          "id": 41,
+          "logo": {
+            "path": "/6ISsKwa2XUhSC6oBtHZjYf6xFqv.png",
+            "aspect_ratio": 1
+          },
+          "name": "TNT",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 38.127
+    },
+    {
+      "backdrop_path": "/57JFnZqpG5OLgHdZY7Zf9dKcZ5U.jpg",
+      "first_air_date": "2015-11-20",
+      "genre_ids": [
+        10765,
+        18
+      ],
+      "id": 38472,
+      "name": "Marvel's Jessica Jones",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Marvel's Jessica Jones",
+      "overview": "After a tragic ending to her short-lived super hero stint, Jessica Jones is rebuilding her personal life and career as a detective who gets pulled into cases involving people with extraordinary abilities in New York City.",
+      "poster_path": "/wkFdanlAaV39sSXeslImfRUj3jQ.jpg",
+      "vote_average": 7.6,
+      "vote_count": 1256,
+      "networks": [
+        {
+          "id": 213,
+          "logo": {
+            "path": "/wwemzKWzjKYJFfCeiB57q3r4Bcm.png",
+            "aspect_ratio": 3.73134328358209
+          },
+          "name": "Netflix",
+          "origin_country": ""
+        }
+      ],
+      "popularity": 76.556
+    },
+    {
+      "backdrop_path": "/2Ahm0YjLNQKuzSf9LOkHrXk8qIE.jpg",
+      "first_air_date": "2014-01-12",
+      "genre_ids": [
+        18
+      ],
+      "id": 46648,
+      "name": "True Detective",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "True Detective",
+      "overview": "An American anthology police detective series utilizing multiple timelines in which investigations seem to unearth personal and professional secrets of those involved, both within or outside the law.",
+      "poster_path": "/aowr4xpLP5sRCL50TkuADomJ98T.jpg",
+      "vote_average": 8.3,
+      "vote_count": 1601,
+      "networks": [
+        {
+          "id": 49,
+          "logo": {
+            "path": "/tuomPhY2UtuPTqqFnKMVHvSb724.png",
+            "aspect_ratio": 2.425287356321839
+          },
+          "name": "HBO",
+          "origin_country": "US"
+        }
+      ],
+      "popularity": 40.87
+    }
+  ],
+  "total_pages": 2,
+  "total_results": 40
+}"""
+
+        const val similarTVShowsResponse = """{
+  "page": 1,
+  "results": [
+    {
+      "original_name": "The Walking Dead",
+      "id": 1402,
+      "name": "The Walking Dead",
+      "vote_count": 8642,
+      "vote_average": 7.9,
+      "first_air_date": "2010-10-31",
+      "poster_path": "/qgjP2OrrX9gc6M270xdPnEmE9tC.jpg",
+      "genre_ids": [
+        10759,
+        18,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/wXXaPMgrv96NkH8KD1TMdS2d7iq.jpg",
+      "overview": "Sheriff's deputy Rick Grimes awakens from a coma to find a post-apocalyptic world dominated by flesh-eating zombies. He sets out to find his family and encounters many other survivors along the way.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 307.258
+    },
+    {
+      "original_name": "学園黙示録 HIGHSCHOOL OF THE DEAD",
+      "id": 56998,
+      "name": "Highschool of the Dead",
+      "vote_count": 332,
+      "vote_average": 8.4,
+      "first_air_date": "2010-07-05",
+      "poster_path": "/wf3bBKp1RgCJjyCBLfEAbZjVr31.jpg",
+      "genre_ids": [
+        10759,
+        16,
+        18
+      ],
+      "original_language": "ja",
+      "backdrop_path": "/ivWNDYPxDMjc82ajeSPuyq70hu9.jpg",
+      "overview": "When the world is struck by a deadly pandemic that turns humans into zombies, Takashi Komuro and several of his classmates at Fujimi High School try to survive the apocalypse.",
+      "origin_country": [
+        "JP"
+      ],
+      "popularity": 32.985
+    },
+    {
+      "original_name": "The Walking Dead: World Beyond",
+      "id": 94305,
+      "name": "The Walking Dead: World Beyond",
+      "vote_count": 421,
+      "vote_average": 7.8,
+      "first_air_date": "2020-10-04",
+      "poster_path": "/z31GxpVgDsFAF4paZR8PRsiP16D.jpg",
+      "genre_ids": [
+        18,
+        10765,
+        9648
+      ],
+      "original_language": "en",
+      "backdrop_path": "/pLVrN9B750ehwTFdQ6n3HRUERLd.jpg",
+      "overview": "A heroic group of teens sheltered from the dangers of the post-apocalyptic world receive a message that inspires them to leave the safety of the only home they have ever known and embark on a cross-country journey to find the one man who can possibly save the world.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 367.83
+    },
+    {
+      "backdrop_path": "/aFmqXViWzIKmhR8Cy4QDqPU6pIL.jpg",
+      "first_air_date": "2019-01-25",
+      "genre_ids": [
+        18,
+        10759,
+        9648
+      ],
+      "id": 70593,
+      "name": "Kingdom",
+      "origin_country": [
+        "KR"
+      ],
+      "original_language": "ko",
+      "original_name": "킹덤",
+      "overview": "In this zombie thriller set in Korea's medieval Joseon dynasty, a crown prince is sent on a suicide mission to investigate a mysterious outbreak.",
+      "poster_path": "/AsICtiVtz4icMQQRwDvOzfaTzjK.jpg",
+      "vote_average": 8.2,
+      "vote_count": 353,
+      "popularity": 32.45
+    },
+    {
+      "original_name": "Z Nation",
+      "id": 61345,
+      "name": "Z Nation",
+      "vote_count": 402,
+      "vote_average": 6.8,
+      "first_air_date": "2014-09-12",
+      "poster_path": "/gXfeDMkEcHoYBvtkbU11g3F81b.jpg",
+      "genre_ids": [
+        9648,
+        10759,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/jCvwvSH5i9bLaql1rR21j9U9LS.jpg",
+      "overview": "Three years after the zombie virus has gutted the country, a team of everyday heroes must transport the only known survivor of the plague from New York to California, where the last functioning viral lab waits for his blood.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 73.713
+    },
+    {
+      "original_name": "デッドマン・ワンダーランド",
+      "id": 42503,
+      "name": "Deadman Wonderland",
+      "vote_count": 172,
+      "vote_average": 7.6,
+      "first_air_date": "2011-04-17",
+      "poster_path": "/m12JbXsDdB35RGAC1g3ImNQT4h5.jpg",
+      "genre_ids": [
+        16,
+        10759,
+        10765
+      ],
+      "original_language": "ja",
+      "backdrop_path": "/hKkybBfYLM9aTUCQBL8fwxC0TwF.jpg",
+      "overview": "Ganta is the only survivor after a mysterious man in red slaughters a classroom full of teenagers. He's framed for the carnage, sentenced to die, and locked away in the most twisted prison ever built: Deadman Wonderland. And then it gets worse.",
+      "origin_country": [
+        "JP"
+      ],
+      "popularity": 27.549
+    },
+    {
+      "original_name": "The Last Ship",
+      "id": 60802,
+      "name": "The Last Ship",
+      "vote_count": 539,
+      "vote_average": 6.3,
+      "first_air_date": "2014-06-22",
+      "poster_path": "/43pAddeD10rllMQMGN7ucuOi4NI.jpg",
+      "genre_ids": [
+        18,
+        10759,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/i1wJZlBdQkEv9RGirvHti7hu86m.jpg",
+      "overview": "Their mission is simple: Find a cure. Stop the virus. Save the world. When a global pandemic wipes out eighty percent of the planet's population, the crew of a lone naval destroyer must find a way to pull humanity from the brink of extinction.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 52.675
+    },
+    {
+      "backdrop_path": "/ptiSlEK0UhqUGQxeOlS3rn5FBSn.jpg",
+      "first_air_date": "2015-07-12",
+      "genre_ids": [
+        16,
+        10765,
+        18
+      ],
+      "id": 62773,
+      "name": "God Eater",
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "ゴッドイーター",
+      "overview": "In the early 2050s, unknown life forms called “Oracle cells” begin their uncontrolled consumption of all life on Earth. Their ravenous appetite and remarkable adaptability earn them first dread, then awe, and finally the name “aragami”. In the face of an enemy completely immune to conventional weapons, urban civilization collapses, and each day humanity is driven further and further toward extinction. One single ray of hope remains for humanity. Following the development of “God Arcs”—living weapons which incorporate Oracle cells—their wielders are organized into an elite force.",
+      "poster_path": "/ag4rXL4ZM6YAsWaI4BecLHWIqel.jpg",
+      "vote_average": 6.6,
+      "vote_count": 28,
+      "popularity": 10.593
+    },
+    {
+      "backdrop_path": "/oqFLhmwCpUyTxLWiMgIBt8VvbnT.jpg",
+      "first_air_date": "2005-10-04",
+      "genre_ids": [
+        16,
+        18,
+        9648,
+        10765
+      ],
+      "id": 8974,
+      "name": "Hell Girl",
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "地獄少女",
+      "overview": "Hell Girl, also known as Jigoku Shōjo: Girl from Hell, is an anime series produced by Aniplex and Studio Deen. It focuses on the existence of a supernatural system that allows people to take revenge by having other people sent to Hell via the services of the mysterious titular character and her assistants who implement this system. Revenge, injustice, hatred, and the nature of human emotions are common themes throughout the series.\n\nIt premiered across Japan on numerous television stations, including Animax, Tokyo MX, MBS and others, between October 4, 2005 and April 4, 2006. Following the success of the first season, the series was followed soon after into a second, Jigoku Shōjo Futakomori, which premiered October 7, 2006 across Japan on Animax. A live-action television series adaptation started airing in Japan on Nippon Television from November 4, 2006. A third season of the anime, further continuing the series, was first announced on the mobile version of the series' official website Jigoku Tsūshin. The official title of the third season was announced to be Jigoku Shōjo Mitsuganae. and began airing on Japanese TV October 4, 2008.",
+      "poster_path": "/58IhjAFrHSTN0CQFlBbQxdXwxLe.jpg",
+      "vote_average": 8.2,
+      "vote_count": 97,
+      "popularity": 24.512
+    },
+    {
+      "backdrop_path": "/uzp513qTcHsAavlCJ58x5d73bzy.jpg",
+      "first_air_date": "2017-07-07",
+      "genre_ids": [
+        10759,
+        16,
+        10765
+      ],
+      "id": 72636,
+      "name": "Made In Abyss",
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "メイドインアビス",
+      "overview": "The “Abyss” is the last unexplored region, an enormous and treacherous cave system filled with ancient relics and strange creatures. Only the bravest of adventurers can traverse its depths, earning them the nickname, “Cave Raiders.” Within the depths of the Abyss, a girl named Riko stumbles upon a robot who looks like a young boy. Tantalized by the Abyss, Riko and her new friend descend into uncharted territory to unlock its mysteries, but what lies in wait for them in the darkness?",
+      "poster_path": "/uVK3H8CgtrVgySFpdImvNXkN7RK.jpg",
+      "vote_average": 8.8,
+      "vote_count": 127,
+      "popularity": 31.316
+    },
+    {
+      "original_name": "The Stand",
+      "id": 9045,
+      "name": "The Stand",
+      "vote_count": 270,
+      "vote_average": 6.8,
+      "first_air_date": "1994-05-08",
+      "poster_path": "/o4Gb63aXRh5mMqGifYACixnxGkQ.jpg",
+      "genre_ids": [
+        10765,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/2CfzWJCaTxlddUW2JzyhoRn1ZzC.jpg",
+      "overview": "After a deadly plague kills most of the world's population, the remaining survivors split into two groups - one led by a benevolent elder and the other by a maleficent being - to face each other in a final battle between good and evil.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 18.406
+    },
+    {
+      "original_name": "The Strain",
+      "id": 47640,
+      "name": "The Strain",
+      "vote_count": 933,
+      "vote_average": 7.3,
+      "first_air_date": "2014-07-13",
+      "poster_path": "/2BWErT9QcADpf2G4BZ769eSnFTP.jpg",
+      "genre_ids": [
+        18,
+        9648,
+        878
+      ],
+      "original_language": "en",
+      "backdrop_path": "/4YnAZ1KO9goeS4c06VO7HXiO3oO.jpg",
+      "overview": "A high concept thriller that tells the story of Dr. Ephraim Goodweather, the head of the Center for Disease Control Canary Team in New York City. He and his team are called upon to investigate a mysterious viral outbreak with hallmarks of an ancient and evil strain of vampirism. As the strain spreads, Eph, his team, and an assembly of everyday New Yorkers, wage war for the fate of humanity itself.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 58.533
+    },
+    {
+      "original_name": "アナザー",
+      "id": 42589,
+      "name": "Another",
+      "vote_count": 387,
+      "vote_average": 8.4,
+      "first_air_date": "2012-01-10",
+      "poster_path": "/cwaEn7Gg11avVtn1BZ5qaFV1aEd.jpg",
+      "genre_ids": [
+        10759,
+        16,
+        18,
+        9648
+      ],
+      "original_language": "ja",
+      "backdrop_path": "/a8z6VxePR6Xp3NfHkNsZj87LxVr.jpg",
+      "overview": "When Kouichi Sasakibara transfers to his new school, he can sense something frightening in the atmosphere of his new class, a secret none of them will talk about. At the center is the beautiful girl Mei Misaki. Kouichi is immediately drawn to her mysterious aura, but then he begins to realize that no one else in the class is aware of her presence.",
+      "origin_country": [
+        "JP"
+      ],
+      "popularity": 39.69
+    },
+    {
+      "original_name": "DC's Legends of Tomorrow",
+      "id": 62643,
+      "name": "DC's Legends of Tomorrow",
+      "vote_count": 1368,
+      "vote_average": 7.1,
+      "first_air_date": "2016-01-21",
+      "poster_path": "/yJ3xE11IDIe29LJsSbhzwt5Oxtd.jpg",
+      "genre_ids": [
+        10759,
+        18,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/be8fOACxsVyaX6lZLlQOWNqF0g2.jpg",
+      "overview": "When heroes alone are not enough ... the world needs legends. Having seen the future, one he will desperately try to prevent from happening, time-traveling rogue Rip Hunter is tasked with assembling a disparate group of both heroes and villains to confront an unstoppable threat — one in which not only is the planet at stake, but all of time itself. Can this ragtag team defeat an immortal threat unlike anything they have ever known?",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 108.32
+    },
+    {
+      "original_name": "La valla",
+      "id": 93522,
+      "name": "The Barrier",
+      "vote_count": 6,
+      "vote_average": 4.3,
+      "first_air_date": "2020-01-19",
+      "poster_path": "/qvlAuCWqBkXH9tO9kO6CTupA9XT.jpg",
+      "genre_ids": [
+        18,
+        10765,
+        10768,
+        9648
+      ],
+      "original_language": "es",
+      "backdrop_path": "/mJfXmAD7ABHla1fuzL29rZqoxrN.jpg",
+      "overview": "One family’s fight for survival in a future dystopian Madrid illustrates the disparity between two worlds separated by a fence — and so much more.",
+      "origin_country": [
+        "ES"
+      ],
+      "popularity": 67.197
+    },
+    {
+      "original_name": "I Am Not Okay with This",
+      "id": 90260,
+      "name": "I Am Not Okay with This",
+      "vote_count": 929,
+      "vote_average": 8.3,
+      "first_air_date": "2020-02-26",
+      "poster_path": "/kf3yX0ILNlLJ42X3lX2iYJ3QRp6.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/9HWumm63coTQGsveyZttmoGJ0NZ.jpg",
+      "overview": "A teen navigates the complexities of high school, family and her sexuality while dealing with new superpowers. Based on Charles Forsman's graphic novel.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 51.653
+    },
+    {
+      "original_name": "Jericho",
+      "id": 365,
+      "name": "Jericho",
+      "vote_count": 227,
+      "vote_average": 7.4,
+      "first_air_date": "2006-09-20",
+      "poster_path": "/a57H9UsS388Av2LSLKO9inNmY7j.jpg",
+      "genre_ids": [
+        18,
+        9648,
+        10759
+      ],
+      "original_language": "en",
+      "backdrop_path": "/zZmc68xm439AKsZZJ9y0qgkq8Hl.jpg",
+      "overview": "Jericho is an American action/drama series that centers on the residents of the fictional town of Jericho, Kansas, in the aftermath of nuclear attacks on 23 major cities in the contiguous United States.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 33.769
+    },
+    {
+      "backdrop_path": "/4ZdEMS47PnUK98uYCjh1t5UOJp8.jpg",
+      "first_air_date": "2015-03-17",
+      "genre_ids": [
+        27,
+        18,
+        80,
+        10765
+      ],
+      "id": 60866,
+      "name": "iZombie",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "iZombie",
+      "overview": "A medical student who becomes a zombie joins a Coroner's Office in order to gain access to the brains she must reluctantly eat so that she can maintain her humanity. But every brain she eats, she also inherits their memories and must now solve their deaths with help from the Medical examiner and a police detective.",
+      "poster_path": "/q4nqNwAhzVR7JuYctrWJvUWz3xR.jpg",
+      "vote_average": 7.7,
+      "vote_count": 1462,
+      "popularity": 84.056
+    },
+    {
+      "backdrop_path": "/xNNplu208Twucpf8MgnqHysYPg.jpg",
+      "first_air_date": "2012-10-04",
+      "genre_ids": [
+        16,
+        10759,
+        18,
+        10765
+      ],
+      "id": 45125,
+      "name": "Btooom!",
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "BTOOOM!",
+      "overview": "Sakamoto Ryouta is an unemployed 22-year-old who lives with his mother. In the real world, there may be nothing really special about him, but online, he's one of the world's top players of the combat game Btooom!. One day, he awakes on what appears to be a tropical island, though he has no memory of how or why he has come to be there. While wandering around, Ryouta sees someone and calls out for help. The stranger responds by throwing a bomb at him! Now Ryouta realizes both that his life is in danger and that he has somehow been trapped in a real-life version of his favourite game! Will Ryouta be able to survive long enough to figure out how and why he ended up here?",
+      "poster_path": "/9WGXIXqq1Y12KyfxEVmtaDe9b1H.jpg",
+      "vote_average": 7.5,
+      "vote_count": 83,
+      "popularity": 22.74
+    },
+    {
+      "backdrop_path": "/qCReQONjNVaW4QFN2V5vCOzPvex.jpg",
+      "first_air_date": "2020-10-16",
+      "genre_ids": [
+        10759,
+        10765,
+        18
+      ],
+      "id": 88987,
+      "name": "Helstrom",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Helstrom",
+      "overview": "Daimon and Ana Helstrom are the son and daughter of a mysterious and powerful serial killer. The siblings have a complicated dynamic as they track down the terrorizing worst of humanity — each with their attitude and skills.",
+      "poster_path": "/8fPIcaRIZgsoBcgA5yAm3GNz61M.jpg",
+      "vote_average": 7,
+      "vote_count": 51,
+      "popularity": 23.848
+    }
+  ],
+  "total_pages": 48,
+  "total_results": 958
 }"""
     }
 }
