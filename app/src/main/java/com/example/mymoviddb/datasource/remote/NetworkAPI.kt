@@ -170,7 +170,7 @@ interface NetworkService {
     ): Deferred<Response<FavouriteAndWatchListShow>>
 
     @POST("account/{account_id}/watchlist")
-    fun addToWatchList(
+    fun addToWatchListAsync(
         @Path("account_id") accoundId: Int,
         @Query("session_id") sessionId: String,
         @Body sendMediaType: MarkMediaAs,

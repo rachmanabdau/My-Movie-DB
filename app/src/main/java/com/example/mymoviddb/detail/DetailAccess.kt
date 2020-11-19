@@ -181,7 +181,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         wrapEspressoIdlingResource {
             return try {
                 val result =
-                    access.addToWatchList(accoundId, sessionId, sendMediaType, apiKey).await()
+                    access.addToWatchListAsync(accoundId, sessionId, sendMediaType, apiKey).await()
 
                 if (result.isSuccessful) {
                     Result.Success(result.body())
