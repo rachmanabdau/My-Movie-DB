@@ -776,7 +776,29 @@ class FakeRemoteServer : NetworkService {
         sortBy: String,
         apiKey: String
     ): Deferred<Response<FavouriteAndWatchListShow>> {
-        TODO("Not yet implemented")
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+        val jsonConverter = moshi.adapter(FavouriteAndWatchListShow::class.java)
+        val favouriteMovieSuccess =
+            jsonConverter.fromJson(favouriteMovies) as FavouriteAndWatchListShow
+        val favouriteTVSuccess =
+            jsonConverter.fromJson(favouriteTVShows) as FavouriteAndWatchListShow
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
+            if (showType == "movies") CompletableDeferred(Response.success(favouriteMovieSuccess))
+            else CompletableDeferred(Response.success(favouriteTVSuccess))
+        } else {
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     override fun addToWatchListAsync(
@@ -833,7 +855,29 @@ class FakeRemoteServer : NetworkService {
         sortBy: String,
         apiKey: String
     ): Deferred<Response<FavouriteAndWatchListShow>> {
-        TODO("Not yet implemented")
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+        val jsonConverter = moshi.adapter(FavouriteAndWatchListShow::class.java)
+        val watchListMovieSuccess =
+            jsonConverter.fromJson(watchListMovies) as FavouriteAndWatchListShow
+        val watchListTVSuccess =
+            jsonConverter.fromJson(watchListTV) as FavouriteAndWatchListShow
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
+            if (showType == "movies") CompletableDeferred(Response.success(watchListMovieSuccess))
+            else CompletableDeferred(Response.success(watchListTVSuccess))
+        } else {
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
     }
 
     companion object {
@@ -2534,6 +2578,726 @@ class FakeRemoteServer : NetworkService {
   ],
   "total_pages": 5,
   "total_results": 100
+}"""
+
+        const val favouriteMovies = """{
+  "page": 1,
+  "results": [
+    {
+      "id": 617505,
+      "video": false,
+      "vote_count": 753,
+      "vote_average": 6.2,
+      "title": "Hubie Halloween",
+      "release_date": "2020-10-07",
+      "original_language": "en",
+      "original_title": "Hubie Halloween",
+      "genre_ids": [
+        35,
+        14,
+        9648,
+        27
+      ],
+      "backdrop_path": "/aOeshAxAhiDVIiHsXVFmF6bgclh.jpg",
+      "adult": false,
+      "overview": "Hubie Dubois who, despite his devotion to his hometown of Salem, Massachusetts (and its legendary Halloween celebration), is a figure of mockery for kids and adults alike. But this year, something really is going bump in the night, and it’s up to Hubie to save Halloween.",
+      "poster_path": "/dbhC6qRydXyRmpUdcl9bL9rARya.jpg",
+      "popularity": 102.25
+    },
+    {
+      "id": 637395,
+      "video": false,
+      "vote_count": 8,
+      "vote_average": 5.9,
+      "title": "The Spooky Tale of Captain Underpants Hack-a-ween",
+      "release_date": "2019-10-08",
+      "original_language": "en",
+      "original_title": "The Spooky Tale of Captain Underpants Hack-a-ween",
+      "genre_ids": [
+        16,
+        35,
+        10751
+      ],
+      "backdrop_path": "/zb85xjZQTXa1AKA6AenN5gfIH2b.jpg",
+      "adult": false,
+      "overview": "When Melvin tries to cancel Halloween, clever best friends Harold and George create their own spooky holiday -- and it's a huge success!",
+      "poster_path": "/qGuBwXcJhmFBQRu5F6EB2VoTCn2.jpg",
+      "popularity": 26.929
+    },
+    {
+      "id": 621151,
+      "video": false,
+      "vote_count": 32,
+      "vote_average": 5.9,
+      "title": "Spell",
+      "release_date": "2020-10-30",
+      "original_language": "en",
+      "original_title": "Spell",
+      "genre_ids": [
+        53,
+        27
+      ],
+      "backdrop_path": "/5gllGAa3c9UqeRI8r6GXiQJIEtp.jpg",
+      "adult": false,
+      "overview": "A father survives a plane crash in rural Appalachia, but becomes suspicious of the elderly couple who take him in to nurse him back to health with the ancient remedies.",
+      "poster_path": "/4rjHhj1BAREc9zNFU8FheLJQdFf.jpg",
+      "popularity": 353.318
+    },
+    {
+      "id": 677638,
+      "video": false,
+      "vote_count": 514,
+      "vote_average": 7.7,
+      "title": "We Bare Bears: The Movie",
+      "release_date": "2020-06-30",
+      "original_language": "en",
+      "original_title": "We Bare Bears: The Movie",
+      "genre_ids": [
+        10751,
+        16,
+        12,
+        35
+      ],
+      "backdrop_path": "/pO1SnM5a1fEsYrFaVZW78Wb0zRJ.jpg",
+      "adult": false,
+      "overview": "When Grizz, Panda, and Ice Bear's love of food trucks and viral videos get out of hand, the brothers are chased away from their home and embark on a trip to Canada, where they can live in peace.",
+      "poster_path": "/kPzcvxBwt7kEISB9O4jJEuBn72t.jpg",
+      "popularity": 440.576
+    },
+    {
+      "id": 539885,
+      "video": false,
+      "vote_count": 627,
+      "vote_average": 5.7,
+      "title": "Ava",
+      "release_date": "2020-07-02",
+      "original_language": "en",
+      "original_title": "Ava",
+      "genre_ids": [
+        28,
+        80,
+        18,
+        53
+      ],
+      "backdrop_path": "/54yOImQgj8i85u9hxxnaIQBRUuo.jpg",
+      "adult": false,
+      "overview": "A black ops assassin is forced to fight for her own survival after a job goes dangerously wrong.",
+      "poster_path": "/qzA87Wf4jo1h8JMk9GilyIYvwsA.jpg",
+      "popularity": 566.62
+    },
+    {
+      "id": 694919,
+      "video": false,
+      "vote_count": 189,
+      "vote_average": 5.9,
+      "title": "Money Plane",
+      "release_date": "2020-09-29",
+      "original_language": "en",
+      "original_title": "Money Plane",
+      "genre_ids": [
+        28
+      ],
+      "backdrop_path": "/pq0JSpwyT2URytdFG0euztQPAyR.jpg",
+      "adult": false,
+      "overview": "A professional thief with ${'$'}40 million in debt and his family's life on the line must commit one final heist - rob a futuristic airborne casino filled with the world's most dangerous criminals.",
+      "poster_path": "/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg",
+      "popularity": 542.264
+    },
+    {
+      "id": 581392,
+      "video": false,
+      "vote_count": 774,
+      "vote_average": 7,
+      "title": "Peninsula",
+      "release_date": "2020-07-15",
+      "original_language": "ko",
+      "original_title": "반도",
+      "genre_ids": [
+        28,
+        27,
+        53
+      ],
+      "backdrop_path": "/gEjNlhZhyHeto6Fy5wWy5Uk3A9D.jpg",
+      "adult": false,
+      "overview": "A soldier and his team battle hordes of post-apocalyptic zombies in the wastelands of the Korean Peninsula.",
+      "poster_path": "/sy6DvAu72kjoseZEjocnm2ZZ09i.jpg",
+      "popularity": 565.09
+    },
+    {
+      "id": 740985,
+      "video": false,
+      "vote_count": 910,
+      "vote_average": 6.6,
+      "title": "Borat Subsequent Moviefilm",
+      "release_date": "2020-10-23",
+      "original_language": "en",
+      "original_title": "Borat Subsequent Moviefilm",
+      "genre_ids": [
+        35
+      ],
+      "backdrop_path": "/hbrXbVoE0NuA1ORoSGGYNASagrl.jpg",
+      "adult": false,
+      "overview": "14 years after making a film about his journey across the USA, Borat risks life and limb when he returns to the United States with his young daughter, and reveals more about the culture, the COVID-19 pandemic, and the political elections.",
+      "poster_path": "/6agKYU5IQFpuDyUYPu39w7UCRrJ.jpg",
+      "popularity": 532.874
+    },
+    {
+      "id": 337401,
+      "video": false,
+      "vote_count": 2915,
+      "vote_average": 7.2,
+      "title": "Mulan",
+      "release_date": "2020-09-04",
+      "original_language": "en",
+      "original_title": "Mulan",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        14
+      ],
+      "backdrop_path": "/zzWGRw277MNoCs3zhyG3YmYQsXv.jpg",
+      "adult": false,
+      "overview": "When the Emperor of China issues a decree that one man per family must serve in the Imperial Chinese Army to defend the country from Huns, Hua Mulan, the eldest daughter of an honored warrior, steps in to take the place of her ailing father. She is spirited, determined and quick on her feet. Disguised as a man by the name of Hua Jun, she is tested every step of the way and must harness her innermost strength and embrace her true potential.",
+      "poster_path": "/aKx1ARwG55zZ0GpRvU2WrGrCG9o.jpg",
+      "popularity": 728.013
+    },
+    {
+      "id": 624779,
+      "video": false,
+      "vote_count": 12,
+      "vote_average": 4.9,
+      "title": "VFW",
+      "release_date": "2020-10-14",
+      "original_language": "en",
+      "original_title": "VFW",
+      "genre_ids": [
+        28,
+        53,
+        27
+      ],
+      "backdrop_path": "/h5sUE9jqoYrjsFjANJXL0gpZGye.jpg",
+      "adult": false,
+      "overview": "A typical night for veterans at a VFW turns into an all-out battle for survival when a desperate teen runs into the bar with a bag of stolen drugs. When a gang of violent punks come looking for her, the vets use every weapon at their disposal to protect the girl and themselves from an unrelenting attack.",
+      "poster_path": "/AnVD7Gn14uOTQhcc5xYZGQ9DRvS.jpg",
+      "popularity": 567.466
+    },
+    {
+      "id": 560050,
+      "video": false,
+      "vote_count": 419,
+      "vote_average": 7.6,
+      "title": "Over the Moon",
+      "release_date": "2020-10-16",
+      "original_language": "en",
+      "original_title": "Over the Moon",
+      "genre_ids": [
+        16,
+        12,
+        10751,
+        14
+      ],
+      "backdrop_path": "/htBUhLSS7FfHtydgYxUWjL3J1Q1.jpg",
+      "adult": false,
+      "overview": "A girl builds a rocket to travel to the moon in hopes of meeting the legendary Moon Goddess.",
+      "poster_path": "/lQfdytwN7eh0tXWjIiMceFdBBvD.jpg",
+      "popularity": 601.785
+    },
+    {
+      "id": 497582,
+      "video": false,
+      "vote_count": 2618,
+      "vote_average": 7.5,
+      "title": "Enola Holmes",
+      "release_date": "2020-09-23",
+      "original_language": "en",
+      "original_title": "Enola Holmes",
+      "genre_ids": [
+        80,
+        18,
+        9648
+      ],
+      "backdrop_path": "/kMe4TKMDNXTKptQPAdOF0oZHq3V.jpg",
+      "adult": false,
+      "overview": "While searching for her missing mother, intrepid teen Enola Holmes uses her sleuthing skills to outsmart big brother Sherlock and help a runaway lord.",
+      "poster_path": "/riYInlsq2kf1AWoGm80JQW5dLKp.jpg",
+      "popularity": 788.325
+    },
+    {
+      "id": 613504,
+      "video": false,
+      "vote_count": 1874,
+      "vote_average": 7.3,
+      "title": "After We Collided",
+      "release_date": "2020-09-02",
+      "original_language": "en",
+      "original_title": "After We Collided",
+      "genre_ids": [
+        10749,
+        18
+      ],
+      "backdrop_path": "/6hgItrYQEG33y0I7yP2SRl2ei4w.jpg",
+      "adult": false,
+      "overview": "Tessa finds herself struggling with her complicated relationship with Hardin; she faces a dilemma that could change their lives forever.",
+      "poster_path": "/kiX7UYfOpYrMFSAGbI6j1pFkLzQ.jpg",
+      "popularity": 810.348
+    },
+    {
+      "id": 741067,
+      "video": false,
+      "vote_count": 157,
+      "vote_average": 6.3,
+      "title": "Welcome to Sudden Death",
+      "release_date": "2020-09-29",
+      "original_language": "en",
+      "original_title": "Welcome to Sudden Death",
+      "genre_ids": [
+        28,
+        53,
+        12,
+        18
+      ],
+      "backdrop_path": "/mc48QVtMhohMFrHGca8OHTB6C2B.jpg",
+      "adult": false,
+      "overview": "Jesse Freeman is a former special forces officer and explosives expert now working a regular job as a security guard in a state-of-the-art basketball arena. Trouble erupts when a tech-savvy cadre of terrorists kidnap the team's owner and Jesse's daughter during opening night. Facing a ticking clock and impossible odds, it's up to Jesse to not only save them but also a full house of fans in this highly charged action thriller.",
+      "poster_path": "/elZ6JCzSEvFOq4gNjNeZsnRFsvj.jpg",
+      "popularity": 851.543
+    },
+    {
+      "id": 340102,
+      "video": false,
+      "vote_count": 720,
+      "vote_average": 6.3,
+      "title": "The New Mutants",
+      "release_date": "2020-08-26",
+      "original_language": "en",
+      "original_title": "The New Mutants",
+      "genre_ids": [
+        28,
+        878,
+        27,
+        12
+      ],
+      "backdrop_path": "/eCIvqa3QVCx6H09bdeOS8Al2Sqy.jpg",
+      "adult": false,
+      "overview": "Five young mutants, just discovering their abilities while held in a secret facility against their will, fight to escape their past sins and save themselves.",
+      "poster_path": "/xZNw9xxtwbEf25NYoz52KdbXHPM.jpg",
+      "popularity": 779.884
+    },
+    {
+      "id": 741074,
+      "video": false,
+      "vote_count": 151,
+      "vote_average": 7,
+      "title": "Once Upon a Snowman",
+      "release_date": "2020-10-23",
+      "original_language": "en",
+      "original_title": "Once Upon a Snowman",
+      "genre_ids": [
+        16,
+        10751,
+        35,
+        14
+      ],
+      "backdrop_path": "/DA7gzvlBoxMNL0XmGgTZOyv67P.jpg",
+      "adult": false,
+      "overview": "The previously untold origins of Olaf, the innocent and insightful, summer-loving snowman are revealed as we follow Olaf’s first steps as he comes to life and searches for his identity in the snowy mountains outside Arendelle.",
+      "poster_path": "/hddzYJtfYYeMDOQVcH58n8m1W3A.jpg",
+      "popularity": 752.452
+    },
+    {
+      "id": 528085,
+      "video": false,
+      "vote_count": 338,
+      "vote_average": 4.7,
+      "title": "2067",
+      "release_date": "2020-10-01",
+      "original_language": "en",
+      "original_title": "2067",
+      "genre_ids": [
+        878,
+        53,
+        18
+      ],
+      "backdrop_path": "/5UkzNSOK561c2QRy2Zr4AkADzLT.jpg",
+      "adult": false,
+      "overview": "A lowly utility worker is called to the future by a mysterious radio signal, he must leave his dying wife to embark on a journey that will force him to face his deepest fears in an attempt to change the fabric of reality and save humankind from its greatest environmental crisis yet.",
+      "poster_path": "/7D430eqZj8y3oVkLFfsWXGRcpEG.jpg",
+      "popularity": 1377.176
+    },
+    {
+      "id": 531219,
+      "video": false,
+      "vote_count": 709,
+      "vote_average": 6.9,
+      "title": "Roald Dahl's The Witches",
+      "release_date": "2020-10-26",
+      "original_language": "en",
+      "original_title": "Roald Dahl's The Witches",
+      "genre_ids": [
+        14,
+        10751,
+        12,
+        35,
+        27
+      ],
+      "backdrop_path": "/8rIoyM6zYXJNjzGseT3MRusMPWl.jpg",
+      "adult": false,
+      "overview": "In late 1967, a young orphaned boy goes to live with his loving grandma in the rural Alabama town of Demopolis. As the boy and his grandmother encounter some deceptively glamorous but thoroughly diabolical witches, she wisely whisks him away to a seaside resort. Regrettably, they arrive at precisely the same time that the world's Grand High Witch has gathered.",
+      "poster_path": "/betExZlgK0l7CZ9CsCBVcwO1OjL.jpg",
+      "popularity": 1108.384
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 18
+}"""
+
+        const val watchListMovies = """{
+  "page": 1,
+  "results": [
+    {
+      "id": 671145,
+      "video": false,
+      "vote_count": 21,
+      "vote_average": 6.7,
+      "title": "Before the Fire",
+      "release_date": "2020-03-14",
+      "original_language": "en",
+      "original_title": "Before the Fire",
+      "genre_ids": [
+        28,
+        878,
+        53
+      ],
+      "backdrop_path": "/rq9kv233eEKnYfe8r5fi8SP5T7e.jpg",
+      "adult": false,
+      "overview": "Deep in the throes of a global pandemic, up and coming TV star, Ava Boone, is forced to flee the mounting chaos in Los Angeles and return to her rural hometown.  But as she struggles to acclimate to a way of life she left behind long ago, her homecoming attracts a dangerous figure from her past – threatening both her and the family that serves as her only sanctuary.",
+      "poster_path": "/bAwtbmCzhFwKf2wN6QQH301ylbO.jpg",
+      "popularity": 178.276
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/AbtsLdz1gUj2H1HJJ3TRaBOl8Ta.jpg",
+      "genre_ids": [
+        28
+      ],
+      "id": 724717,
+      "original_language": "en",
+      "original_title": "The 2nd",
+      "overview": "Secret-service agent Vic Davis is on his way to pick up his estranged son, Sean, from his college campus when he finds himself in the middle of a high-stakes terrorist operation. His son's friend Erin Walton, the daughter of Supreme Court Justice Walton is the target, and this armed faction will stop at nothing to kidnap her and use her as leverage for a pending landmark legal case.",
+      "poster_path": "/o1WvNhoackad1QiAGRgjJCQ1Trj.jpg",
+      "release_date": "2020-09-01",
+      "title": "The 2nd",
+      "video": false,
+      "vote_average": 4.5,
+      "vote_count": 21,
+      "popularity": 17.471
+    },
+    {
+      "id": 539885,
+      "video": false,
+      "vote_count": 627,
+      "vote_average": 5.7,
+      "title": "Ava",
+      "release_date": "2020-07-02",
+      "original_language": "en",
+      "original_title": "Ava",
+      "genre_ids": [
+        28,
+        80,
+        18,
+        53
+      ],
+      "backdrop_path": "/54yOImQgj8i85u9hxxnaIQBRUuo.jpg",
+      "adult": false,
+      "overview": "A black ops assassin is forced to fight for her own survival after a job goes dangerously wrong.",
+      "poster_path": "/qzA87Wf4jo1h8JMk9GilyIYvwsA.jpg",
+      "popularity": 566.62
+    },
+    {
+      "id": 694919,
+      "video": false,
+      "vote_count": 189,
+      "vote_average": 5.9,
+      "title": "Money Plane",
+      "release_date": "2020-09-29",
+      "original_language": "en",
+      "original_title": "Money Plane",
+      "genre_ids": [
+        28
+      ],
+      "backdrop_path": "/pq0JSpwyT2URytdFG0euztQPAyR.jpg",
+      "adult": false,
+      "overview": "A professional thief with ${'$'}40 million in debt and his family's life on the line must commit one final heist - rob a futuristic airborne casino filled with the world's most dangerous criminals.",
+      "poster_path": "/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg",
+      "popularity": 542.264
+    },
+    {
+      "id": 624779,
+      "video": false,
+      "vote_count": 12,
+      "vote_average": 4.9,
+      "title": "VFW",
+      "release_date": "2020-10-14",
+      "original_language": "en",
+      "original_title": "VFW",
+      "genre_ids": [
+        28,
+        53,
+        27
+      ],
+      "backdrop_path": "/h5sUE9jqoYrjsFjANJXL0gpZGye.jpg",
+      "adult": false,
+      "overview": "A typical night for veterans at a VFW turns into an all-out battle for survival when a desperate teen runs into the bar with a bag of stolen drugs. When a gang of violent punks come looking for her, the vets use every weapon at their disposal to protect the girl and themselves from an unrelenting attack.",
+      "poster_path": "/AnVD7Gn14uOTQhcc5xYZGQ9DRvS.jpg",
+      "popularity": 567.466
+    },
+    {
+      "id": 340102,
+      "video": false,
+      "vote_count": 720,
+      "vote_average": 6.3,
+      "title": "The New Mutants",
+      "release_date": "2020-08-26",
+      "original_language": "en",
+      "original_title": "The New Mutants",
+      "genre_ids": [
+        28,
+        878,
+        27,
+        12
+      ],
+      "backdrop_path": "/eCIvqa3QVCx6H09bdeOS8Al2Sqy.jpg",
+      "adult": false,
+      "overview": "Five young mutants, just discovering their abilities while held in a secret facility against their will, fight to escape their past sins and save themselves.",
+      "poster_path": "/xZNw9xxtwbEf25NYoz52KdbXHPM.jpg",
+      "popularity": 779.884
+    },
+    {
+      "id": 497582,
+      "video": false,
+      "vote_count": 2618,
+      "vote_average": 7.5,
+      "title": "Enola Holmes",
+      "release_date": "2020-09-23",
+      "original_language": "en",
+      "original_title": "Enola Holmes",
+      "genre_ids": [
+        80,
+        18,
+        9648
+      ],
+      "backdrop_path": "/kMe4TKMDNXTKptQPAdOF0oZHq3V.jpg",
+      "adult": false,
+      "overview": "While searching for her missing mother, intrepid teen Enola Holmes uses her sleuthing skills to outsmart big brother Sherlock and help a runaway lord.",
+      "poster_path": "/riYInlsq2kf1AWoGm80JQW5dLKp.jpg",
+      "popularity": 788.325
+    },
+    {
+      "id": 571384,
+      "video": false,
+      "vote_count": 39,
+      "vote_average": 6.6,
+      "title": "Come Play",
+      "release_date": "2020-10-28",
+      "original_language": "en",
+      "original_title": "Come Play",
+      "genre_ids": [
+        27
+      ],
+      "backdrop_path": "/5HahZPsGGaDgnFb68J49ZwdwU0b.jpg",
+      "adult": false,
+      "overview": "A lonely young boy feels different from everyone else. Desperate for a friend, he seeks solace and refuge in his ever-present cell phone and tablet. When a mysterious creature uses the boy’s devices against him to break into our world, his parents must fight to save their son from the monster beyond the screen.",
+      "poster_path": "/e98dJUitAoKLwmzjQ0Yxp1VQrnU.jpg",
+      "popularity": 639.243
+    },
+    {
+      "id": 613504,
+      "video": false,
+      "vote_count": 1874,
+      "vote_average": 7.3,
+      "title": "After We Collided",
+      "release_date": "2020-09-02",
+      "original_language": "en",
+      "original_title": "After We Collided",
+      "genre_ids": [
+        10749,
+        18
+      ],
+      "backdrop_path": "/6hgItrYQEG33y0I7yP2SRl2ei4w.jpg",
+      "adult": false,
+      "overview": "Tessa finds herself struggling with her complicated relationship with Hardin; she faces a dilemma that could change their lives forever.",
+      "poster_path": "/kiX7UYfOpYrMFSAGbI6j1pFkLzQ.jpg",
+      "popularity": 810.348
+    },
+    {
+      "id": 337401,
+      "video": false,
+      "vote_count": 2915,
+      "vote_average": 7.2,
+      "title": "Mulan",
+      "release_date": "2020-09-04",
+      "original_language": "en",
+      "original_title": "Mulan",
+      "genre_ids": [
+        28,
+        12,
+        18,
+        14
+      ],
+      "backdrop_path": "/zzWGRw277MNoCs3zhyG3YmYQsXv.jpg",
+      "adult": false,
+      "overview": "When the Emperor of China issues a decree that one man per family must serve in the Imperial Chinese Army to defend the country from Huns, Hua Mulan, the eldest daughter of an honored warrior, steps in to take the place of her ailing father. She is spirited, determined and quick on her feet. Disguised as a man by the name of Hua Jun, she is tested every step of the way and must harness her innermost strength and embrace her true potential.",
+      "poster_path": "/aKx1ARwG55zZ0GpRvU2WrGrCG9o.jpg",
+      "popularity": 728.013
+    },
+    {
+      "id": 618353,
+      "video": false,
+      "vote_count": 64,
+      "vote_average": 7.9,
+      "title": "Batman: Death in the Family",
+      "release_date": "2020-10-13",
+      "original_language": "en",
+      "original_title": "Batman: Death in the Family",
+      "genre_ids": [
+        16,
+        28
+      ],
+      "backdrop_path": "/kU7ZiyeUwcpTkYj3UcxSqGdZmxY.jpg",
+      "adult": false,
+      "overview": "Tragedy strikes the Batman's life again when Robin Jason Todd tracks down his birth mother only to run afoul of the Joker. An adaptation of the 1988 comic book storyline of the same name.",
+      "poster_path": "/k8Q9ulyRE8fkvZMkAM9LPYMKctb.jpg",
+      "popularity": 600.043
+    },
+    {
+      "id": 741074,
+      "video": false,
+      "vote_count": 151,
+      "vote_average": 7,
+      "title": "Once Upon a Snowman",
+      "release_date": "2020-10-23",
+      "original_language": "en",
+      "original_title": "Once Upon a Snowman",
+      "genre_ids": [
+        16,
+        10751,
+        35,
+        14
+      ],
+      "backdrop_path": "/DA7gzvlBoxMNL0XmGgTZOyv67P.jpg",
+      "adult": false,
+      "overview": "The previously untold origins of Olaf, the innocent and insightful, summer-loving snowman are revealed as we follow Olaf’s first steps as he comes to life and searches for his identity in the snowy mountains outside Arendelle.",
+      "poster_path": "/hddzYJtfYYeMDOQVcH58n8m1W3A.jpg",
+      "popularity": 752.452
+    },
+    {
+      "id": 528085,
+      "video": false,
+      "vote_count": 338,
+      "vote_average": 4.7,
+      "title": "2067",
+      "release_date": "2020-10-01",
+      "original_language": "en",
+      "original_title": "2067",
+      "genre_ids": [
+        878,
+        53,
+        18
+      ],
+      "backdrop_path": "/5UkzNSOK561c2QRy2Zr4AkADzLT.jpg",
+      "adult": false,
+      "overview": "A lowly utility worker is called to the future by a mysterious radio signal, he must leave his dying wife to embark on a journey that will force him to face his deepest fears in an attempt to change the fabric of reality and save humankind from its greatest environmental crisis yet.",
+      "poster_path": "/7D430eqZj8y3oVkLFfsWXGRcpEG.jpg",
+      "popularity": 1377.176
+    },
+    {
+      "id": 531219,
+      "video": false,
+      "vote_count": 709,
+      "vote_average": 6.9,
+      "title": "Roald Dahl's The Witches",
+      "release_date": "2020-10-26",
+      "original_language": "en",
+      "original_title": "Roald Dahl's The Witches",
+      "genre_ids": [
+        14,
+        10751,
+        12,
+        35,
+        27
+      ],
+      "backdrop_path": "/8rIoyM6zYXJNjzGseT3MRusMPWl.jpg",
+      "adult": false,
+      "overview": "In late 1967, a young orphaned boy goes to live with his loving grandma in the rural Alabama town of Demopolis. As the boy and his grandmother encounter some deceptively glamorous but thoroughly diabolical witches, she wisely whisks him away to a seaside resort. Regrettably, they arrive at precisely the same time that the world's Grand High Witch has gathered.",
+      "poster_path": "/betExZlgK0l7CZ9CsCBVcwO1OjL.jpg",
+      "popularity": 1108.384
+    },
+    {
+      "id": 671039,
+      "video": false,
+      "vote_count": 200,
+      "vote_average": 6.1,
+      "title": "Rogue City",
+      "release_date": "2020-10-30",
+      "original_language": "fr",
+      "original_title": "Bronx",
+      "genre_ids": [
+        53,
+        28,
+        18,
+        80
+      ],
+      "backdrop_path": "/gnf4Cb2rms69QbCnGFJyqwBWsxv.jpg",
+      "adult": false,
+      "overview": "Caught in the crosshairs of police corruption and Marseille’s warring gangs, a loyal cop must protect his squad by taking matters into his own hands.",
+      "poster_path": "/9HT9982bzgN5on1sLRmc1GMn6ZC.jpg",
+      "popularity": 1387.376
+    },
+    {
+      "id": 400160,
+      "video": false,
+      "vote_count": 1395,
+      "vote_average": 8.1,
+      "title": "The SpongeBob Movie: Sponge on the Run",
+      "release_date": "2020-08-14",
+      "original_language": "en",
+      "original_title": "The SpongeBob Movie: Sponge on the Run",
+      "genre_ids": [
+        14,
+        16,
+        12,
+        35,
+        10751
+      ],
+      "backdrop_path": "/wu1uilmhM4TdluKi2ytfz8gidHf.jpg",
+      "adult": false,
+      "overview": "When his best friend Gary is suddenly snatched away, SpongeBob takes Patrick on a madcap mission far beyond Bikini Bottom to save their pink-shelled pal.",
+      "poster_path": "/jlJ8nDhMhCYJuzOw3f52CP1W8MW.jpg",
+      "popularity": 1377.738
+    },
+    {
+      "id": 724989,
+      "video": false,
+      "vote_count": 151,
+      "vote_average": 5,
+      "title": "Hard Kill",
+      "release_date": "2020-10-23",
+      "original_language": "en",
+      "original_title": "Hard Kill",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "backdrop_path": "/86L8wqGMDbwURPni2t7FQ0nDjsH.jpg",
+      "adult": false,
+      "overview": "The work of billionaire tech CEO Donovan Chalmers is so valuable that he hires mercenaries to protect it, and a terrorist group kidnaps his daughter just to get it.",
+      "poster_path": "/ugZW8ocsrfgI95pnQ7wrmKDxIe.jpg",
+      "popularity": 1345.086
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 17
 }"""
 
         const val detailTVShowResponse = """{
@@ -4609,6 +5373,510 @@ class FakeRemoteServer : NetworkService {
   ],
   "total_pages": 48,
   "total_results": 958
+}"""
+
+        const val favouriteTVShows = """{
+  "page": 1,
+  "results": [
+    {
+      "original_name": "The Blacklist",
+      "id": 46952,
+      "name": "The Blacklist",
+      "vote_count": 1702,
+      "vote_average": 7.3,
+      "first_air_date": "2013-09-23",
+      "poster_path": "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg",
+      "genre_ids": [
+        18,
+        80,
+        9648
+      ],
+      "original_language": "en",
+      "backdrop_path": "/zXpSJLcczUt6EfbdULZanguzy87.jpg",
+      "overview": "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\". Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 348.602
+    },
+    {
+      "original_name": "The Walking Dead: World Beyond",
+      "id": 94305,
+      "name": "The Walking Dead: World Beyond",
+      "vote_count": 421,
+      "vote_average": 7.8,
+      "first_air_date": "2020-10-04",
+      "poster_path": "/z31GxpVgDsFAF4paZR8PRsiP16D.jpg",
+      "genre_ids": [
+        18,
+        10765,
+        9648
+      ],
+      "original_language": "en",
+      "backdrop_path": "/pLVrN9B750ehwTFdQ6n3HRUERLd.jpg",
+      "overview": "A heroic group of teens sheltered from the dangers of the post-apocalyptic world receive a message that inspires them to leave the safety of the only home they have ever known and embark on a cross-country journey to find the one man who can possibly save the world.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 367.83
+    },
+    {
+      "original_name": "The Simpsons",
+      "id": 456,
+      "name": "The Simpsons",
+      "vote_count": 5288,
+      "vote_average": 7.7,
+      "first_air_date": "1989-12-16",
+      "poster_path": "/2IWouZK4gkgHhJa3oyYuSWfSqbG.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/hpU2cHC9tk90hswCFEpf5AtbqoL.jpg",
+      "overview": "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 451.17
+    },
+    {
+      "original_name": "The Queen's Gambit",
+      "id": 87739,
+      "name": "The Queen's Gambit",
+      "vote_count": 399,
+      "vote_average": 8.9,
+      "first_air_date": "2020-10-23",
+      "poster_path": "/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/5N5dSOrysuquExvn8Gpp5jMEf6u.jpg",
+      "overview": "In a Kentucky orphanage in the 1950s, a young girl discovers an astonishing talent for chess while struggling with addiction.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 431.706
+    },
+    {
+      "original_name": "The Umbrella Academy",
+      "id": 75006,
+      "name": "The Umbrella Academy",
+      "vote_count": 3954,
+      "vote_average": 8.7,
+      "first_air_date": "2019-02-15",
+      "poster_path": "/scZlQQYnDVlnpxFTxaIv2g0BWnL.jpg",
+      "genre_ids": [
+        10759,
+        10765,
+        35,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/mE3zzMkpP8yqlkzdjPsQmJHceoe.jpg",
+      "overview": "A dysfunctional family of superheroes comes together to solve the mystery of their father's death, the threat of the apocalypse and more.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 441.766
+    },
+    {
+      "original_name": "The Boys",
+      "id": 76479,
+      "name": "The Boys",
+      "vote_count": 3551,
+      "vote_average": 8.4,
+      "first_air_date": "2019-07-25",
+      "poster_path": "/mY7SeH4HFFxW1hiI6cWuwCRKptN.jpg",
+      "genre_ids": [
+        10765,
+        10759
+      ],
+      "original_language": "en",
+      "backdrop_path": "/mGVrXeIjyecj6TKmwPVpHlscEmw.jpg",
+      "overview": "A group of vigilantes known informally as “The Boys” set out to take down corrupt superheroes with no more than blue-collar grit and a willingness to fight dirty.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 479.427
+    },
+    {
+      "original_name": "Lucifer",
+      "id": 63174,
+      "name": "Lucifer",
+      "vote_count": 6355,
+      "vote_average": 8.5,
+      "first_air_date": "2016-01-25",
+      "poster_path": "/4EYPN5mVIhKLfxGruy7Dy41dTVn.jpg",
+      "genre_ids": [
+        80,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/ta5oblpMlEcIPIS2YGcq9XEkWK2.jpg",
+      "overview": "Bored and unhappy as the Lord of Hell, Lucifer Morningstar abandoned his throne and retired to Los Angeles, where he has teamed up with LAPD detective Chloe Decker to take down criminals. But the longer he's away from the underworld, the greater the threat that the worst of humanity could escape.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 604.45
+    },
+    {
+      "original_name": "His Dark Materials",
+      "id": 68507,
+      "name": "His Dark Materials",
+      "vote_count": 551,
+      "vote_average": 8.1,
+      "first_air_date": "2019-11-03",
+      "poster_path": "/g6tIKGc3f1H5QMz1dcgCwADKpZ7.jpg",
+      "genre_ids": [
+        18,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/9yKCJTOh9m3Lol2RY3kw99QPH6x.jpg",
+      "overview": "Lyra is an orphan who lives in a parallel universe in which science, theology and magic are entwined. Lyra's search for a kidnapped friend uncovers a sinister plot involving stolen children, and turns into a quest to understand a mysterious phenomenon called Dust. She is later joined on her journey by Will, a boy who possesses a knife that can cut windows between worlds. As Lyra learns the truth about her parents and her prophesied destiny, the two young people are caught up in a war against celestial powers that ranges across many worlds.",
+      "origin_country": [
+        "GB"
+      ],
+      "popularity": 507.044
+    },
+    {
+      "original_name": "Fear the Walking Dead",
+      "id": 62286,
+      "name": "Fear the Walking Dead",
+      "vote_count": 2622,
+      "vote_average": 7.4,
+      "first_air_date": "2015-08-23",
+      "poster_path": "/wGFUewXPeMErCe2xnCmmLEiHOGh.jpg",
+      "genre_ids": [
+        10759,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/58PON1OrnBiX6CqEHgeWKVwrCn6.jpg",
+      "overview": "What did the world look like as it was transforming into the horrifying apocalypse depicted in \"The Walking Dead\"? This spin-off set in Los Angeles, following new characters as they face the beginning of the end of the world, will answer that question.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 627.312
+    },
+    {
+      "original_name": "Grey's Anatomy",
+      "id": 1416,
+      "name": "Grey's Anatomy",
+      "vote_count": 4194,
+      "vote_average": 8.1,
+      "first_air_date": "2005-03-27",
+      "poster_path": "/clnyhPqj1SNgpAdeSS6a6fwE6Bo.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/zWX629wryQwpaIwsquP4BRUD6HT.jpg",
+      "overview": "Follows the personal and professional lives of a group of doctors at Seattle’s Grey Sloan Memorial Hospital.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 1039.483
+    },
+    {
+      "original_name": "The Good Doctor",
+      "id": 71712,
+      "name": "The Good Doctor",
+      "vote_count": 5619,
+      "vote_average": 8.6,
+      "first_air_date": "2017-09-25",
+      "poster_path": "/6tfT03sGp9k4c0J3dypjrI8TSAI.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/iDbIEpCM9nhoayUDTwqFL1iVwzb.jpg",
+      "overview": "A young surgeon with Savant syndrome is recruited into the surgical unit of a prestigious hospital. The question will arise: can a person who doesn't have the ability to relate to people actually save their lives?",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 1127.576
+    },
+    {
+      "original_name": "The Mandalorian",
+      "id": 82856,
+      "name": "The Mandalorian",
+      "vote_count": 2455,
+      "vote_average": 8.5,
+      "first_air_date": "2019-11-12",
+      "poster_path": "/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg",
+      "genre_ids": [
+        10765,
+        10759,
+        37
+      ],
+      "original_language": "en",
+      "backdrop_path": "/9ijMGlJKqcslswWUzTEwScm82Gs.jpg",
+      "overview": "After the fall of the Galactic Empire, lawlessness has spread throughout the galaxy. A lone gunfighter makes his way through the outer reaches, earning his keep as a bounty hunter.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 1717.271
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 12
+}"""
+
+        const val watchListTV = """{
+  "page": 1,
+  "results": [
+    {
+      "original_name": "The Blacklist",
+      "id": 46952,
+      "name": "The Blacklist",
+      "vote_count": 1702,
+      "vote_average": 7.3,
+      "first_air_date": "2013-09-23",
+      "poster_path": "/htJzeRcYI2ewMm4PTrg98UMXShe.jpg",
+      "genre_ids": [
+        18,
+        80,
+        9648
+      ],
+      "original_language": "en",
+      "backdrop_path": "/zXpSJLcczUt6EfbdULZanguzy87.jpg",
+      "overview": "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\". Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 348.602
+    },
+    {
+      "original_name": "The Walking Dead: World Beyond",
+      "id": 94305,
+      "name": "The Walking Dead: World Beyond",
+      "vote_count": 421,
+      "vote_average": 7.8,
+      "first_air_date": "2020-10-04",
+      "poster_path": "/z31GxpVgDsFAF4paZR8PRsiP16D.jpg",
+      "genre_ids": [
+        18,
+        10765,
+        9648
+      ],
+      "original_language": "en",
+      "backdrop_path": "/pLVrN9B750ehwTFdQ6n3HRUERLd.jpg",
+      "overview": "A heroic group of teens sheltered from the dangers of the post-apocalyptic world receive a message that inspires them to leave the safety of the only home they have ever known and embark on a cross-country journey to find the one man who can possibly save the world.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 367.83
+    },
+    {
+      "original_name": "The Simpsons",
+      "id": 456,
+      "name": "The Simpsons",
+      "vote_count": 5288,
+      "vote_average": 7.7,
+      "first_air_date": "1989-12-16",
+      "poster_path": "/2IWouZK4gkgHhJa3oyYuSWfSqbG.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/hpU2cHC9tk90hswCFEpf5AtbqoL.jpg",
+      "overview": "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 451.17
+    },
+    {
+      "original_name": "The Queen's Gambit",
+      "id": 87739,
+      "name": "The Queen's Gambit",
+      "vote_count": 399,
+      "vote_average": 8.9,
+      "first_air_date": "2020-10-23",
+      "poster_path": "/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/5N5dSOrysuquExvn8Gpp5jMEf6u.jpg",
+      "overview": "In a Kentucky orphanage in the 1950s, a young girl discovers an astonishing talent for chess while struggling with addiction.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 431.706
+    },
+    {
+      "original_name": "The Umbrella Academy",
+      "id": 75006,
+      "name": "The Umbrella Academy",
+      "vote_count": 3954,
+      "vote_average": 8.7,
+      "first_air_date": "2019-02-15",
+      "poster_path": "/scZlQQYnDVlnpxFTxaIv2g0BWnL.jpg",
+      "genre_ids": [
+        10759,
+        10765,
+        35,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/mE3zzMkpP8yqlkzdjPsQmJHceoe.jpg",
+      "overview": "A dysfunctional family of superheroes comes together to solve the mystery of their father's death, the threat of the apocalypse and more.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 441.766
+    },
+    {
+      "original_name": "The Boys",
+      "id": 76479,
+      "name": "The Boys",
+      "vote_count": 3551,
+      "vote_average": 8.4,
+      "first_air_date": "2019-07-25",
+      "poster_path": "/mY7SeH4HFFxW1hiI6cWuwCRKptN.jpg",
+      "genre_ids": [
+        10765,
+        10759
+      ],
+      "original_language": "en",
+      "backdrop_path": "/mGVrXeIjyecj6TKmwPVpHlscEmw.jpg",
+      "overview": "A group of vigilantes known informally as “The Boys” set out to take down corrupt superheroes with no more than blue-collar grit and a willingness to fight dirty.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 479.427
+    },
+    {
+      "original_name": "Lucifer",
+      "id": 63174,
+      "name": "Lucifer",
+      "vote_count": 6355,
+      "vote_average": 8.5,
+      "first_air_date": "2016-01-25",
+      "poster_path": "/4EYPN5mVIhKLfxGruy7Dy41dTVn.jpg",
+      "genre_ids": [
+        80,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/ta5oblpMlEcIPIS2YGcq9XEkWK2.jpg",
+      "overview": "Bored and unhappy as the Lord of Hell, Lucifer Morningstar abandoned his throne and retired to Los Angeles, where he has teamed up with LAPD detective Chloe Decker to take down criminals. But the longer he's away from the underworld, the greater the threat that the worst of humanity could escape.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 604.45
+    },
+    {
+      "original_name": "His Dark Materials",
+      "id": 68507,
+      "name": "His Dark Materials",
+      "vote_count": 551,
+      "vote_average": 8.1,
+      "first_air_date": "2019-11-03",
+      "poster_path": "/g6tIKGc3f1H5QMz1dcgCwADKpZ7.jpg",
+      "genre_ids": [
+        18,
+        10765
+      ],
+      "original_language": "en",
+      "backdrop_path": "/9yKCJTOh9m3Lol2RY3kw99QPH6x.jpg",
+      "overview": "Lyra is an orphan who lives in a parallel universe in which science, theology and magic are entwined. Lyra's search for a kidnapped friend uncovers a sinister plot involving stolen children, and turns into a quest to understand a mysterious phenomenon called Dust. She is later joined on her journey by Will, a boy who possesses a knife that can cut windows between worlds. As Lyra learns the truth about her parents and her prophesied destiny, the two young people are caught up in a war against celestial powers that ranges across many worlds.",
+      "origin_country": [
+        "GB"
+      ],
+      "popularity": 507.044
+    },
+    {
+      "original_name": "Fear the Walking Dead",
+      "id": 62286,
+      "name": "Fear the Walking Dead",
+      "vote_count": 2622,
+      "vote_average": 7.4,
+      "first_air_date": "2015-08-23",
+      "poster_path": "/wGFUewXPeMErCe2xnCmmLEiHOGh.jpg",
+      "genre_ids": [
+        10759,
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/58PON1OrnBiX6CqEHgeWKVwrCn6.jpg",
+      "overview": "What did the world look like as it was transforming into the horrifying apocalypse depicted in \"The Walking Dead\"? This spin-off set in Los Angeles, following new characters as they face the beginning of the end of the world, will answer that question.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 627.312
+    },
+    {
+      "original_name": "Grey's Anatomy",
+      "id": 1416,
+      "name": "Grey's Anatomy",
+      "vote_count": 4194,
+      "vote_average": 8.1,
+      "first_air_date": "2005-03-27",
+      "poster_path": "/clnyhPqj1SNgpAdeSS6a6fwE6Bo.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/zWX629wryQwpaIwsquP4BRUD6HT.jpg",
+      "overview": "Follows the personal and professional lives of a group of doctors at Seattle’s Grey Sloan Memorial Hospital.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 1039.483
+    },
+    {
+      "original_name": "The Good Doctor",
+      "id": 71712,
+      "name": "The Good Doctor",
+      "vote_count": 5619,
+      "vote_average": 8.6,
+      "first_air_date": "2017-09-25",
+      "poster_path": "/6tfT03sGp9k4c0J3dypjrI8TSAI.jpg",
+      "genre_ids": [
+        18
+      ],
+      "original_language": "en",
+      "backdrop_path": "/iDbIEpCM9nhoayUDTwqFL1iVwzb.jpg",
+      "overview": "A young surgeon with Savant syndrome is recruited into the surgical unit of a prestigious hospital. The question will arise: can a person who doesn't have the ability to relate to people actually save their lives?",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 1127.576
+    },
+    {
+      "original_name": "The Mandalorian",
+      "id": 82856,
+      "name": "The Mandalorian",
+      "vote_count": 2455,
+      "vote_average": 8.5,
+      "first_air_date": "2019-11-12",
+      "poster_path": "/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg",
+      "genre_ids": [
+        10765,
+        10759,
+        37
+      ],
+      "original_language": "en",
+      "backdrop_path": "/9ijMGlJKqcslswWUzTEwScm82Gs.jpg",
+      "overview": "After the fall of the Galactic Empire, lawlessness has spread throughout the galaxy. A lone gunfighter makes his way through the outer reaches, earning his keep as a bounty hunter.",
+      "origin_country": [
+        "US"
+      ],
+      "popularity": 1717.271
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 12
 }"""
 
         const val sampleSessionId = "f5c1c3b446df720962376168620907f8052d4e95"
