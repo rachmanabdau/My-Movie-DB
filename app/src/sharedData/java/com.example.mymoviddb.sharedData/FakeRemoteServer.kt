@@ -337,11 +337,92 @@ class FakeRemoteServer : NetworkService {
         movieId: Long,
         apiKey: String
     ): Deferred<Response<MovieDetail>> {
-        TODO("Not yet implemented")
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val error404Response = """{
+  "success": false,
+  "status_code": 34,
+  "status_message": "The resource you requested could not be found."
+}"""
+        val jsonConverter = moshi.adapter(MovieDetail::class.java)
+        val responseSuccess = jsonConverter.fromJson(detailMovieResponse) as MovieDetail
+
+        return when {
+            apiKey == realApiKey && movieId == 741067L -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            apiKey == realApiKey && movieId != 741067L -> {
+                // Response Error 404: Data Not found
+                CompletableDeferred(
+                    Response.error(
+                        404,
+                        error404Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun getDetailTvShowsAsync(tvId: Long, apiKey: String): Deferred<Response<TVDetail>> {
-        TODO("Not yet implemented")
+        val realApiKey = BuildConfig.V3_AUTH
+        val error401Response = """{
+  "status_message": "Invalid API key: You must be granted a valid key.",
+  "success": false,
+  "status_code": 7
+}"""
+        val error404Response = """{
+  "success": false,
+  "status_code": 34,
+  "status_message": "The resource you requested could not be found."
+}"""
+        val jsonConverter = moshi.adapter(TVDetail::class.java)
+        val responseSuccess = jsonConverter.fromJson(detailTVShowResponse) as TVDetail
+
+        return when {
+            apiKey == realApiKey && tvId == 62286L -> {
+                // Response Success
+                CompletableDeferred(Response.success(responseSuccess))
+
+            }
+            apiKey == realApiKey && tvId != 62286L -> {
+                // Response Error 404: Data Not found
+                CompletableDeferred(
+                    Response.error(
+                        404,
+                        error404Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+            else -> {
+                // Response Error 401: invalid api key
+                CompletableDeferred(
+                    Response.error(
+                        401,
+                        error401Response
+                            .toResponseBody("application/json;charset=utf-8".toMediaType())
+                    )
+                )
+            }
+        }
     }
 
     override fun getRecommendationMoviesAsync(
@@ -372,7 +453,335 @@ class FakeRemoteServer : NetworkService {
         TODO("Not yet implemented")
     }
 
+    override fun getAccountDetailAsync(
+        sessionId: String,
+        apiKey: String
+    ): Deferred<Response<UserDetail>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun logoutAsync(
+        userSessionId: Map<String, String>,
+        apiKey: String
+    ): Deferred<Response<ResponsedBackend>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMovieAuthStateAsync(
+        movieId: Long,
+        sessionId: String,
+        apiKey: String
+    ): Deferred<Response<MediaState>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTVAuthStateAsync(
+        tvId: Long,
+        sessionId: String,
+        apiKey: String
+    ): Deferred<Response<MediaState>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun markAsFavoriteAsync(
+        accoundId: Int,
+        sessionId: String,
+        sendMediaType: MarkMediaAs,
+        apiKey: String,
+        contentType: String
+    ): Deferred<Response<ResponsedBackend>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFavoriteAsync(
+        accountId: Int,
+        showType: String,
+        sessionId: String,
+        page: Int,
+        sortBy: String,
+        apiKey: String
+    ): Deferred<Response<FavouriteAndWatchListShow>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun addToWatchListAsync(
+        accoundId: Int,
+        sessionId: String,
+        sendMediaType: MarkMediaAs,
+        apiKey: String,
+        contentType: String
+    ): Deferred<Response<ResponsedBackend>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getWatchListAsync(
+        accountId: Int,
+        showType: String,
+        sessionId: String,
+        page: Int,
+        sortBy: String,
+        apiKey: String
+    ): Deferred<Response<FavouriteAndWatchListShow>> {
+        TODO("Not yet implemented")
+    }
+
     companion object {
+        const val detailTVShowResponse = """{
+  "backdrop_path": "/58PON1OrnBiX6CqEHgeWKVwrCn6.jpg",
+  "created_by": [
+    {
+      "id": 63554,
+      "credit_id": "5d77e07539549a000f96cc12",
+      "name": "Dave Erickson",
+      "gender": 2,
+      "profile_path": null
+    },
+    {
+      "id": 1223867,
+      "credit_id": "5521364b9251417be2002abc",
+      "name": "Robert Kirkman",
+      "gender": 2,
+      "profile_path": "/ulYOkxtk8lUvg4Ltkg2q22ibg4R.jpg"
+    }
+  ],
+  "episode_run_time": [
+    43,
+    60
+  ],
+  "first_air_date": "2015-08-23",
+  "genres": [
+    {
+      "id": 10759,
+      "name": "Action & Adventure"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    }
+  ],
+  "homepage": "http://www.amc.com/shows/fear-the-walking-dead",
+  "id": 62286,
+  "in_production": true,
+  "languages": [
+    "en",
+    "es"
+  ],
+  "last_air_date": "2020-11-15",
+  "last_episode_to_air": {
+    "air_date": "2020-11-15",
+    "episode_number": 6,
+    "id": 2370332,
+    "name": "Bury Her Next to Jasper's Leg",
+    "overview": "A deadly explosion in the oil fields sends June on a mission to save as many lives as possible. Meanwhile, an investigation by Virginia threatens to undermine June's work.",
+    "production_code": "",
+    "season_number": 6,
+    "still_path": "/aSWLDpD6nX4r2VX09AhLjH3mklV.jpg",
+    "vote_average": 5,
+    "vote_count": 2
+  },
+  "name": "Fear the Walking Dead",
+  "next_episode_to_air": {
+    "air_date": "2020-11-22",
+    "episode_number": 7,
+    "id": 2370333,
+    "name": "Damage From the Inside",
+    "overview": "When Dakota goes missing, Strand sends Alicia and Charlie on a search and rescue mission to find her. An unlikely ally provides a new possibility of escape from Virginia.",
+    "production_code": "",
+    "season_number": 6,
+    "still_path": null,
+    "vote_average": 0,
+    "vote_count": 0
+  },
+  "networks": [
+    {
+      "name": "AMC",
+      "id": 174,
+      "logo_path": "/pmvRmATOCaDykE6JrVoeYxlFHw3.png",
+      "origin_country": "US"
+    }
+  ],
+  "number_of_episodes": 77,
+  "number_of_seasons": 6,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "Fear the Walking Dead",
+  "overview": "What did the world look like as it was transforming into the horrifying apocalypse depicted in \"The Walking Dead\"? This spin-off set in Los Angeles, following new characters as they face the beginning of the end of the world, will answer that question.",
+  "popularity": 627.312,
+  "poster_path": "/wGFUewXPeMErCe2xnCmmLEiHOGh.jpg",
+  "production_companies": [
+    {
+      "id": 11533,
+      "logo_path": "/tWM9pmzVYxok4GbQIttxdcml1yT.png",
+      "name": "Valhalla Motion Pictures",
+      "origin_country": "US"
+    },
+    {
+      "id": 23242,
+      "logo_path": "/fOALFvgnO1ZdIaA9PNIAAuaDKWd.png",
+      "name": "AMC Networks",
+      "origin_country": "US"
+    },
+    {
+      "id": 43346,
+      "logo_path": null,
+      "name": "Fox Productions",
+      "origin_country": "US"
+    },
+    {
+      "id": 23921,
+      "logo_path": "/simDvqT8y6jhP530ggUMbikvVKc.png",
+      "name": "Circle of Confusion",
+      "origin_country": "US"
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "2015-10-04",
+      "episode_count": 38,
+      "id": 70218,
+      "name": "Specials",
+      "overview": "Fear the Walking Dead: Flight 462 follows the story of a group of airline passengers who discover that one of their fellow travelers is infected with the virus, putting their lives at risk.\n\nA new installment of the 16-part series is available every sunday online, and on-air as promos during two commercial breaks of The Walking Dead.",
+      "poster_path": "/nlFKhmcDK0JVmvqvxqmOeRZsJVU.jpg",
+      "season_number": 0
+    },
+    {
+      "air_date": "2015-08-23",
+      "episode_count": 6,
+      "id": 65692,
+      "name": "Season 1",
+      "overview": "After a string of ominous warnings, guidance counselor Madison Clark and the rest of her family are horrified to see their world descend into a zombie nightmare -- which will soon become their new reality.",
+      "poster_path": "/i2bXSzpKWw0RVmLdldhBFT3a0Ty.jpg",
+      "season_number": 1
+    },
+    {
+      "air_date": "2016-04-10",
+      "episode_count": 15,
+      "id": 73780,
+      "name": "Season 2",
+      "overview": "Season two returns aboard the Abigail. Abandoning land, the group sets out for ports unknown, some place where Infection has not hit. They will discover that the water may be no safer than land.",
+      "poster_path": "/oxAm6varqgV3WOGYX2OrgCGKnZo.jpg",
+      "season_number": 2
+    },
+    {
+      "air_date": "2017-06-04",
+      "episode_count": 16,
+      "id": 87822,
+      "name": "Season 3",
+      "overview": "As Fear the Walking Dead returns for season three, our families will be brought together in the vibrant and violent ecotone of the U.S.-Mexico border.",
+      "poster_path": "/cMh46P517YVBedpMtO3ucBvK1jM.jpg",
+      "season_number": 3
+    },
+    {
+      "air_date": "2018-04-15",
+      "episode_count": 16,
+      "id": 99582,
+      "name": "Season 4",
+      "overview": "In season four, we see the world of Madison Clark and her family through new eyes -- the eyes of Morgan Jones. The characters' immediate past mixes with an uncertain present of struggle and discovery as they meet new friends, foes and threats. They fight for each other, against each other and against a legion of the dead to somehow build an existence against the crushing pressure of lives coming apart. There will be darkness and light; terror and grace; the heroic, mercenary, and craven, all crashing together towards a new reality.",
+      "poster_path": "/k8T1iiKU9zQ8NAvwsB95KZXJ3O6.jpg",
+      "season_number": 4
+    },
+    {
+      "air_date": "2019-06-02",
+      "episode_count": 16,
+      "id": 121629,
+      "name": "Season 5",
+      "overview": "In season 5, the mission to help others will be put to the ultimate test when our group lands in uncharted territory. They will be forced to face not just their pasts but also their fears, leaving them forever changed.",
+      "poster_path": "/aUBFD7zPl4fyE8e4FjASq4OgOUc.jpg",
+      "season_number": 5
+    },
+    {
+      "air_date": "2020-10-11",
+      "episode_count": 8,
+      "id": 157589,
+      "name": "Season 6",
+      "overview": "Heading into Season 5 of \"Fear the Walking Dead,\" the group's mission is clear: locate survivors and help make what's left of the world a slightly better place. With dogged determination, Morgan Jones leads the group with a philosophy rooted in benevolence, community and hope. Each character believes that helping others will allow them to make up for the wrongs of their pasts. But trust won't be easily earned. Their mission of helping others will be put to the ultimate test when the members of the group find themselves in uncharted territory, forced to face not just their pasts but also their fears. It is only by facing those fears that the group will discover an entirely new way to live, one that will leave them changed forever changed.",
+      "poster_path": "/66zTxl3DMy1WH4U4SoeTkl5Yvpe.jpg",
+      "season_number": 6
+    }
+  ],
+  "status": "Returning Series",
+  "tagline": "Every decision is life or death.",
+  "type": "Scripted",
+  "vote_average": 7.4,
+  "vote_count": 2623
+}"""
+        const val detailMovieResponse = """{
+  "adult": false,
+  "backdrop_path": "/mc48QVtMhohMFrHGca8OHTB6C2B.jpg",
+  "belongs_to_collection": null,
+  "budget": 0,
+  "genres": [
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 53,
+      "name": "Thriller"
+    },
+    {
+      "id": 12,
+      "name": "Adventure"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    }
+  ],
+  "homepage": "https://xmovies8.app/",
+  "id": 741067,
+  "imdb_id": "tt10804786",
+  "original_language": "en",
+  "original_title": "Welcome to Sudden Death",
+  "overview": "Jesse Freeman is a former special forces officer and explosives expert now working a regular job as a security guard in a state-of-the-art basketball arena. Trouble erupts when a tech-savvy cadre of terrorists kidnap the team's owner and Jesse's daughter during opening night. Facing a ticking clock and impossible odds, it's up to Jesse to not only save them but also a full house of fans in this highly charged action thriller.",
+  "popularity": 851.543,
+  "poster_path": "/elZ6JCzSEvFOq4gNjNeZsnRFsvj.jpg",
+  "production_companies": [],
+  "production_countries": [
+    {
+      "iso_3166_1": "CA",
+      "name": "Canada"
+    },
+    {
+      "iso_3166_1": "FR",
+      "name": "France"
+    },
+    {
+      "iso_3166_1": "JP",
+      "name": "Japan"
+    },
+    {
+      "iso_3166_1": "GB",
+      "name": "United Kingdom"
+    },
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2020-09-29",
+  "revenue": 0,
+  "runtime": 80,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    },
+    {
+      "iso_639_1": "de",
+      "name": "Deutsch"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "Welcome to Sudden Death",
+  "video": false,
+  "vote_average": 6.3,
+  "vote_count": 157
+}"""
+
         const val popularMovieResponse = """{
   "page": 1,
   "total_results": 10000,
