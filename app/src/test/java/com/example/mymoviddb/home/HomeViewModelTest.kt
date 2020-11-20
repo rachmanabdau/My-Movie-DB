@@ -3,7 +3,7 @@ package com.example.mymoviddb.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.sharedData.FakeHomeServer
+import com.example.mymoviddb.sharedData.FakeRemoteServer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -33,7 +33,7 @@ class HomeViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = FakeHomeServer()
+        fakeRemoteSource = HomeAccess(FakeRemoteServer())
         homeViewModel = HomeViewModel(fakeRemoteSource)
     }
 
@@ -87,7 +87,7 @@ class HomeViewModelTest {
             }
             is Result.Error -> {
                 assertThat(
-                    result.exception.toString().contains("invalid"), `is`(true)
+                    result.exception.toString().contains("Invalid"), `is`(true)
                 )
             }
 
@@ -135,7 +135,7 @@ class HomeViewModelTest {
             }
             is Result.Error -> {
                 assertThat(
-                    result.exception.toString().contains("invalid"), `is`(true)
+                    result.exception.toString().contains("Invalid"), `is`(true)
                 )
             }
         }
@@ -166,6 +166,7 @@ class HomeViewModelTest {
     /**
      * Get Popular Tv Show list with valid apikey
      * result valie should not be null
+     * this test should be run individually
      */
     @Test
     fun getPopularTvMovies_withInvalidApiToken_resultError() = runBlockingTest {
@@ -182,7 +183,7 @@ class HomeViewModelTest {
             }
             is Result.Error -> {
                 assertThat(
-                    result.exception.toString().contains("invalid"), `is`(true)
+                    result.exception.toString().contains("Invalid"), `is`(true)
                 )
             }
         }
@@ -213,6 +214,7 @@ class HomeViewModelTest {
     /**
      * Get Popular Tv Show list with valid apikey
      * result valie should not be null
+     * this test should be run individually
      */
     @Test
     fun getOnAirTvMovies_withInvalidApiToken_resultError() = runBlockingTest {
@@ -229,7 +231,7 @@ class HomeViewModelTest {
             }
             is Result.Error -> {
                 assertThat(
-                    result.exception.toString().contains("invalid"), `is`(true)
+                    result.exception.toString().contains("Invalid"), `is`(true)
                 )
             }
         }
