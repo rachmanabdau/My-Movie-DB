@@ -2,12 +2,22 @@ package com.example.mymoviddb.sharedData
 
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.authentication.IAuthenticationAccess
-import com.example.mymoviddb.model.GuestSessionModel
-import com.example.mymoviddb.model.LoginTokenModel
-import com.example.mymoviddb.model.RequestTokenModel
-import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.datasource.remote.NetworkService
+import com.example.mymoviddb.model.*
+import com.example.mymoviddb.utils.Util
 
-class FakeAuthenticationAccess : IAuthenticationAccess {
+class FakeAuthenticationAccess(private val networkService: NetworkService) : IAuthenticationAccess {
+
+    override suspend fun getRequestToken(apiKey: String): Result<RequestTokenModel?> {
+        val newRequestToken = networkService.getRequestTokenAsync().await()
+
+        return if (newRequestToken.isSuccessful) {
+            Result.Success(newRequestToken.body())
+        } else {
+            Util.returnError(newRequestToken)
+        }
+    }
+
     override suspend fun loginAsUser(
         username: String,
         password: String,
@@ -18,33 +28,29 @@ class FakeAuthenticationAccess : IAuthenticationAccess {
         val fakePassword = "123456"
         val token = BuildConfig.V3_AUTH
 
-        return if ((fakeUsername == username && fakePassword == password && token.equals(
-                other = requestToken
-            ))
-        ) {
-            Result.Success(
-                LoginTokenModel(
-                    true,
-                    "2200-08-27 16:26:40 UTC",
-                    "1ce82ec1223641636ad4a60b07de3581"
-                )
-            )
-        } else Result.Error(Exception("Invalid username or password"))
+        val loginResult = networkService.loginAsync(fakeUsername, fakePassword, token).await()
+
+        return if (loginResult.isSuccessful) {
+            Result.Success(loginResult.body())
+        } else Util.returnError(loginResult)
+    }
+
+    override suspend fun createNewSession(
+        requestToken: String,
+        apiKey: String
+    ): Result<NewSessionModel?> {
+        val newSession = networkService.createSessionAsync(requestToken, apiKey).await()
+
+        return if (newSession.isSuccessful) {
+            Result.Success(newSession.body())
+        } else Util.returnError(newSession)
     }
 
     override suspend fun loginAsGuest(apiKey: String): Result<GuestSessionModel?> {
+        val loginasGuestResult = networkService.loginAsGuestAsync(apiKey).await()
 
-        val token = BuildConfig.V3_AUTH
-
-        return if (token == apiKey) {
-            Result.Success(
-                GuestSessionModel(
-                    "2200-08-27 16:26:40 UTC",
-                    "1ce82ec1223641636ad4a60b07de3581",
-                    true
-                )
-            )
-        } else Result.Error(Exception("Token is invalid."))
+        return if (loginasGuestResult.isSuccessful) Result.Success(loginasGuestResult.body())
+        else Util.returnError(loginasGuestResult)
     }
 
 }

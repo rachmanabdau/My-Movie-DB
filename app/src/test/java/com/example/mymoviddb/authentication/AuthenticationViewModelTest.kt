@@ -1,12 +1,13 @@
 package com.example.mymoviddb.authentication
 
+import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.sharedData.FakeAuthenticationAccess
+import com.example.mymoviddb.sharedData.FakeRemoteServer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -22,10 +23,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @RunWith(AndroidJUnit4::class)
+@Config(sdk = [Build.VERSION_CODES.P])
 class AuthenticationViewModelTest {
 
     @get:Rule
@@ -38,7 +41,7 @@ class AuthenticationViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = FakeAuthenticationAccess()
+        fakeRemoteSource = AuthenticationAccess(FakeRemoteServer())
         authenticationVM = AuthenticationViewModel(
             ApplicationProvider.getApplicationContext(),
             fakeRemoteSource
