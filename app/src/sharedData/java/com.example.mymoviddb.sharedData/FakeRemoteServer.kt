@@ -730,13 +730,13 @@ class FakeRemoteServer : NetworkService {
         contentType: String
     ): Deferred<Response<ResponsedBackend>> {
         val addToFavouriteSuccessResponse = """{
-  "success": true.
+  "success": true,
   "status_code": 12,
   "status_message": "The item/record was updated successfully."
 }"""
         val removeFromFavouriteSuccessResponse = """{
-  "success": true.
-  "status_code": 12,
+  "success": true,
+  "status_code": 13,
   "status_message": "The item/record was removed successfully."
 }"""
 
@@ -751,10 +751,9 @@ class FakeRemoteServer : NetworkService {
         val responseRemoveFromFavouriteSuccess =
             jsonConverter.fromJson(removeFromFavouriteSuccessResponse) as ResponsedBackend
 
-        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
-            if (sendMediaType.favorite != null && (sendMediaType.favorite as Boolean)) CompletableDeferred(
-                Response.success(responseAddToFavouriteSuccess)
-            )
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId && (sendMediaType.mediaType == "movie" || sendMediaType.mediaType == "tv")) {
+            if (sendMediaType.favorite == true)
+                CompletableDeferred(Response.success(responseAddToFavouriteSuccess))
             else CompletableDeferred(Response.success(responseRemoveFromFavouriteSuccess))
         } else {
             // Response Error 401: invalid api key
@@ -809,12 +808,12 @@ class FakeRemoteServer : NetworkService {
         contentType: String
     ): Deferred<Response<ResponsedBackend>> {
         val addToWatchlistSuccessResponse = """{
-  "success": true.
+  "success": true,
   "status_code": 12,
   "status_message": "The item/record was updated successfully."
 }"""
         val removeFromWatchlistSuccessResponse = """{
-  "success": true.
+  "success": true,
   "status_code": 13,
   "status_message": "The item/record was removed successfully."
 }"""
@@ -825,16 +824,16 @@ class FakeRemoteServer : NetworkService {
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
         val jsonConverter = moshi.adapter(ResponsedBackend::class.java)
-        val responseAddToFavouriteSuccess =
+        val responseAddToWatchListSuccess =
             jsonConverter.fromJson(addToWatchlistSuccessResponse) as ResponsedBackend
-        val responseRemoveFromFavouriteSuccess =
+        val responseRemoveFromWatchListSuccess =
             jsonConverter.fromJson(removeFromWatchlistSuccessResponse) as ResponsedBackend
 
-        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
-            if (sendMediaType.favorite != null && (sendMediaType.favorite as Boolean)) CompletableDeferred(
-                Response.success(responseAddToFavouriteSuccess)
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId && (sendMediaType.mediaType == "movie" || sendMediaType.mediaType == "tv")) {
+            if (sendMediaType.watchList == true) CompletableDeferred(
+                Response.success(responseAddToWatchListSuccess)
             )
-            else CompletableDeferred(Response.success(responseRemoveFromFavouriteSuccess))
+            else CompletableDeferred(Response.success(responseRemoveFromWatchListSuccess))
         } else {
             // Response Error 401: invalid api key
             CompletableDeferred(
