@@ -71,17 +71,4 @@ class AuthenticationViewModel @ViewModelInject constructor(
         val currentTime = Util.getCurrenTimeGMT()
         return expireTime < 0 && currentTime > expireTime
     }
-
-    /*class Factory(
-        private val app: Application,
-        private val remoteSource: IAuthenticationAccess
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AuthenticationViewModel::class.java)) {
-                return AuthenticationViewModel(app, remoteSource) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }*/
 }
