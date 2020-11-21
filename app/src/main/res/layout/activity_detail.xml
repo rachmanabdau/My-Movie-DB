@@ -8,27 +8,23 @@
         <import type="android.view.View" />
 
         <variable
-            name="detailId"
+            name="detailViewModel"
+            type="com.example.mymoviddb.detail.DetailViewModel" />
+
+        <variable
+            name="showType"
             type="Integer" />
 
         <variable
-            name="title"
-            type="CharSequence" />
-
-        <variable
-            name="genre"
-            type="CharSequence" />
-
-        <variable
-            name="overview"
-            type="CharSequence" />
+            name="showId"
+            type="Long" />
 
         <variable
             name="showFAB"
             type="Boolean" />
 
         <variable
-            name="posterPath"
+            name="errorMessage"
             type="String" />
 
     </data>
@@ -49,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:visibility="@{detailViewModel.isResultLoading() ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_margin="@dimen/margin_medium"
-            android:visibility="gone" />
+            android:visibility="@{detailViewModel.isResultError() ? View.VISIBLE : View.GONE}" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -71,6 +68,7 @@
                 android:id="@+id/detail_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="@{detailViewModel.isResultSuccess() ? View.VISIBLE : View.GONE}"
                 tools:context=".detail.DetailActivity">
 
                 <View
@@ -85,8 +83,8 @@
                     android:id="@+id/poster_detail"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:contentDescription="@{@string/movie_content_description(title)}"
-                    app:loadImage="@{posterPath}"
+                    android:contentDescription="@{@string/movie_content_description(detailViewModel.showDetail)}"
+                    app:loadImage="@{detailViewModel.showDetail.posterPath}"
                     app:error="@{@drawable/ic_error}"
                     app:layout_constraintDimensionRatio="1:1.5"
                     app:layout_constraintTop_toTopOf="@id/back_drop_detail"
@@ -102,6 +100,7 @@
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
                     android:textSize="16sp"
+                    android:text="@{@string/rate_detail(detailViewModel.showDetail.rate)}"
                     app:layout_constraintStart_toEndOf="@id/poster_detail"
                     app:layout_constraintTop_toTopOf="@id/back_drop_detail"
                     tools:text="Rate : 60%" />
@@ -113,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:text="@{genre}"
+                    android:text="@{detailViewModel.showDetail.genre}"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/rating_detail"
@@ -128,6 +127,7 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:textSize="16sp"
+                    android:text="@{(showType == 1) ? @string/release_date_detail(detailViewModel.showDetail.date) : @string/first_air_date_detail(detailViewModel.showDetail.date)}"
                     app:layout_constraintTop_toBottomOf="@id/genre_detail"
                     app:layout_constraintStart_toStartOf="@id/genre_detail" />
 
@@ -136,7 +136,7 @@
                     style="@style/DefaultFont"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/over_view_detail(overview)}"
+                    android:text="@{@string/over_view_detail(detailViewModel.showDetail.overview)}"
                     android:layout_margin="@dimen/margin_medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -232,8 +232,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/favourite_hint_detail"
+                        android:src="@{detailViewModel.isFavourited() ? @drawable/ic_favourite_active : @drawable/ic_favourite_disable}"
                         app:backgroundTint="@color/colorPrimary"
-                        app:srcCompat="@drawable/ic_favourite_disable"
                         app:tint="@color/colorBackgroound"
                         app:fabSize="mini" />
 
@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/add_to_watchlist_detail"
-                        app:srcCompat="@drawable/ic_playlist_add"
+                        android:src="@{detailViewModel.isAddedToWatchList() ? @drawable/ic_playlist_add : @drawable/ic_playlist_add_check}"
                         app:backgroundTint="@color/colorPrimary"
                         app:tint="@color/colorBackgroound"
                         app:fabSize="mini" />

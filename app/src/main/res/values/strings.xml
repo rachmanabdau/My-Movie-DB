@@ -50,10 +50,10 @@
     <string name="favourite_movies_label">Favourite Movies</string>
     <string name="favourite_tv_shows_label">Favourite TV Shows</string>
     <string name="favourite_shows_label">Favourite Shows</string>
-    <string name="add_to_favourite_success">The show successfully removed from your favourite list</string>
+    <string name="add_to_favourite_success">The show successfully added to your favourite list</string>
     <string name="add_to_favourite_failed">Adding the show to favourite list is failed</string>
     <string name="remove_from_favourite_failed">Removing the show from favourite list is failed. </string>
-    <string name="remove_from_favourite_success">The show successfully added to your favourite list</string>
+    <string name="remove_from_favourite_success">The show successfully removed from your favourite list</string>
     <string name="add_to_watchlist_success">The show successfully removed from your watch list</string>
     <string name="add_to_watchlist_failed">Adding the show to watch list is failed</string>
     <string name="remove_from_watchlist_failed">Removing the show from watch list is failed. </string>

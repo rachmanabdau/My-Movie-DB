@@ -14,8 +14,8 @@ import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.ActivityDetailBinding
 import com.example.mymoviddb.home.PreloadLinearLayout
-import com.example.mymoviddb.model.MarkMediaAs
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.PreferenceUtil
 import com.google.android.material.snackbar.Snackbar
@@ -34,14 +34,6 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var similarTVAdapter: TVAdapter
 
-    private var favoriteState = false
-
-    private var watchListState = false
-
-    private var loadId = 0
-
-    private var showId = 0L
-
     private val detailViewModel by viewModels<DetailViewModel>()
 
     private val args by navArgs<DetailActivityArgs>()
@@ -49,23 +41,34 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+        binding.lifecycleOwner = this
+        binding.detailViewModel = detailViewModel
 
-
-        loadId = if (args.loadDetailId != 0) {
+        // determine show type from intent (navigation from search activity) or from bundle
+        binding.showType = if (args.loadDetailId != 0) {
             args.loadDetailId
         } else {
             intent.getIntExtra(DETAIL_KEY, 0)
         }
 
-        showId = if (args.showId != 0L) {
+        // determine show id from intent (navigation from search activity) or from bundle
+        binding.showId = (if (args.showId != 0L) {
             args.showId
         } else {
             intent.getLongExtra(SHOW_ID_KEY, 0L)
-        }
+        })
+
+        detailViewModel.getShowDetail(binding.showId as Long, binding.showType as Int)
+
+        // Show snack bar message from add/remove favourite (either succeed or failed)
+        // Show snack bar message from add to/remove from watch list  (either succeed or failed)
+        detailViewModel.showSnackbarMessage.observe(this, EventObserver {
+            Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
+        })
 
         setupToolbar()
-        showHideActionButton()
-        loadData()
+        setupFAB(binding.showId ?: 0L, binding.showType as Int)
+        loadData(binding.showId ?: 0L, binding.showType as Int)
     }
 
     override fun onResume() {
@@ -74,14 +77,16 @@ class DetailActivity : AppCompatActivity() {
         val userState = PreferenceUtil.getAuthState(this)
 
         if (userState == LoginState.AS_USER.stateId) {
-            if (loadId == DETAIL_MOVIE) {
+            if (binding.showType as Int == DETAIL_MOVIE) {
                 val userSessionId = PreferenceUtil.readUserSession(this)
-                detailViewModel.getMovieAccountState(showId, userSessionId)
-                observeAccountState()
+                detailViewModel.getMovieAccountState(
+                    binding.showId ?: 0L, userSessionId
+                )
             } else {
                 val userSessionId = PreferenceUtil.readUserSession(this)
-                detailViewModel.getTVAccountState(showId, userSessionId)
-                observeAccountState()
+                detailViewModel.getTVAccountState(
+                    binding.showId ?: 0L, userSessionId
+                )
             }
         }
     }
@@ -101,104 +106,102 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showHideActionButton() {
+    private fun setupFAB(showId: Long, showType: Int) {
         val state = PreferenceUtil.getAuthState(this)
+        val sessionId = PreferenceUtil.readUserSession(this)
+        val userId = PreferenceUtil.readAccountId(this)
         binding.showFAB = state != LoginState.AS_GUEST.stateId
-    }
 
-    private fun initAdapter(showId: Long, loadId: Int) {
-        if (loadId == DETAIL_MOVIE) {
+        // Button click listener for add to favourite
+        binding.favouriteFabDetail.setOnClickListener {
+            detailViewModel.markAsFavorite(userId, sessionId, showId, showType)
+        }
 
-            recommendationMoviesAdapter = MoviesAdapter({
-                detailViewModel.getRecommendationMovies(showId)
-            }, {
-                setIntentDetail(it, loadId)
-            }, false)
-
-            binding.recommendtaionDetailRv.adapter = recommendationMoviesAdapter
-            binding.recommendtaionDetailRv.layoutManager =
-                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
-
-            similarMoviesAdapter = MoviesAdapter({
-                detailViewModel.getSimilarMovies(showId)
-            }, {
-                setIntentDetail(it, loadId)
-            }, false)
-
-            binding.similarDetailRv.adapter = similarMoviesAdapter
-            binding.similarDetailRv.layoutManager =
-                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
-        } else {
-
-            recommendationTVAdapter = TVAdapter({
-                detailViewModel.getRecommendationTVShows(showId)
-            }, {
-                setIntentDetail(it, loadId)
-            }, false)
-
-            binding.recommendtaionDetailRv.adapter = recommendationTVAdapter
-            binding.recommendtaionDetailRv.layoutManager =
-                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
-
-            similarTVAdapter = TVAdapter({
-                detailViewModel.getSimilarTVShows(showId)
-            }, {
-                setIntentDetail(it, loadId)
-            }, false)
-
-            binding.similarDetailRv.adapter = similarTVAdapter
-            binding.similarDetailRv.layoutManager =
-                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+        binding.addToWatchlistFabDetail.setOnClickListener {
+            detailViewModel.addToWatchList(userId, sessionId, showId, showType)
         }
     }
 
-    private fun loadData() {
-        val mediaType: String
+    private fun loadData(showId: Long, showType: Int) {
 
-        initAdapter(showId, loadId)
+        initAdapter(showId, showType)
 
-        if (loadId == DETAIL_MOVIE) {
-            mediaType = "movie"
-            detailViewModel.getMovieDetail(showId)
-            detailViewModel.getRecommendationMovies(showId)
-            detailViewModel.getSimilarMovies(showId)
-
-            observeMoviesDetail(showId)
+        if (binding.showType as Int == DETAIL_MOVIE) {
+            // observe movie detail and set text for recommendation and similar movies
+            observeMoviesDetail(
+                binding.showId ?: 0L
+            )
             binding.recommendationLabelDetail.text =
                 getString(R.string.recommendation_detail_label, getString(R.string.movies_label))
             binding.similarLabelDetail.text =
                 getString(R.string.similar_detail_label, getString(R.string.movies_label))
         } else {
-            mediaType = "tv"
-            detailViewModel.getTVDetail(showId)
-            detailViewModel.getRecommendationTVShows(showId)
-            detailViewModel.getSimilarTVShows(showId)
-
-            observeTVDetail(showId)
+            // observe tv show detail and set text for recommendation and similar tv shows
+            observeTVDetail(
+                binding.showId ?: 0L
+            )
             binding.recommendationLabelDetail.text =
                 getString(R.string.recommendation_detail_label, getString(R.string.tv_shows_label))
             binding.similarLabelDetail.text =
                 getString(R.string.similar_detail_label, getString(R.string.tv_shows_label))
         }
 
-        binding.favouriteFabDetail.setOnClickListener {
-            val sessionId = PreferenceUtil.readUserSession(this)
-
-            val mediatype = MarkMediaAs(showId, mediaType, favoriteState, null)
-            val userId = PreferenceUtil.readAccountId(this)
-            detailViewModel.markAsFavorite(userId, sessionId, mediatype)
-        }
-
-        binding.addToWatchlistFabDetail.setOnClickListener {
-            val sessionId = PreferenceUtil.readUserSession(this)
-
-            val mediatype = MarkMediaAs(showId, mediaType, null, watchListState)
-            val userId = PreferenceUtil.readAccountId(this)
-            detailViewModel.addToWatchList(userId, sessionId, mediatype)
-        }
-
     }
 
+    private fun initAdapter(showId: Long, showType: Int) {
+        if (showType == DETAIL_MOVIE) {
+            // Adapter for recommendation movies
+            recommendationMoviesAdapter = MoviesAdapter({
+                detailViewModel.getRecommendationMovies(showId)
+            }, {
+                setIntentDetail(it, showType)
+            }, false)
+
+            binding.recommendtaionDetailRv.adapter = recommendationMoviesAdapter
+            // layout manager for recommendation movies
+            binding.recommendtaionDetailRv.layoutManager =
+                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+
+            // Adapter for similar movies
+            similarMoviesAdapter = MoviesAdapter({
+                detailViewModel.getSimilarMovies(showId)
+            }, {
+                setIntentDetail(it, showType)
+            }, false)
+
+            binding.similarDetailRv.adapter = similarMoviesAdapter
+            // layout manager for similar movies
+            binding.similarDetailRv.layoutManager =
+                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+        } else {
+
+            // Adapter for recommendation tv show
+            recommendationTVAdapter = TVAdapter({
+                detailViewModel.getRecommendationTVShows(showId)
+            }, {
+                setIntentDetail(it, showType)
+            }, false)
+
+            binding.recommendtaionDetailRv.adapter = recommendationTVAdapter
+            // layout manager for recommendation tv shows
+            binding.recommendtaionDetailRv.layoutManager =
+                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+
+            // Adapter for similar tv shows
+            similarTVAdapter = TVAdapter({
+                detailViewModel.getSimilarTVShows(showId)
+            }, {
+                setIntentDetail(it, showType)
+            }, false)
+
+            binding.similarDetailRv.adapter = similarTVAdapter
+            // layout manager for similar tv shows
+            binding.similarDetailRv.layoutManager =
+                PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+        }
+    }
+
+    // Navigation for recommendation and similar shows item to detail activity
     private fun setIntentDetail(showId: Long, detailKey: Int) {
         intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DETAIL_KEY, detailKey)
@@ -208,43 +211,18 @@ class DetailActivity : AppCompatActivity() {
 
     private fun observeMoviesDetail(showId: Long) {
         detailViewModel.movieDetail.observe(this) {
-            when (it) {
-                is Result.Success -> {
-                    binding.detailContainer.visibility = View.VISIBLE
-                    binding.detailProgress.visibility = View.GONE
-                    binding.errorDetail.root.visibility = View.GONE
+            detailViewModel.determineDetailResult(it)
+            if (it is Result.Success) {
+                it.data?.apply {
+                    binding.detailToolbar.titleCustom.text = title
                     binding.detailToolbar.titleCustom.visibility = View.VISIBLE
-                    it.data?.apply {
-                        binding.detailToolbar.titleCustom.text = title
-                        binding.ratingDetail.text =
-                            getString(R.string.rate_detail, (voteAverage * 10).toInt())
-                        binding.releaseDateDetail.text =
-                            getString(R.string.release_date_detail, releaseDate)
-
-                        var genre = ""
-                        for (i in genres) {
-                            genre += "${i.name} "
-                        }
-                        binding.genre = genre
-                        binding.overview = overview
-                        binding.posterPath = posterPath
-                    }
                 }
-
-                is Result.Loading -> {
-                    binding.detailProgress.visibility = View.VISIBLE
-                    binding.errorDetail.root.visibility = View.GONE
-                    binding.detailContainer.visibility = View.GONE
-                }
-
-                is Result.Error -> {
-                    binding.errorDetail.root.visibility = View.VISIBLE
-                    binding.detailProgress.visibility = View.GONE
-                    binding.detailContainer.visibility = View.GONE
-                    binding.errorDetail.errorMessage.text = it.exception.localizedMessage
-                    binding.errorDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getMovieDetail(showId)
-                    }
+                detailViewModel.getRecommendationMovies(showId)
+                detailViewModel.getSimilarMovies(showId)
+            } else if (it is Result.Error) {
+                binding.errorDetail.errorMessage.text = it.exception.localizedMessage
+                binding.errorDetail.tryAgainButton.setOnClickListener {
+                    detailViewModel.getMovieDetail(showId)
                 }
             }
         }
@@ -253,104 +231,73 @@ class DetailActivity : AppCompatActivity() {
             when (it) {
                 is Result.Success -> {
                     recommendationMoviesAdapter.submitList(it.data?.results)
-                    binding.errorRecommendationDetail.root.visibility = View.GONE
 
                     if (it.data?.results.isNullOrEmpty()) {
                         binding.recommendationContainer.visibility = View.GONE
                     }
                 }
 
-                is Result.Loading -> {
-                    binding.errorRecommendationDetail.root.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.retryLoading.visibility = View.GONE
-                    binding.errorRecommendationDetail.errorMessage.visibility = View.GONE
-                    binding.errorRecommendationDetail.tryAgainButton.visibility = View.GONE
-                }
-
                 is Result.Error -> {
-                    binding.errorRecommendationDetail.root.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.retryLoading.visibility = View.GONE
-                    binding.errorRecommendationDetail.errorMessage.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorRecommendationDetail.tryAgainButton.setOnClickListener {
                         detailViewModel.getRecommendationMovies(showId)
                     }
                 }
             }
+
+            binding.errorRecommendationDetail.root.visibility =
+                if (it !is Result.Success) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.retryLoading.visibility =
+                if (it is Result.Loading) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.errorMessage.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.tryAgainButton.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
         }
 
         detailViewModel.similarMovies.observe(this) {
             when (it) {
                 is Result.Success -> {
                     similarMoviesAdapter.submitList(it.data?.results)
-                    binding.errorSimilarDetail.root.visibility = View.GONE
 
                     if (it.data?.results.isNullOrEmpty()) {
                         binding.similarContainer.visibility = View.GONE
                     }
                 }
 
-                is Result.Loading -> {
-                    binding.errorSimilarDetail.root.visibility = View.VISIBLE
-                    binding.errorSimilarDetail.retryLoading.visibility = View.VISIBLE
-                    binding.errorSimilarDetail.errorMessage.visibility = View.GONE
-                    binding.errorSimilarDetail.tryAgainButton.visibility = View.GONE
-                }
-
                 is Result.Error -> {
-                    binding.errorSimilarDetail.root.visibility = View.VISIBLE
-                    binding.errorSimilarDetail.retryLoading.visibility = View.GONE
-                    binding.errorSimilarDetail.errorMessage.visibility = View.VISIBLE
-                    binding.errorSimilarDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorSimilarDetail.errorMessage.text = it.exception.localizedMessage
                     binding.errorSimilarDetail.tryAgainButton.setOnClickListener {
                         detailViewModel.getSimilarMovies(showId)
                     }
                 }
             }
+
+            binding.errorRecommendationDetail.root.visibility =
+                if (it !is Result.Success) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.retryLoading.visibility =
+                if (it is Result.Loading) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.errorMessage.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.tryAgainButton.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
         }
     }
 
     private fun observeTVDetail(showId: Long) {
 
         detailViewModel.tvDetail.observe(this) {
-            when (it) {
-                is Result.Success -> {
-                    binding.detailContainer.visibility = View.VISIBLE
-                    binding.detailProgress.visibility = View.GONE
-                    binding.errorDetail.root.visibility = View.GONE
-                    binding.detailToolbar.titleCustom.visibility = View.VISIBLE
-                    it.data?.apply {
-                        binding.detailToolbar.titleCustom.text = name
-                        binding.ratingDetail.text =
-                            getString(R.string.rate_detail, (voteAverage * 10).toInt())
-                        binding.releaseDateDetail.text =
-                            getString(R.string.first_air_date_detail, firstAirDate)
-
-                        var genre = ""
-                        for (i in genres) {
-                            genre += "${i.name} "
-                        }
-                        binding.genre = genre
-                        binding.overview = overview
-                        binding.posterPath = posterPath
-                    }
+            detailViewModel.determineDetailResult(it)
+            if (it is Result.Success) {
+                binding.detailToolbar.titleCustom.visibility = View.VISIBLE
+                it.data?.apply {
+                    binding.detailToolbar.titleCustom.text = name
                 }
-
-                is Result.Loading -> {
-                    binding.detailProgress.visibility = View.VISIBLE
-                    binding.errorDetail.root.visibility = View.GONE
-                    binding.detailContainer.visibility = View.GONE
-                }
-
-                is Result.Error -> {
-                    binding.errorDetail.root.visibility = View.VISIBLE
-                    binding.detailProgress.visibility = View.GONE
-                    binding.detailContainer.visibility = View.GONE
-                    binding.errorDetail.errorMessage.text = it.exception.localizedMessage
-                    binding.errorDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getTVDetail(showId)
-                    }
+                detailViewModel.getRecommendationTVShows(showId)
+                detailViewModel.getSimilarTVShows(showId)
+            } else if (it is Result.Error) {
+                binding.errorDetail.errorMessage.text = it.exception.localizedMessage
+                binding.errorDetail.tryAgainButton.setOnClickListener {
+                    detailViewModel.getTVDetail(showId)
                 }
             }
         }
@@ -359,25 +306,13 @@ class DetailActivity : AppCompatActivity() {
             when (it) {
                 is Result.Success -> {
                     recommendationTVAdapter.submitList(it.data?.results)
-                    binding.errorRecommendationDetail.root.visibility = View.GONE
 
                     if (it.data?.results.isNullOrEmpty()) {
                         binding.recommendationContainer.visibility = View.GONE
                     }
                 }
 
-                is Result.Loading -> {
-                    binding.errorRecommendationDetail.root.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.retryLoading.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.errorMessage.visibility = View.GONE
-                    binding.errorRecommendationDetail.tryAgainButton.visibility = View.GONE
-                }
-
                 is Result.Error -> {
-                    binding.errorRecommendationDetail.root.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.retryLoading.visibility = View.GONE
-                    binding.errorRecommendationDetail.errorMessage.visibility = View.VISIBLE
-                    binding.errorRecommendationDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorRecommendationDetail.errorMessage.text =
                         it.exception.localizedMessage
                     binding.errorRecommendationDetail.tryAgainButton.setOnClickListener {
@@ -385,95 +320,45 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            binding.errorRecommendationDetail.root.visibility =
+                if (it !is Result.Success) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.retryLoading.visibility =
+                if (it is Result.Loading) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.errorMessage.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
+            binding.errorRecommendationDetail.tryAgainButton.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
         }
 
         detailViewModel.similarTVShows.observe(this) {
             when (it) {
                 is Result.Success -> {
                     similarTVAdapter.submitList(it.data?.results)
-                    binding.errorSimilarDetail.root.visibility = View.GONE
 
                     if (it.data?.results.isNullOrEmpty()) {
                         binding.similarContainer.visibility = View.GONE
                     }
                 }
 
-                is Result.Loading -> {
-                    binding.errorSimilarDetail.retryLoading.visibility = View.GONE
-                    binding.errorSimilarDetail.errorMessage.visibility = View.GONE
-                    binding.errorSimilarDetail.tryAgainButton.visibility = View.GONE
-                    binding.errorSimilarDetail.retryLoading.visibility = View.VISIBLE
-                }
-
                 is Result.Error -> {
-                    binding.errorSimilarDetail.root.visibility = View.VISIBLE
-                    binding.errorSimilarDetail.retryLoading.visibility = View.GONE
-                    binding.errorSimilarDetail.errorMessage.visibility = View.VISIBLE
-                    binding.errorSimilarDetail.tryAgainButton.visibility = View.VISIBLE
                     binding.errorSimilarDetail.errorMessage.text = it.exception.localizedMessage
                     binding.errorSimilarDetail.tryAgainButton.setOnClickListener {
                         detailViewModel.getSimilarTVShows(showId)
                     }
                 }
             }
+
+            binding.errorSimilarDetail.root.visibility =
+                if (it !is Result.Success) View.VISIBLE else View.GONE
+            binding.errorSimilarDetail.retryLoading.visibility =
+                if (it is Result.Loading) View.VISIBLE else View.GONE
+            binding.errorSimilarDetail.errorMessage.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
+            binding.errorSimilarDetail.tryAgainButton.visibility =
+                if (it is Result.Error) View.VISIBLE else View.GONE
         }
     }
-
-    private fun observeAccountState() {
-        detailViewModel.mediaState.observe(this) {
-            if (it is Result.Success && it.data != null) {
-                binding.favouriteFabDetail.setImageResource(
-                    if (it.data.favorite) R.drawable.ic_favourite_active else R.drawable.ic_favourite_disable
-                )
-                favoriteState = (it.data.favorite).not()
-
-
-                binding.addToWatchlistFabDetail.setImageResource(
-                    if (it.data.watchlist) R.drawable.ic_playlist_add_check else R.drawable.ic_playlist_add
-                )
-                watchListState = (it.data.watchlist).not()
-            }
-        }
-
-        detailViewModel.watchListResult.observe(this) {
-            var message = ""
-            if (it is Result.Success && it.data?.statusCode != null) {
-                binding.addToWatchlistFabDetail.setImageResource(
-                    if (it.data.statusCode == 13) R.drawable.ic_playlist_add else R.drawable.ic_playlist_add_check
-                )
-                watchListState = it.data.statusCode == 13
-                message =
-                    if (watchListState) getString(R.string.add_to_watchlist_success)
-                    else getString(R.string.remove_from_watchlist_success)
-            } else if (it is Result.Error) {
-                message =
-                    if (watchListState) getString(R.string.add_to_watchlist_failed)
-                    else getString(R.string.remove_from_watchlist_failed)
-                message += it.exception.localizedMessage ?: "Unknown error has occured"
-            }
-            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
-        }
-
-        detailViewModel.favouriteResult.observe(this) {
-            var message = ""
-            if (it is Result.Success && it.data?.statusCode != null) {
-                binding.favouriteFabDetail.setImageResource(
-                    if (it.data.statusCode == 13) R.drawable.ic_favourite_disable else R.drawable.ic_favourite_active
-                )
-                favoriteState = it.data.statusCode == 13
-                message =
-                    if (favoriteState) getString(R.string.add_to_favourite_success)
-                    else getString(R.string.remove_from_favourite_success)
-            } else if (it is Result.Error) {
-                message =
-                    if (favoriteState) getString(R.string.add_to_favourite_failed)
-                    else getString(R.string.remove_from_favourite_failed)
-                message += it.exception.localizedMessage ?: "Unknown error has occured"
-            }
-            Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
-        }
-    }
-
 
     private fun setupToolbar() {
         // my_child_toolbar is defined in the layout file
