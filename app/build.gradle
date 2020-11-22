@@ -173,7 +173,7 @@ dependencies {
     // Timber for debugging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 
     // Dependencies for Android instrumented unit tests
     androidTestImplementation "junit:junit:$version_junit"
@@ -200,6 +200,9 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-core:$version_mockito"
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$version_dexMaker"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$version_espresso"
+
+    // mockk for mcoking savedStateHandle
+    testImplementation "io.mockk:mockk:1.10.2"
 
     // Hilt for DI
     implementation "com.google.dagger:hilt-android:$version_dagger_hilt"
