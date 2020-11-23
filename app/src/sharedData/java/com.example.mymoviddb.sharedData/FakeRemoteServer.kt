@@ -83,7 +83,7 @@ class FakeRemoteServer : NetworkService {
         val fakeRequestToken = "ff5c7eeb5a8870efe3cd7fc5c282cffd26800ecd"
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
-  "status_message": "Invalid API key: You must be granted a valid key.",
+  "status_message": "Invalid username and/or password: You did not provide a valid login.",
   "success": false,
   "status_code": 7
 }"""
