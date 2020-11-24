@@ -227,25 +227,25 @@
                     app:layout_constraintStart_toEndOf="@id/poster_detail"
                     tools:visibility="visible">
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/favourite_fab_detail"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/favourite_btn_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@string/favourite_hint_detail"
                         android:src="@{detailViewModel.isFavourited() ? @drawable/ic_favourite_active : @drawable/ic_favourite_disable}"
-                        app:backgroundTint="@color/colorPrimary"
-                        app:tint="@color/colorBackgroound"
-                        app:fabSize="mini" />
+                        android:layout_marginEnd="4dp"
+                        app:civ_border_color="@color/colorPrimary"
+                        app:civ_border_width="@dimen/padding_small"
+                        app:civ_circle_background_color="@color/colorPrimary" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/add_to_watchlist_fab_detail"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/add_to_watchlist_btn_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/add_to_watchlist_detail"
                         android:src="@{detailViewModel.isAddedToWatchList() ? @drawable/ic_playlist_add : @drawable/ic_playlist_add_check}"
-                        app:backgroundTint="@color/colorPrimary"
-                        app:tint="@color/colorBackgroound"
-                        app:fabSize="mini" />
+                        app:civ_circle_background_color="@color/colorPrimary"
+                        app:civ_border_width="@dimen/padding_small"
+                        app:civ_border_color="@color/colorPrimary" />
 
                 </LinearLayout>
 

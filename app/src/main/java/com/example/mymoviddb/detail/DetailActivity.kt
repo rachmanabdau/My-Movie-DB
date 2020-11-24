@@ -113,11 +113,11 @@ class DetailActivity : AppCompatActivity() {
         binding.showFAB = state != LoginState.AS_GUEST.stateId
 
         // Button click listener for add to favourite
-        binding.favouriteFabDetail.setOnClickListener {
+        binding.favouriteBtnDetail.setOnClickListener {
             detailViewModel.markAsFavorite(userId, sessionId, showId, showType)
         }
 
-        binding.addToWatchlistFabDetail.setOnClickListener {
+        binding.addToWatchlistBtnDetail.setOnClickListener {
             detailViewModel.addToWatchList(userId, sessionId, showId, showType)
         }
     }
