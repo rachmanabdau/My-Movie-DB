@@ -1,6 +1,10 @@
 package com.example.mymoviddb.utils
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.net.ParseException
+import android.view.View
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
@@ -44,5 +48,18 @@ object Util {
             errorAdapter.fromJson(errorMessage)
 
         return Result.Error(Exception(errorJson?.statusMessage))
+    }
+
+    fun ObjectAnimator.disableViewDuringAnimation(view: View) {
+        addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                view.isClickable = false
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                view.isClickable = true
+            }
+
+        })
     }
 }
