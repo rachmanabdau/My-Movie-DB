@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="android.graphics.Color" />
 
         <variable
             name="detailViewModel"
@@ -221,6 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:padding="@dimen/padding_small"
                     android:visibility="@{showFAB ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/back_drop_detail"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +233,7 @@
                         android:id="@+id/favourite_btn_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@{detailViewModel.isFavourited() ? @drawable/ic_favourite_active : @drawable/ic_favourite_disable}"
+                        android:src="@drawable/ic_favourite"
                         android:layout_marginEnd="4dp"
                         app:civ_border_color="@color/colorPrimary"
                         app:civ_border_width="@dimen/padding_small"
