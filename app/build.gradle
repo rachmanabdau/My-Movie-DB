@@ -223,4 +223,6 @@ dependencies {
     // Circulat Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // Gradle dependency on Shimmer for Android
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 }
