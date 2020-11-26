@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MoviesAdapter
+import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.homeViewModel = homeViewModel
@@ -63,6 +64,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initializeAdapter() {
+        initiatePlaceHolderAdapter()
         // Adapter for popular movies
         binding.popularMovieRv.adapter = MoviesAdapter({
             findNavController().navigate(
@@ -153,6 +155,13 @@ class HomeFragment : Fragment() {
         ).apply {
             setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
         }
+    }
+
+    private fun initiatePlaceHolderAdapter() {
+        binding.popularMoviesPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
+        binding.nowPlayingMoviesPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
+        binding.popularTvPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
+        binding.onAirTvPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
     }
 
     private fun setClickListener() {
