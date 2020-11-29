@@ -8,7 +8,6 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MovieDataSource(
     private val networkService: ICategoryMovieListAccess,
@@ -70,7 +69,6 @@ class MovieDataSource(
                         loadInitial(params, callback)
                     }
                 }
-                Timber.d((result.value.toString()))
             }
         }
     }
@@ -125,7 +123,6 @@ class MovieDataSource(
                         loadAfter(params, callback)
                     }
                 }
-                Timber.d((result.value.toString()))
             }
         }
     }
