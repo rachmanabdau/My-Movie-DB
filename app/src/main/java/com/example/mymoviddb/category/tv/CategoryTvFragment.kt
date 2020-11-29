@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
 import com.example.mymoviddb.detail.DetailActivity
@@ -25,24 +27,17 @@ class CategoryTvFragment : Fragment() {
 
     private val categoryTvViewmodel by viewModels<CategoryTVViewModel>()
 
+    private lateinit var adapter: TVListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentCategoryTvBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         setUpToolbar(arguments.title)
-
-        val adapter = TVListAdapter({ categoryTvViewmodel.retry() },
-            {
-                findNavController().navigate(
-                    CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
-                        DetailActivity.DETAIL_TV, it
-                    )
-                )
-            })
-        binding.showRv.adapter = adapter
+        setupAdapter()
         binding.lifecycleOwner = this
         var firstInitialize = true
 
@@ -53,13 +48,13 @@ class CategoryTvFragment : Fragment() {
                 val message = it.exception.localizedMessage ?: "Unknown error has occured"
                 binding.errorLayout.errorMessage.text = message
                 binding.errorLayout.root.visibility = View.VISIBLE
-                binding.loadingBar.visibility = View.GONE
+                binding.shimmerPlaceholderCategoryTv.root.visibility = View.GONE
             } else if (it is Result.Success) {
                 firstInitialize = false
                 binding.errorLayout.root.visibility = View.GONE
-                binding.loadingBar.visibility = View.GONE
+                binding.shimmerPlaceholderCategoryTv.root.visibility = View.GONE
             } else if (it is Result.Loading && firstInitialize) {
-                binding.loadingBar.visibility = View.VISIBLE
+                binding.shimmerPlaceholderCategoryTv.root.visibility = View.VISIBLE
             }
         })
 
@@ -75,6 +70,23 @@ class CategoryTvFragment : Fragment() {
 
     private fun setUpToolbar(@StringRes subtitle: Int) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(subtitle)
+    }
+
+    private fun setupAdapter() {
+        val placeholderAdapter = PlaceHolderAdapter()
+        binding.shimmerPlaceholderCategoryTv.shimmerPlaceholder.adapter = placeholderAdapter
+        binding.shimmerPlaceholderCategoryTv.shimmerPlaceholder.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+
+        adapter = TVListAdapter({ categoryTvViewmodel.retry() },
+            {
+                findNavController().navigate(
+                    CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
+                        DetailActivity.DETAIL_TV, it
+                    )
+                )
+            })
+        binding.showRv.adapter = adapter
     }
 
 }
