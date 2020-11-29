@@ -15,7 +15,6 @@ import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.utils.DeviceUtils
 import com.example.mymoviddb.utils.EventObserver
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,9 +82,7 @@ class HomeFragment : Fragment() {
         })
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
-        ).apply {
-            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
-        }
+        )
 
         // Adapter for now playing movies
         binding.nowPlayingMovieRv.adapter = MoviesAdapter({
@@ -106,9 +103,7 @@ class HomeFragment : Fragment() {
         })
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
-        ).apply {
-            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
-        }
+        )
 
         // Adapter for popular tv shows
         binding.popularTvRv.adapter = TVAdapter({
@@ -129,9 +124,7 @@ class HomeFragment : Fragment() {
         })
         binding.popularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
-        ).apply {
-            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
-        }
+        )
 
         // Adapter for on air tv shows
         binding.onAirPopularTvRv.adapter = TVAdapter({
@@ -152,9 +145,7 @@ class HomeFragment : Fragment() {
         })
         binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
-        ).apply {
-            setExtraLayoutSpace(DeviceUtils.getScreenWidth(requireContext()) * 4)
-        }
+        )
     }
 
     private fun initiatePlaceHolderAdapter() {
