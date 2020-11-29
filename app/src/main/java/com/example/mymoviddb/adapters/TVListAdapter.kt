@@ -37,7 +37,7 @@ class TVListAdapter(private val retry: () -> Unit, private val actionDetail: (Lo
     }
 
     override fun getItemCount(): Int {
-        return if (super.getItemCount() > 1) super.getItemCount() + 1 else super.getItemCount()
+        return if (super.getItemCount() > 19) super.getItemCount() + 1 else super.getItemCount()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -59,9 +59,14 @@ class TVListAdapter(private val retry: () -> Unit, private val actionDetail: (Lo
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is TVListViewHolder && position < itemCount - 2) {
-            val data = getItem(position)
-            holder.onBind(data, actionDetail)
+        if (holder is TVListViewHolder) {
+            if (itemCount > 20 && position < itemCount - 1) {
+                val data = getItem(position)
+                holder.onBind(data, actionDetail)
+            } else if (itemCount < 20 && position < itemCount) {
+                val data = getItem(position)
+                holder.onBind(data, actionDetail)
+            }
         } else if (holder is ErrorViewHolder) {
             val errorMessage = if (state is Result.Error) {
                 (state as Result.Error).exception.localizedMessage ?: "Unknown error has occured"
