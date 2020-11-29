@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymoviddb.adapters.MovieListAdapter
+import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
@@ -25,25 +27,19 @@ class CategoryMovieListFragment : Fragment() {
 
     private val showViewModels by viewModels<CategoryMovieListViewModel>()
 
+    private lateinit var adapter: MovieListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCategoryMovieListBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
-
-        val adapter = MovieListAdapter({ showViewModels.retry() },
-            {
-                findNavController().navigate(
-                    CategoryMovieListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
-                        DetailActivity.DETAIL_MOVIE, it
-                    )
-                )
-            })
-        binding.showRv.adapter = adapter
         binding.lifecycleOwner = this
         var firstInitialize = true
+        setupAdapter()
 
+        // observe status while loading item per page
         showViewModels.result.observe(viewLifecycleOwner, {
             adapter.setState(it)
 
@@ -51,20 +47,22 @@ class CategoryMovieListFragment : Fragment() {
                 val message = it.exception.localizedMessage ?: "Unknown error has occured"
                 binding.errorLayout.errorMessage.text = message
                 binding.errorLayout.root.visibility = View.VISIBLE
-                binding.loadingBar.visibility = View.GONE
+                binding.shimmerPlaceholderCategoryMovie.root.visibility = View.GONE
             } else if (it is Result.Success) {
                 firstInitialize = false
                 binding.errorLayout.root.visibility = View.GONE
-                binding.loadingBar.visibility = View.GONE
+                binding.shimmerPlaceholderCategoryMovie.root.visibility = View.GONE
             } else if (it is Result.Loading && firstInitialize) {
-                binding.loadingBar.visibility = View.VISIBLE
+                binding.shimmerPlaceholderCategoryMovie.root.visibility = View.VISIBLE
             }
         })
 
+        // Add Item with pagination
         showViewModels.movieList.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
 
+        // set try again button listener
         binding.errorLayout.tryAgainButton.setOnClickListener {
             showViewModels.retry()
         }
@@ -76,4 +74,20 @@ class CategoryMovieListFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(subtitle)
     }
 
+    private fun setupAdapter() {
+        val placeholderAdapter = PlaceHolderAdapter()
+        binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.adapter = placeholderAdapter
+        binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+
+        adapter = MovieListAdapter({ showViewModels.retry() },
+            {
+                findNavController().navigate(
+                    CategoryMovieListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
+                        DetailActivity.DETAIL_MOVIE, it
+                    )
+                )
+            })
+        binding.showRv.adapter = adapter
+    }
 }
