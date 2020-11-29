@@ -10,8 +10,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MovieListAdapter
+import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
@@ -19,6 +21,7 @@ import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -117,25 +120,26 @@ class SearchActivity : AppCompatActivity() {
                     // show error layout visibility
                     binding.errorLayout.root.visibility = View.VISIBLE
                     // hide loading progressbar
-                    binding.loadingBar.visibility = View.GONE
+                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
                 }
                 // when result is success
                 it is Result.Success -> {
                     // hide try again button visibility
                     binding.errorLayout.tryAgainButton.visibility = View.GONE
                     // hide progress bar visibility
-                    binding.loadingBar.visibility = View.GONE
+                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
                     // show data not found text when list is empty
                     binding.errorLayout.root.visibility =
                         if (it.data?.totalResults == 0) View.VISIBLE else View.GONE
                     binding.errorLayout.errorMessage.text = getString(R.string.movie_not_found)
                     // if list empty then first inital state still/return to true else false
                     firstInitialize = it.data?.totalResults == 0
+                    Timber.d("item result is ${it.data?.results}")
                 }
                 // when fething data in process
                 it is Result.Loading && firstInitialize -> {
                     // show loading bar inside error essage container (not from error mesage recyclerview)
-                    binding.loadingBar.visibility = View.VISIBLE
+                    binding.shimmerPlaceholderSearchAct.root.visibility = View.VISIBLE
                 }
             }
         })
@@ -162,12 +166,12 @@ class SearchActivity : AppCompatActivity() {
                     // show error container
                     binding.errorLayout.root.visibility = View.VISIBLE
                     // hide progress bar
-                    binding.loadingBar.visibility = View.GONE
+                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
                 }
                 it is Result.Success -> {
                     // hide try again button and loading bar ...
                     binding.errorLayout.tryAgainButton.visibility = View.GONE
-                    binding.loadingBar.visibility = View.GONE
+                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
                     // ... but still show error message and error container visibility to show empty list message
                     binding.errorLayout.root.visibility =
                         if (it.data?.totalResults == 0) View.VISIBLE else View.GONE
@@ -177,7 +181,7 @@ class SearchActivity : AppCompatActivity() {
                 }
                 it is Result.Loading && firstInitialize -> {
                     // show progressbar in roor view (not in the recyclerview one)
-                    binding.loadingBar.visibility = View.VISIBLE
+                    binding.shimmerPlaceholderSearchAct.root.visibility = View.VISIBLE
                 }
             }
         })
@@ -188,6 +192,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initAdapter(id: Int) {
+        binding.shimmerPlaceholderSearchAct.shimmerPlaceholder.apply {
+            adapter = PlaceHolderAdapter()
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        }
         if (id == 31) {
             // when id is to earch movie set movie adapter
             movieAdapter = MovieListAdapter({ searchViewModel.retrySearchMovies() },
