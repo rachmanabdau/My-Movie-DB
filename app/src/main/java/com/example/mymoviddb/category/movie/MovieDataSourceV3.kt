@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 
 class MovieDataSourceV3(
     private val networkService: ICategoryMovieListAccess,
@@ -19,23 +20,25 @@ class MovieDataSourceV3(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieModel.Result> {
         // Start refresh at page 1 if undefined.
-        val nextPageNumber = params.key ?: 1
-        return try {
-            val movieResult: Result<MovieModel?> =
-                movieData(categoryId, nextPageNumber, networkService)
+        wrapEspressoIdlingResource {
+            val nextPageNumber = params.key ?: 1
+            return try {
+                val movieResult: Result<MovieModel?> =
+                    movieData(categoryId, nextPageNumber, networkService)
 
-            if (movieResult is Result.Success) {
-                val movieList = movieResult.data?.results ?: emptyList()
-                LoadResult.Page(
-                    data = movieList,
-                    prevKey = null,
-                    nextKey = nextPageNumber + 1
-                )
-            } else {
-                LoadResult.Error(Exception(getErrorMessage(movieResult)))
+                if (movieResult is Result.Success) {
+                    val movieList = movieResult.data?.results ?: emptyList()
+                    LoadResult.Page(
+                        data = movieList,
+                        prevKey = null,
+                        nextKey = nextPageNumber + 1
+                    )
+                } else {
+                    LoadResult.Error(Exception(getErrorMessage(movieResult)))
+                }
+            } catch (e: Exception) {
+                LoadResult.Error(e)
             }
-        } catch (e: Exception) {
-            LoadResult.Error(e)
         }
     }
 
