@@ -61,13 +61,13 @@ class CategoryMovieListFragment : Fragment() {
         binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = MovieListAdapterV3({
+        adapter = MovieListAdapterV3 {
             findNavController().navigate(
                 CategoryMovieListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
                     DetailActivity.DETAIL_MOVIE, it
                 )
             )
-        }).apply {
+        }.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 loadStateFlow.collectLatest { loadState ->
                     // show shimmer place holder when in loading state

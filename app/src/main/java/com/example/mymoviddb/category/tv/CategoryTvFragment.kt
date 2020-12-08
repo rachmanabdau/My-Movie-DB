@@ -6,17 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
-import com.example.mymoviddb.adapters.TVListAdapter
+import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
-import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryTvFragment : Fragment() {
@@ -27,7 +29,7 @@ class CategoryTvFragment : Fragment() {
 
     private val categoryTvViewmodel by viewModels<CategoryTVViewModel>()
 
-    private lateinit var adapter: TVListAdapter
+    private lateinit var adapter: TVListAdapterV3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,32 +41,13 @@ class CategoryTvFragment : Fragment() {
         setUpToolbar(arguments.title)
         setupAdapter()
         binding.lifecycleOwner = this
-        var firstInitialize = true
 
-        categoryTvViewmodel.result.observe(viewLifecycleOwner, {
-            adapter.setState(it)
-
-            if (it is Result.Error && firstInitialize) {
-                val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                binding.errorLayout.errorMessage.text = message
-                binding.errorLayout.root.visibility = View.VISIBLE
-                binding.shimmerPlaceholderCategoryTv.root.visibility = View.GONE
-            } else if (it is Result.Success) {
-                firstInitialize = false
-                binding.errorLayout.root.visibility = View.GONE
-                binding.shimmerPlaceholderCategoryTv.root.visibility = View.GONE
-            } else if (it is Result.Loading && firstInitialize) {
-                binding.shimmerPlaceholderCategoryTv.root.visibility = View.VISIBLE
+        categoryTvViewmodel.getMovieData(TVDataSourceV3.POPULAR_TV_ID)
+        categoryTvViewmodel.tvPageData.observe(viewLifecycleOwner, {
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.submitData(it)
             }
         })
-
-        categoryTvViewmodel.tvList.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
-
-        binding.errorLayout.tryAgainButton.setOnClickListener {
-            categoryTvViewmodel.retry()
-        }
         return binding.root
     }
 
@@ -78,15 +61,25 @@ class CategoryTvFragment : Fragment() {
         binding.shimmerPlaceholderCategoryTv.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = TVListAdapter({ categoryTvViewmodel.retry() },
-            {
-                findNavController().navigate(
-                    CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
-                        DetailActivity.DETAIL_TV, it
-                    )
-                )
-            })
-        binding.showRv.adapter = adapter
+        adapter = TVListAdapterV3 {
+        }.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                loadStateFlow.collectLatest { loadState ->
+                    // show shimmer place holder when in loading state
+                    binding.shimmerPlaceholderCategoryTv.root.isVisible =
+                        loadState.refresh is LoadState.Loading
+                    // show error message and try agian button when in error state
+                    binding.errorLayout.root.isVisible = loadState.refresh is LoadState.Error
+                    binding.errorLayout.tryAgainButton.setOnClickListener {
+                        retry()
+                    }
+                }
+            }
+        }
+
+        binding.showRv.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = StateAdapter(adapter::retry), footer = StateAdapter(adapter::retry)
+        )
     }
 
 }
