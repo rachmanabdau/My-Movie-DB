@@ -1,10 +1,10 @@
-package com.example.mymoviddb.category.movie
+package com.example.mymoviddb.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.mymoviddb.adapters.ShowViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.model.MovieModel
 
@@ -36,5 +36,19 @@ class MovieListAdapterV3(private val actionDetail: (Long) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
         val view = MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ShowViewHolder(view)
+    }
+}
+
+class ShowViewHolder(private val binding: MovieListItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+
+    fun onBind(data: MovieModel.Result?, actionDetail: (Long) -> Unit) {
+        if (data != null) {
+            binding.show = data
+            binding.rating = (data.voteAverage * 10).toInt()
+            binding.cardMovieListItem.setOnClickListener {
+                actionDetail(data.id)
+            }
+        }
     }
 }

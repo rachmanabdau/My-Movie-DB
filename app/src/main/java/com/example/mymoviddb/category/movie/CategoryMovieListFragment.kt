@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.mymoviddb.adapters.MovieListAdapterV3
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
 import com.example.mymoviddb.detail.DetailActivity

@@ -15,10 +15,10 @@ import androidx.navigation.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.R
+import com.example.mymoviddb.adapters.MovieListAdapterV3
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.movie.MovieDataSourceV3
-import com.example.mymoviddb.category.movie.MovieListAdapterV3
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.category.tv.TVDataSourceV3
@@ -88,7 +88,6 @@ class SearchActivity : AppCompatActivity() {
                     if (id == MovieDataSource.SEARCH_MOVIES) {
                         binding.tvRv.visibility = View.GONE
 
-                        MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.SEARCH_MOVIES
                         searchViewModel.searchMovieData(
                             MovieDataSourceV3.SEARCH_MOVIES,
                             query.trim()
@@ -96,7 +95,6 @@ class SearchActivity : AppCompatActivity() {
                     } else if (id == TVDataSource.SEARCH_TV) {
                         binding.moviesRv.visibility = View.GONE
 
-                        TVDataSource.TV_CATEGORY_ID = TVDataSource.SEARCH_TV
                         searchViewModel.searchTVData(TVDataSourceV3.SEARCH_TV, query.trim())
                     }
                 }
