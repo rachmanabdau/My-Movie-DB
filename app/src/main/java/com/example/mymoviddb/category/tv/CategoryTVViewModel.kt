@@ -19,7 +19,7 @@ class CategoryTVViewModel @ViewModelInject constructor(private val categoryTvAcc
     private val _tvPageData = MutableLiveData<PagingData<TVShowModel.Result>>()
     val tvPageData: LiveData<PagingData<TVShowModel.Result>> = _tvPageData
 
-    fun getMovieData(categoryId: Int, title: String = "") {
+    fun getTVData(categoryId: Int, title: String = "") {
         viewModelScope.launch {
             Pager(
                 // Configure how data is loaded by passing additional properties to

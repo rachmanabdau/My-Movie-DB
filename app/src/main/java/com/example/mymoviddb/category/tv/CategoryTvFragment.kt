@@ -44,7 +44,7 @@ class CategoryTvFragment : Fragment() {
         setupAdapter()
         binding.lifecycleOwner = this
 
-        categoryTvViewmodel.getMovieData(arguments.categoryId)
+        categoryTvViewmodel.getTVData(arguments.categoryId)
         categoryTvViewmodel.tvPageData.observe(viewLifecycleOwner, {
             viewLifecycleOwner.lifecycleScope.launch {
                 adapter.submitData(it)

@@ -8,20 +8,26 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.R
-import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
-import com.example.mymoviddb.adapters.TVListAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.movie.MovieDataSourceV3
+import com.example.mymoviddb.category.movie.MovieListAdapterV3
+import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.category.tv.TVDataSource
+import com.example.mymoviddb.category.tv.TVDataSourceV3
+import com.example.mymoviddb.category.tv.TVListAdapterV3
 import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -29,17 +35,15 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    private lateinit var movieAdapter: MovieListAdapter
+    private lateinit var movieAdapter: MovieListAdapterV3
 
-    private lateinit var tvAdapter: TVListAdapter
+    private lateinit var tvAdapter: TVListAdapterV3
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
     private val args by navArgs<SearchActivityArgs>()
 
     private var id = 0
-
-    private var firstInitialize = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,18 +87,17 @@ class SearchActivity : AppCompatActivity() {
                 if (query.isNotBlank()) {
                     if (id == MovieDataSource.SEARCH_MOVIES) {
                         binding.tvRv.visibility = View.GONE
-                        movieAdapter.submitList(null)
-                        movieAdapter.notifyDataSetChanged()
 
                         MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.SEARCH_MOVIES
-                        searchViewModel.searchMovieTitle(query.trim())
+                        searchViewModel.searchMovieData(
+                            MovieDataSourceV3.SEARCH_MOVIES,
+                            query.trim()
+                        )
                     } else if (id == TVDataSource.SEARCH_TV) {
                         binding.moviesRv.visibility = View.GONE
-                        tvAdapter.submitList(null)
-                        tvAdapter.notifyDataSetChanged()
 
                         TVDataSource.TV_CATEGORY_ID = TVDataSource.SEARCH_TV
-                        searchViewModel.searchTvTitle(query.trim())
+                        searchViewModel.searchTVData(TVDataSourceV3.SEARCH_TV, query.trim())
                     }
                 }
                 binding.searchView.setQuery(query, false)
@@ -104,91 +107,19 @@ class SearchActivity : AppCompatActivity() {
 
     private fun observeSearchMovies() {
 
-        searchViewModel.movieList.observe(this, {
-            movieAdapter.submitList(it)
-        })
-
-        searchViewModel.resultMovie.observe(this, {
-            movieAdapter.setState(it)
-
-            when {
-                // when result is error
-                it is Result.Error && firstInitialize -> {
-                    val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                    // show error message
-                    binding.errorLayout.errorMessage.text = message
-                    // show error layout visibility
-                    binding.errorLayout.root.visibility = View.VISIBLE
-                    // hide loading progressbar
-                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
-                }
-                // when result is success
-                it is Result.Success -> {
-                    // hide try again button visibility
-                    binding.errorLayout.tryAgainButton.visibility = View.GONE
-                    // hide progress bar visibility
-                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
-                    // show data not found text when list is empty
-                    binding.errorLayout.root.visibility =
-                        if (it.data?.totalResults == 0) View.VISIBLE else View.GONE
-                    binding.errorLayout.errorMessage.text = getString(R.string.movie_not_found)
-                    // if list empty then first inital state still/return to true else false
-                    firstInitialize = it.data?.totalResults == 0
-                    Timber.d("item result is ${it.data?.results}")
-                }
-                // when fething data in process
-                it is Result.Loading && firstInitialize -> {
-                    // show loading bar inside error essage container (not from error mesage recyclerview)
-                    binding.shimmerPlaceholderSearchAct.root.visibility = View.VISIBLE
-                }
+        searchViewModel.moviePageData.observe(this, {
+            lifecycleScope.launch {
+                movieAdapter.submitData(it)
             }
         })
-
-        binding.errorLayout.tryAgainButton.setOnClickListener {
-            searchViewModel.retrySearchMovies()
-        }
     }
 
     private fun observeSearchTV() {
-
-        searchViewModel.tvList.observe(this, {
-            tvAdapter.submitList(it)
-        })
-
-        searchViewModel.resultTV.observe(this, {
-            tvAdapter.setState(it)
-
-            when {
-                it is Result.Error && firstInitialize -> {
-                    val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                    // show error message
-                    binding.errorLayout.errorMessage.text = message
-                    // show error container
-                    binding.errorLayout.root.visibility = View.VISIBLE
-                    // hide progress bar
-                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
-                }
-                it is Result.Success -> {
-                    // hide try again button and loading bar ...
-                    binding.errorLayout.tryAgainButton.visibility = View.GONE
-                    binding.shimmerPlaceholderSearchAct.root.visibility = View.GONE
-                    // ... but still show error message and error container visibility to show empty list message
-                    binding.errorLayout.root.visibility =
-                        if (it.data?.totalResults == 0) View.VISIBLE else View.GONE
-                    binding.errorLayout.errorMessage.text = getString(R.string.tv_show_not_found)
-                    // set first initial if list data empty
-                    firstInitialize = it.data?.totalResults == 0
-                }
-                it is Result.Loading && firstInitialize -> {
-                    // show progressbar in roor view (not in the recyclerview one)
-                    binding.shimmerPlaceholderSearchAct.root.visibility = View.VISIBLE
-                }
+        searchViewModel.tvPageData.observe(this, {
+            lifecycleScope.launch {
+                tvAdapter.submitData(it)
             }
         })
-
-        binding.errorLayout.tryAgainButton.setOnClickListener {
-            searchViewModel.retrySearchTV()
-        }
     }
 
     private fun initAdapter(id: Int) {
@@ -198,18 +129,41 @@ class SearchActivity : AppCompatActivity() {
         }
         if (id == 31) {
             // when id is to earch movie set movie adapter
-            movieAdapter = MovieListAdapter({ searchViewModel.retrySearchMovies() },
-                {
-                    setIntentDetail(it, DetailActivity.DETAIL_MOVIE)
-                })
-            binding.moviesRv.adapter = movieAdapter
+            movieAdapter = MovieListAdapterV3 {
+                setIntentDetail(it, DetailActivity.DETAIL_MOVIE)
+            }.apply {
+
+                lifecycleScope.launch {
+                    loadStateFlow.collectLatest {
+                        handleLoadState(it.refresh) {
+                            retry()
+                        }
+                    }
+                }
+            }
+
+            binding.moviesRv.adapter = movieAdapter.apply {
+                withLoadStateHeaderAndFooter(
+                    header = StateAdapter(movieAdapter::retry),
+                    footer = StateAdapter(movieAdapter::retry)
+                )
+            }
+
             observeSearchMovies()
         } else {
             // else set tv adapter
-            tvAdapter = TVListAdapter({ searchViewModel.retrySearchTV() },
-                {
-                    setIntentDetail(it, DetailActivity.DETAIL_TV)
-                })
+            tvAdapter = TVListAdapterV3 {
+                setIntentDetail(it, DetailActivity.DETAIL_TV)
+            }.apply {
+                lifecycleScope.launch {
+                    loadStateFlow.collectLatest {
+                        handleLoadState(it.refresh) {
+                            retry()
+                        }
+                    }
+                }
+            }
+
             binding.tvRv.adapter = tvAdapter
             observeSearchTV()
         }
@@ -227,5 +181,16 @@ class SearchActivity : AppCompatActivity() {
         intent.putExtra(DetailActivity.DETAIL_KEY, detailKey)
         intent.putExtra(DetailActivity.SHOW_ID_KEY, showId)
         startActivity(intent)
+    }
+
+    private fun handleLoadState(state: LoadState, retry: () -> Unit) {
+        // show shimmer place holder when in loading state
+        binding.shimmerPlaceholderSearchAct.root.isVisible =
+            state is LoadState.Loading
+        // show error message and try agian button when in error state
+        binding.errorLayout.root.isVisible = state is LoadState.Error
+        binding.errorLayout.tryAgainButton.setOnClickListener {
+            retry()
+        }
     }
 }
