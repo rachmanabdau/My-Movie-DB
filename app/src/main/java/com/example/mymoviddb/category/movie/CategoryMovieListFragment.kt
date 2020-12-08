@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.mymoviddb.adapters.MovieListAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
-import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CategoryMovieListFragment : Fragment() {
@@ -27,7 +28,7 @@ class CategoryMovieListFragment : Fragment() {
 
     private val showViewModels by viewModels<CategoryMovieListViewModel>()
 
-    private lateinit var adapter: MovieListAdapter
+    private lateinit var adapter: MovieListAdapterV3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,35 +37,13 @@ class CategoryMovieListFragment : Fragment() {
         binding = FragmentCategoryMovieListBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
         binding.lifecycleOwner = this
-        var firstInitialize = true
         setupAdapter()
 
-        // observe status while loading item per page
-        showViewModels.result.observe(viewLifecycleOwner, {
-            adapter.setState(it)
-
-            if (it is Result.Error && firstInitialize) {
-                val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                binding.errorLayout.errorMessage.text = message
-                binding.errorLayout.root.visibility = View.VISIBLE
-                binding.shimmerPlaceholderCategoryMovie.root.visibility = View.GONE
-            } else if (it is Result.Success) {
-                firstInitialize = false
-                binding.errorLayout.root.visibility = View.GONE
-                binding.shimmerPlaceholderCategoryMovie.root.visibility = View.GONE
-            } else if (it is Result.Loading && firstInitialize) {
-                binding.shimmerPlaceholderCategoryMovie.root.visibility = View.VISIBLE
+        showViewModels.getMovieData()
+        showViewModels.moviePageData.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                adapter.submitData(it)
             }
-        })
-
-        // Add Item with pagination
-        showViewModels.movieList.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
-
-        // set try again button listener
-        binding.errorLayout.tryAgainButton.setOnClickListener {
-            showViewModels.retry()
         }
 
         return binding.root
@@ -80,14 +59,23 @@ class CategoryMovieListFragment : Fragment() {
         binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = MovieListAdapter({ showViewModels.retry() },
-            {
-                findNavController().navigate(
-                    CategoryMovieListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
-                        DetailActivity.DETAIL_MOVIE, it
-                    )
-                )
-            })
-        binding.showRv.adapter = adapter
+        adapter = MovieListAdapterV3().apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                loadStateFlow.collectLatest { loadState ->
+                    // show shimmer place holder when in loading state
+                    binding.shimmerPlaceholderCategoryMovie.root.isVisible =
+                        loadState.refresh is LoadState.Loading
+                    // show error message and try agian button when in error state
+                    binding.errorLayout.root.isVisible = loadState.refresh is LoadState.Error
+                    binding.errorLayout.tryAgainButton.setOnClickListener {
+                        retry()
+                    }
+                }
+            }
+        }
+
+        binding.showRv.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = StateAdapter(adapter::retry), footer = StateAdapter(adapter::retry)
+        )
     }
 }
