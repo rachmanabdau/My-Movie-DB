@@ -8,9 +8,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.mymoviddb.category.movie.ICategoryMovieListAccess
-import com.example.mymoviddb.category.movie.MovieDataSourceV3
+import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.ICategoryTVListAccess
-import com.example.mymoviddb.category.tv.TVDataSourceV3
+import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.TVShowModel
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +31,7 @@ class SearchViewModel @ViewModelInject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSourceV3(categoryMovieListAccess, categoryId, title)
+                MovieDataSource(categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _moviePageData.value = it
@@ -49,7 +49,7 @@ class SearchViewModel @ViewModelInject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                TVDataSourceV3(categoryTVListIAccess, categoryId, title)
+                TVDataSource(categoryTVListIAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _tvPageData.value = it

@@ -26,7 +26,7 @@ class CategoryMovieListViewModel @ViewModelInject constructor(private val catego
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSourceV3(categoryMovieListAccess, categoryId, title)
+                MovieDataSource(categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _moviePageData.value = it

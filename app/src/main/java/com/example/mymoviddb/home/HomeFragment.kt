@@ -11,8 +11,8 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.TVAdapter
-import com.example.mymoviddb.category.movie.MovieDataSourceV3
-import com.example.mymoviddb.category.tv.TVDataSourceV3
+import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.utils.EventObserver
@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
         binding.popularMovieRv.adapter = MoviesAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                    R.string.popular_movie_list_contentDesc, MovieDataSourceV3.POPULAR_MOVIE_ID
+                    R.string.popular_movie_list_contentDesc, MovieDataSource.POPULAR_MOVIE_ID
                 )
             )
         }, {
@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     R.string.now_playing_movie_list_contentDesc,
-                    MovieDataSourceV3.NOW_PLAYING_MOVIE_ID
+                    MovieDataSource.NOW_PLAYING_MOVIE_ID
                 )
             )
         }, {
@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
         binding.popularTvRv.adapter = TVAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                    R.string.popular_tv_show_list_contentDesc, TVDataSourceV3.POPULAR_TV_ID
+                    R.string.popular_tv_show_list_contentDesc, TVDataSource.POPULAR_TV_ID
                 )
             )
         }, {
@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
         binding.onAirPopularTvRv.adapter = TVAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                    R.string.now_airing_tv_show_list_contentDesc, TVDataSourceV3.ON_AIR_TV_ID
+                    R.string.now_airing_tv_show_list_contentDesc, TVDataSource.ON_AIR_TV_ID
                 )
             )
         }, {

@@ -26,7 +26,7 @@ class CategoryTVViewModel @ViewModelInject constructor(private val categoryTvAcc
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                TVDataSourceV3(categoryTvAccess, categoryId, title)
+                TVDataSource(categoryTvAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _tvPageData.value = it

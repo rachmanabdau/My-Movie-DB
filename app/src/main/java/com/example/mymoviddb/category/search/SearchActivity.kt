@@ -18,10 +18,8 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MovieListAdapterV3
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
-import com.example.mymoviddb.category.movie.MovieDataSourceV3
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.category.tv.TVDataSource
-import com.example.mymoviddb.category.tv.TVDataSourceV3
 import com.example.mymoviddb.category.tv.TVListAdapterV3
 import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.detail.DetailActivity
@@ -89,13 +87,13 @@ class SearchActivity : AppCompatActivity() {
                         binding.tvRv.visibility = View.GONE
 
                         searchViewModel.searchMovieData(
-                            MovieDataSourceV3.SEARCH_MOVIES,
+                            MovieDataSource.SEARCH_MOVIES,
                             query.trim()
                         )
                     } else if (id == TVDataSource.SEARCH_TV) {
                         binding.moviesRv.visibility = View.GONE
 
-                        searchViewModel.searchTVData(TVDataSourceV3.SEARCH_TV, query.trim())
+                        searchViewModel.searchTVData(TVDataSource.SEARCH_TV, query.trim())
                     }
                 }
                 binding.searchView.setQuery(query, false)

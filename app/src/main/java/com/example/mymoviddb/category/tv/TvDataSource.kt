@@ -6,7 +6,7 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 
-class TVDataSourceV3(
+class TVDataSource(
     private val networkService: ICategoryTVListAccess,
     private val categoryId: Int,
     private val title: String
