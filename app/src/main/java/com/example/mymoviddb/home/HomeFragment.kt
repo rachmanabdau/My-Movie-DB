@@ -11,7 +11,7 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.TVAdapter
-import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.movie.MovieDataSourceV3
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.detail.DetailActivity
@@ -68,10 +68,9 @@ class HomeFragment : Fragment() {
         binding.popularMovieRv.adapter = MoviesAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                    R.string.popular_movie_list_contentDesc
+                    R.string.popular_movie_list_contentDesc, MovieDataSourceV3.POPULAR_MOVIE_ID
                 )
             )
-            MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
         }, {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToDetailActivity(
@@ -88,11 +87,10 @@ class HomeFragment : Fragment() {
         binding.nowPlayingMovieRv.adapter = MoviesAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                    R.string.now_playing_movie_list_contentDesc
+                    R.string.now_playing_movie_list_contentDesc,
+                    MovieDataSourceV3.NOW_PLAYING_MOVIE_ID
                 )
             )
-
-            MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.NOW_PLAYING_MOVIE_ID
         }, {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToDetailActivity(

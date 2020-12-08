@@ -7,8 +7,8 @@ import com.example.mymoviddb.model.Result
 
 class MovieDataSourceV3(
     private val networkService: ICategoryMovieListAccess,
-    private val categoryId: Int = 1,
-    private val title: String = ""
+    private val categoryId: Int,
+    private val title: String
 ) : PagingSource<Int, MovieModel.Result>() {
 
     companion object {

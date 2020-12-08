@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_categoryMovieListFragment_to_detailActivity"
             app:destination="@id/detailActivity" />
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/categoryTvFragment"

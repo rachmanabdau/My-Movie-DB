@@ -19,14 +19,14 @@ class CategoryMovieListViewModel @ViewModelInject constructor(private val catego
     private val _moviePageData = MutableLiveData<PagingData<MovieModel.Result>>()
     val moviePageData: LiveData<PagingData<MovieModel.Result>> = _moviePageData
 
-    fun getMovieData(/*categoryId: Int, title: String = ""*/) {
+    fun getMovieData(categoryId: Int, title: String = "") {
         viewModelScope.launch {
             Pager(
                 // Configure how data is loaded by passing additional properties to
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSourceV3(categoryMovieListAccess/*, categoryId, title*/)
+                MovieDataSourceV3(categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _moviePageData.value = it

@@ -39,7 +39,7 @@ class CategoryMovieListFragment : Fragment() {
         binding.lifecycleOwner = this
         setupAdapter()
 
-        showViewModels.getMovieData()
+        showViewModels.getMovieData(arguments.categoryId)
         showViewModels.moviePageData.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 adapter.submitData(it)
