@@ -10,12 +10,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
+import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -42,7 +44,7 @@ class CategoryTvFragment : Fragment() {
         setupAdapter()
         binding.lifecycleOwner = this
 
-        categoryTvViewmodel.getMovieData(TVDataSourceV3.POPULAR_TV_ID)
+        categoryTvViewmodel.getMovieData(arguments.categoryId)
         categoryTvViewmodel.tvPageData.observe(viewLifecycleOwner, {
             viewLifecycleOwner.lifecycleScope.launch {
                 adapter.submitData(it)
@@ -62,6 +64,11 @@ class CategoryTvFragment : Fragment() {
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         adapter = TVListAdapterV3 {
+            findNavController().navigate(
+                CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
+                    DetailActivity.DETAIL_TV, it
+                )
+            )
         }.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 loadStateFlow.collectLatest { loadState ->

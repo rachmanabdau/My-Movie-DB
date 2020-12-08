@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_categoryTvFragment_to_detailActivity"
             app:destination="@id/detailActivity" />
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
     </fragment>
     <activity
         android:id="@+id/searchActivity"

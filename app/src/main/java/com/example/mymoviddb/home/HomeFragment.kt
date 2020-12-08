@@ -12,7 +12,7 @@ import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.category.movie.MovieDataSourceV3
-import com.example.mymoviddb.category.tv.TVDataSource
+import com.example.mymoviddb.category.tv.TVDataSourceV3
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.detail.DetailActivity
 import com.example.mymoviddb.utils.EventObserver
@@ -107,10 +107,9 @@ class HomeFragment : Fragment() {
         binding.popularTvRv.adapter = TVAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                    R.string.popular_tv_show_list_contentDesc
+                    R.string.popular_tv_show_list_contentDesc, TVDataSourceV3.POPULAR_TV_ID
                 )
             )
-            TVDataSource.TV_CATEGORY_ID = TVDataSource.POPULAR_TV_ID
         }, {
             findNavController()
                 .navigate(
@@ -128,10 +127,9 @@ class HomeFragment : Fragment() {
         binding.onAirPopularTvRv.adapter = TVAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                    R.string.now_airing_tv_show_list_contentDesc
+                    R.string.now_airing_tv_show_list_contentDesc, TVDataSourceV3.ON_AIR_TV_ID
                 )
             )
-            TVDataSource.TV_CATEGORY_ID = TVDataSource.ON_AIR_TV_ID
         }, {
             findNavController()
                 .navigate(
