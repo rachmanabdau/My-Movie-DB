@@ -8,7 +8,8 @@ import com.example.mymoviddb.adapters.ShowViewHolder
 import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.model.MovieModel
 
-class MovieListAdapterV3 : PagingDataAdapter<MovieModel.Result, ShowViewHolder>(DiffUtilCallback) {
+class MovieListAdapterV3(private val actionDetail: (Long) -> Unit) :
+    PagingDataAdapter<MovieModel.Result, ShowViewHolder>(DiffUtilCallback) {
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<MovieModel.Result>() {
         override fun areItemsTheSame(
@@ -29,7 +30,7 @@ class MovieListAdapterV3 : PagingDataAdapter<MovieModel.Result, ShowViewHolder>(
 
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         val data = getItem(position)
-        holder.onBind(data, {})
+        holder.onBind(data, actionDetail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {

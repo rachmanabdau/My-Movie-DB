@@ -10,11 +10,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryMovieListBinding
+import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -59,7 +61,13 @@ class CategoryMovieListFragment : Fragment() {
         binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = MovieListAdapterV3().apply {
+        adapter = MovieListAdapterV3({
+            findNavController().navigate(
+                CategoryMovieListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
+                    DetailActivity.DETAIL_MOVIE, it
+                )
+            )
+        }).apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 loadStateFlow.collectLatest { loadState ->
                     // show shimmer place holder when in loading state
