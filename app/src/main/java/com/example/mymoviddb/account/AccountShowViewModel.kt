@@ -1,53 +1,40 @@
 package com.example.mymoviddb.account
 
 import android.app.Application
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
-import androidx.paging.PagedList
-import com.example.mymoviddb.account.paging.AccountShowDataSourceHelper
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.mymoviddb.account.paging.AccountShowDatasource
+import com.example.mymoviddb.model.FavouriteAndWatchListShow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class AccountShowViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle,
-    app: Application,
-    accountShowAccess: IAccountShowAccess,
+    private val app: Application,
+    private val accountShowAccess: IAccountShowAccess,
 ) : AndroidViewModel(app) {
 
-    val config = PagedList.Config.Builder()
-        .setPageSize(20)
-        .setInitialLoadSizeHint(20)
-        .setPrefetchDistance(5)
-        .setEnablePlaceholders(true)
-        .build()
+    private val _accountShowList = MutableLiveData<PagingData<FavouriteAndWatchListShow.Result>>()
+    val accountShowList: LiveData<PagingData<FavouriteAndWatchListShow.Result>> = _accountShowList
 
-    private val resultAccountList = savedStateHandle.getLiveData<Int>("showType").map {
-        AccountShowDataSourceHelper(app, accountShowAccess, viewModelScope, it)
-    }
-
-    val accountShowList = resultAccountList.switchMap { it.getPageList(config) }
-
-    val resultFavourite = resultAccountList.switchMap {
-        it.getResult()
-    }
-
-    fun getFavouriteTVShows() {
-        savedStateHandle.set("showType", AccountShowDatasource.FAVOURITE_TVSHOWS)
-    }
-
-    fun getFavouriteMovies() {
-        savedStateHandle.set("showType", AccountShowDatasource.FAVOURITE_MOVIES)
-    }
-
-    fun getWatchListTVShows() {
-        savedStateHandle.set("showType", AccountShowDatasource.WATCHLIST_TVSHOWS)
-    }
-
-    fun getWatchListMovies() {
-        savedStateHandle.set("showType", AccountShowDatasource.WATCHLIST_MOVIES)
-    }
-
-    fun retryLoadFavourite() {
-        resultAccountList.value?.getRetry()
+    fun getShowList(categoryId: Int) {
+        viewModelScope.launch {
+            Pager(
+                // Configure how data is loaded by passing additional properties to
+                // PagingConfig, such as prefetchDistance.
+                PagingConfig(pageSize = 20, prefetchDistance = 5)
+            ) {
+                AccountShowDatasource(app, accountShowAccess, categoryId)
+            }.flow
+                .cachedIn(this).collectLatest {
+                    _accountShowList.value = it
+                }
+        }
     }
 }
