@@ -4,83 +4,102 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import com.example.mymoviddb.R
 import com.example.mymoviddb.account.AccountShowViewModel
+import com.example.mymoviddb.account.ResultHandler
+import com.example.mymoviddb.account.paging.AccountShowDatasource
 import com.example.mymoviddb.adapters.FavouriteAdapter
 import com.example.mymoviddb.databinding.FragmentWatchListMovieBinding
 import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.model.Result
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class WatchListMovieFragment : Fragment() {
+class WatchListMovieFragment : Fragment(), ResultHandler {
 
     private lateinit var binding: FragmentWatchListMovieBinding
 
     private val watchListViewmodel by viewModels<AccountShowViewModel>()
 
-    private var firstInitialize = true
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentWatchListMovieBinding.inflate(inflater, container, false)
+        setupView()
+
+        return binding.root
+    }
+
+    private fun setupView() {
         binding.lifecycleOwner = this
         binding.watchlistErrorLayout.tryAgainButton.visibility = View.GONE
 
-        val adapter = FavouriteAdapter(
-            {
-                watchListViewmodel.retryLoadFavourite()
-            },
-            {
-                findNavController().navigate(
-                    WatchListMovieFragmentDirections.actionWatchListMovieFragmentToDetailActivity(
-                        DetailActivity.DETAIL_MOVIE,
-                        it
-                    )
-                )
-            }
-        )
+        val adapter = setupAdapter()
         binding.watchlistRv.adapter = adapter
         binding.watchlistSwipeRefresh.setOnRefreshListener {
-            adapter.submitList(null)
-            adapter.notifyDataSetChanged()
-            watchListViewmodel.getWatchListMovies()
+            watchListViewmodel.getShowList(AccountShowDatasource.WATCHLIST_MOVIES)
         }
 
-        watchListViewmodel.getWatchListMovies()
+        watchListViewmodel.getShowList(AccountShowDatasource.WATCHLIST_MOVIES)
         watchListViewmodel.accountShowList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            adapter.submitData(lifecycle, it)
         }
-        watchListViewmodel.resultFavourite.observe(viewLifecycleOwner, {
-            adapter.setState(it)
+    }
 
-            if (it is Result.Error && firstInitialize) {
-                val message = it.exception.localizedMessage ?: "Unknown error has occured"
-                binding.watchlistErrorLayout.errorMessage.text =
-                    getString(R.string.swipe_refresh_hint, message)
-                binding.watchlistErrorLayout.root.visibility = View.VISIBLE
-                binding.watchlistSwipeRefresh.isRefreshing = false
-            } else if (it is Result.Success) {
-                binding.watchlistErrorLayout.root.visibility =
-                    if (it.data?.results.isNullOrEmpty() && firstInitialize) View.VISIBLE else View.GONE
-                binding.watchlistErrorLayout.errorMessage.text =
-                    getString(R.string.empty_watchlist_movie)
-                binding.watchlistErrorLayout.tryAgainButton.visibility = View.GONE
-                binding.watchlistSwipeRefresh.isRefreshing = false
-                firstInitialize = false
-            } else if (it is Result.Loading && firstInitialize) {
-                binding.watchlistSwipeRefresh.isRefreshing = true
+    private fun setupAdapter(): FavouriteAdapter {
+        return FavouriteAdapter { movieId -> navigateToDetailMovie(movieId) }
+            .also { adapter ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    adapter.loadStateFlow.collectLatest { loadState ->
+                        setViewResult(loadState, adapter)
+                        setRetryButton(adapter)
+                    }
+                }
             }
-        })
+    }
 
+    override fun setRetryButton(adapter: FavouriteAdapter) {
+        binding.watchlistErrorLayout.tryAgainButton.setOnClickListener {
+            adapter.retry()
+        }
+    }
 
-        return binding.root
+    override fun navigateToDetailMovie(movieId: Long) {
+        findNavController().navigate(
+            WatchListMovieFragmentDirections.actionWatchListMovieFragmentToDetailActivity(
+                DetailActivity.DETAIL_MOVIE,
+                movieId
+            )
+        )
+    }
+
+    override fun setViewResult(loadState: CombinedLoadStates, favouriteAdapter: FavouriteAdapter) {
+        val isRefreshing = loadState.refresh is LoadState.Loading
+        val isError = loadState.refresh is LoadState.Error
+        val isResultEmpty =
+            loadState.refresh is LoadState.NotLoading && favouriteAdapter.itemCount == 0
+        // show shimmer place holder when in loading state
+        binding.watchlistSwipeRefresh.isRefreshing = isRefreshing
+        // show error message and try agian button when in error state
+        binding.watchlistErrorLayout.root.isVisible = (isError || isResultEmpty)
+        showPlaceholderMessage(isResultEmpty)
+    }
+
+    override fun showPlaceholderMessage(isItemEmpty: Boolean) {
+        if (isItemEmpty) {
+            binding.watchlistErrorLayout.errorMessage.text =
+                getString(R.string.empty_watchlist_movie)
+        }
     }
 
 }
