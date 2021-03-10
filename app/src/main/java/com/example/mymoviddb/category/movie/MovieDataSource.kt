@@ -1,6 +1,7 @@
 package com.example.mymoviddb.category.movie
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
@@ -39,6 +40,13 @@ class MovieDataSource(
             } catch (e: Exception) {
                 LoadResult.Error(e)
             }
+        }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, MovieModel.Result>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 

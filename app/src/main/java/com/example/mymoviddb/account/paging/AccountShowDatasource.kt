@@ -2,6 +2,7 @@ package com.example.mymoviddb.account.paging
 
 import android.app.Application
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.example.mymoviddb.account.IAccountShowAccess
 import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.Result
@@ -97,4 +98,10 @@ class AccountShowDatasource(
         return LoadResult.Error(exception)
     }
 
+    override fun getRefreshKey(state: PagingState<Int, FavouriteAndWatchListShow.Result>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+    }
 }
