@@ -5,11 +5,11 @@ import com.example.mymoviddb.datasource.remote.NetworkService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(ApplicationComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object ServiceModule {
 
     @Provides
