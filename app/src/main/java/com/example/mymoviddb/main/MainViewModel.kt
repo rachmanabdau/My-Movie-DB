@@ -1,6 +1,5 @@
 package com.example.mymoviddb.main
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +8,12 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.UserDetail
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(private val mainAccess: IMainAccess) :
+@HiltViewModel
+class MainViewModel @Inject constructor(private val mainAccess: IMainAccess) :
     ViewModel() {
 
     private val _userDetail = MutableLiveData<Result<UserDetail?>>()

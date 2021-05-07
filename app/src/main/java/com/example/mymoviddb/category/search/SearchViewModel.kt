@@ -1,7 +1,5 @@
 package com.example.mymoviddb.category.search
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -13,13 +11,16 @@ import com.example.mymoviddb.category.tv.ICategoryTVListAccess
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.TVShowModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val categoryMovieListAccess: ICategoryMovieListAccess,
     private val categoryTVListIAccess: ICategoryTVListAccess,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _moviePageData = MutableLiveData<PagingData<MovieModel.Result>>()
     val moviePageData: LiveData<PagingData<MovieModel.Result>> = _moviePageData

@@ -1,7 +1,6 @@
 package com.example.mymoviddb.authentication.guest
 
 import android.app.Application
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +12,12 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Event
 import com.example.mymoviddb.utils.PreferenceUtil
 import com.example.mymoviddb.utils.Util
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class AuthenticationViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AuthenticationViewModel @Inject constructor(
     private val app: Application,
     private val remoteSource: IAuthenticationAccess
 ) : ViewModel() {

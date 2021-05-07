@@ -1,6 +1,5 @@
 package com.example.mymoviddb.category.movie
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,10 +9,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.mymoviddb.model.MovieModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CategoryMovieListViewModel @ViewModelInject constructor(private val categoryMovieListAccess: ICategoryMovieListAccess) :
+@HiltViewModel
+class CategoryMovieListViewModel @Inject constructor(private val categoryMovieListAccess: ICategoryMovieListAccess) :
     ViewModel() {
 
     private val _moviePageData = MutableLiveData<PagingData<MovieModel.Result>>()

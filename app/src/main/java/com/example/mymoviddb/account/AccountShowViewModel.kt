@@ -1,7 +1,6 @@
 package com.example.mymoviddb.account
 
 import android.app.Application
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,10 +11,13 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.mymoviddb.account.paging.AccountShowDatasource
 import com.example.mymoviddb.model.FavouriteAndWatchListShow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AccountShowViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AccountShowViewModel @Inject constructor(
     private val app: Application,
     private val accountShowAccess: IAccountShowAccess,
 ) : AndroidViewModel(app) {

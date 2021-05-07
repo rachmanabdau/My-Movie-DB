@@ -1,6 +1,5 @@
 package com.example.mymoviddb.detail
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,9 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.R
 import com.example.mymoviddb.model.*
 import com.example.mymoviddb.utils.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class DataDetailHelper(
     val showTitle: String,
@@ -20,7 +21,8 @@ data class DataDetailHelper(
     val date: String
 )
 
-class DetailViewModel @ViewModelInject constructor(private val detailaAccess: IDetailAccess) :
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAccess) :
     ViewModel() {
 
     private val _movieDetail = MutableLiveData<Result<MovieDetail?>>(Result.Loading)

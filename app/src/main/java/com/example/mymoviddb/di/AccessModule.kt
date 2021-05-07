@@ -17,30 +17,38 @@ import com.example.mymoviddb.main.MainAccess
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ViewModelComponent::class)
 abstract class AccessModule {
 
     @Binds
-    abstract fun bindAuthAccess(authenticationAccess: AuthenticationAccess): IAuthenticationAccess
-
-    @Binds
+    @ViewModelScoped
     abstract fun bindHomeAccess(homeAccess: HomeAccess): IHomeAccess
 
     @Binds
-    abstract fun bindCategoryMovieAccess(categoryMovieAccess: CategoryMovieListAccess): ICategoryMovieListAccess
-
-    @Binds
-    abstract fun bindCategoryTVAccess(categoryTVAccess: CategoryTVListIAccess): ICategoryTVListAccess
-
-    @Binds
-    abstract fun bindShowDetail(detailAccess: DetailAccess): IDetailAccess
-
-    @Binds
+    @ViewModelScoped
     abstract fun bindUserDetial(userDetailAccess: MainAccess): IMainAccess
 
     @Binds
+    @ViewModelScoped
+    abstract fun bindShowDetail(detailAccess: DetailAccess): IDetailAccess
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindAuthAccess(authenticationAccess: AuthenticationAccess): IAuthenticationAccess
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCategoryMovieAccess(categoryMovieAccess: CategoryMovieListAccess): ICategoryMovieListAccess
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCategoryTVAccess(categoryTVAccess: CategoryTVListIAccess): ICategoryTVListAccess
+
+    @Binds
+    @ViewModelScoped
     abstract fun bindshowFavourite(showFavouriteAccess: AccountShowAccess): IAccountShowAccess
 }

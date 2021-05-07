@@ -1,6 +1,5 @@
 package com.example.mymoviddb.home
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +10,12 @@ import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.model.succeeded
 import com.example.mymoviddb.utils.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val remoteServer: IHomeAccess
 
 ) : ViewModel() {
@@ -99,7 +101,7 @@ class HomeViewModel @ViewModelInject constructor(
     private fun setSnackbarMessage(message: Result<*>) {
         if (message is Result.Error) {
             val getMessage = message.exception.localizedMessage
-            _snackbarMessage.value = Event(getMessage)
+            _snackbarMessage.value = Event(getMessage ?: "Unknown error has occured.")
         }
     }
 }
