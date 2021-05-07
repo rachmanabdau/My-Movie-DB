@@ -19,4 +19,23 @@ abstract class ShowResult {
     abstract val title: String
     abstract val voteAverage: Double
     abstract val voteCount: Int
+
+    override fun equals(other: Any?): Boolean {
+        return this == (other as ShowResult)
+    }
+
+    override fun hashCode(): Int {
+        var result = backdropPath?.hashCode() ?: 0
+        result = 31 * result + genreIds.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + originalLanguage.hashCode()
+        result = 31 * result + originalTitle.hashCode()
+        result = 31 * result + overview.hashCode()
+        result = 31 * result + popularity.hashCode()
+        result = 31 * result + (posterPath?.hashCode() ?: 0)
+        result = 31 * result + title.hashCode()
+        result = 31 * result + voteAverage.hashCode()
+        result = 31 * result + voteCount
+        return result
+    }
 }

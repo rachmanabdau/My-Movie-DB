@@ -8,9 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviddb.R
-import com.example.mymoviddb.adapters.MoviesAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
-import com.example.mymoviddb.adapters.TVAdapter
+import com.example.mymoviddb.adapters.PreviewShowAdapter
 import com.example.mymoviddb.category.movie.MovieDataSource
 import com.example.mymoviddb.category.tv.TVDataSource
 import com.example.mymoviddb.databinding.FragmentHomeBinding
@@ -65,7 +64,7 @@ class HomeFragment : Fragment() {
     private fun initializeAdapter() {
         initiatePlaceHolderAdapter()
         // Adapter for popular movies
-        binding.popularMovieRv.adapter = MoviesAdapter({
+        binding.popularMovieRv.adapter = PreviewShowAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     R.string.popular_movie_list_contentDesc, MovieDataSource.POPULAR_MOVIE_ID
@@ -75,7 +74,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToDetailActivity(
                     DetailActivity.DETAIL_MOVIE,
-                    it
+                    it.id
                 )
             )
         })
@@ -84,7 +83,7 @@ class HomeFragment : Fragment() {
         )
 
         // Adapter for now playing movies
-        binding.nowPlayingMovieRv.adapter = MoviesAdapter({
+        binding.nowPlayingMovieRv.adapter = PreviewShowAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
                     R.string.now_playing_movie_list_contentDesc,
@@ -95,7 +94,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToDetailActivity(
                     DetailActivity.DETAIL_MOVIE,
-                    it
+                    it.id
                 )
             )
         })
@@ -104,7 +103,7 @@ class HomeFragment : Fragment() {
         )
 
         // Adapter for popular tv shows
-        binding.popularTvRv.adapter = TVAdapter({
+        binding.popularTvRv.adapter = PreviewShowAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
                     R.string.popular_tv_show_list_contentDesc, TVDataSource.POPULAR_TV_ID
@@ -115,7 +114,7 @@ class HomeFragment : Fragment() {
                 .navigate(
                     HomeFragmentDirections
                         .actionHomeFragmentToDetailActivity(
-                            DetailActivity.DETAIL_TV, it
+                            DetailActivity.DETAIL_TV, it.id
                         )
                 )
         })
@@ -124,7 +123,7 @@ class HomeFragment : Fragment() {
         )
 
         // Adapter for on air tv shows
-        binding.onAirPopularTvRv.adapter = TVAdapter({
+        binding.onAirPopularTvRv.adapter = PreviewShowAdapter({
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
                     R.string.now_airing_tv_show_list_contentDesc, TVDataSource.ON_AIR_TV_ID
@@ -135,7 +134,7 @@ class HomeFragment : Fragment() {
                 .navigate(
                     HomeFragmentDirections
                         .actionHomeFragmentToDetailActivity(
-                            DetailActivity.DETAIL_TV, it
+                            DetailActivity.DETAIL_TV, it.id
                         )
                 )
         })

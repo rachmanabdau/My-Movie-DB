@@ -8,9 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
+import com.example.mymoviddb.model.ShowResponse
 
 @BindingAdapter("loadImage", "error")
 fun loadImage(imageView: ImageView, uri: String?, error: Drawable) {
@@ -25,14 +24,9 @@ fun loadImage(imageView: ImageView, uri: String?, error: Drawable) {
 }
 
 @BindingAdapter("attachShowList")
-fun attachShowList(recyclerView: RecyclerView, showList: Result<*>?) {
+fun attachShowList(recyclerView: RecyclerView, showList: Result<ShowResponse>?) {
     if (showList is Result.Success) {
-        if (showList.data is MovieModel && !showList.data.results.isNullOrEmpty()) {
-            val adapter = recyclerView.adapter as MoviesAdapter
-            adapter.submitList(showList.data.results)
-        } else if (showList.data is TVShowModel && !showList.data.results.isNullOrEmpty()) {
-            val adapter = recyclerView.adapter as TVAdapter
-            adapter.submitList(showList.data.results)
-        }
+        val adapter = recyclerView.adapter as PreviewShowAdapter
+        adapter.submitList(showList.data.results)
     }
 }
