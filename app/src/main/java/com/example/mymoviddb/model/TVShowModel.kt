@@ -5,40 +5,40 @@ import com.squareup.moshi.Json
 
 data class TVShowModel(
     @Json(name = "page")
-    val page: Int,
+    override val page: Int,
     @Json(name = "results")
-    val results: List<Result>,
+    override val results: List<Result>,
     @Json(name = "total_pages")
-    val totalPages: Int,
+    override val totalPages: Int,
     @Json(name = "total_results")
-    val totalResults: Int
-) {
+    override val totalResults: Int
+) : ShowResponse() {
     data class Result(
         @Json(name = "backdrop_path")
-        val backdropPath: String?,
+        override val backdropPath: String?,
         @Json(name = "first_air_date")
         val firstAirDate: String?,
         @Json(name = "genre_ids")
-        val genreIds: List<Int>,
+        override val genreIds: List<Int>,
         @Json(name = "id")
-        val id: Long,
-        @Json(name = "name")
-        val name: String,
+        override val id: Long,
         @Json(name = "origin_country")
         val originCountry: List<String>,
         @Json(name = "original_language")
-        val originalLanguage: String,
+        override val originalLanguage: String,
         @Json(name = "original_name")
-        val originalName: String,
+        override val originalTitle: String,
         @Json(name = "overview")
-        val overview: String,
+        override val overview: String,
         @Json(name = "popularity")
-        val popularity: Double,
+        override val popularity: Double,
         @Json(name = "poster_path")
-        val posterPath: String?,
+        override val posterPath: String?,
+        @Json(name = "name")
+        override val title: String,
         @Json(name = "vote_average")
-        val voteAverage: Double,
+        override val voteAverage: Double,
         @Json(name = "vote_count")
-        val voteCount: Int
-    )
+        override val voteCount: Int
+    ) : ShowResult()
 }
