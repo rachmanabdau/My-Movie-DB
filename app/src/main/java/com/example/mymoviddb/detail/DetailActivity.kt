@@ -15,7 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.R
-import com.example.mymoviddb.adapters.MoviesAdapter
+import com.example.mymoviddb.adapters.PreviewShowAdapter
 import com.example.mymoviddb.adapters.TVAdapter
 import com.example.mymoviddb.databinding.ActivityDetailBinding
 import com.example.mymoviddb.home.PreloadLinearLayout
@@ -32,9 +32,9 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    private lateinit var recommendationMoviesAdapter: MoviesAdapter
+    private lateinit var recommendationMoviesAdapter: PreviewShowAdapter
 
-    private lateinit var similarMoviesAdapter: MoviesAdapter
+    private lateinit var similarMoviesAdapter: PreviewShowAdapter
 
     private lateinit var recommendationTVAdapter: TVAdapter
 
@@ -176,10 +176,10 @@ class DetailActivity : AppCompatActivity() {
     private fun initAdapter(showId: Long, showType: Int) {
         if (showType == DETAIL_MOVIE) {
             // Adapter for recommendation movies
-            recommendationMoviesAdapter = MoviesAdapter({
+            recommendationMoviesAdapter = PreviewShowAdapter({
                 detailViewModel.getRecommendationMovies(showId)
             }, {
-                setIntentDetail(it, showType)
+                setIntentDetail(it.id, showType)
             }, false)
 
             binding.recommendtaionDetailRv.adapter = recommendationMoviesAdapter
@@ -188,10 +188,10 @@ class DetailActivity : AppCompatActivity() {
                 PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
 
             // Adapter for similar movies
-            similarMoviesAdapter = MoviesAdapter({
+            similarMoviesAdapter = PreviewShowAdapter({
                 detailViewModel.getSimilarMovies(showId)
             }, {
-                setIntentDetail(it, showType)
+                setIntentDetail(it.id, showType)
             }, false)
 
             binding.similarDetailRv.adapter = similarMoviesAdapter
@@ -322,7 +322,7 @@ class DetailActivity : AppCompatActivity() {
             if (it is Result.Success) {
                 binding.detailToolbar.titleCustom.visibility = View.VISIBLE
                 it.data?.apply {
-                    binding.detailToolbar.titleCustom.text = name
+                    binding.detailToolbar.titleCustom.text = title
                 }
                 detailViewModel.getRecommendationTVShows(showId)
                 detailViewModel.getSimilarTVShows(showId)

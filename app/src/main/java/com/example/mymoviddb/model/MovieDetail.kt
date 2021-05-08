@@ -7,31 +7,31 @@ data class MovieDetail(
     @Json(name = "adult")
     val adult: Boolean,
     @Json(name = "backdrop_path")
-    val backdropPath: String?,
+    override val backdropPath: String?,
     @Json(name = "belongs_to_collection")
     val belongsToCollection: BelongsToCollection?,
     @Json(name = "budget")
     val budget: Int,
     @Json(name = "genres")
-    val genres: List<Genre>,
+    override val genres: List<Genre>,
     @Json(name = "homepage")
-    val homepage: String?,
+    override val homepage: String?,
     @Json(name = "id")
-    val id: Long,
+    override val id: Long,
     @Json(name = "imdb_id")
     val imdbId: String?,
     @Json(name = "original_language")
     val originalLanguage: String,
     @Json(name = "original_title")
-    val originalTitle: String,
+    override val originalTitle: String,
     @Json(name = "overview")
-    val overview: String,
+    override val overview: String,
     @Json(name = "popularity")
-    val popularity: Double,
+    override val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: String?,
+    override val posterPath: String?,
     @Json(name = "production_companies")
-    val productionCompanies: List<ProductionCompany>,
+    override val productionCompanies: List<ProductionCompany>,
     @Json(name = "production_countries")
     val productionCountries: List<ProductionCountry>,
     @Json(name = "release_date")
@@ -43,18 +43,18 @@ data class MovieDetail(
     @Json(name = "spoken_languages")
     val spokenLanguages: List<SpokenLanguage>,
     @Json(name = "status")
-    val status: String,
+    override val status: String,
     @Json(name = "tagline")
     val tagline: String,
     @Json(name = "title")
-    val title: String,
+    override val title: String,
     @Json(name = "video")
     val video: Boolean,
     @Json(name = "vote_average")
-    val voteAverage: Double,
+    override val voteAverage: Double,
     @Json(name = "vote_count")
-    val voteCount: Int
-) {
+    override val voteCount: Int
+) : ShowDetail() {
     data class BelongsToCollection(
         @Json(name = "backdrop_path")
         val backdropPath: String?,
@@ -64,24 +64,6 @@ data class MovieDetail(
         val name: String,
         @Json(name = "poster_path")
         val posterPath: String?
-    )
-
-    data class Genre(
-        @Json(name = "id")
-        val id: Int,
-        @Json(name = "name")
-        val name: String
-    )
-
-    data class ProductionCompany(
-        @Json(name = "id")
-        val id: Int,
-        @Json(name = "logo_path")
-        val logoPath: String?,
-        @Json(name = "name")
-        val name: String,
-        @Json(name = "origin_country")
-        val originCountry: String
     )
 
     data class ProductionCountry(

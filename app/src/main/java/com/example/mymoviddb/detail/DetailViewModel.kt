@@ -100,7 +100,7 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
                         val rate = (voteAverage * 10).toInt()
                         val genre = genres.joinToString { it.name }
                         _showDetail.value =
-                            DataDetailHelper(name, overview, rate, genre, posterPath, firstAirDate)
+                            DataDetailHelper(title, overview, rate, genre, posterPath, firstAirDate)
                         getTVAccountState(tvId, sessionId, apiKey)
                     }
                 }

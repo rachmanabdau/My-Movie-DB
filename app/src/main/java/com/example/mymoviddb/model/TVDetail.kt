@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 
 data class TVDetail(
     @Json(name = "backdrop_path")
-    val backdropPath: String?,
+    override val backdropPath: String?,
     @Json(name = "created_by")
     val createdBy: List<CreatedBy>,
     @Json(name = "episode_run_time")
@@ -13,11 +13,11 @@ data class TVDetail(
     @Json(name = "first_air_date")
     val firstAirDate: String,
     @Json(name = "genres")
-    val genres: List<Genre>,
+    override val genres: List<Genre>,
     @Json(name = "homepage")
-    val homepage: String?,
+    override val homepage: String?,
     @Json(name = "id")
-    val id: Long,
+    override val id: Long,
     @Json(name = "in_production")
     val inProduction: Boolean,
     @Json(name = "languages")
@@ -27,7 +27,7 @@ data class TVDetail(
     @Json(name = "last_episode_to_air")
     val lastEpisodeToAir: LastEpisodeToAir,
     @Json(name = "name")
-    val name: String,
+    override val title: String,
     @Json(name = "networks")
     val networks: List<Network>,
     @Json(name = "next_episode_to_air")
@@ -41,26 +41,26 @@ data class TVDetail(
     @Json(name = "original_language")
     val originalLanguage: String,
     @Json(name = "original_name")
-    val originalName: String,
+    override val originalTitle: String,
     @Json(name = "overview")
-    val overview: String,
+    override val overview: String,
     @Json(name = "popularity")
-    val popularity: Double,
+    override val popularity: Double,
     @Json(name = "poster_path")
-    val posterPath: String?,
+    override val posterPath: String?,
     @Json(name = "production_companies")
-    val productionCompanies: List<ProductionCompany>,
+    override val productionCompanies: List<ProductionCompany>,
     @Json(name = "seasons")
     val seasons: List<Season>,
     @Json(name = "status")
-    val status: String,
+    override val status: String,
     @Json(name = "type")
     val type: String,
     @Json(name = "vote_average")
-    val voteAverage: Double,
+    override val voteAverage: Double,
     @Json(name = "vote_count")
-    val voteCount: Int
-) {
+    override val voteCount: Int
+) : ShowDetail() {
     data class CreatedBy(
         @Json(name = "credit_id")
         val creditId: String,
@@ -72,13 +72,6 @@ data class TVDetail(
         val name: String,
         @Json(name = "profile_path")
         val profilePath: String?
-    )
-
-    data class Genre(
-        @Json(name = "id")
-        val id: Int,
-        @Json(name = "name")
-        val name: String
     )
 
     data class LastEpisodeToAir(
@@ -140,17 +133,6 @@ data class TVDetail(
         val voteAverage: Int,
         @Json(name = "vote_count")
         val voteCount: Int
-    )
-
-    data class ProductionCompany(
-        @Json(name = "id")
-        val id: Int,
-        @Json(name = "logo_path")
-        val logoPath: String?,
-        @Json(name = "name")
-        val name: String,
-        @Json(name = "origin_country")
-        val originCountry: String
     )
 
     data class Season(
