@@ -1,7 +1,6 @@
 package com.example.mymoviddb.model
 
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
@@ -46,5 +45,5 @@ data class MovieModel(
         override val voteAverage: Double,
         @Json(name = "vote_count")
         override val voteCount: Int
-    ) : ShowResult(), Parcelable
+    ) : ShowResult()
 }

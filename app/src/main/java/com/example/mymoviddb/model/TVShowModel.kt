@@ -2,6 +2,7 @@ package com.example.mymoviddb.model
 
 
 import com.squareup.moshi.Json
+import kotlinx.parcelize.Parcelize
 
 data class TVShowModel(
     @Json(name = "page")
@@ -13,6 +14,7 @@ data class TVShowModel(
     @Json(name = "total_results")
     override val totalResults: Int
 ) : ShowResponse() {
+    @Parcelize
     data class Result(
         @Json(name = "backdrop_path")
         override val backdropPath: String?,

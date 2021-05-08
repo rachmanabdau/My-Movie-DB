@@ -1,5 +1,7 @@
 package com.example.mymoviddb.model
 
+import android.os.Parcelable
+
 abstract class ShowResponse {
     abstract val page: Int
     abstract val results: List<ShowResult>
@@ -7,7 +9,7 @@ abstract class ShowResponse {
     abstract val totalResults: Int
 }
 
-abstract class ShowResult {
+abstract class ShowResult : Parcelable {
     abstract val backdropPath: String?
     abstract val genreIds: List<Int>
     abstract val id: Long
