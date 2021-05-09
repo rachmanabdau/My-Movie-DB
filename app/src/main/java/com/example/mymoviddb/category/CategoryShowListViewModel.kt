@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +8,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.mymoviddb.category.ICategoryShowListAccess
-import com.example.mymoviddb.category.MovieDataSource
-import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -18,29 +15,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    private val categoryMovieListAccess: ICategoryShowListAccess
-) : ViewModel() {
+class CategoryShowListViewModel @Inject constructor(
+    private val categoryShowListAccess: ICategoryShowListAccess
+) :
+    ViewModel() {
 
     private val _showPageData = MutableLiveData<PagingData<ShowResult>>()
     val showPageData: LiveData<PagingData<ShowResult>> = _showPageData
 
-    fun searchShow(categoryId: ShowCategoryIndex, title: String) {
+    fun getShowCategory(categoryId: ShowCategoryIndex) {
         if (categoryId.index < 21) {
-            searchMovieData(categoryId, title)
+            getMovieData(categoryId)
         } else {
-            searchTVData(categoryId, title)
+            getTVData(categoryId)
         }
     }
 
-    private fun searchMovieData(categoryId: ShowCategoryIndex, title: String = "") {
+    private fun getMovieData(categoryId: ShowCategoryIndex, title: String = "") {
         viewModelScope.launch {
             Pager(
                 // Configure how data is loaded by passing additional properties to
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSource(categoryMovieListAccess, categoryId, title)
+                MovieDataSource(categoryShowListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it
@@ -48,19 +46,18 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun searchTVData(categoryId: ShowCategoryIndex, title: String = "") {
+    private fun getTVData(categoryId: ShowCategoryIndex, title: String = "") {
         viewModelScope.launch {
             Pager(
                 // Configure how data is loaded by passing additional properties to
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSource(categoryMovieListAccess, categoryId, title)
+                MovieDataSource(categoryShowListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it
                 }
         }
     }
-
 }

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -15,12 +14,10 @@ import androidx.navigation.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.R
-import com.example.mymoviddb.adapters.MovieListAdapterV3
+import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
-import com.example.mymoviddb.category.movie.MovieDataSource
+import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.category.movie.StateAdapter
-import com.example.mymoviddb.category.tv.TVDataSource
-import com.example.mymoviddb.category.tv.TVListAdapterV3
 import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,15 +30,13 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    private lateinit var movieAdapter: MovieListAdapterV3
-
-    private lateinit var tvAdapter: TVListAdapterV3
+    private lateinit var showAdapter: CategoryShowAdapter
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
     private val args by navArgs<SearchActivityArgs>()
 
-    private var id = 0
+    private var id = ShowCategoryIndex.SEARCH_MOVIES
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +45,8 @@ class SearchActivity : AppCompatActivity() {
         id = args.searchID
 
         setupToolbar()
-        initAdapter(id)
+        //initAdapter()
+        observeSearchMovies()
         handleIntent(intent)
 
         // Get the SearchView and set the searchable configuration
@@ -83,18 +79,7 @@ class SearchActivity : AppCompatActivity() {
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 if (query.isNotBlank()) {
-                    if (id == MovieDataSource.SEARCH_MOVIES) {
-                        binding.tvRv.visibility = View.GONE
-
-                        searchViewModel.searchMovieData(
-                            MovieDataSource.SEARCH_MOVIES,
-                            query.trim()
-                        )
-                    } else if (id == TVDataSource.SEARCH_TV) {
-                        binding.moviesRv.visibility = View.GONE
-
-                        searchViewModel.searchTVData(TVDataSource.SEARCH_TV, query.trim())
-                    }
+                    searchViewModel.searchShow(id, query.trim())
                 }
                 binding.searchView.setQuery(query, false)
             }
@@ -102,67 +87,42 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun observeSearchMovies() {
-
-        searchViewModel.moviePageData.observe(this, {
+        initAdapter()
+        searchViewModel.showPageData.observe(this, {
             lifecycleScope.launch {
-                movieAdapter.submitData(it)
+                showAdapter.submitData(it)
             }
         })
     }
 
-    private fun observeSearchTV() {
-        searchViewModel.tvPageData.observe(this, {
-            lifecycleScope.launch {
-                tvAdapter.submitData(it)
-            }
-        })
-    }
-
-    private fun initAdapter(id: Int) {
+    private fun initAdapter() {
         binding.shimmerPlaceholderSearchAct.shimmerPlaceholder.apply {
             adapter = PlaceHolderAdapter()
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
-        if (id == 31) {
-            // when id is to earch movie set movie adapter
-            movieAdapter = MovieListAdapterV3 {
-                setIntentDetail(it, DetailActivity.DETAIL_MOVIE)
-            }.apply {
 
-                lifecycleScope.launch {
-                    loadStateFlow.collectLatest {
-                        handleLoadState(it.refresh) {
-                            retry()
-                        }
+        // when id is to earch movie set movie adapter
+        showAdapter = CategoryShowAdapter {
+            setIntentDetail(it.id, DetailActivity.DETAIL_MOVIE)
+        }.apply {
+
+            lifecycleScope.launch {
+                loadStateFlow.collectLatest {
+                    handleLoadState(it.refresh) {
+                        retry()
                     }
                 }
             }
-
-            binding.moviesRv.adapter = movieAdapter.apply {
-                withLoadStateHeaderAndFooter(
-                    header = StateAdapter(movieAdapter::retry),
-                    footer = StateAdapter(movieAdapter::retry)
-                )
-            }
-
-            observeSearchMovies()
-        } else {
-            // else set tv adapter
-            tvAdapter = TVListAdapterV3 {
-                setIntentDetail(it, DetailActivity.DETAIL_TV)
-            }.apply {
-                lifecycleScope.launch {
-                    loadStateFlow.collectLatest {
-                        handleLoadState(it.refresh) {
-                            retry()
-                        }
-                    }
-                }
-            }
-
-            binding.tvRv.adapter = tvAdapter
-            observeSearchTV()
         }
+
+        binding.moviesRv.adapter = showAdapter.apply {
+            withLoadStateHeaderAndFooter(
+                header = StateAdapter(showAdapter::retry),
+                footer = StateAdapter(showAdapter::retry)
+            )
+        }
+
+        //observeSearchMovies()
     }
 
     private fun setupToolbar() {

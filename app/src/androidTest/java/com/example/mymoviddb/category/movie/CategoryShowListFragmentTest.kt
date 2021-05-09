@@ -11,6 +11,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
+import com.example.mymoviddb.category.CategoryShowListFragment
+import com.example.mymoviddb.category.MovieDataSource
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
@@ -32,7 +34,7 @@ import org.mockito.Mockito
 @UninstallModules(ServiceModule::class)
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class CategoryMovieListFragmentTest {
+class CategoryShowListFragmentTest {
     @get:Rule
     var hiltRulehiltRule = HiltAndroidRule(this)
 
@@ -55,7 +57,7 @@ class CategoryMovieListFragmentTest {
         MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
         val bundle =
             CategoryMovieListFragmentArgs(R.string.popular_movie_list_contentDesc).toBundle()
-        launchFragmentInHiltContainer<CategoryMovieListFragment>(bundle, R.style.AppTheme) {
+        launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }
 
@@ -83,7 +85,7 @@ class CategoryMovieListFragmentTest {
         MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
         val bundle =
             CategoryMovieListFragmentArgs(R.string.now_playing_movie_list_contentDesc).toBundle()
-        launchFragmentInHiltContainer<CategoryMovieListFragment>(bundle, R.style.AppTheme) {
+        launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }
 

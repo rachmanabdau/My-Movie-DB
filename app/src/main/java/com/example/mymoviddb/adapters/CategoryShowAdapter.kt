@@ -6,48 +6,48 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.databinding.MovieListItemBinding
-import com.example.mymoviddb.model.MovieModel
+import com.example.mymoviddb.model.ShowResult
 
-class MovieListAdapterV3(private val actionDetail: (Long) -> Unit) :
-    PagingDataAdapter<MovieModel.Result, ShowViewHolder>(DiffUtilCallback) {
+class CategoryShowAdapter(private val actionDetail: (ShowResult) -> Unit) :
+    PagingDataAdapter<ShowResult, CategoryShowViewHolder>(DiffUtilCallback) {
 
-    companion object DiffUtilCallback : DiffUtil.ItemCallback<MovieModel.Result>() {
+    companion object DiffUtilCallback : DiffUtil.ItemCallback<ShowResult>() {
         override fun areItemsTheSame(
-            oldItem: MovieModel.Result,
-            newItem: MovieModel.Result
+            oldItem: ShowResult,
+            newItem: ShowResult
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: MovieModel.Result,
-            newItem: MovieModel.Result
+            oldItem: ShowResult,
+            newItem: ShowResult
         ): Boolean {
             return oldItem == newItem
         }
 
     }
 
-    override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryShowViewHolder, position: Int) {
         val data = getItem(position)
         holder.onBind(data, actionDetail)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryShowViewHolder {
         val view = MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ShowViewHolder(view)
+        return CategoryShowViewHolder(view)
     }
 }
 
-class ShowViewHolder(private val binding: MovieListItemBinding) :
+class CategoryShowViewHolder(private val binding: MovieListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: MovieModel.Result?, actionDetail: (Long) -> Unit) {
+    fun onBind(data: ShowResult?, actionDetail: (ShowResult) -> Unit) {
         if (data != null) {
             binding.show = data
             binding.rating = (data.voteAverage * 10).toInt()
             binding.cardMovieListItem.setOnClickListener {
-                actionDetail(data.id)
+                actionDetail(data)
             }
         }
     }

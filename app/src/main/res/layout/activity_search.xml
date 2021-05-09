@@ -50,16 +50,6 @@
             app:layout_constraintTop_toBottomOf="@id/search_toolbar"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tv_rv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/tv_list_item"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
         <include
             android:id="@+id/shimmer_placeholder_search_act"
             layout="@layout/shimmer_recyclerview"

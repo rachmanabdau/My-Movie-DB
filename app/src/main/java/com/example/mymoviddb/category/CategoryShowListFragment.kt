@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.tv
+package com.example.mymoviddb.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,42 +14,42 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
-import com.example.mymoviddb.databinding.FragmentCategoryTvBinding
+import com.example.mymoviddb.databinding.FragmentCategoryShowListBinding
 import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CategoryTvFragment : Fragment() {
+class CategoryShowListFragment : Fragment() {
 
-    private lateinit var binding: FragmentCategoryTvBinding
+    private lateinit var binding: FragmentCategoryShowListBinding
 
-    private val arguments by navArgs<CategoryTvFragmentArgs>()
+    private val arguments by navArgs<CategoryShowListFragmentArgs>()
 
-    private val categoryTvViewmodel by viewModels<CategoryTVViewModel>()
+    private val showViewModels by viewModels<CategoryShowListViewModel>()
 
-    private lateinit var adapter: TVListAdapterV3
+    private lateinit var adapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        binding = FragmentCategoryTvBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
+        binding = FragmentCategoryShowListBinding.inflate(inflater, container, false)
         setUpToolbar(arguments.title)
-        setupAdapter()
         binding.lifecycleOwner = this
+        setupAdapter()
 
-        categoryTvViewmodel.getTVData(arguments.categoryId)
-        categoryTvViewmodel.tvPageData.observe(viewLifecycleOwner, {
-            viewLifecycleOwner.lifecycleScope.launch {
+        showViewModels.getShowCategory(arguments.categoryId)
+        showViewModels.showPageData.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
                 adapter.submitData(it)
             }
-        })
+        }
+
         return binding.root
     }
 
@@ -59,21 +59,21 @@ class CategoryTvFragment : Fragment() {
 
     private fun setupAdapter() {
         val placeholderAdapter = PlaceHolderAdapter()
-        binding.shimmerPlaceholderCategoryTv.shimmerPlaceholder.adapter = placeholderAdapter
-        binding.shimmerPlaceholderCategoryTv.shimmerPlaceholder.layoutManager =
+        binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.adapter = placeholderAdapter
+        binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = TVListAdapterV3 {
+        adapter = CategoryShowAdapter {
             findNavController().navigate(
-                CategoryTvFragmentDirections.actionCategoryTvFragmentToDetailActivity(
-                    DetailActivity.DETAIL_TV, it
+                CategoryShowListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
+                    DetailActivity.DETAIL_MOVIE, it.id
                 )
             )
         }.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 loadStateFlow.collectLatest { loadState ->
                     // show shimmer place holder when in loading state
-                    binding.shimmerPlaceholderCategoryTv.root.isVisible =
+                    binding.shimmerPlaceholderCategoryMovie.root.isVisible =
                         loadState.refresh is LoadState.Loading
                     // show error message and try agian button when in error state
                     binding.errorLayout.root.isVisible = loadState.refresh is LoadState.Error
@@ -88,5 +88,4 @@ class CategoryTvFragment : Fragment() {
             header = StateAdapter(adapter::retry), footer = StateAdapter(adapter::retry)
         )
     }
-
 }

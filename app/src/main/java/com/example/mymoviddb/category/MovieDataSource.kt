@@ -1,41 +1,37 @@
-package com.example.mymoviddb.category.movie
+package com.example.mymoviddb.category
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.MovieModel
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.model.ShowResponse
+import com.example.mymoviddb.model.ShowResult
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 
 class MovieDataSource(
-    private val networkService: ICategoryMovieListAccess,
-    private val categoryId: Int,
+    private val networkService: ICategoryShowListAccess,
+    private val categoryId: ShowCategoryIndex,
     private val title: String
-) : PagingSource<Int, MovieModel.Result>() {
+) : PagingSource<Int, ShowResult>() {
 
-    companion object {
-        const val POPULAR_MOVIE_ID = 1
-        const val NOW_PLAYING_MOVIE_ID = 2
-        const val SEARCH_MOVIES = 31
-    }
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieModel.Result> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ShowResult> {
         // Start refresh at page 1 if undefined.
         wrapEspressoIdlingResource {
             val nextPageNumber = params.key ?: 1
             return try {
-                val movieResult: Result<MovieModel?> =
-                    movieData(categoryId, nextPageNumber, networkService)
+                val showResult: Result<ShowResponse?> =
+                    getShowData(categoryId, nextPageNumber, networkService)
 
-                if (movieResult is Result.Success) {
-                    val movieList = movieResult.data?.results ?: emptyList()
+
+                if (showResult is Result.Success) {
+                    val movieList = showResult.data?.results ?: emptyList()
                     LoadResult.Page(
                         data = movieList,
                         prevKey = null,
                         nextKey = nextPageNumber + 1
                     )
                 } else {
-                    LoadResult.Error(Exception(getErrorMessage(movieResult)))
+                    LoadResult.Error(Exception(getErrorMessage(showResult)))
                 }
             } catch (e: Exception) {
                 LoadResult.Error(e)
@@ -43,7 +39,7 @@ class MovieDataSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, MovieModel.Result>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, ShowResult>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
@@ -58,20 +54,29 @@ class MovieDataSource(
         }
     }
 
-    private suspend fun movieData(
-        categoryId: Int,
+    private suspend fun getShowData(
+        categoryId: ShowCategoryIndex,
         pageNumber: Int,
-        networkService: ICategoryMovieListAccess
-    ): Result<MovieModel?> {
+        networkService: ICategoryShowListAccess
+    ): Result<ShowResponse?> {
         return when {
-            categoryId == SEARCH_MOVIES && title.isNotBlank() -> {
+            categoryId == ShowCategoryIndex.SEARCH_MOVIES && title.isNotBlank() -> {
                 networkService.searchMovies(title, pageNumber, BuildConfig.V3_AUTH)
             }
-            categoryId == POPULAR_MOVIE_ID -> {
+            categoryId == ShowCategoryIndex.POPULAR_MOVIES -> {
                 networkService.getPopularMovieList(pageNumber, BuildConfig.V3_AUTH)
             }
-            categoryId == NOW_PLAYING_MOVIE_ID -> {
+            categoryId == ShowCategoryIndex.NOW_PLAYING_MOVIES -> {
                 networkService.getNowPlayingMovieList(pageNumber, BuildConfig.V3_AUTH)
+            }
+            categoryId == ShowCategoryIndex.SEARCH_TV_SHOWS && title.isNotBlank() -> {
+                networkService.searchTvShowList(title, pageNumber, BuildConfig.V3_AUTH)
+            }
+            categoryId == ShowCategoryIndex.POPULAR_TV_SHOWS -> {
+                networkService.getPopularTvShowList(pageNumber, BuildConfig.V3_AUTH)
+            }
+            categoryId == ShowCategoryIndex.ON_AIR_TV_SHOWS -> {
+                networkService.getOnAirTvShowList(pageNumber, BuildConfig.V3_AUTH)
             }
             else -> {
                 Result.Success(null)
