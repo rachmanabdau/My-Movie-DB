@@ -538,7 +538,7 @@ class DetailAccessTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            TVShowModel::class.java
+                            PreviewTvShow::class.java
                         )
                     )
                 )
@@ -601,7 +601,7 @@ class DetailAccessTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            TVShowModel::class.java
+                            PreviewTvShow::class.java
                         )
                     )
                 )

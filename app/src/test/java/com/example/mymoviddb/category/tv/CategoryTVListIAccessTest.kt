@@ -3,9 +3,9 @@ package com.example.mymoviddb.category.tv
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,7 +36,7 @@ class CategoryTVListIAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(TVShowModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
                 )
             }
 
@@ -74,7 +74,7 @@ class CategoryTVListIAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(TVShowModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
                 )
             }
 
@@ -112,7 +112,7 @@ class CategoryTVListIAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(TVShowModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isNotEmpty(),
@@ -135,7 +135,7 @@ class CategoryTVListIAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(TVShowModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isEmpty(),

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.databinding.LoadMoreItemBinding
 import com.example.mymoviddb.databinding.TvItemBinding
-import com.example.mymoviddb.model.TVShowModel
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.utils.LoadMoreViewHolder
 
 class TVAdapter(
@@ -15,22 +15,22 @@ class TVAdapter(
     private val detailAction: (Long) -> Unit,
     private val showLoadMore: Boolean = true
 ) :
-    ListAdapter<TVShowModel.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
+    ListAdapter<PreviewTvShow.Result, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
     private val loadMoreType = 0
     private val tvShowType = 1
 
-    companion object DiffUtilCallback : DiffUtil.ItemCallback<TVShowModel.Result>() {
+    companion object DiffUtilCallback : DiffUtil.ItemCallback<PreviewTvShow.Result>() {
         override fun areItemsTheSame(
-            oldItem: TVShowModel.Result,
-            newItem: TVShowModel.Result
+            oldItem: PreviewTvShow.Result,
+            newItem: PreviewTvShow.Result
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: TVShowModel.Result,
-            newItem: TVShowModel.Result
+            oldItem: PreviewTvShow.Result,
+            newItem: PreviewTvShow.Result
         ): Boolean {
             return oldItem == newItem
         }
@@ -69,7 +69,7 @@ class TVAdapter(
 class TVShowViewHolder(private val binding: TvItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: TVShowModel.Result, detailAction: (Long) -> Unit) {
+    fun onBind(data: PreviewTvShow.Result, detailAction: (Long) -> Unit) {
         binding.popularTv = data
         binding.rating = (data.voteAverage * 10).toInt()
         binding.tvCardItem.setOnClickListener {

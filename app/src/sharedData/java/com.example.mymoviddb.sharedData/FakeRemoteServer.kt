@@ -202,15 +202,18 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
-    override fun getPopularTvShowAsync(page: Int, apiKey: String): Deferred<Response<TVShowModel>> {
+    override fun getPopularTvShowAsync(
+        page: Int,
+        apiKey: String
+    ): Deferred<Response<PreviewTvShow>> {
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(TVShowModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as TVShowModel
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as PreviewTvShow
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -228,15 +231,15 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
-    override fun getOnAirTvShowAsync(page: Int, apiKey: String): Deferred<Response<TVShowModel>> {
+    override fun getOnAirTvShowAsync(page: Int, apiKey: String): Deferred<Response<PreviewTvShow>> {
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(TVShowModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(onAirTVResponse) as TVShowModel
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(onAirTVResponse) as PreviewTvShow
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -300,15 +303,15 @@ class FakeRemoteServer : NetworkService {
         title: String,
         page: Int,
         apiKey: String
-    ): Deferred<Response<TVShowModel>> {
+    ): Deferred<Response<PreviewTvShow>> {
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(TVShowModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as TVShowModel
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as PreviewTvShow
 
         return when {
             apiKey == realApiKey && title.isNotBlank() -> {
@@ -317,7 +320,7 @@ class FakeRemoteServer : NetworkService {
 
             }
             apiKey == realApiKey && title.isBlank() -> {
-                val emptyMovies = TVShowModel(
+                val emptyMovies = PreviewTvShow(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -516,7 +519,7 @@ class FakeRemoteServer : NetworkService {
     override fun getRecommendationTVShowsAsync(
         tvId: Long,
         apiKey: String
-    ): Deferred<Response<TVShowModel>> {
+    ): Deferred<Response<PreviewTvShow>> {
 
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
@@ -524,8 +527,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(TVShowModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(recommendationTVShowsResponse) as TVShowModel
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(recommendationTVShowsResponse) as PreviewTvShow
 
         return when {
             // api key is valid and title is not blank return response success
@@ -536,7 +539,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && tvId != 62286L -> {
-                val emptyMovies = TVShowModel(
+                val emptyMovies = PreviewTvShow(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -558,7 +561,7 @@ class FakeRemoteServer : NetworkService {
     override fun getSimilarTVShowsAsync(
         tvId: Long,
         apiKey: String
-    ): Deferred<Response<TVShowModel>> {
+    ): Deferred<Response<PreviewTvShow>> {
 
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
@@ -566,8 +569,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(TVShowModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(similarTVShowsResponse) as TVShowModel
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(similarTVShowsResponse) as PreviewTvShow
 
         return when {
             // api key is valid and title is not blank return response success
@@ -578,7 +581,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && tvId != 62286L -> {
-                val emptyMovies = TVShowModel(
+                val emptyMovies = PreviewTvShow(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )

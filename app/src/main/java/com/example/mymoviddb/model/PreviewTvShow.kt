@@ -4,7 +4,7 @@ package com.example.mymoviddb.model
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
-data class TVShowModel(
+data class PreviewTvShow(
     @Json(name = "page")
     override val page: Int,
     @Json(name = "results")

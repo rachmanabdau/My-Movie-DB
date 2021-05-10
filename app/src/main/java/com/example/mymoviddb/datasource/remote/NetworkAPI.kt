@@ -66,13 +66,13 @@ interface NetworkService {
     fun getPopularTvShowAsync(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<TVShowModel>>
+    ): Deferred<Response<PreviewTvShow>>
 
     @GET("tv/on_the_air")
     fun getOnAirTvShowAsync(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<TVShowModel>>
+    ): Deferred<Response<PreviewTvShow>>
 
     @GET("search/movie")
     fun searchMoviesAsync(
@@ -86,7 +86,7 @@ interface NetworkService {
         @Query("query") title: String,
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<TVShowModel>>
+    ): Deferred<Response<PreviewTvShow>>
 
     @GET("movie/{movie_id}")
     fun getDetailhMoviesAsync(
@@ -116,13 +116,13 @@ interface NetworkService {
     fun getRecommendationTVShowsAsync(
         @Path("tv_id") tvId: Long,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<TVShowModel>>
+    ): Deferred<Response<PreviewTvShow>>
 
     @GET("tv/{tv_id}/similar")
     fun getSimilarTVShowsAsync(
         @Path("tv_id") tvId: Long,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<TVShowModel>>
+    ): Deferred<Response<PreviewTvShow>>
 
     @GET("account")
     fun getAccountDetailAsync(

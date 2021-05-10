@@ -13,9 +13,9 @@ interface IDetailAccess {
 
     suspend fun getDetailTV(tvId: Long, apiKey: String): Result<TVDetail?>
 
-    suspend fun getRecommendationTVShows(tvId: Long, apiKey: String): Result<TVShowModel?>
+    suspend fun getRecommendationTVShows(tvId: Long, apiKey: String): Result<PreviewTvShow?>
 
-    suspend fun getSimilarTVShows(tvId: Long, apiKey: String): Result<TVShowModel?>
+    suspend fun getSimilarTVShows(tvId: Long, apiKey: String): Result<PreviewTvShow?>
 
     suspend fun getMovieAuthState(
         movieId: Long,

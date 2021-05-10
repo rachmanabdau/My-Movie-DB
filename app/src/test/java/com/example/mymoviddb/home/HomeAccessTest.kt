@@ -3,9 +3,9 @@ package com.example.mymoviddb.home
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.model.PreviewMovie
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -107,7 +107,7 @@ class HomeAccessTest {
     fun `get popular tv show list with valid api key result success`() = runBlockingTest {
         when (val result = access.getPopularTvShowList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(TVShowModel::class.java)))
+                assertThat(result.data, `is`(notNullValue(PreviewTvShow::class.java)))
             }
 
             is Result.Loading -> {
@@ -142,7 +142,7 @@ class HomeAccessTest {
     fun `get on air tv show list with valid api key result success`() = runBlockingTest {
         when (val result = access.getOnAirTvShowList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(TVShowModel::class.java)))
+                assertThat(result.data, `is`(notNullValue(PreviewTvShow::class.java)))
             }
 
             is Result.Loading -> {

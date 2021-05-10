@@ -8,7 +8,7 @@
 
         <variable
             name="show"
-            type="com.example.mymoviddb.model.TVShowModel.Result" />
+            type="com.example.mymoviddb.model.PreviewTvShow.Result" />
 
         <variable
             name="rating"

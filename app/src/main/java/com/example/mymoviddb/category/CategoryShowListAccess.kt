@@ -2,8 +2,8 @@ package com.example.mymoviddb.category
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.model.PreviewMovie
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
@@ -63,7 +63,7 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
         }
     }
 
-    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val movieResult = access.getPopularTvShowAsync(page, apiKey).await()
@@ -79,7 +79,7 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
         }
     }
 
-    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val movieResult = access.getOnAirTvShowAsync(page, apiKey).await()
@@ -99,7 +99,7 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
         title: String,
         page: Int,
         apiKey: String
-    ): Result<TVShowModel?> {
+    ): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val movieResult = access.searchTvShowsAsync(title, page, apiKey).await()

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.PreviewMovie
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.model.succeeded
 import com.example.mymoviddb.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,11 +26,11 @@ class HomeViewModel @Inject constructor(
     private val _nowPlayingMovieList = MutableLiveData<Result<PreviewMovie?>>()
     val nowPlayingMovieList: LiveData<Result<PreviewMovie?>> = _nowPlayingMovieList
 
-    private val _popularTVList = MutableLiveData<Result<TVShowModel?>>()
-    val popularTVList: LiveData<Result<TVShowModel?>> = _popularTVList
+    private val _popularTVList = MutableLiveData<Result<PreviewTvShow?>>()
+    val popularTVList: LiveData<Result<PreviewTvShow?>> = _popularTVList
 
-    private val _onAirTVList = MutableLiveData<Result<TVShowModel?>>()
-    val onAirTVList: LiveData<Result<TVShowModel?>> = _onAirTVList
+    private val _onAirTVList = MutableLiveData<Result<PreviewTvShow?>>()
+    val onAirTVList: LiveData<Result<PreviewTvShow?>> = _onAirTVList
 
     private val _showPopularMovieError = MutableLiveData(false)
     val showPopularMovieError: LiveData<Boolean>

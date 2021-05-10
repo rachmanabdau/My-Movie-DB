@@ -2,8 +2,8 @@ package com.example.mymoviddb.home
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.model.PreviewMovie
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class HomeAccess @Inject constructor(private val access: NetworkService) : IHome
         }
     }
 
-    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getPopularTvShowAsync(page, apiKey).await()
@@ -58,7 +58,7 @@ class HomeAccess @Inject constructor(private val access: NetworkService) : IHome
         }
     }
 
-    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getOnAirTvShowAsync(page, apiKey).await()

@@ -4,8 +4,8 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.model.PreviewMovie
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.TVShowModel
 
 class FakeHomeServer : IHomeAccess {
 
@@ -45,13 +45,13 @@ class FakeHomeServer : IHomeAccess {
         }
     }
 
-    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         return if (apiKey == BuildConfig.V3_AUTH) {
-            val jsonConverter = moshi.adapter(TVShowModel::class.java)
+            val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.popularTvResponse) as TVShowModel
+                jsonConverter.fromJson(FakeRemoteServer.popularTvResponse) as PreviewTvShow
             Result.Success(
-                TVShowModel(
+                PreviewTvShow(
                     page = 1, totalPages = 100, totalResults = 1000,
                     results = responseSuccess.results
                 )
@@ -63,13 +63,13 @@ class FakeHomeServer : IHomeAccess {
         }
     }
 
-    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<TVShowModel?> {
+    override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         return if (apiKey == BuildConfig.V3_AUTH) {
-            val jsonConverter = moshi.adapter(TVShowModel::class.java)
+            val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.onAirTVResponse) as TVShowModel
+                jsonConverter.fromJson(FakeRemoteServer.onAirTVResponse) as PreviewTvShow
             Result.Success(
-                TVShowModel(
+                PreviewTvShow(
                     page = 1, totalPages = 100, totalResults = 1000,
                     results = responseSuccess.results
                 )
