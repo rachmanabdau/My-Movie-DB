@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
 import com.example.mymoviddb.category.CategoryShowListFragment
-import com.example.mymoviddb.category.MovieDataSource
+import com.example.mymoviddb.category.ShowDataSource
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
@@ -54,7 +54,7 @@ class CategoryShowListFragmentTest {
         val navController = Mockito.mock(NavController::class.java)
 
         // Launch Home Fragment
-        MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
+        ShowDataSource.MOVIE_CATEGORY_ID = ShowDataSource.POPULAR_MOVIE_ID
         val bundle =
             CategoryMovieListFragmentArgs(R.string.popular_movie_list_contentDesc).toBundle()
         launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {
@@ -82,7 +82,7 @@ class CategoryShowListFragmentTest {
         val navController = Mockito.mock(NavController::class.java)
 
         // Launch Home Fragment
-        MovieDataSource.MOVIE_CATEGORY_ID = MovieDataSource.POPULAR_MOVIE_ID
+        ShowDataSource.MOVIE_CATEGORY_ID = ShowDataSource.POPULAR_MOVIE_ID
         val bundle =
             CategoryMovieListFragmentArgs(R.string.now_playing_movie_list_contentDesc).toBundle()
         launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {

@@ -7,22 +7,22 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.R
 import com.example.mymoviddb.databinding.FavouriteItemBinding
-import com.example.mymoviddb.model.FavouriteAndWatchListShow
+import com.example.mymoviddb.model.ShowResult
 
 class FavouriteAdapter(private val actionDetail: (Long) -> Unit) :
-    PagingDataAdapter<FavouriteAndWatchListShow.Result, FavouriteViewHolder>(DiffUtil) {
+    PagingDataAdapter<ShowResult, FavouriteViewHolder>(DiffUtil) {
 
-    companion object DiffUtil : ItemCallback<FavouriteAndWatchListShow.Result>() {
+    companion object DiffUtil : ItemCallback<ShowResult>() {
         override fun areItemsTheSame(
-            oldItem: FavouriteAndWatchListShow.Result,
-            newItem: FavouriteAndWatchListShow.Result
+            oldItem: ShowResult,
+            newItem: ShowResult
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: FavouriteAndWatchListShow.Result,
-            newItem: FavouriteAndWatchListShow.Result
+            oldItem: ShowResult,
+            newItem: ShowResult
         ): Boolean {
             return oldItem == newItem
         }
@@ -44,14 +44,14 @@ class FavouriteAdapter(private val actionDetail: (Long) -> Unit) :
 class FavouriteViewHolder(private val binding: FavouriteItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: FavouriteAndWatchListShow.Result?, actionDetail: (Long) -> Unit) {
+    fun onBind(data: ShowResult?, actionDetail: (Long) -> Unit) {
         data?.let {
             val context = binding.root.context
             binding.favouriteData = data
-            binding.titleFavouriteItem.text = it.tvName ?: it.movieTitle
+            binding.titleFavouriteItem.text = data.title
             binding.showPosterFavouriteItem.contentDescription = context.getString(
                 R.string.movie_content_description,
-                binding.titleFavouriteItem.text.toString()
+                data.title
             )
 
             binding.favouriteItemCardContainer.setOnClickListener {

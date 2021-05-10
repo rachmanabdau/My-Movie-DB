@@ -8,7 +8,7 @@ import com.example.mymoviddb.model.ShowResponse
 import com.example.mymoviddb.model.ShowResult
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 
-class MovieDataSource(
+class ShowDataSource(
     private val networkService: ICategoryShowListAccess,
     private val categoryId: ShowCategoryIndex,
     private val title: String

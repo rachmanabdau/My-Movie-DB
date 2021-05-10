@@ -28,17 +28,17 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
     private val _movieDetail = MutableLiveData<Result<MovieDetail?>>(Result.Loading)
     val movieDetail: LiveData<Result<MovieDetail?>> = _movieDetail
 
-    private val _recommendationMovies = MutableLiveData<Result<MovieModel?>>()
-    val recommendationMovies: LiveData<Result<MovieModel?>> = _recommendationMovies
+    private val _recommendationMovies = MutableLiveData<Result<PreviewMovie?>>()
+    val recommendationMovies: LiveData<Result<PreviewMovie?>> = _recommendationMovies
 
-    private val _similarMovies = MutableLiveData<Result<MovieModel?>>()
-    val similarMovies: LiveData<Result<MovieModel?>> = _similarMovies
+    private val _similarMovies = MutableLiveData<Result<PreviewMovie?>>()
+    val similarMovies: LiveData<Result<PreviewMovie?>> = _similarMovies
 
-    private val _recommendationTVShows = MutableLiveData<Result<TVShowModel?>>()
-    val recommendationTVShows: LiveData<Result<TVShowModel?>> = _recommendationTVShows
+    private val _recommendationTVShows = MutableLiveData<Result<PreviewTvShow?>>()
+    val recommendationTVShows: LiveData<Result<PreviewTvShow?>> = _recommendationTVShows
 
-    private val _similarTVShows = MutableLiveData<Result<TVShowModel?>>()
-    val similarTVShows: LiveData<Result<TVShowModel?>> = _similarTVShows
+    private val _similarTVShows = MutableLiveData<Result<PreviewTvShow?>>()
+    val similarTVShows: LiveData<Result<PreviewTvShow?>> = _similarTVShows
 
     private val _tvDetail = MutableLiveData<Result<TVDetail?>>()
     val tvDetail: LiveData<Result<TVDetail?>> = _tvDetail

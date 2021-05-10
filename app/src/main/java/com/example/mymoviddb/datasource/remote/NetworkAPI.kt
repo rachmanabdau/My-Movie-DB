@@ -159,15 +159,23 @@ interface NetworkService {
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
     ): Deferred<Response<ResponsedBackend>>
 
-    @GET("account/{account_id}/favorite/{show_type}")
-    fun getFavoriteAsync(
+    @GET("account/{account_id}/favorite/movies")
+    fun getFavoriteMoviesAsync(
         @Path("account_id") accountId: Int,
-        @Path("show_type") showType: String,
         @Query("session_id") sessionId: String,
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<FavouriteAndWatchListShow>>
+    ): Deferred<Response<PreviewMovie>>
+
+    @GET("account/{account_id}/favorite/tv")
+    fun getFavoriteTvShowAsync(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+        @Query("page") page: Int,
+        @Query("sort_by") sortBy: String = "created_at.desc",
+        @Query("api_key") apiKey: String = V3_AUTH
+    ): Deferred<Response<PreviewTvShow>>
 
     @POST("account/{account_id}/watchlist")
     fun addToWatchListAsync(
@@ -178,15 +186,23 @@ interface NetworkService {
         @Header("Content-Type") contentType: String = "application/json;charset=utf-8"
     ): Deferred<Response<ResponsedBackend>>
 
-    @GET("account/{account_id}/watchlist/{show_type}")
-    fun getWatchListAsync(
+    @GET("account/{account_id}/watchlist/movies")
+    fun getWatchListMoviesAsync(
         @Path("account_id") accountId: Int,
-        @Path("show_type") showType: String,
         @Query("session_id") sessionId: String,
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<FavouriteAndWatchListShow>>
+    ): Deferred<Response<PreviewMovie>>
+
+    @GET("account/{account_id}/watchlist/tv")
+    fun getWatchListTvShowsAsync(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+        @Query("page") page: Int,
+        @Query("sort_by") sortBy: String = "created_at.desc",
+        @Query("api_key") apiKey: String = V3_AUTH
+    ): Deferred<Response<PreviewTvShow>>
 }
 
 object NetworkAPI {

@@ -14,8 +14,8 @@ import androidx.paging.LoadState
 import com.example.mymoviddb.R
 import com.example.mymoviddb.account.AccountShowViewModel
 import com.example.mymoviddb.account.ResultHandler
-import com.example.mymoviddb.account.paging.AccountShowDatasource
 import com.example.mymoviddb.adapters.FavouriteAdapter
+import com.example.mymoviddb.category.AccountShowCategoryIndex
 import com.example.mymoviddb.databinding.FragmentWatchListMovieBinding
 import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,10 +47,10 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
         val adapter = setupAdapter()
         binding.watchlistRv.adapter = adapter
         binding.watchlistSwipeRefresh.setOnRefreshListener {
-            watchListViewmodel.getShowList(AccountShowDatasource.WATCHLIST_MOVIES)
+            watchListViewmodel.getShowList(AccountShowCategoryIndex.WATCHLIST_MOVIES)
         }
 
-        watchListViewmodel.getShowList(AccountShowDatasource.WATCHLIST_MOVIES)
+        watchListViewmodel.getShowList(AccountShowCategoryIndex.WATCHLIST_MOVIES)
         watchListViewmodel.accountShowList.observe(viewLifecycleOwner) {
             adapter.submitData(lifecycle, it)
         }

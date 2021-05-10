@@ -9,8 +9,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.mymoviddb.category.ICategoryShowListAccess
-import com.example.mymoviddb.category.MovieDataSource
 import com.example.mymoviddb.category.ShowCategoryIndex
+import com.example.mymoviddb.category.ShowDataSource
 import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSource(categoryMovieListAccess, categoryId, title)
+                ShowDataSource(categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it
@@ -55,7 +55,7 @@ class SearchViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSource(categoryMovieListAccess, categoryId, title)
+                ShowDataSource(categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it

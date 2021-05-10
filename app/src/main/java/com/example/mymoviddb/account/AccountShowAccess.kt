@@ -1,7 +1,8 @@
 package com.example.mymoviddb.account
 
 import com.example.mymoviddb.datasource.remote.NetworkService
-import com.example.mymoviddb.model.FavouriteAndWatchListShow
+import com.example.mymoviddb.model.PreviewMovie
+import com.example.mymoviddb.model.PreviewTvShow
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
@@ -14,16 +15,14 @@ class AccountShowAccess @Inject constructor(private val access: NetworkService) 
         accountId: Int,
         sessionId: String,
         page: Int,
-        showType: String,
         apiKey: String
-    ): Result<FavouriteAndWatchListShow?> {
+    ): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getFavoriteAsync(
+                val result = access.getFavoriteTvShowAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
-                    showType = showType,
                     apiKey = apiKey
                 ).await()
 
@@ -42,16 +41,14 @@ class AccountShowAccess @Inject constructor(private val access: NetworkService) 
         accountId: Int,
         sessionId: String,
         page: Int,
-        showType: String,
         apiKey: String
-    ): Result<FavouriteAndWatchListShow?> {
+    ): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getFavoriteAsync(
+                val result = access.getFavoriteMoviesAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
-                    showType = showType,
                     apiKey = apiKey
                 ).await()
 
@@ -70,21 +67,19 @@ class AccountShowAccess @Inject constructor(private val access: NetworkService) 
         accountId: Int,
         sessionId: String,
         page: Int,
-        showType: String,
         apiKey: String
-    ): Result<FavouriteAndWatchListShow?> {
+    ): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getWatchListAsync(
+                val result = access.getWatchListTvShowsAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
-                    showType = showType,
                     apiKey = apiKey
                 ).await()
 
                 if (result.isSuccessful && result.body() != null) {
-                    Result.Success(result.body())
+                    Result.Success(result.body() as PreviewTvShow?)
                 } else {
                     return Util.returnError(result)
                 }
@@ -98,21 +93,19 @@ class AccountShowAccess @Inject constructor(private val access: NetworkService) 
         accountId: Int,
         sessionId: String,
         page: Int,
-        showType: String,
         apiKey: String
-    ): Result<FavouriteAndWatchListShow?> {
+    ): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getWatchListAsync(
+                val result = access.getWatchListMoviesAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
-                    showType = showType,
                     apiKey = apiKey
                 ).await()
 
                 if (result.isSuccessful && result.body() != null) {
-                    Result.Success(result.body())
+                    Result.Success(result.body() as PreviewMovie?)
                 } else {
                     return Util.returnError(result)
                 }

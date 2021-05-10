@@ -773,7 +773,7 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
-    override fun getFavoriteAsync(
+    override fun getFavoriteMoviesAsync(
         accountId: Int,
         showType: String,
         sessionId: String,
@@ -852,7 +852,7 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
-    override fun getWatchListAsync(
+    override fun getWatchListMoviesAsync(
         accountId: Int,
         showType: String,
         sessionId: String,

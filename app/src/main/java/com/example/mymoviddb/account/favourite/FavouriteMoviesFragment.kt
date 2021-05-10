@@ -14,8 +14,8 @@ import androidx.paging.LoadState
 import com.example.mymoviddb.R
 import com.example.mymoviddb.account.AccountShowViewModel
 import com.example.mymoviddb.account.ResultHandler
-import com.example.mymoviddb.account.paging.AccountShowDatasource
 import com.example.mymoviddb.adapters.FavouriteAdapter
+import com.example.mymoviddb.category.AccountShowCategoryIndex
 import com.example.mymoviddb.databinding.FragmentFavouriteMoviesBinding
 import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,10 +48,10 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
 
         binding.favouriteRv.adapter = adapter
         binding.favouriteSwipeRefresh.setOnRefreshListener {
-            favouriteViewModel.getShowList(AccountShowDatasource.FAVOURITE_MOVIES)
+            favouriteViewModel.getShowList(AccountShowCategoryIndex.FAVOURITE_MOVIES)
         }
 
-        favouriteViewModel.getShowList(AccountShowDatasource.FAVOURITE_MOVIES)
+        favouriteViewModel.getShowList(AccountShowCategoryIndex.FAVOURITE_MOVIES)
         favouriteViewModel.accountShowList.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 adapter.submitData(it)

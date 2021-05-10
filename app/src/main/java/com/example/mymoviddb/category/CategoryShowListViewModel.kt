@@ -38,7 +38,7 @@ class CategoryShowListViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSource(categoryShowListAccess, categoryId, title)
+                ShowDataSource(categoryShowListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it
@@ -53,7 +53,7 @@ class CategoryShowListViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                MovieDataSource(categoryShowListAccess, categoryId, title)
+                ShowDataSource(categoryShowListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it

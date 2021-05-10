@@ -10,7 +10,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.mymoviddb.account.paging.AccountShowDatasource
-import com.example.mymoviddb.model.FavouriteAndWatchListShow
+import com.example.mymoviddb.category.AccountShowCategoryIndex
+import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,10 +23,10 @@ class AccountShowViewModel @Inject constructor(
     private val accountShowAccess: IAccountShowAccess,
 ) : AndroidViewModel(app) {
 
-    private val _accountShowList = MutableLiveData<PagingData<FavouriteAndWatchListShow.Result>>()
-    val accountShowList: LiveData<PagingData<FavouriteAndWatchListShow.Result>> = _accountShowList
+    private val _accountShowList = MutableLiveData<PagingData<ShowResult>>()
+    val accountShowList: LiveData<PagingData<ShowResult>> = _accountShowList
 
-    fun getShowList(categoryId: Int) {
+    fun getShowList(categoryId: AccountShowCategoryIndex) {
         viewModelScope.launch {
             Pager(
                 // Configure how data is loaded by passing additional properties to

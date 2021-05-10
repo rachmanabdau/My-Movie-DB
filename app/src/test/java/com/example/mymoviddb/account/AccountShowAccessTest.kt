@@ -2,7 +2,6 @@ package com.example.mymoviddb.account
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
-import com.example.mymoviddb.model.FavouriteAndWatchListShow
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.sharedData.FakeRemoteServer
