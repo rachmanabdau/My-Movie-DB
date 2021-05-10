@@ -12,39 +12,18 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class DataDetailHelper(
-    val showTitle: String,
-    val overview: String,
-    val rate: Int,
-    val genre: String,
-    val posterPath: String?,
-    val date: String
-)
-
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAccess) :
     ViewModel() {
 
-    private val _movieDetail = MutableLiveData<Result<MovieDetail?>>(Result.Loading)
-    val movieDetail: LiveData<Result<MovieDetail?>> = _movieDetail
+    private val _showDetail = MutableLiveData<Result<ShowDetail?>>()
+    val showDetail: LiveData<Result<ShowDetail?>> = _showDetail
 
-    private val _recommendationMovies = MutableLiveData<Result<PreviewMovie?>>()
-    val recommendationMovies: LiveData<Result<PreviewMovie?>> = _recommendationMovies
+    private val _recommendationShows = MutableLiveData<Result<ShowResponse?>>()
+    val recommendationShows: LiveData<Result<ShowResponse?>> = _recommendationShows
 
-    private val _similarMovies = MutableLiveData<Result<PreviewMovie?>>()
-    val similarMovies: LiveData<Result<PreviewMovie?>> = _similarMovies
-
-    private val _recommendationTVShows = MutableLiveData<Result<PreviewTvShow?>>()
-    val recommendationTVShows: LiveData<Result<PreviewTvShow?>> = _recommendationTVShows
-
-    private val _similarTVShows = MutableLiveData<Result<PreviewTvShow?>>()
-    val similarTVShows: LiveData<Result<PreviewTvShow?>> = _similarTVShows
-
-    private val _tvDetail = MutableLiveData<Result<TVDetail?>>()
-    val tvDetail: LiveData<Result<TVDetail?>> = _tvDetail
-
-    private val _showDetail = MutableLiveData<DataDetailHelper>()
-    val showDetail: LiveData<DataDetailHelper> = _showDetail
+    private val _similarShows = MutableLiveData<Result<ShowResponse?>>()
+    val similarShows: LiveData<Result<ShowResponse?>> = _similarShows
 
     private val _isResultSuccess = MutableLiveData<Boolean>()
     val isResultSuccess: LiveData<Boolean> = _isResultSuccess
@@ -65,70 +44,42 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
     val showSnackbarMessage: LiveData<Event<Int>> = _showSnackbarMessage
 
     fun getShowDetail(
-        showId: Long,
-        showType: Int,
+        showItem: ShowResult,
         sessionId: String,
         apiKey: String = BuildConfig.V3_AUTH
     ) {
-        when (showType) {
-            DetailActivity.DETAIL_MOVIE -> getMovieDetail(showId, sessionId, apiKey)
-            DetailActivity.DETAIL_TV -> getTVDetail(showId, sessionId, apiKey)
+        viewModelScope.launch {
+            val result = if (showItem is PreviewMovie.Result) {
+                getMovieAccountState(showItem.id, sessionId, apiKey)
+                detailaAccess.getMovieDetail(showItem.id, apiKey)
+            } else {
+                val id = (showItem as PreviewTvShow.Result).id
+                getTVAccountState(id, sessionId, apiKey)
+                detailaAccess.getDetailTV(id, apiKey)
+            }
+            _showDetail.value = result
         }
     }
 
-    fun getMovieDetail(movieId: Long, sessionId: String, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getRecommendationMovies(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _movieDetail.value = detailaAccess.getDetailMovie(movieId, apiKey).also { result ->
-                if (result is Result.Success) {
-                    result.data?.apply {
-                        val rate = (voteAverage * 10).toInt()
-                        val genre = genres.joinToString { it.name }
-                        _showDetail.value =
-                            DataDetailHelper(title, overview, rate, genre, posterPath, releaseDate)
-                        getMovieAccountState(movieId, sessionId, apiKey)
-                    }
-                }
+            _recommendationShows.value = if (showItem is PreviewMovie.Result) {
+                detailaAccess.getRecommendationMovies(showItem.id, apiKey)
+            } else {
+                val id = (showItem as PreviewTvShow.Result).id
+                detailaAccess.getRecommendationTVShows(id, apiKey)
             }
         }
     }
 
-    fun getTVDetail(tvId: Long, sessionId: String, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getSimilarMovies(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _tvDetail.value = detailaAccess.getDetailTV(tvId, apiKey).also { result ->
-                if (result is Result.Success) {
-                    result.data?.apply {
-                        val rate = (voteAverage * 10).toInt()
-                        val genre = genres.joinToString { it.name }
-                        _showDetail.value =
-                            DataDetailHelper(title, overview, rate, genre, posterPath, firstAirDate)
-                        getTVAccountState(tvId, sessionId, apiKey)
-                    }
-                }
+            _similarShows.value = if (showItem is PreviewMovie.Result) {
+                detailaAccess.getSimilarMovies(showItem.id, apiKey)
+            } else {
+                val id = (showItem as PreviewTvShow.Result).id
+                detailaAccess.getSimilarTVShows(id, apiKey)
             }
-        }
-    }
-
-    fun getRecommendationMovies(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _recommendationMovies.value = detailaAccess.getRecommendationMovies(movieId, apiKey)
-        }
-    }
-
-    fun getSimilarMovies(movieId: Long, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _similarMovies.value = detailaAccess.getSimilarMovies(movieId, apiKey)
-        }
-    }
-
-    fun getRecommendationTVShows(tvId: Long, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _recommendationTVShows.value = detailaAccess.getRecommendationTVShows(tvId, apiKey)
-        }
-    }
-
-    fun getSimilarTVShows(tvId: Long, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _similarTVShows.value = detailaAccess.getSimilarTVShows(tvId, apiKey)
         }
     }
 
@@ -169,13 +120,13 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
     fun markAsFavorite(
         accountId: Int,
         sessionId: String,
-        mediaId: Long,
-        mediaType: Int,
+        showItem: ShowResult,
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            val media = if (mediaType == DetailActivity.DETAIL_MOVIE) "movie" else "tv"
-            val sendFavourite = MarkMediaAs(mediaId, media, _isFavourited.value?.not(), null)
+            val mediaType = if (showItem is PreviewMovie.Result) "movie" else "tv"
+            val sendFavourite =
+                MarkMediaAs(showItem.id, mediaType, _isFavourited.value?.not(), null)
             detailaAccess.markAsFavorite(accountId, sessionId, sendFavourite, apiKey)
                 .also { result ->
                     if (result is Result.Success) {
@@ -197,14 +148,13 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
     fun addToWatchList(
         accountId: Int,
         sessionId: String,
-        mediaId: Long,
-        mediaType: Int,
+        showItem: ShowResult,
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            val media = if (mediaType == DetailActivity.DETAIL_MOVIE) "movie" else "tv"
+            val mediaType = if (showItem is PreviewMovie.Result) "movie" else "tv"
             val sendMediaWatchList =
-                MarkMediaAs(mediaId, media, null, _isAddedToWatchList.value?.not())
+                MarkMediaAs(showItem.id, mediaType, null, _isAddedToWatchList.value?.not())
             detailaAccess.addToWatchList(accountId, sessionId, sendMediaWatchList, apiKey)
                 .also { result ->
                     if (result is Result.Success) {

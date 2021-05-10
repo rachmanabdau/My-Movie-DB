@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class DetailAccess @Inject constructor(private val access: NetworkService) : IDetailAccess {
 
-    override suspend fun getDetailMovie(movieId: Long, apiKey: String): Result<MovieDetail?> {
+    override suspend fun getMovieDetail(movieId: Long, apiKey: String): Result<MovieDetail?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getDetailhMoviesAsync(movieId, apiKey).await()

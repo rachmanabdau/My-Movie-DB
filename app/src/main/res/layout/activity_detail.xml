@@ -6,11 +6,16 @@
     <data>
 
         <import type="android.view.View" />
+
         <import type="android.graphics.Color" />
 
         <variable
             name="detailViewModel"
             type="com.example.mymoviddb.detail.DetailViewModel" />
+
+        <variable
+            name="detailData"
+            type="com.example.mymoviddb.model.ShowDetail" />
 
         <variable
             name="showType"
@@ -84,8 +89,8 @@
                     android:id="@+id/poster_detail"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:contentDescription="@{@string/movie_content_description(detailViewModel.showDetail)}"
-                    app:loadImage="@{detailViewModel.showDetail.posterPath}"
+                    android:contentDescription="@{@string/movie_content_description(detailData.overview)}"
+                    app:loadImage="@{detailData.posterPath}"
                     app:error="@{@drawable/ic_error}"
                     app:layout_constraintDimensionRatio="1:1.5"
                     app:layout_constraintTop_toTopOf="@id/back_drop_detail"
@@ -101,7 +106,6 @@
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
                     android:textSize="16sp"
-                    android:text="@{@string/rate_detail(detailViewModel.showDetail.rate)}"
                     app:layout_constraintStart_toEndOf="@id/poster_detail"
                     app:layout_constraintTop_toTopOf="@id/back_drop_detail"
                     tools:text="Rate : 60%" />
@@ -113,7 +117,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:text="@{detailViewModel.showDetail.genre}"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/rating_detail"
@@ -128,7 +131,6 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:textSize="16sp"
-                    android:text="@{(showType == 1) ? @string/release_date_detail(detailViewModel.showDetail.date) : @string/first_air_date_detail(detailViewModel.showDetail.date)}"
                     app:layout_constraintTop_toBottomOf="@id/genre_detail"
                     app:layout_constraintStart_toStartOf="@id/genre_detail" />
 
@@ -137,7 +139,7 @@
                     style="@style/DefaultFont"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/over_view_detail(detailViewModel.showDetail.overview)}"
+                    android:text="@{@string/over_view_detail(detailData.overview)}"
                     android:layout_margin="@dimen/margin_medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"

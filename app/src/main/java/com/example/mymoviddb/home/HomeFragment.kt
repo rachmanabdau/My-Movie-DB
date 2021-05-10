@@ -1,5 +1,6 @@
 package com.example.mymoviddb.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.example.mymoviddb.adapters.PreviewShowAdapter
 import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.detail.DetailActivity
+import com.example.mymoviddb.model.ShowResult
 import com.example.mymoviddb.utils.EventObserver
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,12 +72,7 @@ class HomeFragment : Fragment() {
                 )
             )
         }, {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToDetailActivity(
-                    DetailActivity.DETAIL_MOVIE,
-                    it.id
-                )
-            )
+            navigateToDetailMovie(it)
         })
         binding.popularMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -90,12 +87,7 @@ class HomeFragment : Fragment() {
                 )
             )
         }, {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToDetailActivity(
-                    DetailActivity.DETAIL_MOVIE,
-                    it.id
-                )
-            )
+            navigateToDetailMovie(it)
         })
         binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -109,13 +101,7 @@ class HomeFragment : Fragment() {
                 )
             )
         }, {
-            findNavController()
-                .navigate(
-                    HomeFragmentDirections
-                        .actionHomeFragmentToDetailActivity(
-                            DetailActivity.DETAIL_TV, it.id
-                        )
-                )
+            navigateToDetailMovie(it)
         })
         binding.popularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
@@ -129,24 +115,25 @@ class HomeFragment : Fragment() {
                 )
             )
         }, {
-            findNavController()
-                .navigate(
-                    HomeFragmentDirections
-                        .actionHomeFragmentToDetailActivity(
-                            DetailActivity.DETAIL_TV, it.id
-                        )
-                )
+            navigateToDetailMovie(it)
         })
         binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         )
     }
 
+
     private fun initiatePlaceHolderAdapter() {
         binding.popularMoviesPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
         binding.nowPlayingMoviesPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
         binding.popularTvPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
         binding.onAirTvPlaceholder.shimmerPlaceholder.adapter = PlaceHolderAdapter()
+    }
+
+    private fun navigateToDetailMovie(showItem: ShowResult) {
+        val intent = Intent(requireActivity(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
+        startActivity(intent)
     }
 
     private fun setClickListener() {

@@ -33,7 +33,7 @@ class DetailAccessTest {
     @Test
     fun `get detail movie with existed id result success`() = runBlockingTest {
 
-        when (val result = access.getDetailMovie(741067L, BuildConfig.V3_AUTH)) {
+        when (val result = access.getMovieDetail(741067L, BuildConfig.V3_AUTH)) {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
@@ -56,7 +56,7 @@ class DetailAccessTest {
     @Test
     fun `get detail movie with id does not exist result error404`() = runBlockingTest {
 
-        when (val result = access.getDetailMovie(0L, BuildConfig.V3_AUTH)) {
+        when (val result = access.getMovieDetail(0L, BuildConfig.V3_AUTH)) {
             is Result.Success -> {
                 fail("get detail movie list with valid api key result success` test failed")
             }
@@ -77,7 +77,7 @@ class DetailAccessTest {
     @Test
     fun `get detail movie with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getDetailMovie(0L, "invalid api key")) {
+        when (val result = access.getMovieDetail(0L, "invalid api key")) {
             is Result.Success -> {
                 fail("get detial movie list with invalid api key result error test failed")
             }
@@ -140,7 +140,7 @@ class DetailAccessTest {
     @Test
     fun `get recommendation movies with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getDetailMovie(0L, "invalid api key")) {
+        when (val result = access.getMovieDetail(0L, "invalid api key")) {
             is Result.Success -> {
                 fail("get recommendation movie list with invalid api key result error test failed")
             }
@@ -575,7 +575,7 @@ class DetailAccessTest {
     @Test
     fun `get recommendation tv shows with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getDetailMovie(0L, "invlaid api key")) {
+        when (val result = access.getMovieDetail(0L, "invlaid api key")) {
             is Result.Success -> {
                 fail("get recommendation tv shows with invalid api key result error test failed")
             }

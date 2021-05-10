@@ -1,5 +1,6 @@
 package com.example.mymoviddb.category.account.favourite
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.example.mymoviddb.R
@@ -18,6 +18,7 @@ import com.example.mymoviddb.category.account.AccountShowViewModel
 import com.example.mymoviddb.category.account.ResultHandler
 import com.example.mymoviddb.databinding.FragmentFavouriteMoviesBinding
 import com.example.mymoviddb.detail.DetailActivity
+import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,7 +61,7 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
     }
 
     private fun setupAdapter(): CategoryShowAdapter {
-        return CategoryShowAdapter(true) { movieId -> navigateToDetailMovie(movieId.id) }
+        return CategoryShowAdapter(true) { showResult -> navigateToDetailMovie(showResult) }
             .also { adapter ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     adapter.loadStateFlow.collectLatest { loadState ->
@@ -77,13 +78,10 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
         }
     }
 
-    override fun navigateToDetailMovie(movieId: Long) {
-        findNavController().navigate(
-            FavouriteMoviesFragmentDirections.actionFavouriteMoviesFragmentToDetailActivity(
-                DetailActivity.DETAIL_MOVIE,
-                movieId
-            )
-        )
+    override fun navigateToDetailMovie(showItem: ShowResult) {
+        val intent = Intent(requireActivity(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
+        startActivity(intent)
     }
 
     override fun setViewResult(

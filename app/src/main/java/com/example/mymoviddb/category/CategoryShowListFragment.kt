@@ -1,5 +1,6 @@
 package com.example.mymoviddb.category
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +19,7 @@ import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.databinding.FragmentCategoryShowListBinding
 import com.example.mymoviddb.detail.DetailActivity
+import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -64,11 +65,7 @@ class CategoryShowListFragment : Fragment() {
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         adapter = CategoryShowAdapter(false) {
-            findNavController().navigate(
-                CategoryShowListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
-                    DetailActivity.DETAIL_MOVIE, it.id
-                )
-            )
+            navigatToDetail(it)
         }.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 loadStateFlow.collectLatest { loadState ->
@@ -87,5 +84,11 @@ class CategoryShowListFragment : Fragment() {
         binding.showRv.adapter = adapter.withLoadStateHeaderAndFooter(
             header = StateAdapter(adapter::retry), footer = StateAdapter(adapter::retry)
         )
+    }
+
+    private fun navigatToDetail(showItem: ShowResult) {
+        val intent = Intent(requireActivity(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
+        startActivity(intent)
     }
 }

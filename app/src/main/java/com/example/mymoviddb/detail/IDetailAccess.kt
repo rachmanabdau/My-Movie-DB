@@ -5,7 +5,7 @@ import com.example.mymoviddb.model.*
 
 interface IDetailAccess {
 
-    suspend fun getDetailMovie(movieId: Long, apiKey: String): Result<MovieDetail?>
+    suspend fun getMovieDetail(movieId: Long, apiKey: String): Result<MovieDetail?>
 
     suspend fun getRecommendationMovies(movieId: Long, apiKey: String): Result<PreviewMovie?>
 

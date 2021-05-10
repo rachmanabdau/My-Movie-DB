@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_homeFragment_to_searchDialogChooser"
             app:destination="@id/searchDialogChooser" />
-        <action
-            android:id="@+id/action_homeFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
     </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
@@ -45,9 +42,6 @@
         <argument
             android:name="title"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_categoryMovieListFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
         <argument
             android:name="categoryId"
             app:argType="com.example.mymoviddb.category.ShowCategoryIndex" />
@@ -68,53 +62,24 @@
             android:id="@+id/action_searchDialogChooser_to_searchActivity"
             app:destination="@id/searchActivity" />
     </dialog>
-    <activity
-        android:id="@+id/detailActivity"
-        android:name="com.example.mymoviddb.detail.DetailActivity"
-        tools:layout="@layout/activity_detail">
-        <argument
-            android:name="loadDetailId"
-            app:argType="integer"
-            android:defaultValue="0" />
-        <argument
-            android:name="showId"
-            app:argType="long"
-            android:defaultValue="0L" />
-    </activity>
     <fragment
         android:id="@+id/favouriteMoviesFragment"
         android:name="com.example.mymoviddb.category.account.favourite.FavouriteMoviesFragment"
         android:label="@string/favourite_movies_label"
-        tools:layout="@layout/fragment_favourite_movies">
-        <action
-            android:id="@+id/action_favouriteMoviesFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_favourite_movies" />
     <fragment
         android:id="@+id/favouriteTVShowsFragment"
         android:name="com.example.mymoviddb.category.account.favourite.FavouriteTVShowsFragment"
         android:label="@string/favourite_tv_shows_label"
-        tools:layout="@layout/fragment_favourite_tv_shows">
-        <action
-            android:id="@+id/action_favouriteTVShowsFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_favourite_tv_shows" />
     <fragment
         android:id="@+id/watchListMovieFragment"
         android:name="com.example.mymoviddb.category.account.watchlist.WatchListMovieFragment"
         android:label="@string/movie_watch_list_menu"
-        tools:layout="@layout/fragment_watch_list_movie">
-        <action
-            android:id="@+id/action_watchListMovieFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_watch_list_movie" />
     <fragment
         android:id="@+id/watchListTVFragment"
         android:name="com.example.mymoviddb.category.account.watchlist.WatchListTVFragment"
         android:label="@string/tv_watch_list_menu"
-        tools:layout="@layout/fragment_watch_list_tv">
-        <action
-            android:id="@+id/action_watchListTVFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_watch_list_tv" />
 </navigation>

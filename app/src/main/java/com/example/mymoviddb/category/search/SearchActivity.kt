@@ -20,6 +20,7 @@ import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.databinding.ActivitySearchBinding
 import com.example.mymoviddb.detail.DetailActivity
+import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -103,7 +104,7 @@ class SearchActivity : AppCompatActivity() {
 
         // when id is to earch movie set movie adapter
         showAdapter = CategoryShowAdapter(false) {
-            setIntentDetail(it.id, DetailActivity.DETAIL_MOVIE)
+            setIntentDetail(it)
         }.apply {
 
             lifecycleScope.launch {
@@ -132,10 +133,9 @@ class SearchActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setIntentDetail(showId: Long, detailKey: Int) {
-        intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.DETAIL_KEY, detailKey)
-        intent.putExtra(DetailActivity.SHOW_ID_KEY, showId)
+    private fun setIntentDetail(showItem: ShowResult) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
         startActivity(intent)
     }
 

@@ -47,11 +47,11 @@ class PreviewShowAdapter(
                 loadMoreType
             }
 
-            itemCount > 0 && position != itemCount - 1 -> {
+            else -> {
                 movieType
             }
 
-            else -> throw IllegalArgumentException("View type not found")
+            //else -> throw IllegalArgumentException("View type not found")
         }
     }
 
