@@ -144,15 +144,18 @@ class FakeRemoteServer : NetworkService {
         }
     }
 
-    override fun getPopularMoviesAsync(page: Int, apiKey: String): Deferred<Response<MovieModel>> {
+    override fun getPopularMoviesAsync(
+        page: Int,
+        apiKey: String
+    ): Deferred<Response<PreviewMovie>> {
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(MovieModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as MovieModel
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as PreviewMovie
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -173,15 +176,15 @@ class FakeRemoteServer : NetworkService {
     override fun getNowPlayingMoviesAsync(
         page: Int,
         apiKey: String
-    ): Deferred<Response<MovieModel>> {
+    ): Deferred<Response<PreviewMovie>> {
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(MovieModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(nowPlayingMoviesResponse) as MovieModel
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(nowPlayingMoviesResponse) as PreviewMovie
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -255,15 +258,15 @@ class FakeRemoteServer : NetworkService {
         title: String,
         page: Int,
         apiKey: String
-    ): Deferred<Response<MovieModel>> {
+    ): Deferred<Response<PreviewMovie>> {
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(MovieModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as MovieModel
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as PreviewMovie
 
         return when {
             // api key is valid and title is not blank return response success
@@ -274,7 +277,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && title.isBlank() -> {
-                val emptyMovies = MovieModel(
+                val emptyMovies = PreviewMovie(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -428,7 +431,7 @@ class FakeRemoteServer : NetworkService {
     override fun getRecommendationMoviesAsync(
         movieId: Long,
         apiKey: String
-    ): Deferred<Response<MovieModel>> {
+    ): Deferred<Response<PreviewMovie>> {
 
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
@@ -436,8 +439,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(MovieModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(recommendationMoviesResponse) as MovieModel
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(recommendationMoviesResponse) as PreviewMovie
 
         return when {
             // api key is valid and title is not blank return response success
@@ -448,7 +451,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && movieId != 741067L -> {
-                val emptyMovies = MovieModel(
+                val emptyMovies = PreviewMovie(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -470,7 +473,7 @@ class FakeRemoteServer : NetworkService {
     override fun getSimilarMoviesAsync(
         movieId: Long,
         apiKey: String
-    ): Deferred<Response<MovieModel>> {
+    ): Deferred<Response<PreviewMovie>> {
 
 
         val realApiKey = BuildConfig.V3_AUTH
@@ -479,8 +482,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(MovieModel::class.java)
-        val responseSuccess = jsonConverter.fromJson(similarMoviesResponse) as MovieModel
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(similarMoviesResponse) as PreviewMovie
 
         return when {
             // api key is valid and title is not blank return response success
@@ -491,7 +494,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && movieId != 741067L -> {
-                val emptyMovies = MovieModel(
+                val emptyMovies = PreviewMovie(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )

@@ -27,7 +27,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
     override suspend fun getRecommendationMovies(
         movieId: Long,
         apiKey: String
-    ): Result<MovieModel?> {
+    ): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getRecommendationMoviesAsync(movieId, apiKey).await()
@@ -43,7 +43,7 @@ class DetailAccess @Inject constructor(private val access: NetworkService) : IDe
         }
     }
 
-    override suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<MovieModel?> {
+    override suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getSimilarMoviesAsync(movieId, apiKey).await()

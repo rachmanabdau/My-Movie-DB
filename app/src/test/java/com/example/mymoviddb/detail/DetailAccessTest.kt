@@ -103,7 +103,7 @@ class DetailAccessTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            MovieModel::class.java
+                            PreviewMovie::class.java
                         )
                     )
                 )
@@ -166,7 +166,7 @@ class DetailAccessTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            MovieModel::class.java
+                            PreviewMovie::class.java
                         )
                     )
                 )

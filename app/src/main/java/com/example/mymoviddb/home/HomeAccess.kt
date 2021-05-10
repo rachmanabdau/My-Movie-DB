@@ -1,7 +1,7 @@
 package com.example.mymoviddb.home
 
 import com.example.mymoviddb.datasource.remote.NetworkService
-import com.example.mymoviddb.model.MovieModel
+import com.example.mymoviddb.model.PreviewMovie
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 import com.example.mymoviddb.utils.Util
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class HomeAccess @Inject constructor(private val access: NetworkService) : IHomeAccess {
 
-    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
+    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getPopularMoviesAsync(page, apiKey).await()
@@ -26,7 +26,7 @@ class HomeAccess @Inject constructor(private val access: NetworkService) : IHome
         }
     }
 
-    override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?> {
+    override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getNowPlayingMoviesAsync(page, apiKey).await()

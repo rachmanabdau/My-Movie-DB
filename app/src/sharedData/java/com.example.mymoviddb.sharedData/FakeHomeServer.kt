@@ -3,19 +3,19 @@ package com.example.mymoviddb.sharedData
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.moshi
 import com.example.mymoviddb.home.IHomeAccess
-import com.example.mymoviddb.model.MovieModel
+import com.example.mymoviddb.model.PreviewMovie
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
 
 class FakeHomeServer : IHomeAccess {
 
-    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<MovieModel?> {
+    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PreviewMovie?> {
         return if (apiKey == BuildConfig.V3_AUTH) {
-            val jsonConverter = moshi.adapter(MovieModel::class.java)
+            val jsonConverter = moshi.adapter(PreviewMovie::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.popularMovieResponse) as MovieModel
+                jsonConverter.fromJson(FakeRemoteServer.popularMovieResponse) as PreviewMovie
             Result.Success(
-                MovieModel(
+                PreviewMovie(
                     page = 1, totalPages = 100, totalResults = 1000,
                     results = responseSuccess.results
                 )
@@ -27,13 +27,13 @@ class FakeHomeServer : IHomeAccess {
         }
     }
 
-    override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<MovieModel?> {
+    override suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<PreviewMovie?> {
         return if (apiKey == BuildConfig.V3_AUTH) {
-            val jsonConverter = moshi.adapter(MovieModel::class.java)
+            val jsonConverter = moshi.adapter(PreviewMovie::class.java)
             val responseSuccess =
-                jsonConverter.fromJson(FakeRemoteServer.nowPlayingMoviesResponse) as MovieModel
+                jsonConverter.fromJson(FakeRemoteServer.nowPlayingMoviesResponse) as PreviewMovie
             Result.Success(
-                MovieModel(
+                PreviewMovie(
                     page = 1, totalPages = 100, totalResults = 1000,
                     results = responseSuccess.results
                 )

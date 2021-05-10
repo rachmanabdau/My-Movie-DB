@@ -3,7 +3,7 @@ package com.example.mymoviddb.category.movie
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
-import com.example.mymoviddb.model.MovieModel
+import com.example.mymoviddb.model.PreviewMovie
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.sharedData.FakeRemoteServer
@@ -37,7 +37,7 @@ class CategoryMovieListAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(MovieModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
                 )
             }
 
@@ -75,7 +75,7 @@ class CategoryMovieListAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(MovieModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
                 )
             }
 
@@ -113,7 +113,7 @@ class CategoryMovieListAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(MovieModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isNotEmpty(),
@@ -136,7 +136,7 @@ class CategoryMovieListAccessTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(MovieModel::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isEmpty(),

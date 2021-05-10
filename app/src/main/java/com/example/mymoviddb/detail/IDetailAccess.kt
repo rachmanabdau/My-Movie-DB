@@ -7,9 +7,9 @@ interface IDetailAccess {
 
     suspend fun getDetailMovie(movieId: Long, apiKey: String): Result<MovieDetail?>
 
-    suspend fun getRecommendationMovies(movieId: Long, apiKey: String): Result<MovieModel?>
+    suspend fun getRecommendationMovies(movieId: Long, apiKey: String): Result<PreviewMovie?>
 
-    suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<MovieModel?>
+    suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<PreviewMovie?>
 
     suspend fun getDetailTV(tvId: Long, apiKey: String): Result<TVDetail?>
 

@@ -2,7 +2,7 @@ package com.example.mymoviddb.home
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi
-import com.example.mymoviddb.model.MovieModel
+import com.example.mymoviddb.model.PreviewMovie
 import com.example.mymoviddb.model.ResponsedBackend
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.TVShowModel
@@ -37,7 +37,7 @@ class HomeAccessTest {
     fun `get popular movie list with valid api key result success`() = runBlockingTest {
         when (val result = access.getPopularMovieList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(MovieModel::class.java)))
+                assertThat(result.data, `is`(notNullValue(PreviewMovie::class.java)))
             }
 
             is Result.Loading -> {
@@ -72,7 +72,7 @@ class HomeAccessTest {
     fun `get now playing movie list with valid api key result success`() = runBlockingTest {
         when (val result = access.getNowPlayingMovieList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(MovieModel::class.java)))
+                assertThat(result.data, `is`(notNullValue(PreviewMovie::class.java)))
             }
 
             is Result.Loading -> {
