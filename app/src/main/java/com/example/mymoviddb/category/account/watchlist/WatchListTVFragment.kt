@@ -1,4 +1,4 @@
-package com.example.mymoviddb.account.watchlist
+package com.example.mymoviddb.category.account.watchlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.example.mymoviddb.R
-import com.example.mymoviddb.account.AccountShowViewModel
-import com.example.mymoviddb.account.ResultHandler
-import com.example.mymoviddb.adapters.FavouriteAdapter
-import com.example.mymoviddb.category.AccountShowCategoryIndex
+import com.example.mymoviddb.adapters.CategoryShowAdapter
+import com.example.mymoviddb.category.ShowCategoryIndex
+import com.example.mymoviddb.category.account.AccountShowViewModel
+import com.example.mymoviddb.category.account.ResultHandler
 import com.example.mymoviddb.databinding.FragmentWatchListTvBinding
 import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,17 +46,17 @@ class WatchListTVFragment : Fragment(), ResultHandler {
         val adapter = setupAdapter()
         binding.watchlistTvRv.adapter = adapter
         binding.watchlistTvSwipeRefresh.setOnRefreshListener {
-            watchListTVViewModel.getShowList(AccountShowCategoryIndex.WATCHLIST_TV_SHOWS)
+            watchListTVViewModel.getShowList(ShowCategoryIndex.WATCHLIST_TV_SHOWS)
         }
 
-        watchListTVViewModel.getShowList(AccountShowCategoryIndex.WATCHLIST_TV_SHOWS)
+        watchListTVViewModel.getShowList(ShowCategoryIndex.WATCHLIST_TV_SHOWS)
         watchListTVViewModel.accountShowList.observe(viewLifecycleOwner) {
             adapter.submitData(lifecycle, it)
         }
     }
 
-    private fun setupAdapter(): FavouriteAdapter {
-        return FavouriteAdapter { movieId -> navigateToDetailMovie(movieId) }
+    private fun setupAdapter(): CategoryShowAdapter {
+        return CategoryShowAdapter(true) { movieId -> navigateToDetailMovie(movieId.id) }
             .also { adapter ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     adapter.loadStateFlow.collectLatest { loadState ->
@@ -67,7 +67,7 @@ class WatchListTVFragment : Fragment(), ResultHandler {
             }
     }
 
-    override fun setRetryButton(adapter: FavouriteAdapter) {
+    override fun setRetryButton(adapter: CategoryShowAdapter) {
         binding.watchlistTvErrorLayout.tryAgainButton.setOnClickListener {
             adapter.retry()
         }
@@ -82,7 +82,10 @@ class WatchListTVFragment : Fragment(), ResultHandler {
         )
     }
 
-    override fun setViewResult(loadState: CombinedLoadStates, favouriteAdapter: FavouriteAdapter) {
+    override fun setViewResult(
+        loadState: CombinedLoadStates,
+        favouriteAdapter: CategoryShowAdapter
+    ) {
         val isRefreshing = loadState.refresh is LoadState.Loading
         val isError = loadState.refresh is LoadState.Error
         val isResultEmpty =

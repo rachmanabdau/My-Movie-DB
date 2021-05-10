@@ -1,5 +1,6 @@
 package com.example.mymoviddb.category.search
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val app: Application,
     private val categoryMovieListAccess: ICategoryShowListAccess
 ) : ViewModel() {
 
@@ -40,7 +42,7 @@ class SearchViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                ShowDataSource(categoryMovieListAccess, categoryId, title)
+                ShowDataSource(app, categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it
@@ -55,7 +57,7 @@ class SearchViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                ShowDataSource(categoryMovieListAccess, categoryId, title)
+                ShowDataSource(app, categoryMovieListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.account
+package com.example.mymoviddb.category.account
 
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.datasource.remote.moshi

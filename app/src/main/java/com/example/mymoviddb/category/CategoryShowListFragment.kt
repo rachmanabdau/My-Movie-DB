@@ -63,7 +63,7 @@ class CategoryShowListFragment : Fragment() {
         binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = CategoryShowAdapter {
+        adapter = CategoryShowAdapter(false) {
             findNavController().navigate(
                 CategoryShowListFragmentDirections.actionCategoryMovieListFragmentToDetailActivity(
                     DetailActivity.DETAIL_MOVIE, it.id

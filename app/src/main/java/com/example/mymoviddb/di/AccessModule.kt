@@ -1,7 +1,5 @@
 package com.example.mymoviddb.di
 
-import com.example.mymoviddb.account.AccountShowAccess
-import com.example.mymoviddb.account.IAccountShowAccess
 import com.example.mymoviddb.authentication.AuthenticationAccess
 import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.category.CategoryShowListAccess
@@ -41,8 +39,4 @@ abstract class AccessModule {
     @Binds
     @ViewModelScoped
     abstract fun bindCategoryMovieAccess(categoryMovieAccess: CategoryShowListAccess): ICategoryShowListAccess
-
-    @Binds
-    @ViewModelScoped
-    abstract fun bindshowFavourite(showFavouriteAccess: AccountShowAccess): IAccountShowAccess
 }

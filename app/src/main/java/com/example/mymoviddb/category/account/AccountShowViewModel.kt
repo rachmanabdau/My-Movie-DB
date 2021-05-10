@@ -1,4 +1,4 @@
-package com.example.mymoviddb.account
+package com.example.mymoviddb.category.account
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,8 +9,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.mymoviddb.account.paging.AccountShowDatasource
-import com.example.mymoviddb.category.AccountShowCategoryIndex
+import com.example.mymoviddb.category.ICategoryShowListAccess
+import com.example.mymoviddb.category.ShowCategoryIndex
+import com.example.mymoviddb.category.ShowDataSource
 import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -20,20 +21,20 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountShowViewModel @Inject constructor(
     private val app: Application,
-    private val accountShowAccess: IAccountShowAccess,
+    private val accountShowAccess: ICategoryShowListAccess,
 ) : AndroidViewModel(app) {
 
     private val _accountShowList = MutableLiveData<PagingData<ShowResult>>()
     val accountShowList: LiveData<PagingData<ShowResult>> = _accountShowList
 
-    fun getShowList(categoryId: AccountShowCategoryIndex) {
+    fun getShowList(categoryId: ShowCategoryIndex) {
         viewModelScope.launch {
             Pager(
                 // Configure how data is loaded by passing additional properties to
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                AccountShowDatasource(app, accountShowAccess, categoryId)
+                ShowDataSource(app, accountShowAccess, categoryId, "")
             }.flow
                 .cachedIn(this).collectLatest {
                     _accountShowList.value = it

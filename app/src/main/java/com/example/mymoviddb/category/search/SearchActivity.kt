@@ -102,7 +102,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // when id is to earch movie set movie adapter
-        showAdapter = CategoryShowAdapter {
+        showAdapter = CategoryShowAdapter(false) {
             setIntentDetail(it.id, DetailActivity.DETAIL_MOVIE)
         }.apply {
 
