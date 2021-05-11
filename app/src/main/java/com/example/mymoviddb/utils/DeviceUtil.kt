@@ -12,15 +12,17 @@ import android.view.WindowManager
  */
 object DeviceUtils {
     /**
-     * @param context
+     * param context
      * @return the screen height in pixels
      */
-    fun getScreenHeight(context: Context): Int {
+    /*fun getScreenHeight(context: Context): Int {
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
         return if (android.os.Build.VERSION.SDK_INT < 30) {
+            @Suppress("DEPRECATION")
             val display = windowManager.defaultDisplay
             val size = Point()
+            @Suppress("DEPRECATION")
             display.getSize(size)
             size.y
         } else {
@@ -34,7 +36,7 @@ object DeviceUtils {
 
             insets.top + insets.bottom
         }
-    }
+    }*/
 
     /**
      * @param context
@@ -44,8 +46,10 @@ object DeviceUtils {
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
         return if (android.os.Build.VERSION.SDK_INT < 30) {
+            @Suppress("DEPRECATION")
             val display = windowManager.defaultDisplay
             val size = Point()
+            @Suppress("DEPRECATION")
             display.getSize(size)
             size.x
         } else {

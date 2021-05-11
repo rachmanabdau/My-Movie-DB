@@ -35,18 +35,22 @@ class UserViewModel @Inject constructor(
                         userPreference.setAuthState(LoginState.AS_USER)
                         _loginResult.value = Event("success")
                     } else if (newSession is Result.Error) {
-                        _loginResult.value = Event(newSession.exception.localizedMessage)
+                        _loginResult.value = Event(setErrorMessage(newSession))
                     }
                 } else if (login is Result.Error) {
-                    _loginResult.value = Event(login.exception.localizedMessage)
+                    _loginResult.value = Event(setErrorMessage(login))
                 }
             } else if (requestToken is Result.Error) {
-                _loginResult.value = Event(requestToken.exception.localizedMessage)
+                _loginResult.value = Event(setErrorMessage(requestToken))
             }
         }
     }
 
-    suspend fun getRequestToken() = access.getRequestToken(BuildConfig.V3_AUTH)
-    suspend fun createNewSession(requestToken: String) =
+    private fun setErrorMessage(result: Result<*>): String {
+        return (result as Result.Error).exception.localizedMessage ?: "Unknown error occurred."
+    }
+
+    private suspend fun getRequestToken() = access.getRequestToken(BuildConfig.V3_AUTH)
+    private suspend fun createNewSession(requestToken: String) =
         access.createNewSession(requestToken, BuildConfig.V3_AUTH)
 }

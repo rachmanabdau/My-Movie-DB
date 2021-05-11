@@ -71,17 +71,17 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     ): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getFavoriteMoviesAsync(
+                val movieResult = access.getFavoriteMoviesAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
                     apiKey = apiKey
                 ).await()
 
-                if (result.isSuccessful && result.body() != null) {
-                    Result.Success(result.body())
+                if (movieResult.isSuccessful && movieResult.body() != null) {
+                    Result.Success(movieResult.body())
                 } else {
-                    return Util.returnError(result)
+                    return Util.returnError(movieResult)
                 }
             } catch (e: Exception) {
                 return Result.Error(Exception(e.message))
@@ -97,17 +97,17 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     ): Result<PreviewMovie?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getWatchListMoviesAsync(
+                val movieResult = access.getWatchListMoviesAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
                     apiKey = apiKey
                 ).await()
 
-                if (result.isSuccessful && result.body() != null) {
-                    Result.Success(result.body() as PreviewMovie?)
+                if (movieResult.isSuccessful && movieResult.body() != null) {
+                    Result.Success(movieResult.body())
                 } else {
-                    return Util.returnError(result)
+                    return Util.returnError(movieResult)
                 }
             } catch (e: Exception) {
                 return Result.Error(Exception(e.message))
@@ -118,12 +118,12 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val movieResult = access.getPopularTvShowAsync(page, apiKey).await()
+                val tvShowResult = access.getPopularTvShowAsync(page, apiKey).await()
 
-                if (movieResult.isSuccessful) {
-                    Result.Success(movieResult.body())
+                if (tvShowResult.isSuccessful) {
+                    Result.Success(tvShowResult.body())
                 } else {
-                    Util.returnError(movieResult)
+                    Util.returnError(tvShowResult)
                 }
             } catch (e: Exception) {
                 Result.Error(e)
@@ -134,12 +134,12 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val movieResult = access.getOnAirTvShowAsync(page, apiKey).await()
+                val tvShowResult = access.getOnAirTvShowAsync(page, apiKey).await()
 
-                if (movieResult.isSuccessful) {
-                    Result.Success(movieResult.body())
+                if (tvShowResult.isSuccessful) {
+                    Result.Success(tvShowResult.body())
                 } else {
-                    Util.returnError(movieResult)
+                    Util.returnError(tvShowResult)
                 }
             } catch (e: Exception) {
                 Result.Error(e)
@@ -154,12 +154,12 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     ): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val movieResult = access.searchTvShowsAsync(title, page, apiKey).await()
+                val movtvShowResulteResult = access.searchTvShowsAsync(title, page, apiKey).await()
 
-                if (movieResult.isSuccessful) {
-                    Result.Success(movieResult.body())
+                if (movtvShowResulteResult.isSuccessful) {
+                    Result.Success(movtvShowResulteResult.body())
                 } else {
-                    Util.returnError(movieResult)
+                    Util.returnError(movtvShowResulteResult)
                 }
             } catch (e: Exception) {
                 Result.Error(e)
@@ -175,17 +175,17 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     ): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getFavoriteTvShowAsync(
+                val tvShowResult = access.getFavoriteTvShowAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
                     apiKey = apiKey
                 ).await()
 
-                if (result.isSuccessful && result.body() != null) {
-                    Result.Success(result.body())
+                if (tvShowResult.isSuccessful && tvShowResult.body() != null) {
+                    Result.Success(tvShowResult.body())
                 } else {
-                    return Util.returnError(result)
+                    return Util.returnError(tvShowResult)
                 }
             } catch (e: Exception) {
                 return Result.Error(Exception(e.message))
@@ -201,17 +201,17 @@ class CategoryShowListAccess @Inject constructor(private val access: NetworkServ
     ): Result<PreviewTvShow?> {
         wrapEspressoIdlingResource {
             return try {
-                val result = access.getWatchListTvShowsAsync(
+                val tvShowResult = access.getWatchListTvShowsAsync(
                     accountId = accountId,
                     sessionId = sessionId,
                     page = page,
                     apiKey = apiKey
                 ).await()
 
-                if (result.isSuccessful && result.body() != null) {
-                    Result.Success(result.body() as PreviewTvShow?)
+                if (tvShowResult.isSuccessful && tvShowResult.body() != null) {
+                    Result.Success(tvShowResult.body())
                 } else {
-                    return Util.returnError(result)
+                    return Util.returnError(tvShowResult)
                 }
             } catch (e: Exception) {
                 return Result.Error(Exception(e.message))
