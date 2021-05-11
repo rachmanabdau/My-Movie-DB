@@ -20,10 +20,11 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.databinding.ActivityMainBinding
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.LoginState
-import com.example.mymoviddb.utils.PreferenceUtil
+import com.example.mymoviddb.utils.UserPreference
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val mainViewModel by viewModels<MainViewModel>()
+
+    @Inject
+    lateinit var userPreference: UserPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val navigationInflater = navHostFragment.navController.navInflater
         val graph = navigationInflater.inflate(R.navigation.main_navigation)
         graph.startDestination =
-            if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId) {
+            if (userPreference.getAuthState() == LoginState.AS_USER.stateId) {
                 R.id.homeFragment
             } else {
                 R.id.authenticationFragment
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.graph = graph
 
-        if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId) {
+        if (userPreference.getAuthState() == LoginState.AS_USER.stateId) {
             setupDrawerMenu(navController)
         } else {
             setupToolbarOnly(navController)
@@ -60,8 +64,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (PreferenceUtil.getAuthState(this) == LoginState.AS_USER.stateId)
-            observeUserAvatar(PreferenceUtil.readUserSession(this))
+        if (userPreference.getAuthState() == LoginState.AS_USER.stateId)
+            observeUserAvatar(userPreference.readUserSession())
     }
 
     private fun observeUserAvatar(readUserSession: String) {
@@ -75,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 (headerItem.findViewById<TextView>(R.id.username_header))
             if (it is Result.Success && it.data != null) {
                 profileUsernameHeader.text = it.data.username
-                PreferenceUtil.writeAccountId(this, it.data.id)
+                userPreference.writeAccountId(it.data.id)
                 if (it.data.avatar.tmdb != null) {
                     Glide.with(this)
                         .load(BuildConfig.LOAD_POSTER_BASE_URL + it.data.avatar.tmdb.avatarPath)
@@ -90,11 +94,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.logoutResult.observe(this) {
             if (it is Result.Success && it.data?.success == true) {
-                PreferenceUtil.apply {
-                    writeUserSession(this@MainActivity, "")
-                    writeAccountId(this@MainActivity, 0)
-                    setAuthState(this@MainActivity, LoginState.AS_GUEST)
-                }
+                userPreference.logout()
                 intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         // listener click for logout menu. it has to be placed right after NavigationUI.setupWithNavController
         binding.navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.logout_drawer_menu) {
-                mainViewModel.logout(PreferenceUtil.readUserSession(this))
+                mainViewModel.logout(userPreference.readUserSession())
             }
 
             // to maintain navigation component still work

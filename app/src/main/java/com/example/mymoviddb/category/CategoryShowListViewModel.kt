@@ -1,6 +1,5 @@
 package com.example.mymoviddb.category
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +9,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.mymoviddb.model.ShowResult
+import com.example.mymoviddb.utils.UserPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryShowListViewModel @Inject constructor(
-    private val app: Application,
+    private val userPreference: UserPreference,
     private val categoryShowListAccess: ICategoryShowListAccess
 ) :
     ViewModel() {
@@ -40,7 +40,7 @@ class CategoryShowListViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                ShowDataSource(app, categoryShowListAccess, categoryId, title)
+                ShowDataSource(userPreference, categoryShowListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it
@@ -55,7 +55,7 @@ class CategoryShowListViewModel @Inject constructor(
                 // PagingConfig, such as prefetchDistance.
                 PagingConfig(pageSize = 20, prefetchDistance = 5)
             ) {
-                ShowDataSource(app, categoryShowListAccess, categoryId, title)
+                ShowDataSource(userPreference, categoryShowListAccess, categoryId, title)
             }.flow
                 .cachedIn(this).collectLatest {
                     _showPageData.value = it

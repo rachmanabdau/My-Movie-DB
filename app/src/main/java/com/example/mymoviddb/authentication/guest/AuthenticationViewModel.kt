@@ -1,6 +1,5 @@
 package com.example.mymoviddb.authentication.guest
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,7 @@ import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Event
-import com.example.mymoviddb.utils.PreferenceUtil
+import com.example.mymoviddb.utils.UserPreference
 import com.example.mymoviddb.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
-    private val app: Application,
+    private val userPreference: UserPreference,
     private val remoteSource: IAuthenticationAccess
 ) : ViewModel() {
 
@@ -47,7 +46,7 @@ class AuthenticationViewModel @Inject constructor(
                     saveTokenAndExpiry(restultContent)
                 }
             } else {
-                val token = PreferenceUtil.readGuestToken(app)
+                val token = userPreference.readGuestToken()
                 _loginGuestResult.value = Event(
                     Result.Success(
                         GuestSessionModel(
@@ -63,12 +62,12 @@ class AuthenticationViewModel @Inject constructor(
     private fun saveTokenAndExpiry(guestSession: GuestSessionModel) {
         val expiredDate = guestSession.expiresAt.replace(" UTC", "", true)
         val expiredDateInMillis = Util.convertStringTimeToMills(expiredDate)
-        PreferenceUtil.writeGuestToken(app, guestSession.guestSessionId)
-        PreferenceUtil.writeGuestTokenExpiry(app, expiredDateInMillis)
+        userPreference.writeGuestToken(guestSession.guestSessionId)
+        userPreference.writeGuestTokenExpiry(expiredDateInMillis)
     }
 
     private fun isTokenValidAndAvailable(): Boolean {
-        val expireTime = PreferenceUtil.readGuestTokenExpiry(app)
+        val expireTime = userPreference.readGuestTokenExpiry()
         val currentTime = Util.getCurrenTimeGMT()
         return expireTime < 0 && currentTime > expireTime
     }

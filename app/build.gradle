@@ -221,4 +221,10 @@ dependencies {
 
     // Gradle dependency on Shimmer for Android
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // file and shared preference encryption
+    implementation "androidx.security:security-crypto:1.1.0-alpha03"
+    // For Identity Credential APIs
+    //implementation "androidx.security:security-identity-credential:1.0.0-alpha02"
+
 }

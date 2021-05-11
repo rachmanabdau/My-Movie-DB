@@ -23,10 +23,11 @@ import com.example.mymoviddb.model.ShowResult
 import com.example.mymoviddb.model.TVDetail
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
-import com.example.mymoviddb.utils.PreferenceUtil
+import com.example.mymoviddb.utils.UserPreference
 import com.example.mymoviddb.utils.Util.disableViewDuringAnimation
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -36,6 +37,9 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var recommendationShowAdapter: PreviewShowAdapter
 
     private lateinit var similarShowsAdapter: PreviewShowAdapter
+
+    @Inject
+    lateinit var userPreference: UserPreference
 
     private val detailViewModel by viewModels<DetailViewModel>()
 
@@ -47,7 +51,7 @@ class DetailActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.detailViewModel = detailViewModel
 
-        val sessionId = PreferenceUtil.readUserSession(this)
+        val sessionId = userPreference.readUserSession()
         val showItem = intent.getParcelableExtra<ShowResult>(DETAIL_KEY)
         showItem?.apply {
             detailViewModel.getShowDetail(showItem, sessionId)
@@ -95,9 +99,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupFAB(showItem: ShowResult) {
-        val state = PreferenceUtil.getAuthState(this)
-        val sessionId = PreferenceUtil.readUserSession(this)
-        val userId = PreferenceUtil.readAccountId(this)
+        val state = userPreference.getAuthState()
+        val sessionId = userPreference.readUserSession()
+        val userId = userPreference.readAccountId()
         binding.showFAB = state != LoginState.AS_GUEST.stateId
 
         // Button click listener for add to favourite
@@ -203,7 +207,7 @@ class DetailActivity : AppCompatActivity() {
             } else if (it is Result.Error) {
                 binding.errorDetail.errorMessage.text = it.exception.localizedMessage
                 binding.errorDetail.tryAgainButton.setOnClickListener {
-                    val sessionId = PreferenceUtil.readUserSession(this)
+                    val sessionId = userPreference.readUserSession()
                     detailViewModel.getShowDetail(showItem, sessionId)
                 }
             }

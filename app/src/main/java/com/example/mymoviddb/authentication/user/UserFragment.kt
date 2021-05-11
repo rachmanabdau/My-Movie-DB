@@ -11,9 +11,10 @@ import com.example.mymoviddb.databinding.FragmentUserBinding
 import com.example.mymoviddb.main.MainActivity
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
-import com.example.mymoviddb.utils.PreferenceUtil
+import com.example.mymoviddb.utils.UserPreference
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserFragment : Fragment() {
@@ -21,6 +22,9 @@ class UserFragment : Fragment() {
     private lateinit var binding: FragmentUserBinding
 
     private val userViewModel by viewModels<UserViewModel>()
+
+    @Inject
+    lateinit var userPreference: UserPreference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +45,7 @@ class UserFragment : Fragment() {
 
         userViewModel.loginResult.observe(viewLifecycleOwner, EventObserver {
             if (it.equals("success", true)) {
-                PreferenceUtil.setAuthState(requireContext(), LoginState.AS_USER)
+                userPreference.setAuthState(LoginState.AS_USER)
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()

@@ -11,8 +11,9 @@ import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
-import com.example.mymoviddb.utils.PreferenceUtil
+import com.example.mymoviddb.utils.UserPreference
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthenticationFragment : Fragment() {
@@ -21,6 +22,8 @@ class AuthenticationFragment : Fragment() {
 
     private val authenticationViewModel by viewModels<AuthenticationViewModel>()
 
+    @Inject
+    lateinit var userPreference: UserPreference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +45,7 @@ class AuthenticationFragment : Fragment() {
                 findNavController().navigate(
                     AuthenticationFragmentDirections.actionAuthenticationFragmentToHomeFragment()
                 )
-                PreferenceUtil.setAuthState(requireContext(), LoginState.AS_GUEST)
+                userPreference.setAuthState(LoginState.AS_GUEST)
             }
         })
 
