@@ -63,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
             Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
         })
 
-        detailViewModel.isFavourited.observe(this) {
+        detailViewModel.isFavourite.observe(this) {
             val colorTint =
                 if (it) ContextCompat.getColor(this, R.color.colorFavouriteActive)
                 else ContextCompat.getColor(this, R.color.colorBackgroound)
@@ -149,7 +149,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun initAdapter(showItem: ShowResult) {
         recommendationShowAdapter = PreviewShowAdapter({
-            detailViewModel.getRecommendationMovies(showItem)
+            detailViewModel.getRecommendationShows(showItem)
         }, {
             setIntentDetail(it)
         }, false)
@@ -161,7 +161,7 @@ class DetailActivity : AppCompatActivity() {
 
         // Adapter for similar movies
         similarShowsAdapter = PreviewShowAdapter({
-            detailViewModel.getSimilarMovies(showItem)
+            detailViewModel.getSimilarShows(showItem)
         }, {
             setIntentDetail(it)
         }, false)
@@ -202,8 +202,8 @@ class DetailActivity : AppCompatActivity() {
                         getString(R.string.first_air_date_detail, (this as TVDetail).firstAirDate)
                     }
                 }
-                detailViewModel.getRecommendationMovies(showItem)
-                detailViewModel.getSimilarMovies(showItem)
+                detailViewModel.getRecommendationShows(showItem)
+                detailViewModel.getSimilarShows(showItem)
             } else if (it is Result.Error) {
                 binding.errorDetail.errorMessage.text = it.exception.localizedMessage
                 binding.errorDetail.tryAgainButton.setOnClickListener {
@@ -225,7 +225,7 @@ class DetailActivity : AppCompatActivity() {
 
                 is Result.Error -> {
                     binding.errorRecommendationDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getRecommendationMovies(showItem)
+                        detailViewModel.getRecommendationShows(showItem)
                     }
                 }
 
@@ -256,7 +256,7 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Error -> {
                     binding.errorSimilarDetail.errorMessage.text = it.exception.localizedMessage
                     binding.errorSimilarDetail.tryAgainButton.setOnClickListener {
-                        detailViewModel.getSimilarMovies(showItem)
+                        detailViewModel.getSimilarShows(showItem)
                     }
                 }
 

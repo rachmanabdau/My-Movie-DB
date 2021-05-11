@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAccess) :
+class DetailViewModel @Inject constructor(private val detailAccess: IDetailAccess) :
     ViewModel() {
 
     private val _showDetail = MutableLiveData<Result<ShowDetail?>>()
@@ -34,8 +34,8 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
     private val _isResultError = MutableLiveData<Boolean>()
     val isResultError: LiveData<Boolean> = _isResultError
 
-    private val _isFavourited = MutableLiveData(false)
-    val isFavourited: LiveData<Boolean> = _isFavourited
+    private val _isFavourite = MutableLiveData(false)
+    val isFavourite: LiveData<Boolean> = _isFavourite
 
     private val _isAddedToWatchList = MutableLiveData(false)
     val isAddedToWatchList: LiveData<Boolean> = _isAddedToWatchList
@@ -49,36 +49,40 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            val result = if (showItem is PreviewMovie.Result) {
-                getMovieAccountState(showItem.id, sessionId, apiKey)
-                detailaAccess.getMovieDetail(showItem.id, apiKey)
-            } else {
-                val id = (showItem as PreviewTvShow.Result).id
-                getTVAccountState(id, sessionId, apiKey)
-                detailaAccess.getDetailTV(id, apiKey)
+            val result = when (showItem) {
+                is PreviewMovie.Result -> {
+                    getMovieAccountState(showItem.id, sessionId, apiKey)
+                    detailAccess.getMovieDetail(showItem.id, apiKey)
+                }
+                else -> {
+                    val id = (showItem as PreviewTvShow.Result).id
+                    getTVAccountState(id, sessionId, apiKey)
+                    detailAccess.getDetailTV(id, apiKey)
+                }
             }
             _showDetail.value = result
-        }
-    }
 
-    fun getRecommendationMovies(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _recommendationShows.value = if (showItem is PreviewMovie.Result) {
-                detailaAccess.getRecommendationMovies(showItem.id, apiKey)
-            } else {
-                val id = (showItem as PreviewTvShow.Result).id
-                detailaAccess.getRecommendationTVShows(id, apiKey)
+            val isResultSuccess = result is Result.Success && result.data != null
+            if (isResultSuccess) {
+                getShowAuthState(showItem, sessionId)
+                getRecommendationShows(showItem)
+                getSimilarShows(showItem)
             }
         }
     }
 
-    fun getSimilarMovies(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
-        viewModelScope.launch {
-            _similarShows.value = if (showItem is PreviewMovie.Result) {
-                detailaAccess.getSimilarMovies(showItem.id, apiKey)
-            } else {
+    private fun getShowAuthState(
+        showItem: ShowResult,
+        sessionId: String,
+        apiKey: String = BuildConfig.V3_AUTH
+    ) {
+        when (showItem) {
+            is PreviewMovie.Result -> {
+                getMovieAccountState(showItem.id, sessionId, apiKey)
+            }
+            else -> {
                 val id = (showItem as PreviewTvShow.Result).id
-                detailaAccess.getSimilarTVShows(id, apiKey)
+                getTVAccountState(id, sessionId, apiKey)
             }
         }
     }
@@ -89,10 +93,10 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            detailaAccess.getMovieAuthState(movieId, sessionId, apiKey).also { result ->
+            detailAccess.getMovieAuthState(movieId, sessionId, apiKey).also { result ->
                 if (result is Result.Success) {
                     result.data?.apply {
-                        _isFavourited.value = favorite
+                        _isFavourite.value = favorite
                         _isAddedToWatchList.value = watchlist
                     }
                 }
@@ -106,13 +110,35 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            detailaAccess.getTVAuthState(tvId, sessionId, apiKey).also {
+            detailAccess.getTVAuthState(tvId, sessionId, apiKey).also {
                 if (it is Result.Success) {
                     it.data?.apply {
-                        _isFavourited.value = favorite
+                        _isFavourite.value = favorite
                         _isAddedToWatchList.value = watchlist
                     }
                 }
+            }
+        }
+    }
+
+    private fun getRecommendationShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _recommendationShows.value = if (showItem is PreviewMovie.Result) {
+                detailAccess.getRecommendationMovies(showItem.id, apiKey)
+            } else {
+                val id = (showItem as PreviewTvShow.Result).id
+                detailAccess.getRecommendationTVShows(id, apiKey)
+            }
+        }
+    }
+
+    private fun getSimilarShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            _similarShows.value = if (showItem is PreviewMovie.Result) {
+                detailAccess.getSimilarMovies(showItem.id, apiKey)
+            } else {
+                val id = (showItem as PreviewTvShow.Result).id
+                detailAccess.getSimilarTVShows(id, apiKey)
             }
         }
     }
@@ -126,22 +152,42 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
         viewModelScope.launch {
             val mediaType = if (showItem is PreviewMovie.Result) "movie" else "tv"
             val sendFavourite =
-                MarkMediaAs(showItem.id, mediaType, _isFavourited.value?.not(), null)
-            detailaAccess.markAsFavorite(accountId, sessionId, sendFavourite, apiKey)
+                MarkMediaAs(showItem.id, mediaType, _isFavourite.value?.not(), null)
+            detailAccess.markAsFavorite(accountId, sessionId, sendFavourite, apiKey)
                 .also { result ->
                     if (result is Result.Success) {
                         result.data?.apply {
-                            _isFavourited.value = result.data.statusCode != 13
+                            val actionResult = result.data.statusCode != 13
+                            _isFavourite.value = result.data.statusCode != 13
                             _showSnackbarMessage.value =
-                                Event(if (result.data.statusCode != 13) R.string.add_to_favourite_success else R.string.remove_from_favourite_success)
+                                Event(getFavouriteMessage(result, actionResult))
                         }
                     } else if (result is Result.Error) {
-                        _isFavourited.value?.also {
-                            _showSnackbarMessage.value =
-                                Event(if (it) R.string.remove_from_favourite_failed else R.string.add_to_favourite_failed)
+                        _isFavourite.value?.also {
+                            _showSnackbarMessage.value = Event(getFavouriteMessage(result, it))
                         }
                     }
                 }
+        }
+    }
+
+    private fun getFavouriteMessage(result: Result<*>, condition: Boolean): Int {
+        return when (result) {
+            is Result.Success -> {
+                if (condition) {
+                    R.string.add_to_favourite_success
+                } else {
+                    R.string.remove_from_favourite_success
+                }
+            }
+
+            else -> {
+                if (condition) {
+                    R.string.remove_from_favourite_failed
+                } else {
+                    R.string.add_to_favourite_failed
+                }
+            }
         }
     }
 
@@ -155,21 +201,41 @@ class DetailViewModel @Inject constructor(private val detailaAccess: IDetailAcce
             val mediaType = if (showItem is PreviewMovie.Result) "movie" else "tv"
             val sendMediaWatchList =
                 MarkMediaAs(showItem.id, mediaType, null, _isAddedToWatchList.value?.not())
-            detailaAccess.addToWatchList(accountId, sessionId, sendMediaWatchList, apiKey)
+            detailAccess.addToWatchList(accountId, sessionId, sendMediaWatchList, apiKey)
                 .also { result ->
                     if (result is Result.Success) {
                         result.data?.apply {
-                            _isAddedToWatchList.value = result.data.statusCode != 13
+                            val actionResult = result.data.statusCode != 13
+                            _isAddedToWatchList.value = actionResult
                             _showSnackbarMessage.value =
-                                Event(if (result.data.statusCode != 13) R.string.add_to_watchlist_success else R.string.remove_from_watchlist_success)
+                                Event(getWatchListMessage(result, actionResult))
                         }
                     } else if (result is Result.Error) {
                         _isAddedToWatchList.value?.also {
-                            _showSnackbarMessage.value =
-                                Event(if (it) R.string.remove_from_watchlist_failed else R.string.add_to_watchlist_failed)
+                            _showSnackbarMessage.value = Event(getWatchListMessage(result, it))
                         }
                     }
                 }
+        }
+    }
+
+    private fun getWatchListMessage(result: Result<*>, condition: Boolean): Int {
+        return when (result) {
+            is Result.Success -> {
+                if (condition) {
+                    R.string.add_to_watchlist_success
+                } else {
+                    R.string.remove_from_watchlist_success
+                }
+            }
+
+            else -> {
+                if (condition) {
+                    R.string.remove_from_watchlist_failed
+                } else {
+                    R.string.add_to_watchlist_failed
+                }
+            }
         }
     }
 
