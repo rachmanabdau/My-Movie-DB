@@ -9,16 +9,19 @@ import com.example.mymoviddb.databinding.LoadMoreItemBinding
 import com.example.mymoviddb.databinding.MovieItemBinding
 import com.example.mymoviddb.model.ShowResult
 import com.example.mymoviddb.utils.LoadMoreViewHolder
+import dagger.hilt.android.WithFragmentBindings
+import javax.inject.Inject
 
-class PreviewShowAdapter(
-    private val showLoadMore: Boolean,
-    private val action: (() -> Unit)?,
-    private val detailAction: (ShowResult) -> Unit
-) :
+@WithFragmentBindings
+class PreviewShowAdapter @Inject constructor() :
     ListAdapter<ShowResult, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
     private val loadMoreType = 0
     private val movieType = 1
+
+    private var _showLoadMore: Boolean = true
+    private var _action: (() -> Unit)? = null
+    private var _detailAction: (ShowResult) -> Unit = { }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<ShowResult>() {
         override fun areItemsTheSame(
@@ -37,13 +40,28 @@ class PreviewShowAdapter(
 
     }
 
+    fun showLoadMore(isShownAtLastItem: Boolean): PreviewShowAdapter {
+        _showLoadMore = isShownAtLastItem
+        return this
+    }
+
+    fun setLoadmoreClick(action: (() -> Unit)?): PreviewShowAdapter {
+        _action = action
+        return this
+    }
+
+    fun setNavigationToDetail(detailAction: (ShowResult) -> Unit): PreviewShowAdapter {
+        _detailAction = detailAction
+        return this
+    }
+
     override fun getItemCount(): Int {
-        return if (super.getItemCount() > 0 && showLoadMore) super.getItemCount() + 1 else super.getItemCount()
+        return if (super.getItemCount() > 0 && _showLoadMore) super.getItemCount() + 1 else super.getItemCount()
     }
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            showLoadMore && position == itemCount - 1 -> {
+            _showLoadMore && position == itemCount - 1 -> {
                 loadMoreType
             }
 
@@ -73,10 +91,10 @@ class PreviewShowAdapter(
         if (position < itemCount - 1) {
             if (holder is PreviewShowViewHolder) {
                 val data = getItem(position)
-                holder.onBind(data, detailAction)
+                holder.onBind(data, _detailAction)
             }
         } else if (holder is LoadMoreViewHolder) {
-            holder.onBind(action)
+            holder.onBind(_action)
         }
     }
 }

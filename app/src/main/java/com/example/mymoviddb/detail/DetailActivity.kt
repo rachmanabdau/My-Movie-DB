@@ -12,7 +12,6 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.PreviewShowAdapter
 import com.example.mymoviddb.databinding.ActivityDetailBinding
@@ -34,16 +33,22 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    private lateinit var recommendationShowAdapter: PreviewShowAdapter
+    @Inject
+    lateinit var recommendationShowAdapter: PreviewShowAdapter
+    @Inject
+    lateinit var recommendationShowLayoutManager: PreloadLinearLayout
 
-    private lateinit var similarShowsAdapter: PreviewShowAdapter
+    @Inject
+    lateinit var similarShowsAdapter: PreviewShowAdapter
+    @Inject
+    lateinit var similarShowsLayoutManager: PreloadLinearLayout
 
     @Inject
     lateinit var userPreference: UserPreference
 
     private val detailViewModel by viewModels<DetailViewModel>()
 
-    private var firstinitialize = true
+    private var firstInitialize = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,14 +73,14 @@ class DetailActivity : AppCompatActivity() {
                 if (it) ContextCompat.getColor(this, R.color.colorFavouriteActive)
                 else ContextCompat.getColor(this, R.color.colorBackgroound)
 
-            // Do not play animation at first intialize, just set the color filter without animation
-            if (!firstinitialize) {
+            // Do not play animation at first initialize, just set the color filter without animation
+            /*if (!firstInitialize) {
                 setAnimationRotation(
                     binding.favouriteBtnDetail, colorTint
                 )
             } else {
                 binding.favouriteBtnDetail.setColorFilter(colorTint)
-            }
+            }*/
         }
 
         setupToolbar()
@@ -87,7 +92,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val DETAIL_KEY = "com.example.mymoviddb.detail.DetailActivity.DETAIL_KEY"
+        const val DETAIL_KEY = "com.example.mymoviedb.detail.DetailActivity.DETAIL_KEY"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -106,12 +111,12 @@ class DetailActivity : AppCompatActivity() {
 
         // Button click listener for add to favourite
         binding.favouriteBtnDetail.setOnClickListener {
-            firstinitialize = false
+            firstInitialize = false
             detailViewModel.markAsFavorite(userId, sessionId, showItem)
         }
 
         binding.addToWatchlistBtnDetail.setOnClickListener {
-            firstinitialize = false
+            firstInitialize = false
             detailViewModel.addToWatchList(userId, sessionId, showItem)
         }
     }
@@ -148,24 +153,23 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        recommendationShowAdapter = PreviewShowAdapter(false, null) {
-            setIntentDetail(it)
-        }
-
+        // Adapter for recommendation shows
         binding.recommendtaionDetailRv.adapter = recommendationShowAdapter
-        // layout manager for recommendation movies
-        binding.recommendtaionDetailRv.layoutManager =
-            PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+            .showLoadMore(false)
+            .setLoadmoreClick(null)
+            .setNavigationToDetail { setIntentDetail(it) }
 
-        // Adapter for similar movies
-        similarShowsAdapter = PreviewShowAdapter(false, null) {
-            setIntentDetail(it)
-        }
+        // layout manager for recommendation shows
+        binding.recommendtaionDetailRv.layoutManager = recommendationShowLayoutManager
 
+        // Adapter for similar shows
         binding.similarDetailRv.adapter = similarShowsAdapter
+            .showLoadMore(false)
+            .setLoadmoreClick(null)
+            .setNavigationToDetail { setIntentDetail(it) }
+
         // layout manager for similar movies
-        binding.similarDetailRv.layoutManager =
-            PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
+        binding.similarDetailRv.layoutManager = similarShowsLayoutManager
     }
 
     // Navigation for recommendation and similar shows item to detail activity
@@ -186,9 +190,9 @@ class DetailActivity : AppCompatActivity() {
                     binding.detailToolbar.titleCustom.visibility = View.VISIBLE
                     binding.ratingDetail.text =
                         getString(R.string.rate_detail, (voteAverage * 10).toInt())
-                    binding.genreDetail.text = genres.let {
+                    binding.genreDetail.text = genres.let { list ->
                         val genreList = mutableListOf<String>()
-                        it.forEach { genreList.add(it.name) }
+                        list.forEach { genre -> genreList.add(genre.name) }
                         genreList.joinToString(", ")
                     }
 

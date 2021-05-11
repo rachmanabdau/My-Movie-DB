@@ -4,15 +4,17 @@ import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.utils.DeviceUtils
+import dagger.hilt.android.WithFragmentBindings
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 /**
  * Extend Linear Layout Manager to prefetch image in a list
  */
-class PreloadLinearLayout(
-    private val context: Context,
-    listOrientation: Int = RecyclerView.VERTICAL,
-    isLayoutReversed: Boolean
-) : LinearLayoutManager(context, listOrientation, isLayoutReversed) {
+@WithFragmentBindings
+class PreloadLinearLayout @Inject constructor(
+    @ApplicationContext private val context: Context
+) : LinearLayoutManager(context, RecyclerView.HORIZONTAL, false) {
 
     override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
         return DeviceUtils.getScreenWidth(context) * 4
