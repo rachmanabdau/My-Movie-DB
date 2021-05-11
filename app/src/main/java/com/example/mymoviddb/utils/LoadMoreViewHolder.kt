@@ -6,9 +6,9 @@ import com.example.mymoviddb.databinding.LoadMoreItemBinding
 class LoadMoreViewHolder(private val binding: LoadMoreItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(action: () -> Unit) {
+    fun onBind(action: (() -> Unit)?) {
         binding.loadmoreContainer.setOnClickListener {
-            action()
+            action?.invoke()
         }
     }
 }

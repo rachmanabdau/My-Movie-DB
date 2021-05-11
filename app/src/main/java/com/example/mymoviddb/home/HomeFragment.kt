@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupPopularMovieList() {
-        binding.popularMovieRv.adapter = PreviewShowAdapter({
+        binding.popularMovieRv.adapter = PreviewShowAdapter(true, {
             navigateToCategoryPopularMovies()
         }, {
             navigateToDetailMovie(it)
@@ -96,7 +96,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupNowPlayingMovieList() {
-        binding.nowPlayingMovieRv.adapter = PreviewShowAdapter({
+        binding.nowPlayingMovieRv.adapter = PreviewShowAdapter(true, {
             navigateToCategoryNowPlayingMovies()
         }, {
             navigateToDetailMovie(it)
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupPopularTvShowList() {
-        binding.popularTvRv.adapter = PreviewShowAdapter({
+        binding.popularTvRv.adapter = PreviewShowAdapter(true, {
             navigateToCategoryPopularTvShows()
         }, {
             navigateToDetailMovie(it)
@@ -137,7 +137,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupOnAirTvShowList() {
-        binding.onAirPopularTvRv.adapter = PreviewShowAdapter({
+        binding.onAirPopularTvRv.adapter = PreviewShowAdapter(true, {
             navigateToCategoryOnAirTvShows()
         }, {
             navigateToDetailMovie(it)

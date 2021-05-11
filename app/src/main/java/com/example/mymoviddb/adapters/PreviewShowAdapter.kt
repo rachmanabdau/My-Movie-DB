@@ -11,9 +11,9 @@ import com.example.mymoviddb.model.ShowResult
 import com.example.mymoviddb.utils.LoadMoreViewHolder
 
 class PreviewShowAdapter(
-    private val action: () -> Unit,
-    private val detailAction: (ShowResult) -> Unit,
-    private val showLoadMore: Boolean = true
+    private val showLoadMore: Boolean,
+    private val action: (() -> Unit)?,
+    private val detailAction: (ShowResult) -> Unit
 ) :
     ListAdapter<ShowResult, RecyclerView.ViewHolder>(DiffUtilCallback) {
 
@@ -50,8 +50,6 @@ class PreviewShowAdapter(
             else -> {
                 movieType
             }
-
-            //else -> throw IllegalArgumentException("View type not found")
         }
     }
 

@@ -137,7 +137,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun loadData(showItem: ShowResult) {
 
-        initAdapter(showItem)
+        initAdapter()
         observeShowsDetail(showItem)
 
         binding.recommendationLabelDetail.text =
@@ -147,12 +147,10 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    private fun initAdapter(showItem: ShowResult) {
-        recommendationShowAdapter = PreviewShowAdapter({
-            detailViewModel.getRecommendationShows(showItem)
-        }, {
+    private fun initAdapter() {
+        recommendationShowAdapter = PreviewShowAdapter(false, null) {
             setIntentDetail(it)
-        }, false)
+        }
 
         binding.recommendtaionDetailRv.adapter = recommendationShowAdapter
         // layout manager for recommendation movies
@@ -160,11 +158,9 @@ class DetailActivity : AppCompatActivity() {
             PreloadLinearLayout(this, RecyclerView.HORIZONTAL, false)
 
         // Adapter for similar movies
-        similarShowsAdapter = PreviewShowAdapter({
-            detailViewModel.getSimilarShows(showItem)
-        }, {
+        similarShowsAdapter = PreviewShowAdapter(false, null) {
             setIntentDetail(it)
-        }, false)
+        }
 
         binding.similarDetailRv.adapter = similarShowsAdapter
         // layout manager for similar movies
@@ -202,8 +198,6 @@ class DetailActivity : AppCompatActivity() {
                         getString(R.string.first_air_date_detail, (this as TVDetail).firstAirDate)
                     }
                 }
-                detailViewModel.getRecommendationShows(showItem)
-                detailViewModel.getSimilarShows(showItem)
             } else if (it is Result.Error) {
                 binding.errorDetail.errorMessage.text = it.exception.localizedMessage
                 binding.errorDetail.tryAgainButton.setOnClickListener {

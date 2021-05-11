@@ -121,7 +121,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
         }
     }
 
-    private fun getRecommendationShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getRecommendationShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _recommendationShows.value = if (showItem is PreviewMovie.Result) {
                 detailAccess.getRecommendationMovies(showItem.id, apiKey)
@@ -132,7 +132,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
         }
     }
 
-    private fun getSimilarShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
+    fun getSimilarShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _similarShows.value = if (showItem is PreviewMovie.Result) {
                 detailAccess.getSimilarMovies(showItem.id, apiKey)
