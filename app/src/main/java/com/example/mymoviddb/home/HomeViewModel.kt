@@ -61,41 +61,47 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun populateData() {
+        getPopularMovieList()
+        getNowPlayingMovieList()
+        getPopularTVList()
+        getonAirTVList()
+    }
+
+    fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            getPopularMovieList()
-            getNowPlayingMovieList()
-            getPopularTVList()
-            getonAirTVList()
+            val result = remoteServer.getPopularMovieList(page, apiKey)
+            _popularMovieList.value = result
+            _showPopularMovieError.value = !result.succeeded
+            setSnackbarMessage(result)
         }
     }
 
-    suspend fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _popularMovieList.value = remoteServer.getPopularMovieList(page, apiKey)
-        val result = _popularMovieList.value
-        _showPopularMovieError.value = !(result?.succeeded)!!
-        setSnackbarMessage(result)
+    fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            val result = remoteServer.getNowPlayingMovieList(page, apiKey)
+            _nowPlayingMovieList.value = result
+            _showNowPlayingMovieError.value = !result.succeeded
+            setSnackbarMessage(result)
+        }
     }
 
-    suspend fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _nowPlayingMovieList.value = remoteServer.getNowPlayingMovieList(page, apiKey)
-        val result = _nowPlayingMovieList.value
-        _showNowPlayingMovieError.value = !(result?.succeeded)!!
-        setSnackbarMessage(result)
+    fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            val result = remoteServer.getPopularTvShowList(page, apiKey)
+            _popularTVList.value = result
+            _showPopularTvError.value = !result.succeeded
+            setSnackbarMessage(result)
+        }
     }
 
-    suspend fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _popularTVList.value = remoteServer.getPopularTvShowList(page, apiKey)
-        val result = _popularTVList.value
-        _showPopularTvError.value = !(result?.succeeded)!!
-        setSnackbarMessage(result)
-    }
-
-    suspend fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
-        _onAirTVList.value = remoteServer.getOnAirTvShowList(page, apiKey)
-        val result = _onAirTVList.value
-        _showOnAirTvError.value = !(result?.succeeded)!!
-        setSnackbarMessage(result)
-        _initialLoading.value = false
+    fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            val result = remoteServer.getOnAirTvShowList(page, apiKey)
+            _onAirTVList.value = result
+            _showOnAirTvError.value = !result.succeeded
+            setSnackbarMessage(result)
+            _initialLoading.value = false
+        }
     }
 
     private fun setSnackbarMessage(message: Result<*>) {
