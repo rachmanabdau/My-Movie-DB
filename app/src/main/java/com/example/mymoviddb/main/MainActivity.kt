@@ -2,6 +2,7 @@ package com.example.mymoviddb.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.R
 import com.example.mymoviddb.databinding.ActivityMainBinding
 import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.model.UserDetail
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.UserPreference
 import com.google.android.material.snackbar.Snackbar
@@ -40,58 +42,74 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.mainToolbar.toolbar)
+        setupStartDestination(binding)
+        observeUserAvatar()
+        observeLogoutResult()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isUserLogin()) mainViewModel.getUserDetail(userPreference.readUserSession())
+    }
+
+    private fun setupStartDestination(binding: ActivityMainBinding) {
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.main_host_fragment) as NavHostFragment
+            supportFragmentManager.findFragmentById(binding.mainHostFragment.id) as NavHostFragment
         val navController = navHostFragment.navController
 
         val navigationInflater = navHostFragment.navController.navInflater
         val graph = navigationInflater.inflate(R.navigation.main_navigation)
         graph.startDestination =
-            if (userPreference.getAuthState() == LoginState.AS_USER.stateId) {
-                R.id.homeFragment
-            } else {
-                R.id.authenticationFragment
-            }
-
+            if (isUserLogin()) R.id.homeFragment else R.id.authenticationFragment
         navController.graph = graph
 
-        if (userPreference.getAuthState() == LoginState.AS_USER.stateId) {
+        setupLayout(navController)
+    }
+
+    private fun setupLayout(navController: NavController) {
+        if (isUserLogin()) {
             setupDrawerMenu(navController)
         } else {
             setupToolbarOnly(navController)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (userPreference.getAuthState() == LoginState.AS_USER.stateId)
-            observeUserAvatar(userPreference.readUserSession())
+    private fun isUserLogin(): Boolean {
+        return userPreference.getAuthState() == LoginState.AS_USER.stateId
     }
 
-    private fun observeUserAvatar(readUserSession: String) {
-        mainViewModel.getUserDetail(readUserSession)
-
+    private fun observeUserAvatar() {
         mainViewModel.userDetail.observe(this) {
             val headerItem = binding.navView.getHeaderView(0)
-            val profileAvaterHeader =
+            val userAvatar =
                 (headerItem.findViewById<CircleImageView>(R.id.user_avatar_header))
-            val profileUsernameHeader =
+            val usernameHeader =
                 (headerItem.findViewById<TextView>(R.id.username_header))
             if (it is Result.Success && it.data != null) {
-                profileUsernameHeader.text = it.data.username
+                usernameHeader.text = it.data.username
                 userPreference.writeAccountId(it.data.id)
-                if (it.data.avatar.tmdb != null) {
-                    Glide.with(this)
-                        .load(BuildConfig.LOAD_POSTER_BASE_URL + it.data.avatar.tmdb.avatarPath)
-                        .into(profileAvaterHeader)
-                } else {
-                    Glide.with(this)
-                        .load("https://eu.ui-avatars.com/api/?background=random&name=${profileUsernameHeader.text}")
-                        .into(profileAvaterHeader)
-                }
+                loadUserAvatar(userAvatar, it.data.avatar.tmdb, it.data.username)
             }
         }
+    }
 
+    private fun loadUserAvatar(
+        userIMageView: ImageView,
+        userTmdb: UserDetail.Avatar.Tmdb?,
+        username: String
+    ) {
+        if (userTmdb != null) {
+            Glide.with(this)
+                .load(BuildConfig.LOAD_POSTER_BASE_URL + userTmdb.avatarPath)
+                .into(userIMageView)
+        } else {
+            Glide.with(this)
+                .load("https://eu.ui-avatars.com/api/?background=random&name=${username}")
+                .into(userIMageView)
+        }
+    }
+
+    private fun observeLogoutResult() {
         mainViewModel.logoutResult.observe(this) {
             if (it is Result.Success && it.data?.success == true) {
                 userPreference.logout()
@@ -102,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             if (it is Result.Error) {
                 Snackbar.make(
                     binding.root,
-                    it.exception.localizedMessage ?: "Unknows error occured",
+                    it.exception.localizedMessage ?: "Unknown error occurred",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
