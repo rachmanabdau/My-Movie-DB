@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.mymoviddb.authentication.AuthenticationAccess
+import com.example.mymoviddb.authentication.AuthenticationRepository
 import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.sharedData.FakeRemoteServer
@@ -40,7 +40,7 @@ class UserViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = AuthenticationAccess(FakeRemoteServer())
+        fakeRemoteSource = AuthenticationRepository(FakeRemoteServer())
         userViewModel = UserViewModel(fakeRemoteSource, ApplicationProvider.getApplicationContext())
     }
 

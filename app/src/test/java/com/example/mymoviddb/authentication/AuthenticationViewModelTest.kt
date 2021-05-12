@@ -41,7 +41,7 @@ class AuthenticationViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = AuthenticationAccess(FakeRemoteServer())
+        fakeRemoteSource = AuthenticationRepository(FakeRemoteServer())
         authenticationVM = AuthenticationViewModel(
             ApplicationProvider.getApplicationContext(),
             fakeRemoteSource

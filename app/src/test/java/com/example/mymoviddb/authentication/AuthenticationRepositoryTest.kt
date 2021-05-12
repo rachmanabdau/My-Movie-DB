@@ -18,17 +18,17 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class AuthenticationAccessTest {
+class AuthenticationRepositoryTest {
 
 
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
-    private lateinit var access: AuthenticationAccess
+    private lateinit var access: AuthenticationRepository
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        access = AuthenticationAccess(fakeRemoteSource)
+        access = AuthenticationRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
 
     }
