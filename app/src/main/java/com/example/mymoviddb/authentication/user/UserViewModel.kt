@@ -12,7 +12,7 @@ import com.example.mymoviddb.model.RequestTokenModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Event
 import com.example.mymoviddb.utils.LoginState
-import com.example.mymoviddb.utils.UserPreference
+import com.example.mymoviddb.utils.preference.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val access: IAuthenticationAccess,
-    private val userPreference: UserPreference
+    private val userPreference: Preference
 ) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Event<String>>()

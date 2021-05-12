@@ -63,9 +63,10 @@ class AuthenticationRepositoryTest {
 
             is Result.Error -> {
                 assertThat(
-                    request.exception.localizedMessage?.toLowerCase(),
+                    request.exception.localizedMessage?.lowercase(),
                     `is`(containsString("invalid"))
                 )
+                print(request.exception.localizedMessage)
             }
         }
     }

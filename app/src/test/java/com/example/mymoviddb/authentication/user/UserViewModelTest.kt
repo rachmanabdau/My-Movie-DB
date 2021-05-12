@@ -2,12 +2,11 @@ package com.example.mymoviddb.authentication.user
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mymoviddb.authentication.AuthenticationRepository
 import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.sharedData.FakeRemoteServer
+import com.example.mymoviddb.sharedData.FakeUserPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -21,12 +20,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-@RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.LOLLIPOP, Build.VERSION_CODES.M, Build.VERSION_CODES.N, Build.VERSION_CODES.O, Build.VERSION_CODES.P])
 class UserViewModelTest {
 
@@ -41,7 +38,7 @@ class UserViewModelTest {
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
         fakeRemoteSource = AuthenticationRepository(FakeRemoteServer())
-        userViewModel = UserViewModel(fakeRemoteSource, ApplicationProvider.getApplicationContext())
+        userViewModel = UserViewModel(fakeRemoteSource, FakeUserPreference())
     }
 
     @After
@@ -60,7 +57,7 @@ class UserViewModelTest {
 
     @Test
     fun `login with unregistered username and wrong password result success`() = runBlockingTest {
-        userViewModel.login("rachamanabdau", "92413835")
+        userViewModel.login("rachamanabdau", "654321")
         val result = userViewModel.loginResult.getOrAwaitValue().getContentIfNotHandled()
 
         assertThat(

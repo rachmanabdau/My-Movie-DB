@@ -9,15 +9,15 @@ import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.model.GuestSessionModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Event
-import com.example.mymoviddb.utils.UserPreference
 import com.example.mymoviddb.utils.Util
+import com.example.mymoviddb.utils.preference.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
-    private val userPreference: UserPreference,
+    private val userPreference: Preference,
     private val remoteSource: IAuthenticationAccess
 ) : ViewModel() {
 
@@ -35,7 +35,7 @@ class AuthenticationViewModel @Inject constructor(
     fun loginAsGuest(usePreferenceManager: Boolean = true, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
             _isLoading.value = true
-            if (isTokenValidAndAvailable()) {
+            if (isTokenValidAndAvailable(usePreferenceManager)) {
                 val result = Event(remoteSource.loginAsGuest(apiKey))
                 _loginGuestResult.value = result
 
@@ -66,9 +66,13 @@ class AuthenticationViewModel @Inject constructor(
         userPreference.writeGuestTokenExpiry(expiredDateInMillis)
     }
 
-    private fun isTokenValidAndAvailable(): Boolean {
-        val expireTime = userPreference.readGuestTokenExpiry()
-        val currentTime = Util.getCurrenTimeGMT()
-        return expireTime < 0 && currentTime > expireTime
+    private fun isTokenValidAndAvailable(usePreferenceManager: Boolean): Boolean {
+        return if (usePreferenceManager) {
+            val expireTime = userPreference.readGuestTokenExpiry()
+            val currentTime = Util.getCurrenTimeGMT()
+            expireTime < 0 && currentTime > expireTime
+        } else {
+            true
+        }
     }
 }
