@@ -2,7 +2,7 @@ package com.example.mymoviddb.di
 
 import com.example.mymoviddb.authentication.AuthenticationAccess
 import com.example.mymoviddb.authentication.IAuthenticationAccess
-import com.example.mymoviddb.category.CategoryShowListAccess
+import com.example.mymoviddb.category.CategoryShowListRepository
 import com.example.mymoviddb.category.ICategoryShowListAccess
 import com.example.mymoviddb.detail.DetailRepository
 import com.example.mymoviddb.detail.IDetailAccess
@@ -38,5 +38,5 @@ abstract class AccessModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindCategoryMovieAccess(categoryMovieAccess: CategoryShowListAccess): ICategoryShowListAccess
+    abstract fun bindCategoryMovieAccess(categoryMovieAccess: CategoryShowListRepository): ICategoryShowListAccess
 }
