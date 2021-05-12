@@ -775,26 +775,51 @@ class FakeRemoteServer : NetworkService {
 
     override fun getFavoriteMoviesAsync(
         accountId: Int,
-        showType: String,
         sessionId: String,
         page: Int,
         sortBy: String,
         apiKey: String
-    ): Deferred<Response<FavouriteAndWatchListShow>> {
+    ): Deferred<Response<PreviewMovie>> {
         val error401Response = """{
   "success": false,
   "status_code": 6,
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
-        val jsonConverter = moshi.adapter(FavouriteAndWatchListShow::class.java)
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
         val favouriteMovieSuccess =
-            jsonConverter.fromJson(favouriteMovies) as FavouriteAndWatchListShow
-        val favouriteTVSuccess =
-            jsonConverter.fromJson(favouriteTVShows) as FavouriteAndWatchListShow
+            jsonConverter.fromJson(favouriteMovies) as PreviewMovie
 
         return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
-            if (showType == "movies") CompletableDeferred(Response.success(favouriteMovieSuccess))
-            else CompletableDeferred(Response.success(favouriteTVSuccess))
+            CompletableDeferred(Response.success(favouriteMovieSuccess))
+        } else {
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
+    }
+
+    override fun getFavoriteTvShowAsync(
+        accountId: Int,
+        sessionId: String,
+        page: Int,
+        sortBy: String,
+        apiKey: String
+    ): Deferred<Response<PreviewTvShow>> {
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val favouriteTVSuccess =
+            jsonConverter.fromJson(favouriteTVShows) as PreviewTvShow
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
+            CompletableDeferred(Response.success(favouriteTVSuccess))
         } else {
             CompletableDeferred(
                 Response.error(
@@ -854,26 +879,51 @@ class FakeRemoteServer : NetworkService {
 
     override fun getWatchListMoviesAsync(
         accountId: Int,
-        showType: String,
         sessionId: String,
         page: Int,
         sortBy: String,
         apiKey: String
-    ): Deferred<Response<FavouriteAndWatchListShow>> {
+    ): Deferred<Response<PreviewMovie>> {
         val error401Response = """{
   "success": false,
   "status_code": 6,
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
-        val jsonConverter = moshi.adapter(FavouriteAndWatchListShow::class.java)
+        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
         val watchListMovieSuccess =
-            jsonConverter.fromJson(watchListMovies) as FavouriteAndWatchListShow
-        val watchListTVSuccess =
-            jsonConverter.fromJson(watchListTV) as FavouriteAndWatchListShow
+            jsonConverter.fromJson(watchListMovies) as PreviewMovie
 
         return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
-            if (showType == "movies") CompletableDeferred(Response.success(watchListMovieSuccess))
-            else CompletableDeferred(Response.success(watchListTVSuccess))
+            CompletableDeferred(Response.success(watchListMovieSuccess))
+        } else {
+            CompletableDeferred(
+                Response.error(
+                    401,
+                    error401Response
+                        .toResponseBody("application/json;charset=utf-8".toMediaType())
+                )
+            )
+        }
+    }
+
+    override fun getWatchListTvShowsAsync(
+        accountId: Int,
+        sessionId: String,
+        page: Int,
+        sortBy: String,
+        apiKey: String
+    ): Deferred<Response<PreviewTvShow>> {
+        val error401Response = """{
+  "success": false,
+  "status_code": 6,
+  "status_message": "Invalid id: The pre-requisite id is invalid or not found."
+}"""
+        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val watchListTVSuccess =
+            jsonConverter.fromJson(watchListTV) as PreviewTvShow
+
+        return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
+            CompletableDeferred(Response.success(watchListTVSuccess))
         } else {
             CompletableDeferred(
                 Response.error(
