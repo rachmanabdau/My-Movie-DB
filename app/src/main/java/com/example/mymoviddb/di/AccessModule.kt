@@ -4,9 +4,9 @@ import com.example.mymoviddb.authentication.AuthenticationAccess
 import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.category.CategoryShowListAccess
 import com.example.mymoviddb.category.ICategoryShowListAccess
-import com.example.mymoviddb.detail.DetailAccess
+import com.example.mymoviddb.detail.DetailRepository
 import com.example.mymoviddb.detail.IDetailAccess
-import com.example.mymoviddb.home.HomeAccess
+import com.example.mymoviddb.home.HomeRepository
 import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.main.IMainAccess
 import com.example.mymoviddb.main.MainRepository
@@ -22,7 +22,7 @@ abstract class AccessModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindHomeAccess(homeAccess: HomeAccess): IHomeAccess
+    abstract fun bindHomeAccess(homeAccess: HomeRepository): IHomeAccess
 
     @Binds
     @ViewModelScoped
@@ -30,7 +30,7 @@ abstract class AccessModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindShowDetail(detailAccess: DetailAccess): IDetailAccess
+    abstract fun bindShowDetail(detailAccess: DetailRepository): IDetailAccess
 
     @Binds
     @ViewModelScoped

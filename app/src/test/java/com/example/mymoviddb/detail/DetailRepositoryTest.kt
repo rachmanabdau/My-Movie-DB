@@ -17,7 +17,7 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class DetailAccessTest {
+class DetailRepositoryTest {
 
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
@@ -26,7 +26,7 @@ class DetailAccessTest {
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        access = DetailAccess(fakeRemoteSource)
+        access = DetailRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
     }
 
