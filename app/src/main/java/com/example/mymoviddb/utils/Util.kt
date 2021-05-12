@@ -62,4 +62,19 @@ object Util {
 
         })
     }
+
+    suspend fun <T : Any?> getDataFromServer(blocCode: suspend () -> Response<T>): Result<T?> {
+        wrapEspressoIdlingResource {
+            val result = blocCode()
+            return try {
+                if (result.isSuccessful && result.body() != null) {
+                    Result.Success(result.body())
+                } else {
+                    returnError(result)
+                }
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
+        }
+    }
 }

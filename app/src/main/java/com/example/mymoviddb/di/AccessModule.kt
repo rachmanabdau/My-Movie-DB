@@ -9,7 +9,7 @@ import com.example.mymoviddb.detail.IDetailAccess
 import com.example.mymoviddb.home.HomeAccess
 import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.main.IMainAccess
-import com.example.mymoviddb.main.MainAccess
+import com.example.mymoviddb.main.MainRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ abstract class AccessModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindUserDetial(userDetailAccess: MainAccess): IMainAccess
+    abstract fun bindUserDetial(userDetailAccess: MainRepository): IMainAccess
 
     @Binds
     @ViewModelScoped

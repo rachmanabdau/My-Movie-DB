@@ -33,7 +33,7 @@ class MainViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = MainAccess(FakeRemoteServer())
+        fakeRemoteSource = MainRepository(FakeRemoteServer())
         mainViewmodel = MainViewModel(fakeRemoteSource)
     }
 
