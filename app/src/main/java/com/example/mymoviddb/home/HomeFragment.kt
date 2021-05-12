@@ -28,22 +28,11 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var popularMoviesAdapter: PreviewShowAdapter
     @Inject
-    lateinit var popularMoviesLayoutManager: PreloadLinearLayout
-
-    @Inject
     lateinit var nowPlayingMoviesAdapter: PreviewShowAdapter
-    @Inject
-    lateinit var nowPlayingMoviesLayoutManager: PreloadLinearLayout
-
     @Inject
     lateinit var popularTvShowsAdapter: PreviewShowAdapter
     @Inject
-    lateinit var popularTvShowsLayoutManager: PreloadLinearLayout
-
-    @Inject
     lateinit var onAirTvShowsAdapter: PreviewShowAdapter
-    @Inject
-    lateinit var onAirTvShowsLayoutManager: PreloadLinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +52,7 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         //super.onCreateOptionsMenu(menu, inflater)
@@ -101,7 +91,7 @@ class HomeFragment : Fragment() {
             .setLoadmoreClick { navigateToCategoryPopularMovies() }
             .setNavigationToDetail { navigateToDetailShow(it) }
 
-        binding.popularMovieRv.layoutManager = popularMoviesLayoutManager
+        binding.popularMovieRv.layoutManager = PreloadLinearLayout(requireContext())
     }
 
     private fun navigateToCategoryPopularMovies() {
@@ -118,7 +108,7 @@ class HomeFragment : Fragment() {
             .setLoadmoreClick { navigateToCategoryNowPlayingMovies() }
             .setNavigationToDetail { navigateToDetailShow(it) }
 
-        binding.nowPlayingMovieRv.layoutManager = nowPlayingMoviesLayoutManager
+        binding.nowPlayingMovieRv.layoutManager = PreloadLinearLayout(requireContext())
     }
 
     private fun navigateToCategoryNowPlayingMovies() {
@@ -136,7 +126,7 @@ class HomeFragment : Fragment() {
             .setLoadmoreClick { navigateToCategoryPopularTvShows() }
             .setNavigationToDetail { navigateToDetailShow(it) }
 
-        binding.popularTvRv.layoutManager = popularTvShowsLayoutManager
+        binding.popularTvRv.layoutManager = PreloadLinearLayout(requireContext())
     }
 
     private fun navigateToCategoryPopularTvShows() {
@@ -153,7 +143,7 @@ class HomeFragment : Fragment() {
             .setLoadmoreClick { navigateToCategoryOnAirTvShows() }
             .setNavigationToDetail { navigateToDetailShow(it) }
 
-        binding.onAirPopularTvRv.layoutManager = onAirTvShowsLayoutManager
+        binding.onAirPopularTvRv.layoutManager = PreloadLinearLayout(requireContext())
     }
 
     private fun navigateToCategoryOnAirTvShows() {
