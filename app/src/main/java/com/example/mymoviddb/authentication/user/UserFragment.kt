@@ -30,9 +30,16 @@ class UserFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUserBinding.inflate(inflater, container, false)
 
+        setLoginButtonClick()
+        observeLoginResult()
+
+        return binding.root
+    }
+
+    private fun setLoginButtonClick() {
         binding.login.setOnClickListener {
             if (isAllFieldValid()) {
                 val username = binding.usernameInputText.text.toString()
@@ -42,21 +49,6 @@ class UserFragment : Fragment() {
                 binding.loginProgress.visibility = View.VISIBLE
             }
         }
-
-        userViewModel.loginResult.observe(viewLifecycleOwner, EventObserver {
-            if (it.equals("success", true)) {
-                userPreference.setAuthState(LoginState.AS_USER)
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
-            } else {
-                Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
-                binding.login.isEnabled = true
-            }
-            binding.loginProgress.visibility = View.GONE
-        })
-
-        return binding.root
     }
 
     private fun isAllFieldValid(): Boolean {
@@ -69,5 +61,29 @@ class UserFragment : Fragment() {
             if (!isPasswordValid) "Please enter your password" else null
 
         return isUsernameValid && isPasswordValid
+    }
+
+    private fun observeLoginResult() {
+        userViewModel.loginResult.observe(viewLifecycleOwner, EventObserver {
+            val isLoginSuccess = it.equals("success", true)
+            if (isLoginSuccess) {
+                userPreference.setAuthState(LoginState.AS_USER)
+                navigateToMainActivity()
+            } else {
+                binding.login.isEnabled = true
+                showErrorMessage(it)
+            }
+            binding.loginProgress.visibility = View.GONE
+        })
+    }
+
+    private fun navigateToMainActivity() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
+    private fun showErrorMessage(message: String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 }

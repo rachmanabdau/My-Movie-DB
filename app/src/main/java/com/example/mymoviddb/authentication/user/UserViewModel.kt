@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.authentication.IAuthenticationAccess
+import com.example.mymoviddb.model.LoginTokenModel
+import com.example.mymoviddb.model.NewSessionModel
+import com.example.mymoviddb.model.RequestTokenModel
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.utils.Event
 import com.example.mymoviddb.utils.LoginState
@@ -27,19 +30,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             val requestToken = getRequestToken()
             if (requestToken is Result.Success) {
-                val login = access.loginAsUser(username, password, requestToken.data)
-                if (login is Result.Success && login.data != null) {
-                    val newSession = createNewSession(login.data.requestToken)
-                    if (newSession is Result.Success && newSession.data != null) {
-                        userPreference.writeUserSession(newSession.data.sessionId)
-                        userPreference.setAuthState(LoginState.AS_USER)
-                        _loginResult.value = Event("success")
-                    } else if (newSession is Result.Error) {
-                        _loginResult.value = Event(setErrorMessage(newSession))
-                    }
-                } else if (login is Result.Error) {
-                    _loginResult.value = Event(setErrorMessage(login))
-                }
+                login(username, password, requestToken.data)
             } else if (requestToken is Result.Error) {
                 _loginResult.value = Event(setErrorMessage(requestToken))
             }
@@ -53,4 +44,28 @@ class UserViewModel @Inject constructor(
     private suspend fun getRequestToken() = access.getRequestToken(BuildConfig.V3_AUTH)
     private suspend fun createNewSession(requestToken: String) =
         access.createNewSession(requestToken, BuildConfig.V3_AUTH)
+
+    private suspend fun login(username: String, password: String, token: RequestTokenModel?) {
+        val login = access.loginAsUser(username, password, token)
+        if (login is Result.Success && login.data != null) {
+            createSession(login.data)
+        } else if (login is Result.Error) {
+            _loginResult.value = Event(setErrorMessage(login))
+        }
+    }
+
+    private suspend fun createSession(loginResult: LoginTokenModel) {
+        val newSession = createNewSession(loginResult.requestToken)
+        if (newSession is Result.Success && newSession.data != null) {
+            updateSession(newSession.data)
+            _loginResult.value = Event("success")
+        } else if (newSession is Result.Error) {
+            _loginResult.value = Event(setErrorMessage(newSession))
+        }
+    }
+
+    private fun updateSession(newSession: NewSessionModel) {
+        userPreference.writeUserSession(newSession.sessionId)
+        userPreference.setAuthState(LoginState.AS_USER)
+    }
 }
