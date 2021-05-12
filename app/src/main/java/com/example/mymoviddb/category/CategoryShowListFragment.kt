@@ -23,6 +23,7 @@ import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryShowListFragment : Fragment() {
@@ -33,22 +34,21 @@ class CategoryShowListFragment : Fragment() {
 
     private val showViewModels by viewModels<CategoryShowListViewModel>()
 
-    private lateinit var adapter: CategoryShowAdapter
+    @Inject
+    lateinit var adapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryShowListBinding.inflate(inflater, container, false)
-        setUpToolbar(arguments.title)
         binding.lifecycleOwner = this
+        setUpToolbar(arguments.title)
         setupAdapter()
 
         showViewModels.getShowCategory(arguments.categoryId)
         showViewModels.showPageData.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                adapter.submitData(it)
-            }
+            adapter.submitData(lifecycle, it)
         }
 
         return binding.root
@@ -64,9 +64,9 @@ class CategoryShowListFragment : Fragment() {
         binding.shimmerPlaceholderCategoryMovie.shimmerPlaceholder.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
-        adapter = CategoryShowAdapter(false) {
-            navigatToDetail(it)
-        }.apply {
+        adapter.apply {
+            doesNotNeedAuthentication()
+            setItemClick { navigatToDetail(it) }
             viewLifecycleOwner.lifecycleScope.launch {
                 loadStateFlow.collectLatest { loadState ->
                     // show shimmer place holder when in loading state

@@ -24,6 +24,7 @@ import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -31,7 +32,8 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    private lateinit var showAdapter: CategoryShowAdapter
+    @Inject
+    lateinit var showAdapter: CategoryShowAdapter
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
@@ -90,9 +92,7 @@ class SearchActivity : AppCompatActivity() {
     private fun observeSearchMovies() {
         initAdapter()
         searchViewModel.showPageData.observe(this, {
-            lifecycleScope.launch {
-                showAdapter.submitData(it)
-            }
+            showAdapter.submitData(lifecycle, it)
         })
     }
 
@@ -103,20 +103,17 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // when id is to earch movie set movie adapter
-        showAdapter = CategoryShowAdapter(false) {
-            setIntentDetail(it)
-        }.apply {
-
+        showAdapter.apply {
+            doesNotNeedAuthentication()
+            setItemClick { setIntentDetail(it) }
             lifecycleScope.launch {
                 loadStateFlow.collectLatest {
-                    handleLoadState(it.refresh) {
-                        retry()
-                    }
+                    handleLoadState(it.refresh) { retry() }
                 }
             }
         }
 
-        binding.moviesRv.adapter = showAdapter.apply {
+        binding.searchShowsRv.adapter = showAdapter.apply {
             withLoadStateHeaderAndFooter(
                 header = StateAdapter(showAdapter::retry),
                 footer = StateAdapter(showAdapter::retry)

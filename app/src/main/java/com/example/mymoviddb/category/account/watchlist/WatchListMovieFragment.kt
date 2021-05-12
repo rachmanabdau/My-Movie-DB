@@ -22,6 +22,7 @@ import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WatchListMovieFragment : Fragment(), ResultHandler {
@@ -29,6 +30,9 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
     private lateinit var binding: FragmentWatchListMovieBinding
 
     private val watchListViewmodel by viewModels<AccountShowViewModel>()
+
+    @Inject
+    lateinit var adapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +49,7 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
         binding.lifecycleOwner = this
         binding.watchlistErrorLayout.tryAgainButton.visibility = View.GONE
 
-        val adapter = setupAdapter()
+        setupAdapter()
         binding.watchlistRv.adapter = adapter
         binding.watchlistSwipeRefresh.setOnRefreshListener {
             watchListViewmodel.getShowList(ShowCategoryIndex.WATCHLIST_MOVIES)
@@ -57,16 +61,16 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
         }
     }
 
-    private fun setupAdapter(): CategoryShowAdapter {
-        return CategoryShowAdapter(true) { showResult -> navigateToDetailMovie(showResult) }
-            .also { adapter ->
-                viewLifecycleOwner.lifecycleScope.launch {
-                    adapter.loadStateFlow.collectLatest { loadState ->
-                        setViewResult(loadState, adapter)
-                        setRetryButton(adapter)
-                    }
+    private fun setupAdapter() {
+        adapter.also { adapter ->
+            adapter.setItemClick { showResult -> navigateToDetailMovie(showResult) }
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.loadStateFlow.collectLatest { loadState ->
+                    setViewResult(loadState, adapter)
+                    setRetryButton(adapter)
                 }
             }
+        }
     }
 
     override fun setRetryButton(adapter: CategoryShowAdapter) {

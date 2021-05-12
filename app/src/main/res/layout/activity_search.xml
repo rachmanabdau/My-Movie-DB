@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movies_rv"
+            android:id="@+id/search_shows_rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             tools:listitem="@layout/movie_list_item"

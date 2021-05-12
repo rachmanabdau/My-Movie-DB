@@ -22,6 +22,7 @@ import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WatchListTVFragment : Fragment(), ResultHandler {
@@ -29,6 +30,9 @@ class WatchListTVFragment : Fragment(), ResultHandler {
     private lateinit var binding: FragmentWatchListTvBinding
 
     private val watchListTVViewModel by viewModels<AccountShowViewModel>()
+
+    @Inject
+    lateinit var adapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +48,7 @@ class WatchListTVFragment : Fragment(), ResultHandler {
         binding.lifecycleOwner = this
         binding.watchlistTvErrorLayout.tryAgainButton.visibility = View.GONE
 
-        val adapter = setupAdapter()
-        binding.watchlistTvRv.adapter = adapter
+        setupAdapter()
         binding.watchlistTvSwipeRefresh.setOnRefreshListener {
             watchListTVViewModel.getShowList(ShowCategoryIndex.WATCHLIST_TV_SHOWS)
         }
@@ -56,16 +59,17 @@ class WatchListTVFragment : Fragment(), ResultHandler {
         }
     }
 
-    private fun setupAdapter(): CategoryShowAdapter {
-        return CategoryShowAdapter(true) { showResult -> navigateToDetailMovie(showResult) }
-            .also { adapter ->
-                viewLifecycleOwner.lifecycleScope.launch {
-                    adapter.loadStateFlow.collectLatest { loadState ->
-                        setViewResult(loadState, adapter)
-                        setRetryButton(adapter)
-                    }
+    private fun setupAdapter() {
+        adapter.also { adapter ->
+            adapter.setItemClick { showResult -> navigateToDetailMovie(showResult) }
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.loadStateFlow.collectLatest { loadState ->
+                    setViewResult(loadState, adapter)
+                    setRetryButton(adapter)
                 }
             }
+        }
+        binding.watchlistTvRv.adapter = adapter
     }
 
     override fun setRetryButton(adapter: CategoryShowAdapter) {
@@ -90,7 +94,7 @@ class WatchListTVFragment : Fragment(), ResultHandler {
             loadState.refresh is LoadState.NotLoading && favouriteAdapter.itemCount == 0
         // show shimmer place holder when in loading state
         binding.watchlistTvSwipeRefresh.isRefreshing = isRefreshing
-        // show error message and try agian button when in error state
+        // show error message and try again button when in error state
         binding.watchlistTvErrorLayout.root.isVisible = (isError || isResultEmpty)
         showPlaceholderMessage(isResultEmpty)
     }

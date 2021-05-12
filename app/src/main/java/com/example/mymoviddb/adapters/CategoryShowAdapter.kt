@@ -9,12 +9,15 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.databinding.FavouriteItemBinding
 import com.example.mymoviddb.databinding.MovieListItemBinding
 import com.example.mymoviddb.model.ShowResult
+import dagger.hilt.android.WithFragmentBindings
+import javax.inject.Inject
 
-class CategoryShowAdapter(
-    private val isAuthenticated: Boolean,
-    private val actionDetail: (ShowResult) -> Unit
-) :
+@WithFragmentBindings
+class CategoryShowAdapter @Inject constructor() :
     PagingDataAdapter<ShowResult, RecyclerView.ViewHolder>(DiffUtilCallback) {
+
+    private var isUserAuthenticationNeeded = true
+    private var _actionDetail: (ShowResult) -> Unit = {}
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<ShowResult>() {
         override fun areItemsTheSame(
@@ -36,14 +39,14 @@ class CategoryShowAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = getItem(position)
         if (holder is CategoryShowViewHolder) {
-            holder.onBind(data, actionDetail)
+            holder.onBind(data, _actionDetail)
         } else {
-            (holder as FavouriteViewHolder).onBind(data, actionDetail)
+            (holder as FavouriteViewHolder).onBind(data, _actionDetail)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (isAuthenticated) {
+        return if (isUserAuthenticationNeeded) {
             val view =
                 FavouriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             FavouriteViewHolder(view)
@@ -52,6 +55,14 @@ class CategoryShowAdapter(
                 MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return CategoryShowViewHolder(view)
         }
+    }
+
+    fun setItemClick(itemClick: (ShowResult) -> Unit) {
+        _actionDetail = itemClick
+    }
+
+    fun doesNotNeedAuthentication() {
+        isUserAuthenticationNeeded = false
     }
 }
 

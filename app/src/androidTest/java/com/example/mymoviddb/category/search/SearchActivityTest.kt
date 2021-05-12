@@ -117,7 +117,7 @@ class SearchActivityTest {
         onView(withId(R.id.error_layout))
             .check(matches(not(isCompletelyDisplayed())))
         // scroll to position 20
-        onView(withId(R.id.movies_rv)).perform(
+        onView(withId(R.id.search_shows_rv)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 20
             )
@@ -131,7 +131,7 @@ class SearchActivityTest {
         onView(withId(R.id.error_layout))
             .check(matches(not(isCompletelyDisplayed())))
         // scroll to position 20
-        onView(withId(R.id.movies_rv)).perform(
+        onView(withId(R.id.search_shows_rv)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 20
             )

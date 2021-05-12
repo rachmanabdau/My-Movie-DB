@@ -22,6 +22,7 @@ import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavouriteTVShowsFragment : Fragment(), ResultHandler {
@@ -29,6 +30,9 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
     private lateinit var binding: FragmentFavouriteTvShowsBinding
 
     private val favouriteViewModel by viewModels<AccountShowViewModel>()
+
+    @Inject
+    lateinit var favouriteTvShowAdapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,28 +48,27 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
         binding.lifecycleOwner = this
         binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
 
-        val adapter = setupAdapter()
-        binding.favouriteRv.adapter = adapter
+        setupAdapter()
         binding.favouriteSwipeRefresh.setOnRefreshListener {
             favouriteViewModel.getShowList(ShowCategoryIndex.FAVOURITE_TV_SHOWS)
         }
 
         favouriteViewModel.getShowList(ShowCategoryIndex.FAVOURITE_TV_SHOWS)
         favouriteViewModel.accountShowList.observe(viewLifecycleOwner) {
-            adapter.submitData(lifecycle, it)
+            favouriteTvShowAdapter.submitData(lifecycle, it)
         }
     }
 
-    private fun setupAdapter(): CategoryShowAdapter {
-        return CategoryShowAdapter(true) { sho -> navigateToDetailMovie(sho) }
-            .also { adapter ->
-                viewLifecycleOwner.lifecycleScope.launch {
-                    adapter.loadStateFlow.collectLatest { loadState ->
-                        setViewResult(loadState, adapter)
-                        setRetryButton(adapter)
-                    }
+    private fun setupAdapter() {
+        binding.favouriteRv.adapter = favouriteTvShowAdapter.also { adapter ->
+            adapter.setItemClick { favouriteTvItem -> navigateToDetailMovie(favouriteTvItem) }
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.loadStateFlow.collectLatest { loadState ->
+                    setViewResult(loadState, adapter)
+                    setRetryButton(adapter)
                 }
             }
+        }
     }
 
     override fun setRetryButton(adapter: CategoryShowAdapter) {
