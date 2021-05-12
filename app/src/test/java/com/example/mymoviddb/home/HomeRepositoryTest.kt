@@ -20,7 +20,7 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class HomeAccessTest {
+class HomeRepositoryTest {
 
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
@@ -29,7 +29,7 @@ class HomeAccessTest {
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        access = HomeAccess(fakeRemoteSource)
+        access = HomeRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
     }
 

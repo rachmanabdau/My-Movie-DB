@@ -33,7 +33,7 @@ class HomeViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = HomeAccess(FakeRemoteServer())
+        fakeRemoteSource = HomeRepository(FakeRemoteServer())
         homeViewModel = HomeViewModel(fakeRemoteSource)
     }
 
