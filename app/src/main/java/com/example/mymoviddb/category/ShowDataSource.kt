@@ -6,11 +6,11 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.model.ShowResponse
 import com.example.mymoviddb.model.ShowResult
-import com.example.mymoviddb.utils.UserPreference
+import com.example.mymoviddb.utils.preference.Preference
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 
 class ShowDataSource(
-    userPreference: UserPreference,
+    userPreference: Preference,
     private val networkService: ICategoryShowListAccess,
     private val categoryId: ShowCategoryIndex,
     private val title: String

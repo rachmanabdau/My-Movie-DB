@@ -12,7 +12,7 @@ import com.example.mymoviddb.category.ICategoryShowListAccess
 import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.category.ShowDataSource
 import com.example.mymoviddb.model.ShowResult
-import com.example.mymoviddb.utils.UserPreference
+import com.example.mymoviddb.utils.preference.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val userPreference: UserPreference,
+    private val userPreference: Preference,
     private val categoryMovieListAccess: ICategoryShowListAccess
 ) : ViewModel() {
 
