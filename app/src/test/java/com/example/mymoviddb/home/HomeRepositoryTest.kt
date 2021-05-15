@@ -61,7 +61,7 @@ class HomeRepositoryTest {
 
             is Result.Error -> {
                 assertThat(
-                    result.exception.localizedMessage?.toLowerCase(),
+                    result.exception.localizedMessage?.lowercase(),
                     `is`(containsString("invalid"))
                 )
             }
@@ -96,7 +96,7 @@ class HomeRepositoryTest {
 
             is Result.Error -> {
                 assertThat(
-                    result.exception.localizedMessage?.toLowerCase(),
+                    result.exception.localizedMessage?.lowercase(),
                     `is`(containsString("invalid"))
                 )
             }
@@ -131,7 +131,7 @@ class HomeRepositoryTest {
 
             is Result.Error -> {
                 assertThat(
-                    result.exception.localizedMessage?.toLowerCase(),
+                    result.exception.localizedMessage?.lowercase(),
                     `is`(containsString("invalid"))
                 )
             }
@@ -166,7 +166,7 @@ class HomeRepositoryTest {
 
             is Result.Error -> {
                 assertThat(
-                    result.exception.localizedMessage?.toLowerCase(),
+                    result.exception.localizedMessage?.lowercase(),
                     `is`(containsString("invalid"))
                 )
             }

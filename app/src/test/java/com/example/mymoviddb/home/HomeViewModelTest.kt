@@ -4,10 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.model.Result
 import com.example.mymoviddb.sharedData.FakeRemoteServer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
@@ -45,7 +42,7 @@ class HomeViewModelTest {
 
     /**
      * Get popular movie list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      */
     @Test
     fun getPopularMovieList_withValidApiToken_resultNotNull() = runBlockingTest {
@@ -67,10 +64,11 @@ class HomeViewModelTest {
 
     /**
      * Get popular movie list with invalid apikey
-     * result valie should not be null
+     * result value should not be null
      */
     @Test
     fun getPopularMovieList_withInvalidApiToken_resultError() = runBlockingTest {
+        delay(3000)
         // WHEN User requesting a popular movie list
         homeViewModel.getPopularMovieList(1, "invalid key")
         val result = homeViewModel.popularMovieList.getOrAwaitValue()
@@ -96,7 +94,7 @@ class HomeViewModelTest {
 
     /**
      * Get Now Playing movie list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      */
     @Test
     fun getNowPlayingMovieList_withValidApiToken_resultNotNull() = runBlockingTest {
@@ -118,7 +116,7 @@ class HomeViewModelTest {
 
     /**
      * Get Now Playing movie list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      */
     @Test
     fun getNowPlayingMovies_withInvalidApiToken_resultError() = runBlockingTest {
@@ -143,7 +141,7 @@ class HomeViewModelTest {
 
     /**
      * Get Popular Tv Show list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      */
     @Test
     fun getPopularTvList_withValidApiToken_resultNotNull() = runBlockingTest {
@@ -165,7 +163,7 @@ class HomeViewModelTest {
 
     /**
      * Get Popular Tv Show list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      * this test should be run individually
      */
     @Test
@@ -191,7 +189,7 @@ class HomeViewModelTest {
 
     /**
      * Get Popular Tv Show list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      */
     @Test
     fun getOnAirTvList_withValidApiToken_resultNotNull() = runBlockingTest {
@@ -213,7 +211,7 @@ class HomeViewModelTest {
 
     /**
      * Get Popular Tv Show list with valid apikey
-     * result valie should not be null
+     * result value should not be null
      * this test should be run individually
      */
     @Test
