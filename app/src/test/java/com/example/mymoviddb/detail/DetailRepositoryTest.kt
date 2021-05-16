@@ -79,7 +79,7 @@ class DetailRepositoryTest {
 
         when (val result = access.getMovieDetail(0L, "invalid api key")) {
             is Result.Success -> {
-                fail("get detial movie list with invalid api key result error test failed")
+                fail("get detail movie list with invalid api key result error test failed")
             }
 
             is Result.Loading -> {
@@ -203,7 +203,7 @@ class DetailRepositoryTest {
     @Test
     fun `get similar movies with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getSimilarMovies(0L, "invlaid api key")) {
+        when (val result = access.getSimilarMovies(0L, "invalid api key")) {
             is Result.Success -> {
                 fail("get similar movie list with invalid api key result error test failed")
             }
@@ -257,7 +257,7 @@ class DetailRepositoryTest {
             "invalid api key"
         )) {
             is Result.Success -> {
-                fail("get movie account state with invlaid api key result error test failed")
+                fail("get movie account state with invalid api key result error test failed")
             }
 
             is Result.Loading -> {
@@ -292,7 +292,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(12)
                 )
@@ -326,7 +326,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(13)
                 )
@@ -388,7 +388,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(12)
                 )
@@ -398,7 +398,7 @@ class DetailRepositoryTest {
             }// Do nothing just wait for the result
 
             is Result.Error -> {
-                fail("gadd movie to watch list with valid api key result success` test failed")
+                fail("add movie to watch list with valid api key result success` test failed")
             }
         }
     }
@@ -422,7 +422,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(13)
                 )
@@ -483,7 +483,7 @@ class DetailRepositoryTest {
             }// Do nothing just wait for the result
 
             is Result.Error -> {
-                fail("gget detail tv show with valid api key result success` test failed")
+                fail("get detail tv show with valid api key result success` test failed")
             }
         }
     }
@@ -493,7 +493,7 @@ class DetailRepositoryTest {
 
         when (val result = access.getDetailTV(0L, BuildConfig.V3_AUTH)) {
             is Result.Success -> {
-                fail("gget detail tv show with valid api key result success` test failed")
+                fail("get detail tv show with valid api key result success` test failed")
             }
 
             is Result.Loading -> {
@@ -512,7 +512,7 @@ class DetailRepositoryTest {
     @Test
     fun `get detail tv show with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getDetailTV(0L, "invlaid api key")) {
+        when (val result = access.getDetailTV(0L, "invalid api key")) {
             is Result.Success -> {
                 fail("get detail tv show with invalid api key result error test failed")
             }
@@ -575,7 +575,7 @@ class DetailRepositoryTest {
     @Test
     fun `get recommendation tv shows with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getMovieDetail(0L, "invlaid api key")) {
+        when (val result = access.getMovieDetail(0L, "invalid api key")) {
             is Result.Success -> {
                 fail("get recommendation tv shows with invalid api key result error test failed")
             }
@@ -611,7 +611,7 @@ class DetailRepositoryTest {
             }// Do nothing just wait for the result
 
             is Result.Error -> {
-                fail("gget similar tv shows with valid api key result success` test failed")
+                fail("get similar tv shows with valid api key result success` test failed")
             }
         }
     }
@@ -630,7 +630,7 @@ class DetailRepositoryTest {
             }// Do nothing just wait for the result
 
             is Result.Error -> {
-                fail("gget similar tv shows with valid api key result success` test failed")
+                fail("get similar tv shows with valid api key result success` test failed")
             }
         }
     }
@@ -638,7 +638,7 @@ class DetailRepositoryTest {
     @Test
     fun `get similar tv shows with invalid api key result error401`() = runBlockingTest {
 
-        when (val result = access.getSimilarTVShows(0L, "invlaid api key")) {
+        when (val result = access.getSimilarTVShows(0L, "invalid api key")) {
             is Result.Success -> {
                 fail("get similar tv shows with invalid api key result error test failed")
             }
@@ -721,7 +721,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(12)
                 )
@@ -755,7 +755,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(13)
                 )
@@ -817,7 +817,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(12)
                 )
@@ -851,7 +851,7 @@ class DetailRepositoryTest {
                         )
                     )
                 )
-                // status code shlod be 12
+                // status code should be 12
                 MatcherAssert.assertThat(
                     result.data?.statusCode, CoreMatchers.`is`(13)
                 )

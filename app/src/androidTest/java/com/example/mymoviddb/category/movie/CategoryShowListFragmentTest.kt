@@ -12,7 +12,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
 import com.example.mymoviddb.category.CategoryShowListFragment
-import com.example.mymoviddb.category.ShowDataSource
+import com.example.mymoviddb.category.CategoryShowListFragmentArgs
+import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
@@ -20,10 +21,10 @@ import com.example.mymoviddb.sharedData.FakeRemoteServer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import dagger.hilt.components.SingletonComponent
 import org.hamcrest.core.IsNot.not
 import org.junit.Rule
 import org.junit.Test
@@ -39,7 +40,7 @@ class CategoryShowListFragmentTest {
     var hiltRulehiltRule = HiltAndroidRule(this)
 
     @Module
-    @InstallIn(ApplicationComponent::class)
+    @InstallIn(SingletonComponent::class)
     object TestHomeModule {
         @Provides
         fun provideFakeServer(): NetworkService = FakeRemoteServer()
@@ -53,10 +54,12 @@ class CategoryShowListFragmentTest {
         // GIVEN a mock  NavController class
         val navController = Mockito.mock(NavController::class.java)
 
-        // Launch Home Fragment
-        ShowDataSource.MOVIE_CATEGORY_ID = ShowDataSource.POPULAR_MOVIE_ID
+        // Launch category show fragment with popular movies in the list
         val bundle =
-            CategoryMovieListFragmentArgs(R.string.popular_movie_list_contentDesc).toBundle()
+            CategoryShowListFragmentArgs(
+                R.string.popular_movie_list_contentDesc,
+                ShowCategoryIndex.POPULAR_MOVIES
+            ).toBundle()
         launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }
@@ -81,10 +84,12 @@ class CategoryShowListFragmentTest {
         // GIVEN a mock  NavController class
         val navController = Mockito.mock(NavController::class.java)
 
-        // Launch Home Fragment
-        ShowDataSource.MOVIE_CATEGORY_ID = ShowDataSource.POPULAR_MOVIE_ID
+        // Launch category show fragment with now playing movies in the list
         val bundle =
-            CategoryMovieListFragmentArgs(R.string.now_playing_movie_list_contentDesc).toBundle()
+            CategoryShowListFragmentArgs(
+                R.string.now_playing_movie_list_contentDesc,
+                ShowCategoryIndex.NOW_PLAYING_MOVIES
+            ).toBundle()
         launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }

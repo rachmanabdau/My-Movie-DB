@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
 import com.example.mymoviddb.ScrollToWithNestedScrollView
+import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.datasource.remote.NetworkService
 import com.example.mymoviddb.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
@@ -20,10 +21,10 @@ import com.example.mymoviddb.sharedData.FakeRemoteServer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import dagger.hilt.components.SingletonComponent
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,7 +41,7 @@ class HomeFragmentTest {
     var hiltRulehiltRule = HiltAndroidRule(this)
 
     @Module
-    @InstallIn(ApplicationComponent::class)
+    @InstallIn(SingletonComponent::class)
     object TestHomeModule {
         @Provides
         fun provideHomeAccess(): NetworkService = FakeRemoteServer()
@@ -76,7 +77,7 @@ class HomeFragmentTest {
         // check if we clicked on load more popular movie navigation to category movies is clicked
         verify(navController).navigate(
             HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                R.string.popular_movie_list_contentDesc
+                R.string.popular_movie_list_contentDesc, ShowCategoryIndex.POPULAR_MOVIES
             )
         )
     }
@@ -110,7 +111,7 @@ class HomeFragmentTest {
         // check if we clicked on load more now playing movie navigation to category movies is clicked
         verify(navController).navigate(
             HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
-                R.string.now_playing_movie_list_contentDesc
+                R.string.now_playing_movie_list_contentDesc, ShowCategoryIndex.NOW_PLAYING_MOVIES
             )
         )
     }
@@ -144,8 +145,8 @@ class HomeFragmentTest {
 
         // check if we clicked on load more popular tv show navigation to category tv show is clicked
         verify(navController).navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                R.string.popular_tv_show_list_contentDesc
+            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+                R.string.popular_tv_show_list_contentDesc, ShowCategoryIndex.POPULAR_TV_SHOWS
             )
         )
     }
@@ -182,8 +183,8 @@ class HomeFragmentTest {
 
         // check if we clicked on load more on air tv show navigation to category tv show is clicked
         verify(navController).navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryTvFragment(
-                R.string.now_airing_tv_show_list_contentDesc
+            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+                R.string.now_airing_tv_show_list_contentDesc, ShowCategoryIndex.ON_AIR_TV_SHOWS
             )
         )
     }
