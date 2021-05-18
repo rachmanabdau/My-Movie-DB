@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.authentication.IAuthenticationAccess
-import com.example.mymoviddb.model.GuestSessionModel
-import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.GuestSessionModel
+import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.utils.Event
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.preference.Preference

@@ -1,9 +1,9 @@
 package com.example.mymoviddb.main
 
-import com.example.mymoviddb.datasource.remote.NetworkService
-import com.example.mymoviddb.model.ResponsedBackend
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.UserDetail
+import com.example.mymoviddb.core.model.ResponsedBackend
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.UserDetail
+import com.example.mymoviddb.core.remote.NetworkService
 import com.example.mymoviddb.utils.Util
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.model
+package com.example.mymoviddb.core.model
 
 import com.squareup.moshi.Json
 

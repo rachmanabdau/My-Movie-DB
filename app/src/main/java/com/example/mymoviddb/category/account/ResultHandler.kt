@@ -2,7 +2,7 @@ package com.example.mymoviddb.category.account
 
 import androidx.paging.CombinedLoadStates
 import com.example.mymoviddb.adapters.CategoryShowAdapter
-import com.example.mymoviddb.model.ShowResult
+import com.example.mymoviddb.core.model.ShowResult
 
 interface ResultHandler {
 

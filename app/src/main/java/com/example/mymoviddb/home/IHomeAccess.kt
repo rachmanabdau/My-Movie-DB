@@ -1,9 +1,9 @@
 package com.example.mymoviddb.home
 
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.PreviewMovie
-import com.example.mymoviddb.model.PreviewTvShow
-import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.PreviewMovie
+import com.example.mymoviddb.core.model.PreviewTvShow
+import com.example.mymoviddb.core.model.Result
 
 interface IHomeAccess {
 

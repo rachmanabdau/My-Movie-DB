@@ -6,9 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviddb.R
+import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.databinding.FavouriteItemBinding
 import com.example.mymoviddb.databinding.MovieListItemBinding
-import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
 

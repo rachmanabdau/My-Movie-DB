@@ -1,7 +1,7 @@
 package com.example.mymoviddb.detail
 
-import com.example.mymoviddb.datasource.remote.NetworkService
-import com.example.mymoviddb.model.*
+import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.remote.NetworkService
 import com.example.mymoviddb.utils.Util
 import javax.inject.Inject
 

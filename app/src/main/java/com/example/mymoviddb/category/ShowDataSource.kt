@@ -2,10 +2,10 @@ package com.example.mymoviddb.category
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.ShowResponse
-import com.example.mymoviddb.model.ShowResult
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.ShowResponse
+import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.utils.preference.Preference
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 

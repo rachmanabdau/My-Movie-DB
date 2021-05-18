@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.authentication.IAuthenticationAccess
-import com.example.mymoviddb.model.LoginTokenModel
-import com.example.mymoviddb.model.NewSessionModel
-import com.example.mymoviddb.model.RequestTokenModel
-import com.example.mymoviddb.model.Result
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.LoginTokenModel
+import com.example.mymoviddb.core.model.NewSessionModel
+import com.example.mymoviddb.core.model.RequestTokenModel
+import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.utils.Event
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.preference.Preference
@@ -47,8 +47,8 @@ class UserViewModel @Inject constructor(
 
     private suspend fun login(username: String, password: String, token: RequestTokenModel?) {
         val login = access.loginAsUser(username, password, token)
-        if (login is Result.Success && login.data != null) {
-            createSession(login.data)
+        if (login is Result.Success) {
+            login.data?.let { createSession(it) }
         } else if (login is Result.Error) {
             _loginResult.value = Event(setErrorMessage(login))
         }
@@ -56,8 +56,8 @@ class UserViewModel @Inject constructor(
 
     private suspend fun createSession(loginResult: LoginTokenModel) {
         val newSession = createNewSession(loginResult.requestToken)
-        if (newSession is Result.Success && newSession.data != null) {
-            updateSession(newSession.data)
+        if (newSession is Result.Success) {
+            newSession.data?.let { updateSession(it) }
             _loginResult.value = Event("success")
         } else if (newSession is Result.Error) {
             _loginResult.value = Event(setErrorMessage(newSession))

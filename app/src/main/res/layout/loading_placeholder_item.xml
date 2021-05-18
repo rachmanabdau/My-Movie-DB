@@ -8,7 +8,7 @@
 
         <variable
             name="popularMovie"
-            type="com.example.mymoviddb.model.PreviewMovie.Result" />
+            type="com.example.mymoviddb.core.model.PreviewMovie.Result" />
 
         <variable
             name="rating"

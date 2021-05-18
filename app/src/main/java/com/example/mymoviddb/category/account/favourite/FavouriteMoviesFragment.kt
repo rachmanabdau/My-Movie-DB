@@ -16,9 +16,9 @@ import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.category.account.AccountShowViewModel
 import com.example.mymoviddb.category.account.ResultHandler
+import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.databinding.FragmentFavouriteMoviesBinding
 import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.model.ShowResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

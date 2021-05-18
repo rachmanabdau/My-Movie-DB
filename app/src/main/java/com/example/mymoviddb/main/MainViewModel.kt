@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.ResponsedBackend
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.UserDetail
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.ResponsedBackend
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.UserDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

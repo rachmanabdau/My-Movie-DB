@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.ShowResponse
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.ShowResponse
 
 @BindingAdapter("loadImage", "error")
 fun loadImage(imageView: ImageView, uri: String?, error: Drawable) {

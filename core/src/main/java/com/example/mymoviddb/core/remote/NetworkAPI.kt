@@ -1,8 +1,8 @@
-package com.example.mymoviddb.datasource.remote
+package com.example.mymoviddb.core.remote
 
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.BuildConfig.V3_AUTH
-import com.example.mymoviddb.model.*
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.BuildConfig.V3_AUTH
+import com.example.mymoviddb.core.model.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

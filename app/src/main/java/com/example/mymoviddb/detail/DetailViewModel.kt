@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.R
-import com.example.mymoviddb.model.*
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -157,8 +157,8 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
                 .also { result ->
                     if (result is Result.Success) {
                         result.data?.apply {
-                            val actionResult = result.data.statusCode != 13
-                            _isFavourite.value = result.data.statusCode != 13
+                            val actionResult = statusCode != 13
+                            _isFavourite.value = statusCode != 13
                             _showSnackbarMessage.value =
                                 Event(getFavouriteMessage(result, actionResult))
                         }
@@ -205,7 +205,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
                 .also { result ->
                     if (result is Result.Success) {
                         result.data?.apply {
-                            val actionResult = result.data.statusCode != 13
+                            val actionResult = statusCode != 13
                             _isAddedToWatchList.value = actionResult
                             _showSnackbarMessage.value =
                                 Event(getWatchListMessage(result, actionResult))

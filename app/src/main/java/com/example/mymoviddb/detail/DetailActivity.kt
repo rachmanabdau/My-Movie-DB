@@ -14,12 +14,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.PreviewShowAdapter
+import com.example.mymoviddb.core.model.MovieDetail
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.ShowResult
+import com.example.mymoviddb.core.model.TVDetail
 import com.example.mymoviddb.databinding.ActivityDetailBinding
 import com.example.mymoviddb.home.PreloadLinearLayout
-import com.example.mymoviddb.model.MovieDetail
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.ShowResult
-import com.example.mymoviddb.model.TVDetail
 import com.example.mymoviddb.utils.EventObserver
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.UserPreference

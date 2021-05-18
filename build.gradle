@@ -2,21 +2,48 @@
 buildscript {
     ext {
         version_activity = "1.2.3"
+        version_appcompat = "1.2.0"
+        version_androidx_annotation = "1.2.0"
+        version_android_arch_core = "2.1.0"
+        version_androidx_core = "1.3.2"
+        version_android_test_ext = "1.1.2"
         version_androidXTest = '1.3.0'
+        version_android_test_truth = "1.3.0"
+        version_constraint_layout = '2.0.4'
         version_coroutines = "1.4.3"
+        version_crypto = "1.1.0-alpha03"
+        version_dagger_hilt = "2.35.1"
+        version_desugar = "1.1.5"
         version_dexMaker = "2.28.1"
-        version_dagger_hilt = "2.32-alpha"
         version_espresso = "3.3.0"
         version_fragment = "1.3.3"
-        version_hilt = '1.0.0-alpha03'
+        version_glide = '4.12.0'
+        version_glide_annotation = "4.11.0"
+        version_google_truth = '1.1.2'
+        version_hamcrest = "1.3"
+        version_hilt = "1.0.0-alpha03"
+        version_hilt_android_test = "2.35.1"
+        version_hdodenhof = "3.1.0"
         version_junit = "4.13.2"
         version_kotlin = "1.5.0"
         version_lifecycle = "2.3.1"
+        version_lifecycle_extension = "2.2.0"
+        version_material = "1.3.0"
         version_mockito = "2.8.9" // Do not upgrade mockito to v3+ there is a bug
+        version_mockk = "1.11.0"
+        version_mock_web_server = "4.9.0"
+        version_moshi = "1.11.0"
         version_navigation = "2.3.5"
+        version_okhttp = '4.9.1'
         version_paging = "3.0.0"
+        version_preference = "1.1.1"
         version_retrofit = "2.9.0"
+        version_retrofit_corouitine = "0.9.2"
+        version_robolectric = '4.5.1'
         version_room = "2.3.0"
+        version_shimmer = "0.5.0"
+        version_timber = "4.7.1"
+        kotlin_version = '1.5.0'
     }
     repositories {
         google()

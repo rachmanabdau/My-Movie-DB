@@ -2,10 +2,10 @@ package com.example.mymoviddb.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.core.model.ResponsedBackend
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.UserDetail
 import com.example.mymoviddb.getOrAwaitValue
-import com.example.mymoviddb.model.ResponsedBackend
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.UserDetail
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

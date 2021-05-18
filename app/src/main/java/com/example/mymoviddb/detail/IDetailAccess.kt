@@ -1,7 +1,7 @@
 package com.example.mymoviddb.detail
 
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.*
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.*
 
 interface IDetailAccess {
 

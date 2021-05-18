@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.BuildConfig
-import com.example.mymoviddb.model.PreviewMovie
-import com.example.mymoviddb.model.PreviewTvShow
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.succeeded
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.PreviewMovie
+import com.example.mymoviddb.core.model.PreviewTvShow
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.succeeded
 import com.example.mymoviddb.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

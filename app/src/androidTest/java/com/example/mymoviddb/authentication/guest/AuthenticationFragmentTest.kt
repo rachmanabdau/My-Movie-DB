@@ -11,7 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
-import com.example.mymoviddb.datasource.remote.NetworkService
+import com.example.mymoviddb.core.remote.NetworkService
 import com.example.mymoviddb.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
 import com.example.mymoviddb.sharedData.FakeRemoteServer

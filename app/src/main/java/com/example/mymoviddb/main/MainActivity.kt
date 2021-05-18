@@ -16,11 +16,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
-import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.R
+import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.UserDetail
 import com.example.mymoviddb.databinding.ActivityMainBinding
-import com.example.mymoviddb.model.Result
-import com.example.mymoviddb.model.UserDetail
 import com.example.mymoviddb.utils.LoginState
 import com.example.mymoviddb.utils.UserPreference
 import com.google.android.material.snackbar.Snackbar
@@ -86,9 +86,11 @@ class MainActivity : AppCompatActivity() {
             val usernameHeader =
                 (headerItem.findViewById<TextView>(R.id.username_header))
             if (it is Result.Success && it.data != null) {
-                usernameHeader.text = it.data.username
-                userPreference.writeAccountId(it.data.id)
-                loadUserAvatar(userAvatar, it.data.avatar.tmdb, it.data.username)
+                it.data?.let { detail ->
+                    usernameHeader.text = detail.username
+                    userPreference.writeAccountId(detail.id)
+                    loadUserAvatar(userAvatar, detail.avatar.tmdb, detail.username)
+                }
             }
         }
     }

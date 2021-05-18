@@ -15,7 +15,7 @@
 
         <variable
             name="detailData"
-            type="com.example.mymoviddb.model.ShowDetail" />
+            type="com.example.mymoviddb.core.model.ShowDetail" />
 
         <variable
             name="showType"
