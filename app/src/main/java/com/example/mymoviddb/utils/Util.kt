@@ -5,9 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.net.ParseException
 import android.view.View
+import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.remote.moshi
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*

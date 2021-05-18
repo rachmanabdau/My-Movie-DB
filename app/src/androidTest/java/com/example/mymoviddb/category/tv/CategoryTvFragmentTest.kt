@@ -13,8 +13,8 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.category.CategoryShowListFragment
 import com.example.mymoviddb.category.CategoryShowListFragmentArgs
 import com.example.mymoviddb.category.ShowCategoryIndex
-import com.example.mymoviddb.core.remote.NetworkService
-import com.example.mymoviddb.di.ServiceModule
+import com.example.mymoviddb.core.datasource.remote.NetworkService
+import com.example.mymoviddb.core.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import dagger.Module

@@ -1,26 +1,25 @@
-package com.example.mymoviddb.utils
+package com.example.mymoviddb.core.preference
 
 import android.app.Application
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.example.mymoviddb.utils.preference.Preference
 import javax.inject.Inject
 
 
 class UserPreference @Inject constructor(application: Application) : Preference {
 
     private val GUEST_TOKEN_KEY =
-        "package com.example.mymoviddb.utils.UserPreference.guesttokenKey"
+        "package com.example.mymoviddb.core.preference.UserPreference.guesttokenKey"
     private val USER_TOKEN_KEY =
-        "package com.example.mymoviddb.utils.UserPreference.userTokenKey"
+        "package com.example.mymoviddb.core.preference.UserPreference.userTokenKey"
     private val LOGIN_STATE_KEY =
-        "package com.example.mymoviddb.utils.UserPreference.loginStateKey"
+        "package com.example.mymoviddb.core.preference.UserPreference.loginStateKey"
     private val TIME_STAMP_KEY =
-        "package com.example.mymoviddb.utils.UserPreference.timeStampKey"
+        "package com.example.mymoviddb.core.preference.UserPreference.timeStampKey"
     private val ACCOUNT_ID_KEY =
-        "package com.example.mymoviddb.utils.UserPreference.accountIdKey"
+        "package com.example.mymoviddb.core.preference.UserPreference.accountIdKey"
 
-    val sharedPrefsFile: String = "package com.example.mymoviddb.utils.UserPreference"
+    val sharedPrefsFile: String = "package com.example.mymoviddb.core.preference.UserPreference"
     val masterKey = MasterKey.Builder(application)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         .build()

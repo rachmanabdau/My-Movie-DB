@@ -1,7 +1,7 @@
-package com.example.mymoviddb.di
+package com.example.mymoviddb.core.di
 
-import com.example.mymoviddb.utils.UserPreference
-import com.example.mymoviddb.utils.preference.Preference
+import com.example.mymoviddb.core.preference.Preference
+import com.example.mymoviddb.core.preference.UserPreference
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

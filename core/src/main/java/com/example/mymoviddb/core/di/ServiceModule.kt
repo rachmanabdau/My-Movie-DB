@@ -1,7 +1,7 @@
-package com.example.mymoviddb.di
+package com.example.mymoviddb.core.di
 
-import com.example.mymoviddb.core.remote.NetworkAPI
-import com.example.mymoviddb.core.remote.NetworkService
+import com.example.mymoviddb.core.datasource.remote.NetworkAPI
+import com.example.mymoviddb.core.datasource.remote.NetworkService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

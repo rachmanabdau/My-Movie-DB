@@ -4,10 +4,10 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.preference.Preference
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.example.mymoviddb.sharedData.FakeUserPreference
-import com.example.mymoviddb.utils.preference.Preference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi

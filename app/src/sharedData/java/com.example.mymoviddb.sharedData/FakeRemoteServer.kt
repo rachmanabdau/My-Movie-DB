@@ -1,9 +1,9 @@
 package com.example.mymoviddb.sharedData
 
 import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.core.datasource.remote.NetworkService
+import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
-import com.example.mymoviddb.core.remote.NetworkService
-import com.example.mymoviddb.core.remote.moshi
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import okhttp3.MediaType.Companion.toMediaType

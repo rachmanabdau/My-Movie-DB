@@ -1,9 +1,9 @@
 package com.example.mymoviddb.category
 
+import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.remote.NetworkService
 import com.example.mymoviddb.utils.Util
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.core.remote
+package com.example.mymoviddb.core.datasource.remote
 
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.BuildConfig.V3_AUTH

@@ -6,7 +6,7 @@ import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResponse
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.utils.preference.Preference
+import com.example.mymoviddb.core.preference.Preference
 import com.example.mymoviddb.utils.wrapEspressoIdlingResource
 
 class ShowDataSource(

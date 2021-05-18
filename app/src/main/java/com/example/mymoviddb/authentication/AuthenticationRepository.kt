@@ -1,7 +1,7 @@
 package com.example.mymoviddb.authentication
 
+import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
-import com.example.mymoviddb.core.remote.NetworkService
 import com.example.mymoviddb.utils.Util
 import javax.inject.Inject
 import javax.inject.Singleton

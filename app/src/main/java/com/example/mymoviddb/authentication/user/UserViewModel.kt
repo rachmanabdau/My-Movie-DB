@@ -10,9 +10,9 @@ import com.example.mymoviddb.core.model.LoginTokenModel
 import com.example.mymoviddb.core.model.NewSessionModel
 import com.example.mymoviddb.core.model.RequestTokenModel
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.preference.LoginState
+import com.example.mymoviddb.core.preference.Preference
 import com.example.mymoviddb.utils.Event
-import com.example.mymoviddb.utils.LoginState
-import com.example.mymoviddb.utils.preference.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

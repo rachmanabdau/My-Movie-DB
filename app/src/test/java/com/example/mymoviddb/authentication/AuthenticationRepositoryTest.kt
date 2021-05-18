@@ -1,10 +1,10 @@
 package com.example.mymoviddb.authentication
 
+import com.example.mymoviddb.core.datasource.remote.NetworkService
+import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.GuestSessionModel
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.remote.NetworkService
-import com.example.mymoviddb.core.remote.moshi
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
