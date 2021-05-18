@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -63,7 +64,16 @@ class MainActivity : AppCompatActivity() {
             if (isUserLogin()) R.id.homeFragment else R.id.authenticationFragment
         navController.graph = graph
 
+        hideToolbaronSearchFragment(navController)
         setupLayout(navController)
+    }
+
+    private fun hideToolbaronSearchFragment(navController: NavController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val fragmentDestination = setOf(R.id.searchFragment)
+            binding.mainToolbar.toolbar.isVisible =
+                fragmentDestination.contains(destination.id).not()
+        }
     }
 
     private fun setupLayout(navController: NavController) {
