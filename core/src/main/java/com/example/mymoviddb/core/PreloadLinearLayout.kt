@@ -1,4 +1,4 @@
-package com.example.mymoviddb.home
+package com.example.mymoviddb.core
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +10,6 @@ import javax.inject.Inject
 /**
  * Extend Linear Layout Manager to prefetch image in a list
  */
-//@WithFragmentBindings
 class PreloadLinearLayout @Inject constructor(
     @ApplicationContext private val context: Context
 ) : LinearLayoutManager(context, RecyclerView.HORIZONTAL, false) {

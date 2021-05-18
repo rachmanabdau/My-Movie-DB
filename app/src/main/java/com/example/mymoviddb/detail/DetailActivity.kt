@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.PreviewShowAdapter
+import com.example.mymoviddb.core.PreloadLinearLayout
 import com.example.mymoviddb.core.model.MovieDetail
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResult
@@ -23,7 +24,6 @@ import com.example.mymoviddb.core.utils.Util.disableViewDuringAnimation
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.UserPreference
 import com.example.mymoviddb.databinding.ActivityDetailBinding
-import com.example.mymoviddb.home.PreloadLinearLayout
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
