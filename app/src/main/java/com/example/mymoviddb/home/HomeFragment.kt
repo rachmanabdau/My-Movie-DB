@@ -11,9 +11,9 @@ import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.PreviewShowAdapter
 import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
+import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.example.mymoviddb.detail.DetailActivity
-import com.example.mymoviddb.utils.EventObserver
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

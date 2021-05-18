@@ -4,8 +4,8 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.UserDetail
-import com.example.mymoviddb.utils.Util
-import com.example.mymoviddb.utils.wrapEspressoIdlingResource
+import com.example.mymoviddb.core.utils.Util
+import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(private val access: NetworkService) : IMainAccess {

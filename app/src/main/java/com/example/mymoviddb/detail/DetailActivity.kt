@@ -18,12 +18,12 @@ import com.example.mymoviddb.core.model.MovieDetail
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.model.TVDetail
-import com.example.mymoviddb.core.preference.LoginState
-import com.example.mymoviddb.core.preference.UserPreference
+import com.example.mymoviddb.core.utils.EventObserver
+import com.example.mymoviddb.core.utils.Util.disableViewDuringAnimation
+import com.example.mymoviddb.core.utils.preference.LoginState
+import com.example.mymoviddb.core.utils.preference.UserPreference
 import com.example.mymoviddb.databinding.ActivityDetailBinding
 import com.example.mymoviddb.home.PreloadLinearLayout
-import com.example.mymoviddb.utils.EventObserver
-import com.example.mymoviddb.utils.Util.disableViewDuringAnimation
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

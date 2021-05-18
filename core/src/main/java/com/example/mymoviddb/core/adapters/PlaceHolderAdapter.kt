@@ -3,7 +3,7 @@ package com.example.mymoviddb.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymoviddb.databinding.LoadingPlaceholderItemBinding
+import com.example.mymoviddb.core.databinding.LoadingPlaceholderItemBinding
 
 class PlaceHolderAdapter : RecyclerView.Adapter<DummyPlaceHolder>() {
 

@@ -8,9 +8,9 @@ import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.GuestSessionModel
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.preference.Preference
-import com.example.mymoviddb.utils.Event
-import com.example.mymoviddb.utils.Util
+import com.example.mymoviddb.core.utils.Event
+import com.example.mymoviddb.core.utils.Util
+import com.example.mymoviddb.core.utils.preference.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

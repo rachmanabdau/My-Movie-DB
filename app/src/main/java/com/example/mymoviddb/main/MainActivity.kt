@@ -20,8 +20,8 @@ import com.example.mymoviddb.R
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.UserDetail
-import com.example.mymoviddb.core.preference.LoginState
-import com.example.mymoviddb.core.preference.UserPreference
+import com.example.mymoviddb.core.utils.preference.LoginState
+import com.example.mymoviddb.core.utils.preference.UserPreference
 import com.example.mymoviddb.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymoviddb.core.databinding.LoadMoreItemBinding
+import com.example.mymoviddb.core.databinding.MovieItemBinding
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.databinding.LoadMoreItemBinding
-import com.example.mymoviddb.databinding.MovieItemBinding
-import com.example.mymoviddb.utils.LoadMoreViewHolder
+import com.example.mymoviddb.core.utils.LoadMoreViewHolder
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
 

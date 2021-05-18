@@ -1,5 +1,6 @@
-package com.example.mymoviddb.utils
+package com.example.mymoviddb.core
 
+import com.example.mymoviddb.core.utils.Util
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test

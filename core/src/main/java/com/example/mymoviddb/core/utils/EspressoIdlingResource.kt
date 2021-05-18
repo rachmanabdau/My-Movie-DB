@@ -1,4 +1,4 @@
-package com.example.mymoviddb.utils
+package com.example.mymoviddb.core.utils
 
 import androidx.test.espresso.idling.CountingIdlingResource
 

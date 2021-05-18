@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.preference.LoginState
-import com.example.mymoviddb.core.preference.UserPreference
+import com.example.mymoviddb.core.utils.EventObserver
+import com.example.mymoviddb.core.utils.preference.LoginState
+import com.example.mymoviddb.core.utils.preference.UserPreference
 import com.example.mymoviddb.databinding.FragmentAuthenticationBinding
-import com.example.mymoviddb.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

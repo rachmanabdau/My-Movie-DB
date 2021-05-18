@@ -3,7 +3,7 @@ package com.example.mymoviddb.home
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymoviddb.utils.DeviceUtils
+import com.example.mymoviddb.core.utils.DeviceUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

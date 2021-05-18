@@ -7,7 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.mymoviddb.databinding.TryAgainLoadListBinding
+import com.example.mymoviddb.core.databinding.TryAgainLoadListBinding
 
 class StateAdapter(
     private val retry: () -> Unit

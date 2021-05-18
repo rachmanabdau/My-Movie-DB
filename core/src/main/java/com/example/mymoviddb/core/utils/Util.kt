@@ -1,4 +1,4 @@
-package com.example.mymoviddb.utils
+package com.example.mymoviddb.core.utils
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

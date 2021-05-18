@@ -4,7 +4,7 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.utils.Util
+import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val access: NetworkService) : IHomeAccess {

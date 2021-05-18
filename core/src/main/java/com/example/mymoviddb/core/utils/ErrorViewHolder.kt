@@ -1,9 +1,9 @@
-package com.example.mymoviddb.utils
+package com.example.mymoviddb.core.utils
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymoviddb.core.databinding.TryAgainLoadListBinding
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.databinding.TryAgainLoadListBinding
 
 
 class ErrorViewHolder(private val binding: TryAgainLoadListBinding) :

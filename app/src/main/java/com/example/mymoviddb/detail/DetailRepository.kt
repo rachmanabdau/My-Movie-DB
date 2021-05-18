@@ -2,7 +2,7 @@ package com.example.mymoviddb.detail
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
-import com.example.mymoviddb.utils.Util
+import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
 class DetailRepository @Inject constructor(private val access: NetworkService) : IDetailAccess {

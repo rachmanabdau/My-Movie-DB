@@ -1,4 +1,4 @@
-package com.example.mymoviddb.core.preference
+package com.example.mymoviddb.core.utils.preference
 
 interface Preference {
     fun setAuthState(state: LoginState)

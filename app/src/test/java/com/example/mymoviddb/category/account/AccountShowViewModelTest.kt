@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.category.CategoryShowListRepository
 import com.example.mymoviddb.category.ICategoryShowListAccess
 import com.example.mymoviddb.category.ShowCategoryIndex
-import com.example.mymoviddb.core.preference.Preference
+import com.example.mymoviddb.core.utils.preference.Preference
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.example.mymoviddb.sharedData.FakeUserPreference

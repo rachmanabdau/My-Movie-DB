@@ -1,7 +1,7 @@
 package com.example.mymoviddb.sharedData
 
-import com.example.mymoviddb.core.preference.LoginState
-import com.example.mymoviddb.core.preference.Preference
+import com.example.mymoviddb.core.utils.preference.LoginState
+import com.example.mymoviddb.core.utils.preference.Preference
 
 class FakeUserPreference : Preference {
 
