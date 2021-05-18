@@ -20,7 +20,7 @@ class SearchDialogChooser : BottomSheetDialogFragment() {
 
         binding.movieChooserContainer.setOnClickListener {
             findNavController().navigate(
-                SearchDialogChooserDirections.actionSearchDialogChooserToSearchActivity(
+                SearchDialogChooserDirections.actionSearchDialogChooserToSearchFragment(
                     ShowCategoryIndex.SEARCH_MOVIES
                 )
             )
@@ -29,7 +29,7 @@ class SearchDialogChooser : BottomSheetDialogFragment() {
 
         binding.tvChooserContainer.setOnClickListener {
             findNavController().navigate(
-                SearchDialogChooserDirections.actionSearchDialogChooserToSearchActivity(
+                SearchDialogChooserDirections.actionSearchDialogChooserToSearchFragment(
                     ShowCategoryIndex.SEARCH_TV_SHOWS
                 )
             )

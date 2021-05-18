@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
-        tools:context=".category.search.SearchActivity">
+        tools:context=".category.search.SearchResult">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/search_toolbar"

@@ -4,96 +4,82 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
-import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.databinding.ActivitySearchBinding
+import com.example.mymoviddb.databinding.FragmentSearchBinding
 import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
 
-    private lateinit var binding: ActivitySearchBinding
+    private lateinit var binding: FragmentSearchBinding
 
     @Inject
     lateinit var showAdapter: CategoryShowAdapter
 
     private val searchViewModel by viewModels<SearchViewModel>()
 
-    private val args by navArgs<SearchActivityArgs>()
+    private val resultArgs by lazy {
+        SearchFragmentArgs.fromBundle(requireArguments())
+    }
 
-    private var id = ShowCategoryIndex.SEARCH_MOVIES
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
-        binding.lifecycleOwner = this
-        id = args.searchID
-
-        setupToolbar()
-        //initAdapter()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
         observeSearchMovies()
-        handleIntent(intent)
 
         // Get the SearchView and set the searchable configuration
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager =
+            requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         binding.searchView.apply {
             maxWidth = Integer.MAX_VALUE
             // Assumes current activity is the searchable activity
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
             setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
             isFocusable = true
             requestFocusFromTouch()
         }
-    }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        handleIntent(intent)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun handleIntent(intent: Intent) {
-        if (Intent.ACTION_SEARCH == intent.action) {
-            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.isNotBlank()) {
-                    searchViewModel.searchShow(id, query.trim())
+                    searchViewModel.searchShow(resultArgs.searchID, query)
+                    return true
                 }
-                binding.searchView.setQuery(query, false)
+                return false
             }
-        }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+        // Inflate the layout for this fragment
+        return binding.root
     }
 
     private fun observeSearchMovies() {
         initAdapter()
-        searchViewModel.showPageData.observe(this, {
+        searchViewModel.showPageData.observe(viewLifecycleOwner) {
             showAdapter.submitData(lifecycle, it)
-        })
+        }
     }
 
     private fun initAdapter() {
@@ -119,19 +105,10 @@ class SearchActivity : AppCompatActivity() {
                 footer = StateAdapter(showAdapter::retry)
             )
         }
-
-        //observeSearchMovies()
-    }
-
-    private fun setupToolbar() {
-        // my_child_toolbar is defined in the layout file
-        setSupportActionBar(binding.searchToolbar)
-        // Get a support ActionBar corresponding to this toolbar and enable the Up button
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setIntentDetail(showItem: ShowResult) {
-        val intent = Intent(this, DetailActivity::class.java)
+        val intent = Intent(requireContext(), DetailActivity::class.java)
         intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
         startActivity(intent)
     }
