@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchDialogChooser"
             app:destination="@id/searchDialogChooser" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticationFragment"
@@ -45,6 +48,9 @@
         <argument
             android:name="categoryId"
             app:argType="com.example.mymoviddb.category.ShowCategoryIndex" />
+        <action
+            android:id="@+id/action_categoryMovieListFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
     <dialog
         android:id="@+id/searchDialogChooser"
@@ -58,22 +64,38 @@
         android:id="@+id/favouriteMoviesFragment"
         android:name="com.example.mymoviddb.category.account.favourite.FavouriteMoviesFragment"
         android:label="@string/favourite_movies_label"
-        tools:layout="@layout/fragment_favourite_movies" />
+        tools:layout="@layout/fragment_favourite_movies">
+        <action
+            android:id="@+id/action_favouriteMoviesFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteTVShowsFragment"
         android:name="com.example.mymoviddb.category.account.favourite.FavouriteTVShowsFragment"
         android:label="@string/favourite_tv_shows_label"
-        tools:layout="@layout/fragment_favourite_tv_shows" />
+        tools:layout="@layout/fragment_favourite_tv_shows">
+        <action
+            android:id="@+id/action_favouriteTVShowsFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/watchListMovieFragment"
         android:name="com.example.mymoviddb.category.account.watchlist.WatchListMovieFragment"
         android:label="@string/movie_watch_list_menu"
-        tools:layout="@layout/fragment_watch_list_movie" />
+        tools:layout="@layout/fragment_watch_list_movie">
+        <action
+            android:id="@+id/action_watchListMovieFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/watchListTVFragment"
         android:name="com.example.mymoviddb.category.account.watchlist.WatchListTVFragment"
         android:label="@string/tv_watch_list_menu"
-        tools:layout="@layout/fragment_watch_list_tv" />
+        tools:layout="@layout/fragment_watch_list_tv">
+        <action
+            android:id="@+id/action_watchListTVFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.mymoviddb.category.search.SearchFragment"
@@ -82,5 +104,20 @@
         <argument
             android:name="searchID"
             app:argType="com.example.mymoviddb.category.ShowCategoryIndex" />
+        <action
+            android:id="@+id/action_searchFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.mymoviddb.detail.DetailFragment"
+        android:label=""
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="showItem"
+            app:argType="com.example.mymoviddb.core.model.ShowResult" />
+        <action
+            android:id="@+id/action_detailFragment_self"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>

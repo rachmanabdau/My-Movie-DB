@@ -1,6 +1,5 @@
 package com.example.mymoviddb.category.account.watchlist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.example.mymoviddb.R
@@ -18,7 +18,6 @@ import com.example.mymoviddb.category.account.AccountShowViewModel
 import com.example.mymoviddb.category.account.ResultHandler
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.databinding.FragmentWatchListMovieBinding
-import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -80,9 +79,11 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
     }
 
     override fun navigateToDetailMovie(showItem: ShowResult) {
-        val intent = Intent(requireActivity(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
-        startActivity(intent)
+        findNavController().navigate(
+            WatchListMovieFragmentDirections.actionWatchListMovieFragmentToDetailFragment(
+                showItem
+            )
+        )
     }
 
     override fun setViewResult(

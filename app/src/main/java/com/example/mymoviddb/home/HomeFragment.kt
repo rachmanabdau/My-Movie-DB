@@ -1,6 +1,5 @@
 package com.example.mymoviddb.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import com.example.mymoviddb.core.PreloadLinearLayout
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.databinding.FragmentHomeBinding
-import com.example.mymoviddb.detail.DetailActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -156,9 +154,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToDetailShow(showItem: ShowResult) {
-        val intent = Intent(requireActivity(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
-        startActivity(intent)
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                showItem
+            )
+        )
     }
 
     private fun setClickListener() {

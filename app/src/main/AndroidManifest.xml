@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".detail.DetailActivity"
-            android:screenOrientation="sensorPortrait" />
-        <activity
             android:name=".SplashActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppFullScreenTheme">

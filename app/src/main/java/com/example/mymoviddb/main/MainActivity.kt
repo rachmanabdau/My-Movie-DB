@@ -64,13 +64,14 @@ class MainActivity : AppCompatActivity() {
             if (isUserLogin()) R.id.homeFragment else R.id.authenticationFragment
         navController.graph = graph
 
-        hideToolbaronSearchFragment(navController)
-        setupLayout(navController)
+        setupToolbar(navController)
     }
 
-    private fun hideToolbaronSearchFragment(navController: NavController) {
+    private fun setupToolbar(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val fragmentDestination = setOf(R.id.searchFragment)
+            val fragmentDestination = setOf(R.id.searchFragment, R.id.detailFragment)
+            setSupportActionBar(binding.mainToolbar.toolbar)
+            setupLayout(navController)
             binding.mainToolbar.toolbar.isVisible =
                 fragmentDestination.contains(destination.id).not()
         }

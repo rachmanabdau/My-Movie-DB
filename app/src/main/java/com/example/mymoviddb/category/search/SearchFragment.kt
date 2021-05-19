@@ -2,7 +2,6 @@ package com.example.mymoviddb.category.search
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.adapters.CategoryShowAdapter
@@ -19,7 +20,6 @@ import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.databinding.FragmentSearchBinding
-import com.example.mymoviddb.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,6 +44,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
+        binding.searchToolbar.setupWithNavController(findNavController())
         observeSearchMovies()
 
         // Get the SearchView and set the searchable configuration
@@ -108,9 +109,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun setIntentDetail(showItem: ShowResult) {
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.DETAIL_KEY, showItem)
-        startActivity(intent)
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToDetailFragment(showItem)
+        )
     }
 
     private fun handleLoadState(state: LoadState, retry: () -> Unit) {
