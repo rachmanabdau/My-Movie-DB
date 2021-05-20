@@ -3,9 +3,11 @@ package com.example.mymoviddb.core.datasource.remote
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.BuildConfig.V3_AUTH
 import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.model.category.movie.FavouriteMovie
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
+import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.core.model.category.tv.SearchTvResult
@@ -172,7 +174,7 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewMovie>>
+    ): Deferred<Response<FavouriteMovie>>
 
     @GET("account/{account_id}/favorite/tv")
     fun getFavoriteTvShowAsync(
@@ -181,7 +183,7 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewTvShow>>
+    ): Deferred<Response<FavouriteTvShow>>
 
     @POST("account/{account_id}/watchlist")
     fun addToWatchListAsync(

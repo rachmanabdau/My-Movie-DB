@@ -4,9 +4,11 @@ import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.FavouriteMovie
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
+import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.core.model.category.tv.SearchTvResult
@@ -24,7 +26,7 @@ interface ICategoryShowListAccess {
         sessionId: String,
         page: Int,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<PreviewMovie?>
+    ): Result<FavouriteMovie?>
 
     suspend fun getWatchlistMovies(
         accountId: Int,
@@ -44,7 +46,7 @@ interface ICategoryShowListAccess {
         sessionId: String,
         page: Int,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<PreviewTvShow?>
+    ): Result<FavouriteTvShow?>
 
     suspend fun getWatchlistTVShows(
         accountId: Int,

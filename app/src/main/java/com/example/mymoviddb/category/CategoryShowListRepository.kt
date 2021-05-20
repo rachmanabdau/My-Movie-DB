@@ -4,9 +4,11 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.FavouriteMovie
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
+import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.core.model.category.tv.SearchTvResult
@@ -46,7 +48,7 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
         sessionId: String,
         page: Int,
         apiKey: String
-    ): Result<PreviewMovie?> {
+    ): Result<FavouriteMovie?> {
         return Util.getDataFromServer {
             access.getFavoriteMoviesAsync(
                 accountId = accountId,
@@ -100,7 +102,7 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
         sessionId: String,
         page: Int,
         apiKey: String
-    ): Result<PreviewTvShow?> {
+    ): Result<FavouriteTvShow?> {
         return Util.getDataFromServer {
             access.getFavoriteTvShowAsync(
                 accountId = accountId,
