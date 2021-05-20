@@ -5,6 +5,7 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
+import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import kotlinx.coroutines.CompletableDeferred
@@ -264,7 +265,7 @@ class FakeRemoteServer : NetworkService {
         title: String,
         page: Int,
         apiKey: String
-    ): Deferred<Response<PreviewMovie>> {
+    ): Deferred<Response<SearchMovieResult>> {
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
   "status_message": "Invalid API key: You must be granted a valid key.",

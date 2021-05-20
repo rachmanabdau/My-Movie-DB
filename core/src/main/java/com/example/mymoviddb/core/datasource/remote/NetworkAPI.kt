@@ -5,6 +5,7 @@ import com.example.mymoviddb.core.BuildConfig.V3_AUTH
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -83,7 +84,7 @@ interface NetworkService {
         @Query("query") title: String,
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewMovie>>
+    ): Deferred<Response<SearchMovieResult>>
 
     @GET("search/tv")
     fun searchTvShowsAsync(

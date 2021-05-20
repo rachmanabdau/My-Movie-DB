@@ -6,6 +6,7 @@ import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 
@@ -15,7 +16,7 @@ interface ICategoryShowListAccess {
 
     suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<NowPlayingMovie?>
 
-    suspend fun searchMovies(title: String, page: Int, apiKey: String): Result<PreviewMovie?>
+    suspend fun searchMovies(title: String, page: Int, apiKey: String): Result<SearchMovieResult?>
 
     suspend fun getFavouriteMovies(
         accountId: Int,
