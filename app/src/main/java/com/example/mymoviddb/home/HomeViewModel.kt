@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.core.BuildConfig
-import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.succeeded
 import com.example.mymoviddb.core.utils.Event
@@ -24,8 +24,8 @@ class HomeViewModel @Inject constructor(
     private val _popularMovieList = MutableLiveData<Result<PopularMovie?>>()
     val popularMovieList: LiveData<Result<PopularMovie?>> = _popularMovieList
 
-    private val _nowPlayingMovieList = MutableLiveData<Result<PreviewMovie?>>()
-    val nowPlayingMovieList: LiveData<Result<PreviewMovie?>> = _nowPlayingMovieList
+    private val _nowPlayingMovieList = MutableLiveData<Result<NowPlayingMovie?>>()
+    val nowPlayingMovieList: LiveData<Result<NowPlayingMovie?>> = _nowPlayingMovieList
 
     private val _popularTVList = MutableLiveData<Result<PreviewTvShow?>>()
     val popularTVList: LiveData<Result<PreviewTvShow?>> = _popularTVList

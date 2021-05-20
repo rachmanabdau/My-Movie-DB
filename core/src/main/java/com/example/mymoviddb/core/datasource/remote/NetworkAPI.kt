@@ -3,6 +3,7 @@ package com.example.mymoviddb.core.datasource.remote
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.BuildConfig.V3_AUTH
 import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -61,7 +62,7 @@ interface NetworkService {
     fun getNowPlayingMoviesAsync(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewMovie>>
+    ): Deferred<Response<NowPlayingMovie>>
 
     @GET("tv/popular")
     fun getPopularTvShowAsync(

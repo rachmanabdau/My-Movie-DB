@@ -1,9 +1,9 @@
 package com.example.mymoviddb.home
 
 import com.example.mymoviddb.core.BuildConfig
-import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 
 interface IHomeAccess {
@@ -16,7 +16,7 @@ interface IHomeAccess {
     suspend fun getNowPlayingMovieList(
         page: Int,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<PreviewMovie?>
+    ): Result<NowPlayingMovie?>
 
     suspend fun getPopularTvShowList(
         page: Int,
