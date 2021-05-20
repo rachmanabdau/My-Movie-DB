@@ -5,6 +5,7 @@ import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 
 interface IHomeAccess {
 
@@ -21,7 +22,7 @@ interface IHomeAccess {
     suspend fun getPopularTvShowList(
         page: Int,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<PreviewTvShow?>
+    ): Result<PopularTvShow?>
 
     suspend fun getOnAirTvShowList(
         page: Int,

@@ -6,6 +6,7 @@ import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 
 interface ICategoryShowListAccess {
 
@@ -29,7 +30,7 @@ interface ICategoryShowListAccess {
         apiKey: String = BuildConfig.V3_AUTH
     ): Result<PreviewMovie?>
 
-    suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?>
+    suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PopularTvShow?>
 
     suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?>
 

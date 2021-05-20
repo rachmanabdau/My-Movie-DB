@@ -6,6 +6,7 @@ import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
         }
     }
 
-    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PreviewTvShow?> {
+    override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PopularTvShow?> {
         return Util.getDataFromServer {
             access.getPopularTvShowAsync(page, apiKey).await()
         }

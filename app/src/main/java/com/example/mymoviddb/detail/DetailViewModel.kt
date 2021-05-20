@@ -56,7 +56,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
                     detailAccess.getMovieDetail(showItem.id, apiKey)
                 }
                 else -> {
-                    val id = (showItem as PreviewTvShow.Result).id
+                    val id = showItem.id
                     getTVAccountState(id, sessionId, apiKey)
                     detailAccess.getDetailTV(id, apiKey)
                 }
@@ -82,7 +82,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
                 getMovieAccountState(showItem.id, sessionId, apiKey)
             }
             else -> {
-                val id = (showItem as PreviewTvShow.Result).id
+                val id = showItem.id
                 getTVAccountState(id, sessionId, apiKey)
             }
         }
@@ -127,7 +127,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
             _recommendationShows.value = if (showItem is MovieField) {
                 detailAccess.getRecommendationMovies(showItem.id, apiKey)
             } else {
-                val id = (showItem as PreviewTvShow.Result).id
+                val id = showItem.id
                 detailAccess.getRecommendationTVShows(id, apiKey)
             }
         }
@@ -138,7 +138,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
             _similarShows.value = if (showItem is MovieField) {
                 detailAccess.getSimilarMovies(showItem.id, apiKey)
             } else {
-                val id = (showItem as PreviewTvShow.Result).id
+                val id = showItem.id
                 detailAccess.getSimilarTVShows(id, apiKey)
             }
         }

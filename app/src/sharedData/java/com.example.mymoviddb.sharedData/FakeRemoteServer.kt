@@ -5,6 +5,7 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
+import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import okhttp3.MediaType.Companion.toMediaType
@@ -206,7 +207,7 @@ class FakeRemoteServer : NetworkService {
     override fun getPopularTvShowAsync(
         page: Int,
         apiKey: String
-    ): Deferred<Response<PreviewTvShow>> {
+    ): Deferred<Response<PopularTvShow>> {
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
