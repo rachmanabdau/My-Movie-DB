@@ -5,6 +5,7 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
+import com.example.mymoviddb.core.model.category.movie.RecommendationMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.movie.WatchListMovie
 import com.example.mymoviddb.core.model.category.tv.*
@@ -438,7 +439,7 @@ class FakeRemoteServer : NetworkService {
     override fun getRecommendationMoviesAsync(
         movieId: Long,
         apiKey: String
-    ): Deferred<Response<PreviewMovie>> {
+    ): Deferred<Response<RecommendationMovie>> {
 
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
@@ -523,7 +524,7 @@ class FakeRemoteServer : NetworkService {
     override fun getRecommendationTVShowsAsync(
         tvId: Long,
         apiKey: String
-    ): Deferred<Response<PreviewTvShow>> {
+    ): Deferred<Response<RecommendationTvShow>> {
 
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{

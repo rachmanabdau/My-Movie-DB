@@ -2,6 +2,8 @@ package com.example.mymoviddb.detail
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.model.category.movie.RecommendationMovie
+import com.example.mymoviddb.core.model.category.tv.RecommendationTvShow
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
@@ -16,7 +18,7 @@ class DetailRepository @Inject constructor(private val access: NetworkService) :
     override suspend fun getRecommendationMovies(
         movieId: Long,
         apiKey: String
-    ): Result<PreviewMovie?> {
+    ): Result<RecommendationMovie?> {
         return Util.getDataFromServer {
             access.getRecommendationMoviesAsync(movieId, apiKey).await()
         }
@@ -37,7 +39,7 @@ class DetailRepository @Inject constructor(private val access: NetworkService) :
     override suspend fun getRecommendationTVShows(
         tvId: Long,
         apiKey: String
-    ): Result<PreviewTvShow?> {
+    ): Result<RecommendationTvShow?> {
         return Util.getDataFromServer {
             access.getRecommendationTVShowsAsync(tvId, apiKey).await()
         }
