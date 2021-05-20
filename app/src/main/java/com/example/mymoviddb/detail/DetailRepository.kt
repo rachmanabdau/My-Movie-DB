@@ -3,7 +3,9 @@ package com.example.mymoviddb.detail
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.RecommendationMovie
+import com.example.mymoviddb.core.model.category.movie.SimilarMovie
 import com.example.mymoviddb.core.model.category.tv.RecommendationTvShow
+import com.example.mymoviddb.core.model.category.tv.SimilarTvShow
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
@@ -24,7 +26,7 @@ class DetailRepository @Inject constructor(private val access: NetworkService) :
         }
     }
 
-    override suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<PreviewMovie?> {
+    override suspend fun getSimilarMovies(movieId: Long, apiKey: String): Result<SimilarMovie?> {
         return Util.getDataFromServer {
             access.getSimilarMoviesAsync(movieId, apiKey).await()
         }
@@ -45,7 +47,7 @@ class DetailRepository @Inject constructor(private val access: NetworkService) :
         }
     }
 
-    override suspend fun getSimilarTVShows(tvId: Long, apiKey: String): Result<PreviewTvShow?> {
+    override suspend fun getSimilarTVShows(tvId: Long, apiKey: String): Result<SimilarTvShow?> {
         return Util.getDataFromServer {
             access.getSimilarTVShowsAsync(tvId, apiKey).await()
         }

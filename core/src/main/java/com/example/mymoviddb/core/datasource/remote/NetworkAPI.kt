@@ -112,7 +112,7 @@ interface NetworkService {
     fun getSimilarMoviesAsync(
         @Path("movie_id") movieId: Long,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewMovie>>
+    ): Deferred<Response<SimilarMovie>>
 
     @GET("tv/{tv_id}/recommendations")
     fun getRecommendationTVShowsAsync(
@@ -124,7 +124,7 @@ interface NetworkService {
     fun getSimilarTVShowsAsync(
         @Path("tv_id") tvId: Long,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewTvShow>>
+    ): Deferred<Response<SimilarTvShow>>
 
     @GET("account")
     fun getAccountDetailAsync(

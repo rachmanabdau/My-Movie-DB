@@ -4,10 +4,7 @@ import com.example.mymoviddb.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
-import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
-import com.example.mymoviddb.core.model.category.movie.RecommendationMovie
-import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
-import com.example.mymoviddb.core.model.category.movie.WatchListMovie
+import com.example.mymoviddb.core.model.category.movie.*
 import com.example.mymoviddb.core.model.category.tv.*
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
@@ -481,7 +478,7 @@ class FakeRemoteServer : NetworkService {
     override fun getSimilarMoviesAsync(
         movieId: Long,
         apiKey: String
-    ): Deferred<Response<PreviewMovie>> {
+    ): Deferred<Response<SimilarMovie>> {
 
 
         val realApiKey = BuildConfig.V3_AUTH
@@ -566,7 +563,7 @@ class FakeRemoteServer : NetworkService {
     override fun getSimilarTVShowsAsync(
         tvId: Long,
         apiKey: String
-    ): Deferred<Response<PreviewTvShow>> {
+    ): Deferred<Response<SimilarTvShow>> {
 
         val realApiKey = BuildConfig.V3_AUTH
         val error401Response = """{
