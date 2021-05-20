@@ -4,10 +4,11 @@ import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.PopularMovie
 
 interface ICategoryShowListAccess {
 
-    suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PreviewMovie?>
+    suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PopularMovie?>
 
     suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<PreviewMovie?>
 

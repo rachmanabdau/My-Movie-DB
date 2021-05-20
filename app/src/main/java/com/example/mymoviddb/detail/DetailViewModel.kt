@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.R
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.model.category.movie.MovieField
 import com.example.mymoviddb.core.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -50,7 +51,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
     ) {
         viewModelScope.launch {
             val result = when (showItem) {
-                is PreviewMovie.Result -> {
+                is MovieField -> {
                     getMovieAccountState(showItem.id, sessionId, apiKey)
                     detailAccess.getMovieDetail(showItem.id, apiKey)
                 }
@@ -77,7 +78,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         when (showItem) {
-            is PreviewMovie.Result -> {
+            is MovieField -> {
                 getMovieAccountState(showItem.id, sessionId, apiKey)
             }
             else -> {
@@ -123,7 +124,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
 
     fun getRecommendationShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _recommendationShows.value = if (showItem is PreviewMovie.Result) {
+            _recommendationShows.value = if (showItem is MovieField) {
                 detailAccess.getRecommendationMovies(showItem.id, apiKey)
             } else {
                 val id = (showItem as PreviewTvShow.Result).id
@@ -134,7 +135,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
 
     fun getSimilarShows(showItem: ShowResult, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            _similarShows.value = if (showItem is PreviewMovie.Result) {
+            _similarShows.value = if (showItem is MovieField) {
                 detailAccess.getSimilarMovies(showItem.id, apiKey)
             } else {
                 val id = (showItem as PreviewTvShow.Result).id
@@ -150,7 +151,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            val mediaType = if (showItem is PreviewMovie.Result) "movie" else "tv"
+            val mediaType = if (showItem is MovieField) "movie" else "tv"
             val sendFavourite =
                 MarkMediaAs(showItem.id, mediaType, _isFavourite.value?.not(), null)
             detailAccess.markAsFavorite(accountId, sessionId, sendFavourite, apiKey)
@@ -198,7 +199,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
         apiKey: String = BuildConfig.V3_AUTH
     ) {
         viewModelScope.launch {
-            val mediaType = if (showItem is PreviewMovie.Result) "movie" else "tv"
+            val mediaType = if (showItem is MovieField) "movie" else "tv"
             val sendMediaWatchList =
                 MarkMediaAs(showItem.id, mediaType, null, _isAddedToWatchList.value?.not())
             detailAccess.addToWatchList(accountId, sessionId, sendMediaWatchList, apiKey)

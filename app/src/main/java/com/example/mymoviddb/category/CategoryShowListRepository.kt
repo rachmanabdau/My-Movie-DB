@@ -4,13 +4,14 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
 class CategoryShowListRepository @Inject constructor(private val access: NetworkService) :
     ICategoryShowListAccess {
 
-    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PreviewMovie?> {
+    override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PopularMovie?> {
         return Util.getDataFromServer {
             access.getPopularMoviesAsync(page, apiKey).await()
         }

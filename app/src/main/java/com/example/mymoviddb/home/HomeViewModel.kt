@@ -8,6 +8,7 @@ import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.PreviewMovie
 import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.succeeded
 import com.example.mymoviddb.core.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +21,8 @@ class HomeViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val _popularMovieList = MutableLiveData<Result<PreviewMovie?>>()
-    val popularMovieList: LiveData<Result<PreviewMovie?>> = _popularMovieList
+    private val _popularMovieList = MutableLiveData<Result<PopularMovie?>>()
+    val popularMovieList: LiveData<Result<PopularMovie?>> = _popularMovieList
 
     private val _nowPlayingMovieList = MutableLiveData<Result<PreviewMovie?>>()
     val nowPlayingMovieList: LiveData<Result<PreviewMovie?>> = _nowPlayingMovieList
