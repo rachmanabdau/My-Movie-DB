@@ -8,6 +8,7 @@ import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
+import com.example.mymoviddb.core.model.category.tv.SearchTvResult
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -91,7 +92,7 @@ interface NetworkService {
         @Query("query") title: String,
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewTvShow>>
+    ): Deferred<Response<SearchTvResult>>
 
     @GET("movie/{movie_id}")
     fun getDetailhMoviesAsync(

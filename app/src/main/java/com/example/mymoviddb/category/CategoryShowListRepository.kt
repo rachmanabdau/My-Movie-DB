@@ -9,6 +9,7 @@ import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
+import com.example.mymoviddb.core.model.category.tv.SearchTvResult
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
@@ -88,7 +89,7 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
         title: String,
         page: Int,
         apiKey: String
-    ): Result<PreviewTvShow?> {
+    ): Result<SearchTvResult?> {
         return Util.getDataFromServer {
             access.searchTvShowsAsync(title, page, apiKey).await()
         }

@@ -9,6 +9,7 @@ import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
+import com.example.mymoviddb.core.model.category.tv.SearchTvResult
 
 interface ICategoryShowListAccess {
 
@@ -36,7 +37,7 @@ interface ICategoryShowListAccess {
 
     suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<OnAirTvShow?>
 
-    suspend fun searchTvShowList(title: String, page: Int, apiKey: String): Result<PreviewTvShow?>
+    suspend fun searchTvShowList(title: String, page: Int, apiKey: String): Result<SearchTvResult?>
 
     suspend fun getFavouriteTVShows(
         accountId: Int,
