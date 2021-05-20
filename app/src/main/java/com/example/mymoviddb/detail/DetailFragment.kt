@@ -21,6 +21,7 @@ import com.example.mymoviddb.core.model.MovieDetail
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.model.TVDetail
+import com.example.mymoviddb.core.model.category.movie.MovieField
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.core.utils.Util.disableViewDuringAnimation
 import com.example.mymoviddb.core.utils.preference.LoginState
@@ -39,18 +40,16 @@ class DetailFragment : Fragment() {
     lateinit var recommendationShowAdapter: PreviewShowAdapter
 
     @Inject
-    lateinit var recommendationShowLayoutManager: PreloadLinearLayout
-
-    @Inject
     lateinit var similarShowsAdapter: PreviewShowAdapter
-
-    @Inject
-    lateinit var similarShowsLayoutManager: PreloadLinearLayout
 
     @Inject
     lateinit var userPreference: UserPreference
 
     private val detailViewModel by viewModels<DetailViewModel>()
+
+    private val showItem by lazy {
+        DetailFragmentArgs.fromBundle(requireArguments()).showItem
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,18 +58,23 @@ class DetailFragment : Fragment() {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.detailViewModel = detailViewModel
-
-        val sessionId = userPreference.readUserSession()
-        val showItem = DetailFragmentArgs.fromBundle(requireArguments()).showItem
-        detailViewModel.getShowDetail(showItem, sessionId)
-        setupFAB(showItem)
-        loadData(showItem)
+        initLayout()
+        loadData()
 
         // Show snack bar message from add/remove favourite (either succeed or failed)
         // Show snack bar message from add to/remove from watch list  (either succeed or failed)
         detailViewModel.showSnackbarMessage.observe(viewLifecycleOwner, EventObserver {
             Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
         })
+
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
+    private fun initLayout() {
+        val sessionId = userPreference.readUserSession()
+        detailViewModel.getShowDetail(showItem, sessionId)
+        setupFAB()
 
         detailViewModel.isFavourite.observe(viewLifecycleOwner) {
             val colorTint =
@@ -81,12 +85,9 @@ class DetailFragment : Fragment() {
                 binding.favouriteBtnDetail, colorTint
             )
         }
-
-        // Inflate the layout for this fragment
-        return binding.root
     }
 
-    private fun setupFAB(showItem: ShowResult) {
+    private fun setupFAB() {
         val state = userPreference.getAuthState()
         val sessionId = userPreference.readUserSession()
         val userId = userPreference.readAccountId()
@@ -121,19 +122,19 @@ class DetailFragment : Fragment() {
         set.start()
     }
 
-    private fun loadData(showItem: ShowResult) {
-
+    private fun loadData() {
         initAdapter()
-        observeShowsDetail(showItem)
-
-        binding.recommendationLabelDetail.text =
-            getString(R.string.recommendation_detail_label, getString(R.string.movies_label))
-        binding.similarLabelDetail.text =
-            getString(R.string.similar_detail_label, getString(R.string.movies_label))
-
+        observeShowsDetail()
     }
 
     private fun initAdapter() {
+        setRecommendationLabel()
+        setRecommendationadapter()
+        setSimilarLabel()
+        setSimilarAdapter()
+    }
+
+    private fun setRecommendationadapter() {
         // Adapter for recommendation shows
         binding.recommendtaionDetailRv.adapter = recommendationShowAdapter
             .showLoadMore(false)
@@ -141,8 +142,18 @@ class DetailFragment : Fragment() {
             .setNavigationToDetail { navigateToSelf(it) }
 
         // layout manager for recommendation shows
-        binding.recommendtaionDetailRv.layoutManager = recommendationShowLayoutManager
+        binding.recommendtaionDetailRv.layoutManager = PreloadLinearLayout(requireContext())
+    }
 
+    private fun setRecommendationLabel() {
+        binding.recommendationLabelDetail.text = if (showItem is MovieField) {
+            getString(R.string.recommendation_detail_label, getString(R.string.movies_label))
+        } else {
+            getString(R.string.recommendation_detail_label, getString(R.string.tv_shows_label))
+        }
+    }
+
+    private fun setSimilarAdapter() {
         // Adapter for similar shows
         binding.similarDetailRv.adapter = similarShowsAdapter
             .showLoadMore(false)
@@ -150,10 +161,18 @@ class DetailFragment : Fragment() {
             .setNavigationToDetail { navigateToSelf(it) }
 
         // layout manager for similar movies
-        binding.similarDetailRv.layoutManager = similarShowsLayoutManager
+        binding.similarDetailRv.layoutManager = PreloadLinearLayout(requireContext())
     }
 
-    private fun observeShowsDetail(showItem: ShowResult) {
+    private fun setSimilarLabel() {
+        binding.similarLabelDetail.text = if (showItem is MovieField) {
+            getString(R.string.similar_detail_label, getString(R.string.movies_label))
+        } else {
+            getString(R.string.similar_detail_label, getString(R.string.tv_shows_label))
+        }
+    }
+
+    private fun observeShowsDetail() {
         detailViewModel.showDetail.observe(viewLifecycleOwner) {
             detailViewModel.determineDetailResult(it)
             if (it is Result.Success) {
