@@ -1,17 +1,9 @@
 package com.example.mymoviddb.category
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
-import com.example.mymoviddb.core.model.PreviewMovie
-import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.model.category.movie.FavouriteMovie
-import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
-import com.example.mymoviddb.core.model.category.movie.PopularMovie
-import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
-import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
-import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
-import com.example.mymoviddb.core.model.category.tv.PopularTvShow
-import com.example.mymoviddb.core.model.category.tv.SearchTvResult
+import com.example.mymoviddb.core.model.category.movie.*
+import com.example.mymoviddb.core.model.category.tv.*
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
@@ -64,7 +56,7 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
         sessionId: String,
         page: Int,
         apiKey: String
-    ): Result<PreviewMovie?> {
+    ): Result<WatchListMovie?> {
         return Util.getDataFromServer {
             access.getWatchListMoviesAsync(
                 accountId = accountId,
@@ -118,7 +110,7 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
         sessionId: String,
         page: Int,
         apiKey: String
-    ): Result<PreviewTvShow?> {
+    ): Result<WatchListTvShow?> {
         return Util.getDataFromServer {
             access.getWatchListTvShowsAsync(
                 accountId = accountId,

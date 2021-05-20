@@ -6,10 +6,8 @@ import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
-import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
-import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
-import com.example.mymoviddb.core.model.category.tv.PopularTvShow
-import com.example.mymoviddb.core.model.category.tv.SearchTvResult
+import com.example.mymoviddb.core.model.category.movie.WatchListMovie
+import com.example.mymoviddb.core.model.category.tv.*
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import okhttp3.MediaType.Companion.toMediaType
@@ -889,7 +887,7 @@ class FakeRemoteServer : NetworkService {
         page: Int,
         sortBy: String,
         apiKey: String
-    ): Deferred<Response<PreviewMovie>> {
+    ): Deferred<Response<WatchListMovie>> {
         val error401Response = """{
   "success": false,
   "status_code": 6,
@@ -918,7 +916,7 @@ class FakeRemoteServer : NetworkService {
         page: Int,
         sortBy: String,
         apiKey: String
-    ): Deferred<Response<PreviewTvShow>> {
+    ): Deferred<Response<WatchListTvShow>> {
         val error401Response = """{
   "success": false,
   "status_code": 6,

@@ -1,17 +1,9 @@
 package com.example.mymoviddb.category
 
 import com.example.mymoviddb.core.BuildConfig
-import com.example.mymoviddb.core.model.PreviewMovie
-import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.model.category.movie.FavouriteMovie
-import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
-import com.example.mymoviddb.core.model.category.movie.PopularMovie
-import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
-import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
-import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
-import com.example.mymoviddb.core.model.category.tv.PopularTvShow
-import com.example.mymoviddb.core.model.category.tv.SearchTvResult
+import com.example.mymoviddb.core.model.category.movie.*
+import com.example.mymoviddb.core.model.category.tv.*
 
 interface ICategoryShowListAccess {
 
@@ -33,7 +25,7 @@ interface ICategoryShowListAccess {
         sessionId: String,
         page: Int,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<PreviewMovie?>
+    ): Result<WatchListMovie?>
 
     suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PopularTvShow?>
 
@@ -53,5 +45,5 @@ interface ICategoryShowListAccess {
         sessionId: String,
         page: Int,
         apiKey: String = BuildConfig.V3_AUTH
-    ): Result<PreviewTvShow?>
+    ): Result<WatchListTvShow?>
 }

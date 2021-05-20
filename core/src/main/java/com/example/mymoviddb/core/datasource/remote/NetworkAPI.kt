@@ -3,14 +3,8 @@ package com.example.mymoviddb.core.datasource.remote
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.BuildConfig.V3_AUTH
 import com.example.mymoviddb.core.model.*
-import com.example.mymoviddb.core.model.category.movie.FavouriteMovie
-import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
-import com.example.mymoviddb.core.model.category.movie.PopularMovie
-import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
-import com.example.mymoviddb.core.model.category.tv.FavouriteTvShow
-import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
-import com.example.mymoviddb.core.model.category.tv.PopularTvShow
-import com.example.mymoviddb.core.model.category.tv.SearchTvResult
+import com.example.mymoviddb.core.model.category.movie.*
+import com.example.mymoviddb.core.model.category.tv.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -201,7 +195,7 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewMovie>>
+    ): Deferred<Response<WatchListMovie>>
 
     @GET("account/{account_id}/watchlist/tv")
     fun getWatchListTvShowsAsync(
@@ -210,7 +204,7 @@ interface NetworkService {
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String = "created_at.desc",
         @Query("api_key") apiKey: String = V3_AUTH
-    ): Deferred<Response<PreviewTvShow>>
+    ): Deferred<Response<WatchListTvShow>>
 }
 
 object NetworkAPI {
