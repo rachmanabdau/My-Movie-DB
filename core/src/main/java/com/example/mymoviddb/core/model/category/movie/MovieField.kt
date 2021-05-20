@@ -1,7 +1,9 @@
 package com.example.mymoviddb.core.model.category.movie
 
-interface MovieField {
-    val adult: Boolean
-    val releaseDate: String?
-    val video: Boolean
+import com.example.mymoviddb.core.model.ShowResult
+
+abstract class MovieField : ShowResult() {
+    abstract val adult: Boolean
+    abstract val releaseDate: String?
+    abstract val video: Boolean
 }

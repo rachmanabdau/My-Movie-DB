@@ -1,7 +1,6 @@
 package com.example.mymoviddb.core.model.category.tv
 
 import com.example.mymoviddb.core.model.ShowResponse
-import com.example.mymoviddb.core.model.ShowResult
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
@@ -44,5 +43,5 @@ data class SearchTvResult(
         override val voteAverage: Double,
         @Json(name = "vote_count")
         override val voteCount: Int
-    ) : ShowResult(), TvField
+    ) : TvField()
 }

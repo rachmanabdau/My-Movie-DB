@@ -92,6 +92,14 @@ dependencies {
     // Moshi Library
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
+    // Room Presistence Library
+    implementation "androidx.room:room-runtime:$version_room"
+    kapt "androidx.room:room-compiler:$version_room"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$version_room"
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$version_room"
+
     // Gradle dependency on Shimmer for Android
     implementation "com.facebook.shimmer:shimmer:$version_shimmer"
 
