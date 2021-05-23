@@ -1,9 +1,13 @@
 package com.example.mymoviddb.detail
 
-import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.model.category.movie.RecommendationMovie
+import com.example.mymoviddb.core.model.category.movie.SimilarMovie
+import com.example.mymoviddb.core.model.category.tv.RecommendationTvShow
+import com.example.mymoviddb.core.model.category.tv.SimilarTvShow
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -103,7 +107,7 @@ class DetailRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewMovie::class.java
+                            RecommendationMovie::class.java
                         )
                     )
                 )
@@ -166,7 +170,7 @@ class DetailRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewMovie::class.java
+                            SimilarMovie::class.java
                         )
                     )
                 )
@@ -538,7 +542,7 @@ class DetailRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewTvShow::class.java
+                            RecommendationTvShow::class.java
                         )
                     )
                 )
@@ -601,7 +605,7 @@ class DetailRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewTvShow::class.java
+                            SimilarTvShow::class.java
                         )
                     )
                 )

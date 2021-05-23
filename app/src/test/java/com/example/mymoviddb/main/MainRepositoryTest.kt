@@ -1,6 +1,6 @@
 package com.example.mymoviddb.main
 
-import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.ResponsedBackend

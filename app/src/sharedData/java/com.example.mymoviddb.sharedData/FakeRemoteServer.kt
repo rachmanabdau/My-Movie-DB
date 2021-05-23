@@ -1,6 +1,6 @@
 package com.example.mymoviddb.sharedData
 
-import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
@@ -149,15 +149,15 @@ class FakeRemoteServer : NetworkService {
     override fun getPopularMoviesAsync(
         page: Int,
         apiKey: String
-    ): Deferred<Response<PreviewMovie>> {
+    ): Deferred<Response<PopularMovie>> {
         val realApiKey = BuildConfig.V3_AUTH
         val errorResponse = """{
   "status_message": "Invalid API key: You must be granted a valid key.",
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as PreviewMovie
+        val jsonConverter = moshi.adapter(PopularMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as PopularMovie
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -185,8 +185,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
-        val responseSuccess = jsonConverter.fromJson(nowPlayingMoviesResponse) as PreviewMovie
+        val jsonConverter = moshi.adapter(NowPlayingMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(nowPlayingMoviesResponse) as NowPlayingMovie
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -214,8 +214,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as PreviewTvShow
+        val jsonConverter = moshi.adapter(PopularTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as PopularTvShow
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -240,8 +240,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
-        val responseSuccess = jsonConverter.fromJson(onAirTVResponse) as PreviewTvShow
+        val jsonConverter = moshi.adapter(OnAirTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(onAirTVResponse) as OnAirTvShow
 
         return if (apiKey == realApiKey) {
             // Response Success
@@ -270,8 +270,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as PreviewMovie
+        val jsonConverter = moshi.adapter(SearchMovieResult::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularMovieResponse) as SearchMovieResult
 
         return when {
             // api key is valid and title is not blank return response success
@@ -282,7 +282,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && title.isBlank() -> {
-                val emptyMovies = PreviewMovie(
+                val emptyMovies = SearchMovieResult(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -312,8 +312,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
-        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as PreviewTvShow
+        val jsonConverter = moshi.adapter(SearchTvResult::class.java)
+        val responseSuccess = jsonConverter.fromJson(popularTvResponse) as SearchTvResult
 
         return when {
             apiKey == realApiKey && title.isNotBlank() -> {
@@ -322,7 +322,7 @@ class FakeRemoteServer : NetworkService {
 
             }
             apiKey == realApiKey && title.isBlank() -> {
-                val emptyMovies = PreviewTvShow(
+                val emptyMovies = SearchTvResult(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -444,8 +444,9 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
-        val responseSuccess = jsonConverter.fromJson(recommendationMoviesResponse) as PreviewMovie
+        val jsonConverter = moshi.adapter(RecommendationMovie::class.java)
+        val responseSuccess =
+            jsonConverter.fromJson(recommendationMoviesResponse) as RecommendationMovie
 
         return when {
             // api key is valid and title is not blank return response success
@@ -456,7 +457,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && movieId != 741067L -> {
-                val emptyMovies = PreviewMovie(
+                val emptyMovies = RecommendationMovie(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -487,8 +488,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
-        val responseSuccess = jsonConverter.fromJson(similarMoviesResponse) as PreviewMovie
+        val jsonConverter = moshi.adapter(SimilarMovie::class.java)
+        val responseSuccess = jsonConverter.fromJson(similarMoviesResponse) as SimilarMovie
 
         return when {
             // api key is valid and title is not blank return response success
@@ -499,7 +500,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && movieId != 741067L -> {
-                val emptyMovies = PreviewMovie(
+                val emptyMovies = SimilarMovie(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -529,8 +530,9 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
-        val responseSuccess = jsonConverter.fromJson(recommendationTVShowsResponse) as PreviewTvShow
+        val jsonConverter = moshi.adapter(RecommendationTvShow::class.java)
+        val responseSuccess =
+            jsonConverter.fromJson(recommendationTVShowsResponse) as RecommendationTvShow
 
         return when {
             // api key is valid and title is not blank return response success
@@ -541,7 +543,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && tvId != 62286L -> {
-                val emptyMovies = PreviewTvShow(
+                val emptyMovies = RecommendationTvShow(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -571,8 +573,8 @@ class FakeRemoteServer : NetworkService {
   "success": false,
   "status_code": 7
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
-        val responseSuccess = jsonConverter.fromJson(similarTVShowsResponse) as PreviewTvShow
+        val jsonConverter = moshi.adapter(SimilarTvShow::class.java)
+        val responseSuccess = jsonConverter.fromJson(similarTVShowsResponse) as SimilarTvShow
 
         return when {
             // api key is valid and title is not blank return response success
@@ -583,7 +585,7 @@ class FakeRemoteServer : NetworkService {
             }
             // api key is valid and title is blank return success with empty list
             apiKey == realApiKey && tvId != 62286L -> {
-                val emptyMovies = PreviewTvShow(
+                val emptyMovies = SimilarTvShow(
                     page = 1, totalResults = 0, totalPages = 0,
                     results = emptyList()
                 )
@@ -781,15 +783,15 @@ class FakeRemoteServer : NetworkService {
         page: Int,
         sortBy: String,
         apiKey: String
-    ): Deferred<Response<PreviewMovie>> {
+    ): Deferred<Response<FavouriteMovie>> {
         val error401Response = """{
   "success": false,
   "status_code": 6,
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val jsonConverter = moshi.adapter(FavouriteMovie::class.java)
         val favouriteMovieSuccess =
-            jsonConverter.fromJson(favouriteMovies) as PreviewMovie
+            jsonConverter.fromJson(favouriteMovies) as FavouriteMovie
 
         return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
             CompletableDeferred(Response.success(favouriteMovieSuccess))
@@ -816,9 +818,9 @@ class FakeRemoteServer : NetworkService {
   "status_code": 6,
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val jsonConverter = moshi.adapter(FavouriteTvShow::class.java)
         val favouriteTVSuccess =
-            jsonConverter.fromJson(favouriteTVShows) as PreviewTvShow
+            jsonConverter.fromJson(favouriteTVShows) as FavouriteTvShow
 
         return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
             CompletableDeferred(Response.success(favouriteTVSuccess))
@@ -891,9 +893,9 @@ class FakeRemoteServer : NetworkService {
   "status_code": 6,
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
-        val jsonConverter = moshi.adapter(PreviewMovie::class.java)
+        val jsonConverter = moshi.adapter(WatchListMovie::class.java)
         val watchListMovieSuccess =
-            jsonConverter.fromJson(watchListMovies) as PreviewMovie
+            jsonConverter.fromJson(watchListMovies) as WatchListMovie
 
         return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
             CompletableDeferred(Response.success(watchListMovieSuccess))
@@ -920,9 +922,9 @@ class FakeRemoteServer : NetworkService {
   "status_code": 6,
   "status_message": "Invalid id: The pre-requisite id is invalid or not found."
 }"""
-        val jsonConverter = moshi.adapter(PreviewTvShow::class.java)
+        val jsonConverter = moshi.adapter(WatchListTvShow::class.java)
         val watchListTVSuccess =
-            jsonConverter.fromJson(watchListTV) as PreviewTvShow
+            jsonConverter.fromJson(watchListTV) as WatchListTvShow
 
         return if (apiKey == BuildConfig.V3_AUTH && sessionId == sampleSessionId) {
             CompletableDeferred(Response.success(watchListTVSuccess))

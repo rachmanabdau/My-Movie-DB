@@ -1,12 +1,12 @@
 package com.example.mymoviddb.category
 
-import com.example.mymoviddb.BuildConfig
+import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
-import com.example.mymoviddb.core.model.PreviewMovie
-import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.*
+import com.example.mymoviddb.core.model.category.tv.*
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,7 +42,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PopularMovie::class.java))
                 )
             }
 
@@ -86,7 +86,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(NowPlayingMovie::class.java))
                 )
             }
 
@@ -130,7 +130,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(SearchMovieResult::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isNotEmpty(),
@@ -156,7 +156,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewMovie::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(SearchMovieResult::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isEmpty(),
@@ -208,7 +208,7 @@ class CategoryShowListRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewMovie::class.java
+                            FavouriteMovie::class.java
                         )
                     )
                 )
@@ -262,7 +262,7 @@ class CategoryShowListRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewMovie::class.java
+                            WatchListMovie::class.java
                         )
                     )
                 )
@@ -312,7 +312,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(PopularTvShow::class.java))
                 )
             }
 
@@ -356,7 +356,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(OnAirTvShow::class.java))
                 )
             }
 
@@ -400,7 +400,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(SearchTvResult::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isNotEmpty(),
@@ -426,7 +426,7 @@ class CategoryShowListRepositoryTest {
             is Result.Success -> {
                 MatcherAssert.assertThat(
                     result.data,
-                    CoreMatchers.`is`(CoreMatchers.notNullValue(PreviewTvShow::class.java))
+                    CoreMatchers.`is`(CoreMatchers.notNullValue(SearchTvResult::class.java))
                 )
                 MatcherAssert.assertThat(
                     result.data?.results?.isEmpty(),
@@ -478,7 +478,7 @@ class CategoryShowListRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewTvShow::class.java
+                            FavouriteTvShow::class.java
                         )
                     )
                 )
@@ -532,7 +532,7 @@ class CategoryShowListRepositoryTest {
                 MatcherAssert.assertThat(
                     result.data, CoreMatchers.`is`(
                         CoreMatchers.notNullValue(
-                            PreviewTvShow::class.java
+                            WatchListTvShow::class.java
                         )
                     )
                 )

@@ -2,10 +2,12 @@ package com.example.mymoviddb.home
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
-import com.example.mymoviddb.core.model.PreviewMovie
-import com.example.mymoviddb.core.model.PreviewTvShow
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
+import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
+import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,7 +39,7 @@ class HomeRepositoryTest {
     fun `get popular movie list with valid api key result success`() = runBlockingTest {
         when (val result = access.getPopularMovieList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(PreviewMovie::class.java)))
+                assertThat(result.data, `is`(notNullValue(PopularMovie::class.java)))
             }
 
             is Result.Loading -> {
@@ -72,7 +74,7 @@ class HomeRepositoryTest {
     fun `get now playing movie list with valid api key result success`() = runBlockingTest {
         when (val result = access.getNowPlayingMovieList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(PreviewMovie::class.java)))
+                assertThat(result.data, `is`(notNullValue(NowPlayingMovie::class.java)))
             }
 
             is Result.Loading -> {
@@ -107,7 +109,7 @@ class HomeRepositoryTest {
     fun `get popular tv show list with valid api key result success`() = runBlockingTest {
         when (val result = access.getPopularTvShowList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(PreviewTvShow::class.java)))
+                assertThat(result.data, `is`(notNullValue(PopularTvShow::class.java)))
             }
 
             is Result.Loading -> {
@@ -142,7 +144,7 @@ class HomeRepositoryTest {
     fun `get on air tv show list with valid api key result success`() = runBlockingTest {
         when (val result = access.getOnAirTvShowList(1)) {
             is Result.Success -> {
-                assertThat(result.data, `is`(notNullValue(PreviewTvShow::class.java)))
+                assertThat(result.data, `is`(notNullValue(OnAirTvShow::class.java)))
             }
 
             is Result.Loading -> {
