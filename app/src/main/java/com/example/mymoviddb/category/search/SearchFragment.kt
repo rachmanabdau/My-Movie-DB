@@ -23,6 +23,7 @@ import com.example.mymoviddb.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +39,8 @@ class SearchFragment : Fragment() {
     private val resultArgs by lazy {
         SearchFragmentArgs.fromBundle(requireArguments())
     }
+
+    private var firstInitialize = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,6 +83,7 @@ class SearchFragment : Fragment() {
         initAdapter()
         searchViewModel.showPageData.observe(viewLifecycleOwner) {
             showAdapter.submitData(lifecycle, it)
+            firstInitialize = false
         }
     }
 
@@ -96,6 +100,7 @@ class SearchFragment : Fragment() {
             lifecycleScope.launch {
                 loadStateFlow.collectLatest {
                     handleLoadState(it.refresh) { retry() }
+                    showEmptyResult(this@apply)
                 }
             }
         }
@@ -122,6 +127,16 @@ class SearchFragment : Fragment() {
         binding.errorLayout.root.isVisible = state is LoadState.Error
         binding.errorLayout.tryAgainButton.setOnClickListener {
             retry()
+        }
+    }
+
+    private fun showEmptyResult(adapter: CategoryShowAdapter) {
+        Timber.d(adapter.itemCount.toString())
+        Timber.d((adapter.itemCount == 0 && !firstInitialize).toString())
+        if (adapter.itemCount == 0 && !firstInitialize) {
+            binding.errorLayout.root.isVisible = true
+            binding.errorLayout.tryAgainButton.isVisible = false
+            binding.errorLayout.errorMessage.text = "Not found"
         }
     }
 }
