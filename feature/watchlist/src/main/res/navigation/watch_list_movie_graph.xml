@@ -2,16 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favourite_tv_graph"
-    app:startDestination="@id/favouriteTVShowsFragment">
+    android:id="@+id/watch_list_movie_graph"
+    app:startDestination="@id/watchListMovieFragment">
 
     <fragment
-        android:id="@+id/favouriteTVShowsFragment"
-        android:name="com.example.mymoviddb.feature.favourite.tv.FavouriteTVShowsFragment"
-        android:label="@string/favourite_tv_shows_label"
-        tools:layout="@layout/fragment_favourite_tv_shows">
+        android:id="@+id/watchListMovieFragment"
+        android:name="com.example.mymoviddb.feature.watchlist.movie.WatchListMovieFragment"
+        android:label="@string/movie_watch_list_menu"
+        tools:layout="@layout/fragment_watch_list_movie">
         <action
-            android:id="@+id/action_favouriteTVShowsFragment_to_detail_graph"
+            android:id="@+id/action_watchListMovieFragment_to_detail_graph"
             app:destination="@id/detail_graph">
             <argument
                 android:name="showItem"

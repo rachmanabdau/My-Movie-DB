@@ -22,12 +22,12 @@
         <menu>
             <group>
                 <item
-                    android:id="@+id/watchListMovieFragment"
+                    android:id="@+id/watch_list_movie_graph"
                     android:title="@string/movie_watch_list_menu"
                     android:icon="@drawable/ic_movie_watchlist" />
 
                 <item
-                    android:id="@+id/watchListTVFragment"
+                    android:id="@+id/watch_list_tv_graph"
                     android:title="@string/tv_watch_list_menu"
                     android:icon="@drawable/ic_tv_watchlist" />
 

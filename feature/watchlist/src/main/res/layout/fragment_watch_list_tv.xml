@@ -7,25 +7,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
-        tools:context="com.example.mymoviddb.com.example.mymoviddb.feature.favourite.FavouriteMoviesFragment">
+        tools:context="com.example.mymoviddb.category.account.favourite.WatchListTVFragment">
 
         <include
-            android:id="@+id/favourite_error_layout"
+            android:id="@+id/watchlist_tv_error_layout"
             layout="@layout/try_again_load_list"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
             tools:visibility="visible" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/favourite_swipe_refresh"
+            android:id="@+id/watchlist_tv_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/favourite_rv"
+                android:id="@+id/watchlist_tv_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/padding_small"

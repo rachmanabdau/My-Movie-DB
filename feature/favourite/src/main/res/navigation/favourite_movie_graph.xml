@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favouriteMoviesFragment"
-        android:name="com.example.favourite.FavouriteMoviesFragment"
+        android:name="com.example.mymoviddb.feature.favourite.movie.FavouriteMoviesFragment"
         android:label="@string/favourite_movies_label"
         tools:layout="@layout/fragment_favourite_movies">
         <action

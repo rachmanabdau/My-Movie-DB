@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
-        tools:context="com.example.mymoviddb.com.example.favourite.FavouriteTVShowsFragment">
+        tools:context="com.example.mymoviddb.com.example.mymoviddb.feature.favourite.FavouriteTVShowsFragment">
 
         <include
             android:id="@+id/favourite_error_layout"
