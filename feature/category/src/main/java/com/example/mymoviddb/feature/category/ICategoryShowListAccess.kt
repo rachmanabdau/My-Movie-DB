@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.feature.category
 
 import androidx.paging.PagingData
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie

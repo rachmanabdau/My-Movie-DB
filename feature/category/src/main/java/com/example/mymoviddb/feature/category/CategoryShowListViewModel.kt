@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.feature.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.feature.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +18,7 @@ import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.databinding.FragmentCategoryShowListBinding
+import com.example.mymoviddb.feature.category.databinding.FragmentCategoryShowListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

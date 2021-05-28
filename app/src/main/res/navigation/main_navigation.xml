@@ -11,8 +11,15 @@
         android:label="@string/home_label"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_categoryMovieListFragment"
-            app:destination="@id/categoryMovieListFragment" />
+            android:id="@+id/action_homeFragment_to_categoryGraph"
+            app:destination="@id/category_graph">
+            <argument
+                android:name="title"
+                app:argType="integer" />
+            <argument
+                android:name="categoryId"
+                app:argType="com.example.mymoviddb.core.ShowCategoryIndex" />
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_detail_graph"
             app:destination="@id/detail_graph">
@@ -38,29 +45,11 @@
         android:name="com.example.mymoviddb.authentication.user.UserFragment"
         android:label="@string/action_login"
         tools:layout="@layout/fragment_user" />
-    <fragment
-        android:id="@+id/categoryMovieListFragment"
-        android:name="com.example.mymoviddb.category.CategoryShowListFragment"
-        android:label="@string/popular_movie"
-        tools:layout="@layout/fragment_category_show_list">
-        <argument
-            android:name="title"
-            app:argType="integer" />
-        <argument
-            android:name="categoryId"
-            app:argType="com.example.mymoviddb.core.ShowCategoryIndex" />
-        <action
-            android:id="@+id/action_categoryMovieListFragment_to_detail_graph"
-            app:destination="@id/detail_graph">
-            <argument
-                android:name="showItem"
-                app:argType="com.example.mymoviddb.core.model.ShowResult" />
-        </action>
-    </fragment>
     <include app:graph="@navigation/detail_graph" />
     <include app:graph="@navigation/favourite_movie_graph" />
     <include app:graph="@navigation/favourite_tv_graph" />
     <include app:graph="@navigation/watch_list_movie_graph" />
     <include app:graph="@navigation/watch_list_tv_graph" />
     <include app:graph="@navigation/search_graph" />
+    <include app:graph="@navigation/category_graph" />
 </navigation>

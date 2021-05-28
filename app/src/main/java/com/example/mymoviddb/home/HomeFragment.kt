@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
 
     private fun navigateToCategoryPopularMovies() {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.popular_movie_list_contentDesc, ShowCategoryIndex.POPULAR_MOVIES
             )
         )
@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
 
     private fun navigateToCategoryNowPlayingMovies() {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.now_playing_movie_list_contentDesc,
                 ShowCategoryIndex.NOW_PLAYING_MOVIES
             )
@@ -125,7 +125,7 @@ class HomeFragment : Fragment() {
 
     private fun navigateToCategoryPopularTvShows() {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.popular_tv_show_list_contentDesc, ShowCategoryIndex.POPULAR_TV_SHOWS
             )
         )
@@ -142,7 +142,7 @@ class HomeFragment : Fragment() {
 
     private fun navigateToCategoryOnAirTvShows() {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.now_airing_tv_show_list_contentDesc, ShowCategoryIndex.ON_AIR_TV_SHOWS
             )
         )

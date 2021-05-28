@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.feature.category
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig

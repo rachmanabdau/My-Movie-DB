@@ -7,6 +7,7 @@ import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.*
 import com.example.mymoviddb.core.model.category.tv.*
+import com.example.mymoviddb.feature.category.CategoryShowListRepository
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
