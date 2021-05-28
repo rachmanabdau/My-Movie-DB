@@ -14,13 +14,13 @@ interface WatchListMovieDao {
     @Query("SELECT * FROM watch_list_movie")
     fun getAllWatchListMovie(): PagingSource<Int, WatchListMovie.Result>
 
-    @Query("SELECT * FROM favourite_movie WHERE id IN (:id)")
+    @Query("SELECT * FROM watch_list_movie WHERE id IN (:id)")
     fun getWatchListMovieById(id: Long): PagingSource<Int, WatchListMovie.Result>
 
-    @Query("SELECT * FROM favourite_movie WHERE title LIKE :watchListTitle")
+    @Query("SELECT * FROM watch_list_movie WHERE title LIKE :watchListTitle")
     fun getWatchListMovieByTitle(watchListTitle: String): PagingSource<Int, WatchListMovie.Result>
 
-    @Query("DELETE FROM favourite_movie")
+    @Query("DELETE FROM watch_list_movie")
     suspend fun cleartAllWatchListMovie()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
