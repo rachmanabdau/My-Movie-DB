@@ -1,4 +1,4 @@
-package com.example.mymoviddb.detail
+package com.example.mymoviddb.feature.detail
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.PreviewShowAdapter
 import com.example.mymoviddb.core.PreloadLinearLayout
 import com.example.mymoviddb.core.model.MovieDetail
@@ -26,7 +25,7 @@ import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.core.utils.Util.disableViewDuringAnimation
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.UserPreference
-import com.example.mymoviddb.databinding.FragmentDetailBinding
+import com.example.mymoviddb.feature.detail.databinding.FragmentDetailBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -272,15 +271,16 @@ class DetailFragment : Fragment() {
 
     private fun setupToolbar(showTitle: String?) {
         val activityContainer = requireActivity() as AppCompatActivity
-        binding.detailToolbar.titleCustom.text = showTitle
-        binding.detailToolbar.titleCustom.visibility = View.VISIBLE
-        binding.detailToolbar.toolbar.setupWithNavController(findNavController())
+        binding.toolbar
+        binding.toolbar.titleCustom.text = showTitle
+        binding.toolbar.titleCustom.visibility = View.VISIBLE
+        binding.toolbar.toolbar.setupWithNavController(findNavController())
         // my_child_toolbar is defined in the layout file
         //activityContainer.setSupportActionBar(binding.detailToolbar.toolbar)
         // Get a support ActionBar corresponding to this toolbar and enable the Up button
         activityContainer.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // this code make marquee on text view works
-        binding.detailToolbar.titleCustom.isSelected = true
+        binding.toolbar.titleCustom.isSelected = true
     }
 
 

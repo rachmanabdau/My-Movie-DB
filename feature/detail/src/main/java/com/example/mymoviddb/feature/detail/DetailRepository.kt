@@ -1,4 +1,4 @@
-package com.example.mymoviddb.detail
+package com.example.mymoviddb.feature.detail
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*

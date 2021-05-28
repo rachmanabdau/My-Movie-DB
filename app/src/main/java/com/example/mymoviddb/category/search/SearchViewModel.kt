@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

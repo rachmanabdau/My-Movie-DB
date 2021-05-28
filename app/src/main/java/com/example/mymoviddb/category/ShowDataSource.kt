@@ -3,6 +3,7 @@ package com.example.mymoviddb.category
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResponse
 import com.example.mymoviddb.core.model.ShowResult

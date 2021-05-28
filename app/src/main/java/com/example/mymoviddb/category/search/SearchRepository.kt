@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.mymoviddb.category.DatasourceDependency
 import com.example.mymoviddb.category.NewShowDataSource
-import com.example.mymoviddb.category.ShowCategoryIndex
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.preference.Preference

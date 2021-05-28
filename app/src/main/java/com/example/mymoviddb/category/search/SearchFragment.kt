@@ -115,7 +115,7 @@ class SearchFragment : Fragment() {
 
     private fun setIntentDetail(showItem: ShowResult) {
         findNavController().navigate(
-            SearchFragmentDirections.actionSearchFragmentToDetailFragment(showItem)
+            SearchFragmentDirections.actionSearchFragmentToDetailGraph(showItem)
         )
     }
 

@@ -4,8 +4,6 @@ import com.example.mymoviddb.authentication.AuthenticationRepository
 import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.category.CategoryShowListRepository
 import com.example.mymoviddb.category.ICategoryShowListAccess
-import com.example.mymoviddb.detail.DetailRepository
-import com.example.mymoviddb.detail.IDetailAccess
 import com.example.mymoviddb.home.HomeRepository
 import com.example.mymoviddb.home.IHomeAccess
 import com.example.mymoviddb.main.IMainAccess
@@ -27,10 +25,6 @@ abstract class AccessModule {
     @Binds
     @ViewModelScoped
     abstract fun bindUserDetial(userDetailAccess: MainRepository): IMainAccess
-
-    @Binds
-    @ViewModelScoped
-    abstract fun bindShowDetail(detailAccess: DetailRepository): IDetailAccess
 
     @Binds
     @ViewModelScoped

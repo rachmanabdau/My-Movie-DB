@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupToolbar(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val fragmentDestination = setOf(R.id.searchFragment, R.id.detailFragment)
+            val fragmentDestination = setOf(R.id.searchFragment, R.id.detailGraph)
             setSupportActionBar(binding.mainToolbar.toolbar)
             setupLayout(navController)
             binding.mainToolbar.toolbar.isVisible =

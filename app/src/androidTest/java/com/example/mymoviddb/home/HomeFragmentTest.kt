@@ -13,7 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
 import com.example.mymoviddb.ScrollToWithNestedScrollView
-import com.example.mymoviddb.category.ShowCategoryIndex
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.di.ServiceModule
 import com.example.mymoviddb.launchFragmentInHiltContainer

@@ -1,10 +1,9 @@
-package com.example.mymoviddb.detail
+package com.example.mymoviddb.feature.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.R
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.*
 import com.example.mymoviddb.core.model.category.movie.MovieField

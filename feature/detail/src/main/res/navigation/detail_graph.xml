@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_graph"
+    app:startDestination="@id/detailGraph">
+
+    <fragment
+        android:id="@+id/detailGraph"
+        android:name="com.example.mymoviddb.feature.detail.DetailFragment"
+        android:label=""
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="showItem"
+            app:argType="com.example.mymoviddb.core.model.ShowResult" />
+        <action
+            android:id="@+id/action_detailFragment_self"
+            app:destination="@id/detailGraph" />
+    </fragment>
+</navigation>

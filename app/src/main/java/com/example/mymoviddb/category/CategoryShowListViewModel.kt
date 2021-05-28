@@ -8,6 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.preference.UserPreference
 import dagger.hilt.android.lifecycle.HiltViewModel

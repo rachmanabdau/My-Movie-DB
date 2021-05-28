@@ -13,9 +13,9 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.CategoryShowAdapter
-import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.category.account.AccountShowViewModel
 import com.example.mymoviddb.category.account.ResultHandler
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.databinding.FragmentFavouriteTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,7 +78,7 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
 
     override fun navigateToDetailMovie(showItem: ShowResult) {
         findNavController().navigate(
-            FavouriteTVShowsFragmentDirections.actionFavouriteTVShowsFragmentToDetailFragment(
+            FavouriteTVShowsFragmentDirections.actionFavouriteTVShowsFragmentToDetailGraph(
                 showItem
             )
         )

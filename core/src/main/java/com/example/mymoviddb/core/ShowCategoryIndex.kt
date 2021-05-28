@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.core
 
 
 enum class ShowCategoryIndex(val index: Int) {

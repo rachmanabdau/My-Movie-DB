@@ -8,8 +8,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.PreviewShowAdapter
-import com.example.mymoviddb.category.ShowCategoryIndex
 import com.example.mymoviddb.core.PreloadLinearLayout
+import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.databinding.FragmentHomeBinding
@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
 
     private fun navigateToDetailShow(showItem: ShowResult) {
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+            HomeFragmentDirections.actionHomeFragmentToDetailGraph(
                 showItem
             )
         )

@@ -87,7 +87,7 @@ class CategoryShowListFragment : Fragment() {
 
     private fun navigatToDetail(showItem: ShowResult) {
         findNavController().navigate(
-            CategoryShowListFragmentDirections.actionCategoryMovieListFragmentToDetailFragment(
+            CategoryShowListFragmentDirections.actionCategoryMovieListFragmentToDetailGraph(
                 showItem
             )
         )

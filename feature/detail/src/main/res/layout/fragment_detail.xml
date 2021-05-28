@@ -11,7 +11,7 @@
 
         <variable
             name="detailViewModel"
-            type="com.example.mymoviddb.detail.DetailViewModel" />
+            type="com.example.mymoviddb.feature.detail.DetailViewModel" />
 
         <variable
             name="detailData"
@@ -42,8 +42,8 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/detail_toolbar"
-            layout="@layout/toolbar"
+            android:id="@+id/toolbar"
+            layout="@layout/detail_toolbar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar

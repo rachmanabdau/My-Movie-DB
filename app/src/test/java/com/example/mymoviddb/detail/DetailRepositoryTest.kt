@@ -25,12 +25,12 @@ class DetailRepositoryTest {
 
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
-    private lateinit var access: IDetailAccess
+    private lateinit var access: com.example.mymoviddb.feature.detail.IDetailAccess
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        access = DetailRepository(fakeRemoteSource)
+        access = com.example.mymoviddb.feature.detail.DetailRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
     }
 
