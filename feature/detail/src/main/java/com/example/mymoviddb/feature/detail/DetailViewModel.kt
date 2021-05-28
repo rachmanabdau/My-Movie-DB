@@ -157,6 +157,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
                 .also { result ->
                     if (result is Result.Success) {
                         result.data?.apply {
+                            // actionResult == 13 is removed from favourite
                             val actionResult = statusCode != 13
                             _isFavourite.value = statusCode != 13
                             _showSnackbarMessage.value =
@@ -205,6 +206,7 @@ class DetailViewModel @Inject constructor(private val detailAccess: IDetailAcces
                 .also { result ->
                     if (result is Result.Success) {
                         result.data?.apply {
+                            // actionResult == 13 is removed from watchlist
                             val actionResult = statusCode != 13
                             _isAddedToWatchList.value = actionResult
                             _showSnackbarMessage.value =

@@ -246,7 +246,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/add_to_watchlist_detail"
-                        android:src="@{detailViewModel.isAddedToWatchList() ? @drawable/ic_playlist_add : @drawable/ic_playlist_add_check}"
+                        android:src="@{detailViewModel.isAddedToWatchList() ? @drawable/ic_playlist_add_check : @drawable/ic_playlist_add}"
                         app:civ_circle_background_color="@color/colorPrimary"
                         app:civ_border_width="@dimen/padding_small"
                         app:civ_border_color="@color/colorPrimary" />
