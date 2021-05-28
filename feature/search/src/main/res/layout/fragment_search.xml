@@ -7,7 +7,7 @@
 
         <variable
             name="searchViewModel"
-            type="com.example.mymoviddb.category.search.SearchViewModel" />
+            type="com.example.mymoviddb.feature.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

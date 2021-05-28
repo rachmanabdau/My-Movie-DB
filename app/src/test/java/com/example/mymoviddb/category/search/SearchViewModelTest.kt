@@ -5,7 +5,6 @@ import com.example.mymoviddb.category.CategoryShowListRepository
 import com.example.mymoviddb.category.ICategoryShowListAccess
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.utils.preference.Preference
-import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.example.mymoviddb.sharedData.FakeUserPreference
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +30,7 @@ class SearchViewModelTest {
 
     private lateinit var fakeRepository: ICategoryShowListAccess
     private lateinit var fakeUserPreference: Preference
-    private lateinit var searchViewmodel: SearchViewModel
+    private lateinit var searchViewmodel: com.example.mymoviddb.feature.search.SearchViewModel
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
@@ -39,7 +38,8 @@ class SearchViewModelTest {
         Dispatchers.setMain(mainThreadSurrogate)
         fakeUserPreference = FakeUserPreference()
         fakeRepository = CategoryShowListRepository(FakeRemoteServer())
-        searchViewmodel = SearchViewModel(fakeUserPreference, fakeRepository)
+        searchViewmodel =
+            com.example.mymoviddb.feature.search.SearchViewModel(fakeUserPreference, fakeRepository)
     }
 
     @After

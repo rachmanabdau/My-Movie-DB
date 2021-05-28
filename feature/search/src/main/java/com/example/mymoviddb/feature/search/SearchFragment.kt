@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.feature.search
 
 import android.app.SearchManager
 import android.content.Context
@@ -19,7 +19,7 @@ import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.databinding.FragmentSearchBinding
+import com.example.mymoviddb.feature.search.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

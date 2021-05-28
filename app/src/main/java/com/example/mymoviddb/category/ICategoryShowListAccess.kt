@@ -1,41 +1,19 @@
 package com.example.mymoviddb.category
 
-import com.example.mymoviddb.core.BuildConfig
-import com.example.mymoviddb.core.model.Result
+import androidx.paging.PagingData
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
-import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
-import com.example.mymoviddb.core.model.category.movie.WatchListMovie
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
-import com.example.mymoviddb.core.model.category.tv.SearchTvResult
-import com.example.mymoviddb.core.model.category.tv.WatchListTvShow
+import kotlinx.coroutines.flow.Flow
 
 interface ICategoryShowListAccess {
 
-    suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PopularMovie?>
+    suspend fun getPopularMovieList(): Flow<PagingData<PopularMovie.Result>>
 
-    suspend fun getNowPlayingMovieList(page: Int, apiKey: String): Result<NowPlayingMovie?>
+    suspend fun getNowPlayingMovieList(): Flow<PagingData<NowPlayingMovie.Result>>
 
-    suspend fun searchMovies(title: String, page: Int, apiKey: String): Result<SearchMovieResult?>
+    suspend fun getPopularTvShowList(): Flow<PagingData<PopularTvShow.Result>>
 
-    suspend fun getWatchlistMovies(
-        accountId: Int,
-        sessionId: String,
-        page: Int,
-        apiKey: String = BuildConfig.V3_AUTH
-    ): Result<WatchListMovie?>
-
-    suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PopularTvShow?>
-
-    suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<OnAirTvShow?>
-
-    suspend fun searchTvShowList(title: String, page: Int, apiKey: String): Result<SearchTvResult?>
-
-    suspend fun getWatchlistTVShows(
-        accountId: Int,
-        sessionId: String,
-        page: Int,
-        apiKey: String = BuildConfig.V3_AUTH
-    ): Result<WatchListTvShow?>
+    suspend fun getOnAirTvShowList(): Flow<PagingData<OnAirTvShow.Result>>
 }

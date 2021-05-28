@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.category.movie.WatchListMovie
 import com.example.mymoviddb.feature.watchlist.WatchListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,9 +25,9 @@ class WatchListMovieViewModel @Inject constructor(
     private val _watchListMovies = MutableLiveData<PagingData<WatchListMovie.Result>>()
     val watchListMovies: LiveData<PagingData<WatchListMovie.Result>> = _watchListMovies
 
-    fun getWatchListMovieList(apiKey: String = BuildConfig.V3_AUTH) {
+    fun getWatchListMovieList() {
         viewModelScope.launch {
-            watchListRepository.getWatchListMovies(apiKey)
+            watchListRepository.getWatchListMovies()
                 .cachedIn(this).collectLatest {
                     _watchListMovies.value = it
                 }

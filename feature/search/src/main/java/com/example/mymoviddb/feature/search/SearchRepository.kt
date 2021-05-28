@@ -1,10 +1,11 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.feature.search
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.mymoviddb.core.DatasourceDependency
 import com.example.mymoviddb.core.ShowCategoryIndex
+import com.example.mymoviddb.core.ShowDataSource
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.preference.Preference
@@ -25,7 +26,7 @@ class SearchRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
         ) {
-            NewShowDataSource(
+            ShowDataSource(
                 DatasourceDependency(
                     userPreference,
                     networkService,
@@ -43,7 +44,7 @@ class SearchRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
         ) {
-            NewShowDataSource(
+            ShowDataSource(
                 DatasourceDependency(
                     userPreference,
                     networkService,

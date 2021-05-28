@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import com.example.mymoviddb.R
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.adapters.PreviewShowAdapter
@@ -59,14 +60,8 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_search -> {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToSearchDialogChooser()
-                )
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        return item.onNavDestinationSelected(findNavController()) ||
+                super.onOptionsItemSelected(item)
     }
 
     private fun initializeAdapter() {

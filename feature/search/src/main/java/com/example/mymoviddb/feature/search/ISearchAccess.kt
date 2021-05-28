@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.feature.search
 
 import androidx.paging.PagingData
 import com.example.mymoviddb.core.BuildConfig

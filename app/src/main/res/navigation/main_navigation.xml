@@ -14,9 +14,6 @@
             android:id="@+id/action_homeFragment_to_categoryMovieListFragment"
             app:destination="@id/categoryMovieListFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_searchDialogChooser"
-            app:destination="@id/searchDialogChooser" />
-        <action
             android:id="@+id/action_homeFragment_to_detail_graph"
             app:destination="@id/detail_graph">
             <argument
@@ -60,33 +57,10 @@
                 app:argType="com.example.mymoviddb.core.model.ShowResult" />
         </action>
     </fragment>
-    <dialog
-        android:id="@+id/searchDialogChooser"
-        android:name="com.example.mymoviddb.category.search.SearchDialogChooser"
-        tools:layout="@layout/show_chooser_dialog">
-        <action
-            android:id="@+id/action_searchDialogChooser_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </dialog>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.mymoviddb.category.search.SearchFragment"
-        android:label="SearchResultFragment"
-        tools:layout="@layout/fragment_search">
-        <argument
-            android:name="searchID"
-            app:argType="com.example.mymoviddb.core.ShowCategoryIndex" />
-        <action
-            android:id="@+id/action_searchFragment_to_detail_graph"
-            app:destination="@id/detail_graph">
-            <argument
-                android:name="showItem"
-                app:argType="com.example.mymoviddb.core.model.ShowResult" />
-        </action>
-    </fragment>
     <include app:graph="@navigation/detail_graph" />
     <include app:graph="@navigation/favourite_movie_graph" />
     <include app:graph="@navigation/favourite_tv_graph" />
     <include app:graph="@navigation/watch_list_movie_graph" />
     <include app:graph="@navigation/watch_list_tv_graph" />
+    <include app:graph="@navigation/search_graph" />
 </navigation>

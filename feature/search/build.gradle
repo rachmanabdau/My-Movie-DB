@@ -1,14 +1,14 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
     buildFeatures {
         dataBinding true
@@ -16,52 +16,28 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.mymoviddb"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner 'com.example.mymoviddb.CustomTestRunner'
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
-            debuggable true
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    sourceSets{
-        androidTest{
-            java.srcDirs += "src/sharedData/java"
-        }
-
-        test{
-            java.srcDirs += "src/sharedData/java"
-        }
-    }
-
-    packagingOptions{
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     hilt {
@@ -78,9 +54,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(":core")
     implementation project(":feature:detail")
-    implementation project(":feature:favourite")
-    implementation project(":feature:watchlist")
-    implementation project(":feature:search")
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$version_kotlin"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$version_kotlin"
     implementation "androidx.core:core-ktx:$version_androidx_core"

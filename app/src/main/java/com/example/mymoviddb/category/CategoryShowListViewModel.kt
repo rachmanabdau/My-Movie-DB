@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.core.utils.preference.UserPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -18,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryShowListViewModel @Inject constructor(
-    private val userPreference: UserPreference,
     private val categoryShowListAccess: ICategoryShowListAccess
 ) :
     ViewModel() {
@@ -34,33 +31,32 @@ class CategoryShowListViewModel @Inject constructor(
         }
     }
 
-    private fun getMovieData(categoryId: ShowCategoryIndex, title: String = "") {
+    private fun getMovieData(categoryId: ShowCategoryIndex) {
         viewModelScope.launch {
-            Pager(
-                // Configure how data is loaded by passing additional properties to
-                // PagingConfig, such as prefetchDistance.
-                PagingConfig(pageSize = 20, prefetchDistance = 5)
-            ) {
-                ShowDataSource(userPreference, categoryShowListAccess, categoryId, title)
-            }.flow
-                .cachedIn(this).collectLatest {
-                    _showPageData.value = it
+            if (categoryId == ShowCategoryIndex.POPULAR_MOVIES) {
+                categoryShowListAccess.getPopularMovieList().cachedIn(this).collectLatest { data ->
+                    _showPageData.value = data.map { it }
                 }
+            } else if (categoryId == ShowCategoryIndex.NOW_PLAYING_MOVIES) {
+                categoryShowListAccess.getNowPlayingMovieList().cachedIn(this)
+                    .collectLatest { data ->
+                        _showPageData.value = data.map { it }
+                    }
+            }
         }
     }
 
-    private fun getTVData(categoryId: ShowCategoryIndex, title: String = "") {
+    private fun getTVData(categoryId: ShowCategoryIndex) {
         viewModelScope.launch {
-            Pager(
-                // Configure how data is loaded by passing additional properties to
-                // PagingConfig, such as prefetchDistance.
-                PagingConfig(pageSize = 20, prefetchDistance = 5)
-            ) {
-                ShowDataSource(userPreference, categoryShowListAccess, categoryId, title)
-            }.flow
-                .cachedIn(this).collectLatest {
-                    _showPageData.value = it
+            if (categoryId == ShowCategoryIndex.POPULAR_TV_SHOWS) {
+                categoryShowListAccess.getPopularTvShowList().cachedIn(this).collectLatest { data ->
+                    _showPageData.value = data.map { it }
                 }
+            } else if (categoryId == ShowCategoryIndex.ON_AIR_TV_SHOWS) {
+                categoryShowListAccess.getOnAirTvShowList().cachedIn(this).collectLatest { data ->
+                    _showPageData.value = data.map { it }
+                }
+            }
         }
     }
 }

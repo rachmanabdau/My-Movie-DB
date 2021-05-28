@@ -24,7 +24,7 @@ class FavouriteMovieViewModel @Inject constructor(
 
     fun getFavouriteMovieList(apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            favouriteRepository.getFavouriteMovies(apiKey)
+            favouriteRepository.getFavouriteMovies()
                 .cachedIn(this).collectLatest {
                     _favouriteMovieList.value = it
                 }

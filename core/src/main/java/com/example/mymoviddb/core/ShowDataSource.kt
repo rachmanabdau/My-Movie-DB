@@ -1,15 +1,13 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.core
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.mymoviddb.core.DatasourceDependency
-import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResponse
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 
-class NewShowDataSource(
+class ShowDataSource(
     private val sourceDependency: DatasourceDependency
 ) : PagingSource<Int, ShowResult>() {
 

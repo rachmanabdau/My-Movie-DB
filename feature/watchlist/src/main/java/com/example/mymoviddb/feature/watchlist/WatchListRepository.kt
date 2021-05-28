@@ -24,9 +24,7 @@ class WatchListRepository @Inject constructor(
     private val userPreference: Preference
 ) : IWatchListAccess {
 
-    override suspend fun getWatchListMovies(
-        apiKey: String
-    ): Flow<PagingData<WatchListMovie.Result>> {
+    override suspend fun getWatchListMovies(): Flow<PagingData<WatchListMovie.Result>> {
         val resourceDependency = DatasourceDependency(
             userPreference,
             networkService,
@@ -40,9 +38,7 @@ class WatchListRepository @Inject constructor(
         }.flow
     }
 
-    override suspend fun getWatchListTVShows(
-        apiKey: String
-    ): Flow<PagingData<WatchListTvShow.Result>> {
+    override suspend fun getWatchListTVShows(): Flow<PagingData<WatchListTvShow.Result>> {
         val resourceDependency = DatasourceDependency(
             userPreference,
             networkService,

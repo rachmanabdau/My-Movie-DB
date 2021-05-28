@@ -24,9 +24,7 @@ class FavouriteRepository @Inject constructor(
     private val userPreference: Preference
 ) : IFavouriteAccess {
 
-    override suspend fun getFavouriteMovies(
-        apiKey: String
-    ): Flow<PagingData<FavouriteMovie.Result>> {
+    override suspend fun getFavouriteMovies(): Flow<PagingData<FavouriteMovie.Result>> {
         val resourceDependency = DatasourceDependency(
             userPreference,
             networkService,
@@ -40,9 +38,7 @@ class FavouriteRepository @Inject constructor(
         }.flow
     }
 
-    override suspend fun getFavouriteTVShows(
-        apiKey: String
-    ): Flow<PagingData<FavouriteTvShow.Result>> {
+    override suspend fun getFavouriteTVShows(): Flow<PagingData<FavouriteTvShow.Result>> {
         val resourceDependency = DatasourceDependency(
             userPreference,
             networkService,

@@ -24,7 +24,7 @@ class FavouriteTvViewModel @Inject constructor(
 
     fun getFavouriteTvList(apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            favouriteRepository.getFavouriteTVShows(apiKey)
+            favouriteRepository.getFavouriteTVShows()
                 .cachedIn(this).collectLatest {
                     _favouriteTvList.value = it
                 }

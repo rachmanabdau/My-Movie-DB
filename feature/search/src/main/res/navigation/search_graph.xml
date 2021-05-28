@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_graph"
+    app:startDestination="@id/searchDialogChooser">
+
+    <dialog
+        android:id="@+id/searchDialogChooser"
+        android:name="com.example.mymoviddb.feature.search.SearchDialogChooser"
+        tools:layout="@layout/show_chooser_dialog">
+        <action
+            android:id="@+id/action_searchDialogChooser_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.mymoviddb.feature.search.SearchFragment"
+        android:label="SearchResultFragment"
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="searchID"
+            app:argType="com.example.mymoviddb.core.ShowCategoryIndex" />
+        <action
+            android:id="@+id/action_searchFragment_to_detail_graph"
+            app:destination="@id/detail_graph">
+            <argument
+                android:name="showItem"
+                app:argType="com.example.mymoviddb.core.model.ShowResult" />
+        </action>
+    </fragment>
+    <include app:graph="@navigation/detail_graph" />
+</navigation>

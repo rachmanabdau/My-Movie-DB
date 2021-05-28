@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.feature.search
 
 import dagger.Binds
 import dagger.Module
