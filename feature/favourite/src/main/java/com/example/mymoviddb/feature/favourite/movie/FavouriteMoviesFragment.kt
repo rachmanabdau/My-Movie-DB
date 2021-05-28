@@ -51,7 +51,7 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
         setupAdapter()
         binding.favouriteRv.adapter = adapter
         binding.favouriteSwipeRefresh.setOnRefreshListener {
-            favouriteViewModel.getFavouriteMovieList()
+            adapter.refresh()
         }
 
         favouriteViewModel.getFavouriteMovieList()

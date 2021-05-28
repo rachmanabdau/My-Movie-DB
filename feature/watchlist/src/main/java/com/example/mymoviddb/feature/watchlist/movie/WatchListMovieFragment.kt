@@ -54,7 +54,7 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
         setupAdapter()
         binding.watchlistRv.adapter = adapter
         binding.watchlistSwipeRefresh.setOnRefreshListener {
-            watchListViewmodel.getWatchListMovieList()
+            adapter.refresh()
         }
 
         watchListViewmodel.getWatchListMovieList()

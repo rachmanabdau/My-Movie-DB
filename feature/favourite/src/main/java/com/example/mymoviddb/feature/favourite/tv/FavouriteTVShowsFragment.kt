@@ -48,7 +48,7 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
 
         setupAdapter()
         binding.favouriteSwipeRefresh.setOnRefreshListener {
-            favouriteViewModel.getFavouriteTvList()
+            favouriteTvShowAdapter.refresh()
         }
 
         favouriteViewModel.getFavouriteTvList()

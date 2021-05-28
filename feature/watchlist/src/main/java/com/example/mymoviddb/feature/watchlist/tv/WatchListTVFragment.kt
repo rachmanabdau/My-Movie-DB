@@ -52,7 +52,7 @@ class WatchListTVFragment : Fragment(), ResultHandler {
 
         setupAdapter()
         binding.watchlistTvSwipeRefresh.setOnRefreshListener {
-            watchListTVViewModel.getWatchListTvList()
+            adapter.refresh()
         }
 
         watchListTVViewModel.getWatchListTvList()
