@@ -1,4 +1,4 @@
-package com.example.mymoviddb.authentication
+package com.example.mymoviddb.login
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
@@ -7,8 +7,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthenticationRepository @Inject constructor(private val access: NetworkService) :
-    IAuthenticationAccess {
+class LoginRepository @Inject constructor(private val access: NetworkService) :
+    ILoginAccess {
 
     override suspend fun getRequestToken(apiKey: String): Result<RequestTokenModel?> {
         return Util.getDataFromServer {

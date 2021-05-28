@@ -1,10 +1,9 @@
-package com.example.mymoviddb.authentication.user
+package com.example.mymoviddb.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.LoginTokenModel
 import com.example.mymoviddb.core.model.NewSessionModel
@@ -18,8 +17,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
-    private val access: IAuthenticationAccess,
+class LoginViewModel @Inject constructor(
+    private val access: ILoginAccess,
     private val userPreference: Preference
 ) : ViewModel() {
 

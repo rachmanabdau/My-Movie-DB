@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         val navigationInflater = navHostFragment.navController.navInflater
         val graph = navigationInflater.inflate(R.navigation.main_navigation)
         graph.startDestination =
-            if (isUserLogin()) R.id.homeFragment else R.id.authenticationFragment
+            if (isUserLogin()) R.id.homeFragment else R.id.landingFragment
         navController.graph = graph
 
         setupToolbar(navController)

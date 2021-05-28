@@ -13,6 +13,7 @@ import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.di.ServiceModule
+import com.example.mymoviddb.home.LandingFragment
 import com.example.mymoviddb.launchFragmentInHiltContainer
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import dagger.Module
@@ -33,7 +34,7 @@ import javax.inject.Singleton
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 @UninstallModules(ServiceModule::class)
-class AuthenticationFragmentTest {
+class LandingFragmentTest {
 
     @get:Rule
     var hiltRulehiltRule = HiltAndroidRule(this)
@@ -49,7 +50,7 @@ class AuthenticationFragmentTest {
     @Test
     fun loginAsGuestLoginValidApiKey() {
         val navController = mock(NavController::class.java)
-        launchFragmentInHiltContainer<AuthenticationFragment>(Bundle(), R.style.AppTheme) {
+        launchFragmentInHiltContainer<LandingFragment>(Bundle(), R.style.AppTheme) {
             // Do not use it.requireView() because it won't work. instead use it.view!!
             Navigation.setViewNavController(this.view!!, navController)
         }

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.authentication.user
+package com.example.mymoviddb.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,18 +10,18 @@ import androidx.fragment.app.viewModels
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.UserPreference
-import com.example.mymoviddb.databinding.FragmentUserBinding
+import com.example.mymoviddb.databinding.FragmentLoginBinding
 import com.example.mymoviddb.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserFragment : Fragment() {
+class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentUserBinding
+    private lateinit var binding: FragmentLoginBinding
 
-    private val userViewModel by viewModels<UserViewModel>()
+    private val userViewModel by viewModels<LoginViewModel>()
 
     @Inject
     lateinit var userPreference: UserPreference
@@ -31,7 +31,7 @@ class UserFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentUserBinding.inflate(inflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         setLoginButtonClick()
         observeLoginResult()

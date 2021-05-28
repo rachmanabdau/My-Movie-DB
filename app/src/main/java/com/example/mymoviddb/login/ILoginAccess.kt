@@ -1,9 +1,9 @@
-package com.example.mymoviddb.authentication
+package com.example.mymoviddb.login
 
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.model.*
 
-interface IAuthenticationAccess {
+interface ILoginAccess {
 
     suspend fun getRequestToken(
         apiKey: String

@@ -2,10 +2,10 @@ package com.example.mymoviddb.authentication
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.mymoviddb.authentication.guest.AuthenticationViewModel
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.utils.preference.Preference
-import com.example.mymoviddb.getOrAwaitValue
+import com.example.mymoviddb.login.ILoginAccess
+import com.example.mymoviddb.login.LoginRepository
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.example.mymoviddb.sharedData.FakeUserPreference
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ class AuthenticationViewModelTest {
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()
 
-    private lateinit var fakeRemoteSource: IAuthenticationAccess
+    private lateinit var fakeRemoteSource: ILoginAccess
     private lateinit var authenticationVM: AuthenticationViewModel
     private lateinit var userPreference: Preference
     private val mainThreadSurrogate = TestCoroutineDispatcher()
@@ -40,7 +40,7 @@ class AuthenticationViewModelTest {
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = AuthenticationRepository(FakeRemoteServer())
+        fakeRemoteSource = LoginRepository(FakeRemoteServer())
         userPreference = FakeUserPreference()
         authenticationVM = AuthenticationViewModel(
             userPreference,

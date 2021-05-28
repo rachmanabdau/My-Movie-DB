@@ -5,6 +5,7 @@ import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.GuestSessionModel
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.login.LoginRepository
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,17 +19,17 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class AuthenticationRepositoryTest {
+class LoginRepositoryTest {
 
 
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
-    private lateinit var access: AuthenticationRepository
+    private lateinit var access: LoginRepository
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        access = AuthenticationRepository(fakeRemoteSource)
+        access = LoginRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
 
     }

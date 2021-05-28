@@ -2,9 +2,10 @@ package com.example.mymoviddb.authentication.user
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.mymoviddb.authentication.AuthenticationRepository
-import com.example.mymoviddb.authentication.IAuthenticationAccess
 import com.example.mymoviddb.getOrAwaitValue
+import com.example.mymoviddb.login.ILoginAccess
+import com.example.mymoviddb.login.LoginRepository
+import com.example.mymoviddb.login.LoginViewModel
 import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.example.mymoviddb.sharedData.FakeUserPreference
 import kotlinx.coroutines.Dispatchers
@@ -25,20 +26,20 @@ import org.robolectric.annotation.Config
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @Config(sdk = [Build.VERSION_CODES.LOLLIPOP, Build.VERSION_CODES.M, Build.VERSION_CODES.N, Build.VERSION_CODES.O, Build.VERSION_CODES.P])
-class UserViewModelTest {
+class LoginViewModelTest {
 
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()
 
-    private lateinit var fakeRemoteSource: IAuthenticationAccess
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var fakeRemoteSource: ILoginAccess
+    private lateinit var userViewModel: LoginViewModel
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
-        fakeRemoteSource = AuthenticationRepository(FakeRemoteServer())
-        userViewModel = UserViewModel(fakeRemoteSource, FakeUserPreference())
+        fakeRemoteSource = LoginRepository(FakeRemoteServer())
+        userViewModel = LoginViewModel(fakeRemoteSource, FakeUserPreference())
     }
 
     @After
