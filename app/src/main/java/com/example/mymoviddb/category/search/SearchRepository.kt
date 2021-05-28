@@ -3,8 +3,7 @@ package com.example.mymoviddb.category.search
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.mymoviddb.category.DatasourceDependency
-import com.example.mymoviddb.category.NewShowDataSource
+import com.example.mymoviddb.core.DatasourceDependency
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.ShowResult

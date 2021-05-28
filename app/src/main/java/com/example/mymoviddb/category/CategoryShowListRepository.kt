@@ -2,8 +2,14 @@ package com.example.mymoviddb.category
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.Result
-import com.example.mymoviddb.core.model.category.movie.*
-import com.example.mymoviddb.core.model.category.tv.*
+import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
+import com.example.mymoviddb.core.model.category.movie.PopularMovie
+import com.example.mymoviddb.core.model.category.movie.SearchMovieResult
+import com.example.mymoviddb.core.model.category.movie.WatchListMovie
+import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
+import com.example.mymoviddb.core.model.category.tv.PopularTvShow
+import com.example.mymoviddb.core.model.category.tv.SearchTvResult
+import com.example.mymoviddb.core.model.category.tv.WatchListTvShow
 import com.example.mymoviddb.core.utils.Util
 import javax.inject.Inject
 
@@ -32,22 +38,6 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
     ): Result<SearchMovieResult?> {
         return Util.getDataFromServer {
             access.searchMoviesAsync(title, page, apiKey).await()
-        }
-    }
-
-    override suspend fun getFavouriteMovies(
-        accountId: Int,
-        sessionId: String,
-        page: Int,
-        apiKey: String
-    ): Result<FavouriteMovie?> {
-        return Util.getDataFromServer {
-            access.getFavoriteMoviesAsync(
-                accountId = accountId,
-                sessionId = sessionId,
-                page = page,
-                apiKey = apiKey
-            ).await()
         }
     }
 
@@ -86,22 +76,6 @@ class CategoryShowListRepository @Inject constructor(private val access: Network
     ): Result<SearchTvResult?> {
         return Util.getDataFromServer {
             access.searchTvShowsAsync(title, page, apiKey).await()
-        }
-    }
-
-    override suspend fun getFavouriteTVShows(
-        accountId: Int,
-        sessionId: String,
-        page: Int,
-        apiKey: String
-    ): Result<FavouriteTvShow?> {
-        return Util.getDataFromServer {
-            access.getFavoriteTvShowAsync(
-                accountId = accountId,
-                sessionId = sessionId,
-                page = page,
-                apiKey = apiKey
-            ).await()
         }
     }
 

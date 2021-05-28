@@ -3,28 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="favouriteViewMdoel"
-            type="com.example.mymoviddb.category.account.AccountShowViewModel" />
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
-        tools:context="com.example.mymoviddb.category.account.favourite.FavouriteMoviesFragment">
+        tools:context="com.example.mymoviddb.com.example.favourite.FavouriteTVShowsFragment">
 
         <include
             android:id="@+id/favourite_error_layout"
             layout="@layout/try_again_load_list"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
             tools:visibility="visible" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

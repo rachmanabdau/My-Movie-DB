@@ -1,7 +1,5 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.core
 
-import com.example.mymoviddb.core.BuildConfig
-import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.*

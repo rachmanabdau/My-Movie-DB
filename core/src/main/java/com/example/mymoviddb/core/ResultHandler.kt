@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.account
+package com.example.mymoviddb.core
 
 import androidx.paging.CombinedLoadStates
 import com.example.mymoviddb.adapters.CategoryShowAdapter

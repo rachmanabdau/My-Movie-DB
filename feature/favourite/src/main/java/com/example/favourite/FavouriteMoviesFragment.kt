@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.account.favourite
+package com.example.favourite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,33 +11,33 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.example.mymoviddb.R
+import androidx.paging.map
+import com.example.favourite.databinding.FragmentFavouriteMoviesBinding
 import com.example.mymoviddb.adapters.CategoryShowAdapter
-import com.example.mymoviddb.category.account.AccountShowViewModel
-import com.example.mymoviddb.category.account.ResultHandler
-import com.example.mymoviddb.core.ShowCategoryIndex
+import com.example.mymoviddb.core.ResultHandler
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.databinding.FragmentFavouriteTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavouriteTVShowsFragment : Fragment(), ResultHandler {
+class FavouriteMoviesFragment : Fragment(), ResultHandler {
 
-    private lateinit var binding: FragmentFavouriteTvShowsBinding
+    private lateinit var binding: FragmentFavouriteMoviesBinding
 
-    private val favouriteViewModel by viewModels<AccountShowViewModel>()
+    private val favouriteViewModel by viewModels<FavouriteMovieViewModel>()
 
     @Inject
-    lateinit var favouriteTvShowAdapter: CategoryShowAdapter
+    lateinit var adapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavouriteTvShowsBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        binding = FragmentFavouriteMoviesBinding.inflate(inflater, container, false)
         setupView()
 
         return binding.root
@@ -48,21 +48,23 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
         binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
 
         setupAdapter()
+        binding.favouriteRv.adapter = adapter
         binding.favouriteSwipeRefresh.setOnRefreshListener {
-            favouriteViewModel.getShowList(ShowCategoryIndex.FAVOURITE_TV_SHOWS)
+            favouriteViewModel.getFavouriteMovieList()
         }
 
-        favouriteViewModel.getShowList(ShowCategoryIndex.FAVOURITE_TV_SHOWS)
-        favouriteViewModel.accountShowList.observe(viewLifecycleOwner) {
-            favouriteTvShowAdapter.submitData(lifecycle, it)
+        favouriteViewModel.getFavouriteMovieList()
+        favouriteViewModel.favouriteMovieList.observe(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(lifecycle, pagingData.map { it })
         }
     }
 
     private fun setupAdapter() {
-        binding.favouriteRv.adapter = favouriteTvShowAdapter.also { adapter ->
-            adapter.setItemClick { favouriteTvItem -> navigateToDetailMovie(favouriteTvItem) }
+        adapter.also { adapter ->
+            adapter.setItemClick { showResult -> navigateToDetailMovie(showResult) }
             viewLifecycleOwner.lifecycleScope.launch {
                 adapter.loadStateFlow.collectLatest { loadState ->
+                    Timber.d("loadState = ${loadState.refresh}")
                     setViewResult(loadState, adapter)
                     setRetryButton(adapter)
                 }
@@ -78,7 +80,7 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
 
     override fun navigateToDetailMovie(showItem: ShowResult) {
         findNavController().navigate(
-            FavouriteTVShowsFragmentDirections.actionFavouriteTVShowsFragmentToDetailGraph(
+            FavouriteMoviesFragmentDirections.actionFavouriteMoviesFragmentToDetailGraph(
                 showItem
             )
         )
@@ -95,14 +97,14 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
         // show shimmer place holder when in loading state
         binding.favouriteSwipeRefresh.isRefreshing = isRefreshing
         // show error message and try agian button when in error state
-        binding.favouriteErrorLayout.root.isVisible = (isError || isResultEmpty)
+        binding.favouriteErrorLayout.root.isVisible = (isError && isResultEmpty)
         showPlaceholderMessage(isResultEmpty)
     }
 
     override fun showPlaceholderMessage(isItemEmpty: Boolean) {
         if (isItemEmpty) {
             binding.favouriteErrorLayout.errorMessage.text =
-                getString(R.string.empty_favourite_tv_show)
+                getString(R.string.empty_favourite_movie)
         }
     }
 

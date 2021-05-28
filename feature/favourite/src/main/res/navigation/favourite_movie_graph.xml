@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favourite_graph"
+    app:startDestination="@id/favouriteMoviesFragment">
+
+    <fragment
+        android:id="@+id/favouriteMoviesFragment"
+        android:name="com.example.favourite.FavouriteMoviesFragment"
+        android:label="@string/favourite_movies_label"
+        tools:layout="@layout/fragment_favourite_movies">
+        <action
+            android:id="@+id/action_favouriteMoviesFragment_to_detail_graph"
+            app:destination="@id/detail_graph">
+            <argument
+                android:name="showItem"
+                app:argType="com.example.mymoviddb.core.model.ShowResult" />
+        </action>
+    </fragment>
+
+    <include app:graph="@navigation/detail_graph" />
+</navigation>

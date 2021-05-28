@@ -78,10 +78,6 @@ class ShowDataSource(
             categoryId == ShowCategoryIndex.NOW_PLAYING_MOVIES -> {
                 networkService.getNowPlayingMovieList(pageNumber, BuildConfig.V3_AUTH)
             }
-            categoryId == ShowCategoryIndex.FAVOURITE_MOVIES ->
-                networkService.getFavouriteMovies(
-                    accountId = userId, sessionId = sessionId, pageNumber
-                )
             categoryId == ShowCategoryIndex.WATCHLIST_MOVIES ->
                 networkService.getWatchlistMovies(
                     accountId = userId, sessionId = sessionId, pageNumber
@@ -95,10 +91,6 @@ class ShowDataSource(
             categoryId == ShowCategoryIndex.ON_AIR_TV_SHOWS -> {
                 networkService.getOnAirTvShowList(pageNumber, BuildConfig.V3_AUTH)
             }
-            categoryId == ShowCategoryIndex.FAVOURITE_TV_SHOWS ->
-                networkService.getFavouriteTVShows(
-                    accountId = userId, sessionId = sessionId, pageNumber
-                )
             categoryId == ShowCategoryIndex.WATCHLIST_TV_SHOWS -> networkService.getWatchlistTVShows(
                 accountId = userId, sessionId = sessionId, pageNumber
             )

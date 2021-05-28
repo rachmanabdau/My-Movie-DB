@@ -1,7 +1,8 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.category.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.mymoviddb.core.DatasourceDependency
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.ShowResponse

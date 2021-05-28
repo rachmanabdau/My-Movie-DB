@@ -23,16 +23,4 @@ object DatabaseModule {
         TmdbDatabase::class.java,
         "tmdb_local"
     ).build()
-
-    @Provides
-    fun provideFavouriteMovieDao(db: TmdbDatabase) = db.favouriteMovieDao()
-
-    @Provides
-    fun provideFavouriteTvDao(db: TmdbDatabase) = db.favouriteTvDao()
-
-    @Provides
-    fun provideWatchListMovieDao(db: TmdbDatabase) = db.watchListMovieDao()
-
-    @Provides
-    fun provideWatchListTvDao(db: TmdbDatabase) = db.watchListTvDao()
 }

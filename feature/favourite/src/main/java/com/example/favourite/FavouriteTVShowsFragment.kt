@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.account.favourite
+package com.example.favourite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,34 +11,31 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.example.mymoviddb.R
+import androidx.paging.map
+import com.example.favourite.databinding.FragmentFavouriteTvShowsBinding
 import com.example.mymoviddb.adapters.CategoryShowAdapter
-import com.example.mymoviddb.category.account.AccountShowViewModel
-import com.example.mymoviddb.category.account.ResultHandler
-import com.example.mymoviddb.core.ShowCategoryIndex
+import com.example.mymoviddb.core.ResultHandler
 import com.example.mymoviddb.core.model.ShowResult
-import com.example.mymoviddb.databinding.FragmentFavouriteMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavouriteMoviesFragment : Fragment(), ResultHandler {
+class FavouriteTVShowsFragment : Fragment(), ResultHandler {
 
-    private lateinit var binding: FragmentFavouriteMoviesBinding
+    private lateinit var binding: FragmentFavouriteTvShowsBinding
 
-    private val favouriteViewModel by viewModels<AccountShowViewModel>()
+    private val favouriteViewModel by viewModels<FavouriteTvViewModel>()
 
     @Inject
-    lateinit var adapter: CategoryShowAdapter
+    lateinit var favouriteTvShowAdapter: CategoryShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentFavouriteMoviesBinding.inflate(inflater, container, false)
+        binding = FragmentFavouriteTvShowsBinding.inflate(inflater, container, false)
         setupView()
 
         return binding.root
@@ -49,20 +46,19 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
         binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
 
         setupAdapter()
-        binding.favouriteRv.adapter = adapter
         binding.favouriteSwipeRefresh.setOnRefreshListener {
-            favouriteViewModel.getShowList(ShowCategoryIndex.FAVOURITE_MOVIES)
+            favouriteViewModel.getFavouriteTvList()
         }
 
-        favouriteViewModel.getShowList(ShowCategoryIndex.FAVOURITE_MOVIES)
-        favouriteViewModel.accountShowList.observe(viewLifecycleOwner) {
-            adapter.submitData(lifecycle, it)
+        favouriteViewModel.getFavouriteTvList()
+        favouriteViewModel.favouriteTvList.observe(viewLifecycleOwner) { pagingData ->
+            favouriteTvShowAdapter.submitData(lifecycle, pagingData.map { it })
         }
     }
 
     private fun setupAdapter() {
-        adapter.also { adapter ->
-            adapter.setItemClick { showResult -> navigateToDetailMovie(showResult) }
+        binding.favouriteRv.adapter = favouriteTvShowAdapter.also { adapter ->
+            adapter.setItemClick { favouriteTvItem -> navigateToDetailMovie(favouriteTvItem) }
             viewLifecycleOwner.lifecycleScope.launch {
                 adapter.loadStateFlow.collectLatest { loadState ->
                     setViewResult(loadState, adapter)
@@ -80,7 +76,7 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
 
     override fun navigateToDetailMovie(showItem: ShowResult) {
         findNavController().navigate(
-            FavouriteMoviesFragmentDirections.actionFavouriteMoviesFragmentToDetailGraph(
+            FavouriteTVShowsFragmentDirections.actionFavouriteTVShowsFragmentToDetailGraph(
                 showItem
             )
         )
@@ -104,7 +100,7 @@ class FavouriteMoviesFragment : Fragment(), ResultHandler {
     override fun showPlaceholderMessage(isItemEmpty: Boolean) {
         if (isItemEmpty) {
             binding.favouriteErrorLayout.errorMessage.text =
-                getString(R.string.empty_favourite_movie)
+                getString(R.string.empty_favourite_tv_show)
         }
     }
 

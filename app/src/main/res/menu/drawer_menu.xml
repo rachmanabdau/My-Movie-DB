@@ -5,12 +5,12 @@
         <menu>
             <group>
                 <item
-                    android:id="@+id/favouriteMoviesFragment"
+                    android:id="@+id/favourite_graph"
                     android:title="@string/favourite_movies_label"
                     android:icon="@drawable/ic_movie_chooser" />
 
                 <item
-                    android:id="@+id/favouriteTVShowsFragment"
+                    android:id="@+id/favourite_tv_graph"
                     android:title="@string/favourite_tv_shows_label"
                     android:icon="@drawable/ic_tv_chooser" />
 

@@ -1,23 +1,28 @@
 package com.example.mymoviddb.core.datasource.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mymoviddb.core.model.category.movie.WatchListMovie
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface WatchListMovieDao {
 
     @Query("SELECT * FROM watch_list_movie")
-    fun getAllFavouriteMovie(): Flow<List<WatchListMovie.Result>>
+    fun getAllWatchListMovie(): PagingSource<Int, WatchListMovie.Result>
 
     @Query("SELECT * FROM favourite_movie WHERE id IN (:id)")
-    fun getFavouriteMovieById(id: Long): Flow<WatchListMovie.Result>
+    fun getWatchListMovieById(id: Long): PagingSource<Int, WatchListMovie.Result>
 
-    @Query("SELECT * FROM favourite_movie WHERE title LIKE :favouriteTitle")
-    fun getFavouriteMovieByTitle(favouriteTitle: String): Flow<List<WatchListMovie.Result>>
+    @Query("SELECT * FROM favourite_movie WHERE title LIKE :watchListTitle")
+    fun getWatchListMovieByTitle(watchListTitle: String): PagingSource<Int, WatchListMovie.Result>
 
     @Query("DELETE FROM favourite_movie")
-    fun cleartAllFavouriteMovie()
+    suspend fun cleartAllWatchListMovie()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(watchlistMovie: List<WatchListMovie.Result>)
 }

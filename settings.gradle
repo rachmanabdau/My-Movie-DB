@@ -2,3 +2,4 @@ include ':app'
 rootProject.name = "My Movid DB"
 include ':core'
 include ':feature:detail'
+include ':feature:favourite'
