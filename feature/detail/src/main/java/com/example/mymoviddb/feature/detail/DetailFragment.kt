@@ -274,7 +274,6 @@ class DetailFragment : Fragment() {
         binding.detailToolbar.titleCustom.text = showTitle
         binding.detailToolbar.titleCustom.visibility = View.VISIBLE
         binding.detailToolbar.toolbar.setupWithNavController(findNavController())
-        // my_child_toolbar is defined in the layout file
         //activityContainer.setSupportActionBar(binding.detailToolbar.toolbar)
         // Get a support ActionBar corresponding to this toolbar and enable the Up button
         activityContainer.supportActionBar?.setDisplayHomeAsUpEnabled(true)

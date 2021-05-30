@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -41,9 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!isUserLogin()) userPreference.setAuthState(LoginState.NOT_LOGIN)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.mainToolbar.toolbar)
-        setupStartDestination(binding)
+        setupNavController(binding)
         observeUserAvatar()
         observeLogoutResult()
     }
@@ -53,23 +55,19 @@ class MainActivity : AppCompatActivity() {
         if (isUserLogin()) mainViewModel.getUserDetail(userPreference.readUserSession())
     }
 
-    private fun setupStartDestination(binding: ActivityMainBinding) {
+    private fun setupNavController(binding: ActivityMainBinding) {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.mainHostFragment.id) as NavHostFragment
         val navController = navHostFragment.navController
-
-        val navigationInflater = navHostFragment.navController.navInflater
-        val graph = navigationInflater.inflate(R.navigation.main_navigation)
-        graph.startDestination =
-            if (isUserLogin()) R.id.homeFragment else R.id.landingFragment
-        navController.graph = graph
 
         setupToolbar(navController)
     }
 
     private fun setupToolbar(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val fragmentDestination = setOf(R.id.searchFragment, R.id.detailGraph)
+            val fragmentDestination = setOf(
+                R.id.searchFragment, R.id.detailGraph, R.id.loginFragment
+            )
             setSupportActionBar(binding.mainToolbar.toolbar)
             setupLayout(navController)
             binding.mainToolbar.toolbar.isVisible =
@@ -152,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         // listener click for logout menu. it has to be placed right after NavigationUI.setupWithNavController
         binding.navView.setNavigationItemSelectedListener {
             if (it.itemId == R.id.logout_drawer_menu) {
-                mainViewModel.logout(userPreference.readUserSession())
+                launchLogoutConfirmation()
             }
 
             // to maintain navigation component still work
@@ -161,6 +159,27 @@ class MainActivity : AppCompatActivity() {
             return@setNavigationItemSelectedListener true
         }
 
+    }
+
+    private fun launchLogoutConfirmation() {
+        val alertDialog: AlertDialog = this.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setPositiveButton("Yes") { dialog, _ ->
+                    mainViewModel.logout(userPreference.readUserSession())
+                    dialog.dismiss()
+                }
+                setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            }
+            builder.setTitle(getString(R.string.log_out))
+                .setMessage(getString(R.string.log_out_confirmation))
+            // Create the AlertDialog
+            builder.create()
+        }
+
+        alertDialog.show()
     }
 
     private fun setupToolbarOnly(navController: NavController) {

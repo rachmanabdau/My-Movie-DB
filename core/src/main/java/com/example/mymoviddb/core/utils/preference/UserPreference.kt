@@ -40,7 +40,7 @@ class UserPreference @Inject constructor(application: Application) : Preference 
     }
 
     override fun getAuthState(): Int {
-        return sharedPreferences.getInt(LOGIN_STATE_KEY, -1)
+        return sharedPreferences.getInt(LOGIN_STATE_KEY, LoginState.NOT_LOGIN.stateId)
     }
 
     override fun writeGuestToken(token: String) {
@@ -89,6 +89,7 @@ class UserPreference @Inject constructor(application: Application) : Preference 
 }
 
 enum class LoginState(val stateId: Int) {
+    NOT_LOGIN(0),
     AS_GUEST(1),
     AS_USER(2)
 }

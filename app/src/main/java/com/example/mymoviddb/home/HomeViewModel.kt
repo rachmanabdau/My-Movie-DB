@@ -12,14 +12,16 @@ import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.core.model.succeeded
 import com.example.mymoviddb.core.utils.Event
+import com.example.mymoviddb.core.utils.preference.LoginState
+import com.example.mymoviddb.core.utils.preference.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val remoteServer: IHomeAccess
-
+    private val remoteServer: IHomeAccess,
+    private val userPreference: Preference
 ) : ViewModel() {
 
     private val _popularMovieList = MutableLiveData<Result<PopularMovie?>>()
@@ -111,5 +113,9 @@ class HomeViewModel @Inject constructor(
             val getMessage = message.exception.localizedMessage
             _snackbarMessage.value = Event(getMessage ?: "Unknown error has occured.")
         }
+    }
+
+    fun userIsLoginAsGuest(): Boolean {
+        return userPreference.getAuthState() == LoginState.AS_GUEST.stateId
     }
 }

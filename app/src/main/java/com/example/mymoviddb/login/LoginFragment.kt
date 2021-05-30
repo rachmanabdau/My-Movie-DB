@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.example.mymoviddb.R
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.UserPreference
 import com.example.mymoviddb.databinding.FragmentLoginBinding
+import com.example.mymoviddb.home.HomeFragment
 import com.example.mymoviddb.main.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +26,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
 
-    private val userViewModel by viewModels<LoginViewModel>()
+    private val loginViewModel by activityViewModels<LoginViewModel>()
 
     @Inject
     lateinit var userPreference: UserPreference
@@ -32,22 +37,36 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding.loginToolbar.toolbar.title = getString(R.string.action_login)
 
-        setLoginButtonClick()
+        setLoginStateToHome(LoginState.NOT_LOGIN)
+        setupButtonClick()
         observeLoginResult()
+        setUpBackPressed()
 
         return binding.root
     }
 
-    private fun setLoginButtonClick() {
+    private fun setUpBackPressed() {
+        // close activity if back button is pressed instead of navigating back to home
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            requireActivity().finish()
+        }
+    }
+
+    private fun setupButtonClick() {
         binding.login.setOnClickListener {
             if (isAllFieldValid()) {
                 val username = binding.usernameInputText.text.toString()
                 val password = binding.passwordInputText.text.toString()
-                binding.login.isEnabled = false
-                userViewModel.login(username, password)
-                binding.loginProgress.visibility = View.VISIBLE
+                setLoadingStateView(true)
+                loginViewModel.login(username, password)
             }
+        }
+
+        binding.loginAsGuest.setOnClickListener {
+            setLoginStateToHome(LoginState.AS_GUEST)
+            findNavController().popBackStack()
         }
     }
 
@@ -64,20 +83,33 @@ class LoginFragment : Fragment() {
     }
 
     private fun observeLoginResult() {
-        userViewModel.loginResult.observe(viewLifecycleOwner, EventObserver {
+        loginViewModel.loginResult.observe(viewLifecycleOwner, EventObserver {
             val isLoginSuccess = it.equals("success", true)
             if (isLoginSuccess) {
                 userPreference.setAuthState(LoginState.AS_USER)
-                navigateToMainActivity()
+                restartActivity()
             } else {
-                binding.login.isEnabled = true
                 showErrorMessage(it)
             }
-            binding.loginProgress.visibility = View.GONE
+            setLoadingStateView(false)
         })
     }
 
-    private fun navigateToMainActivity() {
+    private fun setLoginStateToHome(state: LoginState) {
+        userPreference.setAuthState(state)
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            HomeFragment.loginStateKey,
+            state.stateId
+        )
+    }
+
+    private fun setLoadingStateView(isLoading: Boolean) {
+        binding.login.isEnabled = !isLoading
+        binding.loginAsGuest.isEnabled = !isLoading
+        binding.loginProgress.isVisible = isLoading
+    }
+
+    private fun restartActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)
         startActivity(intent)
         requireActivity().finish()

@@ -25,6 +25,9 @@ class LoginViewModel @Inject constructor(
     private val _loginResult = MutableLiveData<Event<String>>()
     val loginResult: LiveData<Event<String>> = _loginResult
 
+    private val _navigateToSplashFragment = MutableLiveData<Event<Unit>>()
+    val navigateToSplashFragment: LiveData<Event<Unit>> = _navigateToSplashFragment
+
     fun login(username: String, password: String) {
         viewModelScope.launch {
             val requestToken = getRequestToken()
@@ -66,5 +69,9 @@ class LoginViewModel @Inject constructor(
     private fun updateSession(newSession: NewSessionModel) {
         userPreference.writeUserSession(newSession.sessionId)
         userPreference.setAuthState(LoginState.AS_USER)
+    }
+
+    fun navigateToSplashFragment() {
+        _navigateToSplashFragment.value = Event(Unit)
     }
 }

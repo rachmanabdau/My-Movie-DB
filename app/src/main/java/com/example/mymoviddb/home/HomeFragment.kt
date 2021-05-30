@@ -2,6 +2,7 @@ package com.example.mymoviddb.home
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,8 @@ import com.example.mymoviddb.core.PreloadLinearLayout
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.EventObserver
+import com.example.mymoviddb.core.utils.preference.LoginState
+import com.example.mymoviddb.core.utils.preference.Preference
 import com.example.mymoviddb.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,17 +30,24 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var popularMoviesAdapter: PreviewShowAdapter
+
     @Inject
     lateinit var nowPlayingMoviesAdapter: PreviewShowAdapter
+
     @Inject
     lateinit var popularTvShowsAdapter: PreviewShowAdapter
+
     @Inject
     lateinit var onAirTvShowsAdapter: PreviewShowAdapter
+
+    @Inject
+    lateinit var userPreference: Preference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        launchLoginFragment()
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.homeViewModel = homeViewModel
@@ -45,6 +55,7 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         initializeAdapter()
         setClickListener()
+        setUpBackPressed()
 
         homeViewModel.snackbarMessage.observe(viewLifecycleOwner, EventObserver {
             Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
@@ -53,15 +64,27 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //super.onCreateOptionsMenu(menu, inflater)
+        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(findNavController()) ||
                 super.onOptionsItemSelected(item)
+    }
+
+    private fun launchLoginFragment() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData(
+            loginStateKey,
+            userPreference.getAuthState()
+        )?.observe(viewLifecycleOwner) {
+            if (it == LoginState.NOT_LOGIN.stateId) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToLoginFragment()
+                )
+            }
+        }
     }
 
     private fun initializeAdapter() {
@@ -195,4 +218,18 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setUpBackPressed() {
+        // navigate to
+        if (homeViewModel.userIsLoginAsGuest()) {
+            requireActivity().onBackPressedDispatcher.addCallback(this) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToLoginFragment()
+                )
+            }
+        }
+    }
+
+    companion object {
+        const val loginStateKey = "com.example.mymoviddb.home.HomeFragment.loginStateKey"
+    }
 }
