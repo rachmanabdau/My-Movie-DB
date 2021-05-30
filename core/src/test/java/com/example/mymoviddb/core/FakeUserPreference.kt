@@ -1,4 +1,4 @@
-package com.example.mymoviddb.sharedData
+package com.example.mymoviddb.core
 
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.Preference

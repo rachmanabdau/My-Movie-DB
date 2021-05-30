@@ -1,4 +1,4 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.feature.search
 
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +12,6 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.example.mymoviddb.R
 import com.example.mymoviddb.core.utils.DataBindingIdlingResource
 import com.example.mymoviddb.core.utils.EspressoIdlingResource
 import com.example.mymoviddb.core.utils.monitorActivity

@@ -40,16 +40,6 @@ android {
         }
     }
 
-    sourceSets{
-        androidTest{
-            java.srcDirs += "src/sharedData/java"
-        }
-
-        test{
-            java.srcDirs += "src/sharedData/java"
-        }
-    }
-
     packagingOptions{
         exclude 'META-INF/AL2.0'
         exclude 'META-INF/LGPL2.1'
@@ -106,16 +96,12 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version_lifecycle"
 
-
-
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
 
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$version_navigation"
-
-
 
     // Kotlin Android Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_coroutines"
@@ -125,13 +111,6 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
-
-    // Moshi converter
-    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_corouitine"
-
-    // Moshi Library
-    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
     // Material components
     implementation "com.google.android.material:material:$version_material"
@@ -148,25 +127,9 @@ dependencies {
     // Retrofit testing
     testImplementation "com.squareup.okhttp3:mockwebserver:$version_mock_web_server"
 
-    // Room Presistence Library
-    implementation "androidx.room:room-runtime:$version_room"
-    kapt "androidx.room:room-compiler:$version_room"
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:$version_room"
-    // optional - Test helpers
-    testImplementation "androidx.room:room-testing:$version_room"
-
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$version_glide_annotation"
-
-    // Preference
-    implementation "androidx.preference:preference-ktx:$version_preference"
-
-    // Pagination
-    implementation "androidx.paging:paging-runtime-ktx:$version_paging"
-    // alternatively - without Android dependencies for testing
-    testImplementation "androidx.paging:paging-common-ktx:$version_paging"
 
     // Timber for debugging
     implementation "com.jakewharton.timber:timber:$version_timber"
@@ -199,9 +162,6 @@ dependencies {
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$version_dexMaker"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$version_espresso"
 
-    // mockk for mcoking savedStateHandle
-    testImplementation "io.mockk:mockk:$version_mockk"
-
     // Hilt for DI
     implementation "com.google.dagger:hilt-android:$version_dagger_hilt"
     kapt "com.google.dagger:hilt-android-compiler:$version_dagger_hilt"
@@ -220,11 +180,4 @@ dependencies {
 
     // Circulat Image View
     implementation "de.hdodenhof:circleimageview:$version_hdodenhof"
-
-    // Gradle dependency on Shimmer for Android
-    implementation "com.facebook.shimmer:shimmer:$version_shimmer"
-
-    // file and shared preference encryption
-    implementation "androidx.security:security-crypto:$version_crypto"
-
 }

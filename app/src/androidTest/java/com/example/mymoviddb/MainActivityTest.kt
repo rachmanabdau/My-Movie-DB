@@ -13,6 +13,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.example.mymoviddb.core.ScrollToWithNestedScrollView
 import com.example.mymoviddb.core.utils.DataBindingIdlingResource
 import com.example.mymoviddb.core.utils.EspressoIdlingResource
 import com.example.mymoviddb.core.utils.monitorActivity

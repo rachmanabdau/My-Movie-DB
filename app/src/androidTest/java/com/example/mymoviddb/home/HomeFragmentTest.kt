@@ -12,12 +12,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
-import com.example.mymoviddb.ScrollToWithNestedScrollView
+import com.example.mymoviddb.core.FakeRemoteServer
+import com.example.mymoviddb.core.ScrollToWithNestedScrollView
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.di.ServiceModule
-import com.example.mymoviddb.launchFragmentInHiltContainer
-import com.example.mymoviddb.sharedData.FakeRemoteServer
+import com.example.mymoviddb.core.launchFragmentInHiltContainer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

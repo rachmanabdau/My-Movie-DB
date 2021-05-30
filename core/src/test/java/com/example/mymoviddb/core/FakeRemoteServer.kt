@@ -1,6 +1,5 @@
-package com.example.mymoviddb.sharedData
+package com.example.mymoviddb.core
 
-import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*

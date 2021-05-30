@@ -1,12 +1,12 @@
 package com.example.mymoviddb.main
 
 import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.FakeRemoteServer
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.UserDetail
-import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi

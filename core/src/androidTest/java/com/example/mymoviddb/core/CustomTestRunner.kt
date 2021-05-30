@@ -1,4 +1,4 @@
-package com.example.mymoviddb
+package com.example.mymoviddb.core
 
 import android.app.Application
 import android.content.Context

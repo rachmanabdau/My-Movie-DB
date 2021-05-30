@@ -31,16 +31,6 @@ object Util {
         }
     }
 
-    /**
-     * method to get current time at GMT+0 returns Long
-     */
-    fun getCurrenTimeGMT(): Long {
-        val gmtDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        gmtDateFormat.timeZone = TimeZone.getTimeZone("GMT")
-        //Current Date Time in GMT
-        return convertStringTimeToMills(gmtDateFormat.format(Date()))
-    }
-
     fun returnError(result: Response<*>): Result.Error {
         val errorAdapter = moshi.adapter(ResponsedBackend::class.java)
         val errorMessage = result.errorBody()?.string() ?: "Unknown error has occured"

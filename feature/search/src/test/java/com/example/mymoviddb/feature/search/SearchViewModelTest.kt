@@ -1,12 +1,12 @@
-package com.example.mymoviddb.category.search
+package com.example.mymoviddb.feature.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.mymoviddb.core.FakeRemoteServer
+import com.example.mymoviddb.core.FakeUserPreference
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.utils.preference.Preference
 import com.example.mymoviddb.feature.category.CategoryShowListRepository
 import com.example.mymoviddb.feature.category.ICategoryShowListAccess
-import com.example.mymoviddb.sharedData.FakeRemoteServer
-import com.example.mymoviddb.sharedData.FakeUserPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -30,7 +30,7 @@ class SearchViewModelTest {
 
     private lateinit var fakeRepository: ICategoryShowListAccess
     private lateinit var fakeUserPreference: Preference
-    private lateinit var searchViewmodel: com.example.mymoviddb.feature.search.SearchViewModel
+    private lateinit var searchViewmodel: SearchViewModel
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
@@ -39,7 +39,7 @@ class SearchViewModelTest {
         fakeUserPreference = FakeUserPreference()
         fakeRepository = CategoryShowListRepository(FakeRemoteServer())
         searchViewmodel =
-            com.example.mymoviddb.feature.search.SearchViewModel(fakeUserPreference, fakeRepository)
+            SearchViewModel(fakeUserPreference, fakeRepository)
     }
 
     @After

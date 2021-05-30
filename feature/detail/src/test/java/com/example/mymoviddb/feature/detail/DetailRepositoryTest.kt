@@ -1,6 +1,7 @@
-package com.example.mymoviddb.detail
+package com.example.mymoviddb.feature.detail
 
 import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.FakeRemoteServer
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
@@ -8,7 +9,6 @@ import com.example.mymoviddb.core.model.category.movie.RecommendationMovie
 import com.example.mymoviddb.core.model.category.movie.SimilarMovie
 import com.example.mymoviddb.core.model.category.tv.RecommendationTvShow
 import com.example.mymoviddb.core.model.category.tv.SimilarTvShow
-import com.example.mymoviddb.sharedData.FakeRemoteServer
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -25,12 +25,12 @@ class DetailRepositoryTest {
 
     private lateinit var fakeRemoteSource: NetworkService
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
-    private lateinit var access: com.example.mymoviddb.feature.detail.IDetailAccess
+    private lateinit var access: IDetailAccess
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        access = com.example.mymoviddb.feature.detail.DetailRepository(fakeRemoteSource)
+        access = DetailRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
     }
 

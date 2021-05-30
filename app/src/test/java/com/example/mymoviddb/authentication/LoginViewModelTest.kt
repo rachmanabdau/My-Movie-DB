@@ -1,13 +1,13 @@
-package com.example.mymoviddb.authentication.user
+package com.example.mymoviddb.authentication
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.mymoviddb.core.FakeRemoteServer
+import com.example.mymoviddb.core.FakeUserPreference
 import com.example.mymoviddb.getOrAwaitValue
 import com.example.mymoviddb.login.ILoginAccess
 import com.example.mymoviddb.login.LoginRepository
 import com.example.mymoviddb.login.LoginViewModel
-import com.example.mymoviddb.sharedData.FakeRemoteServer
-import com.example.mymoviddb.sharedData.FakeUserPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi

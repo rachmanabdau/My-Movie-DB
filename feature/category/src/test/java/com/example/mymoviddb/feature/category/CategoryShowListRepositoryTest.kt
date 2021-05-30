@@ -1,14 +1,14 @@
-package com.example.mymoviddb.category
+package com.example.mymoviddb.feature.category
 
 import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.FakeRemoteServer
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.category.movie.*
 import com.example.mymoviddb.core.model.category.tv.*
-import com.example.mymoviddb.feature.category.CategoryShowListRepository
-import com.example.mymoviddb.sharedData.FakeRemoteServer
+import com.example.mymoviddb.core.utils.preference.Preference
 import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -24,13 +24,14 @@ import org.junit.Test
 class CategoryShowListRepositoryTest {
 
     private lateinit var fakeRemoteSource: NetworkService
+    private lateinit var fakePreference: Preference
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
     private lateinit var repository: CategoryShowListRepository
 
     @Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
-        repository = CategoryShowListRepository(fakeRemoteSource)
+        repository = CategoryShowListRepository(fakePreference, fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
     }
 

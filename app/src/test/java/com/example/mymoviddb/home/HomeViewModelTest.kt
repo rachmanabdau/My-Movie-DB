@@ -1,9 +1,9 @@
 package com.example.mymoviddb.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.mymoviddb.core.FakeRemoteServer
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.getOrAwaitValue
-import com.example.mymoviddb.sharedData.FakeRemoteServer
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
