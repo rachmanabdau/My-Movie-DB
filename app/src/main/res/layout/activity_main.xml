@@ -21,7 +21,7 @@
 
             <include
                 android:id="@+id/main_toolbar"
-                layout="@layout/detail_toolbar"
+                layout="@layout/toolbar"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.fragment.app.FragmentContainerView

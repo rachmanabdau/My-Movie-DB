@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.mymoviddb.R
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.UserPreference
@@ -37,7 +37,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        binding.loginToolbar.toolbar.title = getString(R.string.action_login)
+        setupToolbar()
 
         setLoginStateToHome(LoginState.NOT_LOGIN)
         setupButtonClick()
@@ -45,6 +45,12 @@ class LoginFragment : Fragment() {
         setUpBackPressed()
 
         return binding.root
+    }
+
+    private fun setupToolbar() {
+        val activity = (requireActivity() as AppCompatActivity)
+        val actiobBar = activity.supportActionBar
+        actiobBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun setUpBackPressed() {

@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.mymoviddb.feature.search.SearchFragment"
-        android:label="SearchResultFragment"
+        android:label=""
         tools:layout="@layout/fragment_search">
         <argument
             android:name="searchID"

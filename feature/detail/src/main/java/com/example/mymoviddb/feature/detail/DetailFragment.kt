@@ -74,6 +74,7 @@ class DetailFragment : Fragment() {
         val sessionId = userPreference.readUserSession()
         detailViewModel.getShowDetail(showItem, sessionId)
         setupFAB()
+        setupToolbar("")
 
         detailViewModel.isFavourite.observe(viewLifecycleOwner) {
             val colorTint =

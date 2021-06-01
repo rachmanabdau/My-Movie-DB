@@ -1,18 +1,14 @@
 package com.example.mymoviddb.feature.search
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.adapters.CategoryShowAdapter
@@ -25,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -47,36 +44,46 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
-        binding.searchToolbar.setupWithNavController(findNavController())
+        //binding.searchToolbar.setupWithNavController(findNavController())
         observeSearchMovies()
+        setHasOptionsMenu(true)
 
-        // Get the SearchView and set the searchable configuration
-        val searchManager =
-            requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        binding.searchView.apply {
-            maxWidth = Integer.MAX_VALUE
-            // Assumes current activity is the searchable activity
-            setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
-            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
-            isFocusable = true
-            requestFocusFromTouch()
-        }
-
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.isNotBlank()) {
-                    searchViewModel.searchShow(resultArgs.searchID, query)
-                    return true
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    // Setup searchview
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        val themedCntext = (requireActivity() as AppCompatActivity).supportActionBar?.themedContext
+        themedCntext?.apply {
+            menu.clear()
+            inflater.inflate(R.menu.search_menu, menu)
+            val item: MenuItem = menu.findItem(R.id.action_search)
+            val searchView = SearchView(this)
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            item.setActionView(searchView)
+            searchView.apply {
+                setIconifiedByDefault(false)
+                maxWidth = Integer.MAX_VALUE
+                setPaddingRelative(0, 0, 0, 0)
+                isFocusable = true
+                requestFocusFromTouch()
+                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        if (query.isNotBlank()) {
+                            searchViewModel.searchShow(resultArgs.searchID, query)
+                            return true
+                        }
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        return false
+                    }
+                })
+            }
+        }
     }
 
     private fun observeSearchMovies() {

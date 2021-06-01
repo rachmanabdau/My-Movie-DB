@@ -15,22 +15,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackgroound"
         tools:context=".category.search.SearchResult">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/search_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ToolbarTheme"
-            app:contentInsetStartWithNavigation="0dp"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                android:layout_height="48dp" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
         <include
             android:id="@+id/error_layout"
             android:layout_width="match_parent"
@@ -38,7 +22,7 @@
             android:layout_marginTop="@dimen/margin_small"
             layout="@layout/try_again_load_list"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_shows_rv"
@@ -47,7 +31,7 @@
             tools:listitem="@layout/movie_list_item"
             app:spanCount="2"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <include
@@ -56,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/search_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
