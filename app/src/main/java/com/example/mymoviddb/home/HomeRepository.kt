@@ -6,14 +6,19 @@ import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
-import com.example.mymoviddb.core.utils.Util
+import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val access: NetworkService) : IHomeAccess {
 
     override suspend fun getPopularMovieList(page: Int, apiKey: String): Result<PopularMovie?> {
-        return Util.getDataFromServer {
-            access.getPopularMoviesAsync(page, apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getPopularMoviesAsync(page, apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
@@ -21,20 +26,35 @@ class HomeRepository @Inject constructor(private val access: NetworkService) : I
         page: Int,
         apiKey: String
     ): Result<NowPlayingMovie?> {
-        return Util.getDataFromServer {
-            access.getNowPlayingMoviesAsync(page, apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getNowPlayingMoviesAsync(page, apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
     override suspend fun getPopularTvShowList(page: Int, apiKey: String): Result<PopularTvShow?> {
-        return Util.getDataFromServer {
-            access.getPopularTvShowAsync(page, apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getPopularTvShowAsync(page, apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
     override suspend fun getOnAirTvShowList(page: Int, apiKey: String): Result<OnAirTvShow?> {
-        return Util.getDataFromServer {
-            access.getOnAirTvShowAsync(page, apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getOnAirTvShowAsync(page, apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 

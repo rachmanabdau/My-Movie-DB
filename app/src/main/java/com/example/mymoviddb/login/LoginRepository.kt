@@ -2,7 +2,7 @@ package com.example.mymoviddb.login
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
-import com.example.mymoviddb.core.utils.Util
+import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,8 +11,13 @@ class LoginRepository @Inject constructor(private val access: NetworkService) :
     ILoginAccess {
 
     override suspend fun getRequestToken(apiKey: String): Result<RequestTokenModel?> {
-        return Util.getDataFromServer {
-            access.getRequestTokenAsync(apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.getRequestTokenAsync(apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
@@ -22,10 +27,16 @@ class LoginRepository @Inject constructor(private val access: NetworkService) :
         requestToken: RequestTokenModel?,
         apiKey: String
     ): Result<LoginTokenModel?> {
-        return Util.getDataFromServer {
-            access.loginAsync(
-                username, password, requestToken?.requestToken ?: ""
-            ).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result =
+                    access.loginAsync(
+                        username, password, requestToken?.requestToken ?: ""
+                    ).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
@@ -33,14 +44,25 @@ class LoginRepository @Inject constructor(private val access: NetworkService) :
         requestToken: String,
         apiKey: String
     ): Result<NewSessionModel?> {
-        return Util.getDataFromServer {
-            access.createSessionAsync(requestToken, apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result = access.createSessionAsync(requestToken, apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
     override suspend fun loginAsGuest(apiKey: String): Result<GuestSessionModel?> {
-        return Util.getDataFromServer {
-            access.loginAsGuestAsync(apiKey).await()
+        wrapEspressoIdlingResource {
+            return try {
+                val result =
+                    access.loginAsGuestAsync(apiKey).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+            }
         }
     }
 
