@@ -13,7 +13,6 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.example.mymoviddb.core.ScrollToWithNestedScrollView
 import com.example.mymoviddb.core.utils.DataBindingIdlingResource
 import com.example.mymoviddb.core.utils.EspressoIdlingResource
 import com.example.mymoviddb.core.utils.monitorActivity
@@ -132,10 +131,10 @@ class MainActivityTest {
         // press back to home fragment
         Espresso.pressBack()
 
-        // press back to authentication fragment
+        // press back to login fragment
         Espresso.pressBack()
         // verify that tool bar name is " My Movie DB"
-        onView(withText(R.string.app_name)).check(matches(isDisplayed()))
+        onView(withId(R.id.login)).check(matches(isDisplayed()))
 
         // Make sure the activity is closed before resetting the db.
         activityScenario.close()
@@ -224,12 +223,13 @@ class MainActivityTest {
             click()
         )
 
-        // press up button to authentication fragment
-        onView(withContentDescription(activityScenario.getToolbarNavigationContentDescription())).perform(
+        // press up button to login fragment
+        Espresso.pressBack()
+        /*onView(withContentDescription(activityScenario.getToolbarNavigationContentDescription())).perform(
             click()
-        )
+        )*/
         // verify that tool bar name is " My Movie DB"
-        onView(withText(R.string.app_name)).check(matches(isDisplayed()))
+        onView(withId(R.id.login)).check(matches(isDisplayed()))
 
 
         // Make sure the activity is closed before resetting the db.
@@ -243,7 +243,7 @@ fun <T : Activity> ActivityScenario<T>.getToolbarNavigationContentDescription()
     var description = ""
     onActivity {
         description =
-            it.findViewById<Toolbar>(R.id.main_toolbar).navigationContentDescription as String
+            it.findViewById<Toolbar>(R.id.toolbar).navigationContentDescription as String
     }
     return description
 }

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.core
+package com.example.mymoviddb.core.utils.test
 
 import android.content.ComponentName
 import android.content.Intent
@@ -7,6 +7,8 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import com.example.mymoviddb.HiltTestActivity
+import com.example.mymoviddb.core.R
 import dagger.hilt.internal.Preconditions
 
 /**

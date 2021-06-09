@@ -1,8 +1,10 @@
 package com.example.mymoviddb.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.mymoviddb.core.FakeRemoteServer
+import com.example.mymoviddb.core.mock.FakeRemoteServer
+import com.example.mymoviddb.core.mock.FakeUserPreference
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.utils.preference.Preference
 import com.example.mymoviddb.getOrAwaitValue
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
@@ -24,6 +26,7 @@ class HomeViewModelTest {
     val instantExecutor = InstantTaskExecutorRule()
 
     private lateinit var fakeRemoteSource: IHomeAccess
+    private lateinit var fakeUserPreferece: Preference
     private lateinit var homeViewModel: HomeViewModel
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
@@ -31,7 +34,8 @@ class HomeViewModelTest {
     fun setupViewModel() {
         Dispatchers.setMain(mainThreadSurrogate)
         fakeRemoteSource = HomeRepository(FakeRemoteServer())
-        homeViewModel = HomeViewModel(fakeRemoteSource)
+        fakeUserPreferece = FakeUserPreference()
+        homeViewModel = HomeViewModel(fakeRemoteSource, fakeUserPreferece)
     }
 
     @After
@@ -68,11 +72,9 @@ class HomeViewModelTest {
      */
     @Test
     fun getPopularMovieList_withInvalidApiToken_resultError() = runBlockingTest {
-        delay(3000)
         // WHEN User requesting a popular movie list
         homeViewModel.getPopularMovieList(1, "invalid key")
         val result = homeViewModel.popularMovieList.getOrAwaitValue()
-        println(result.toString())
         // THEN Response from server should not be null
         when (result) {
             is Result.Success -> {

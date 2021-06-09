@@ -13,11 +13,11 @@ import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import com.example.mymoviddb.core.FakeRemoteServer
+import com.example.mymoviddb.core.mock.FakeRemoteServer
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.di.ServiceModule
-import com.example.mymoviddb.core.launchFragmentInHiltContainer
+import com.example.mymoviddb.core.utils.test.launchFragmentInHiltContainer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.example.mymoviddb.core
+package com.example.mymoviddb
 
 import android.view.View
 import android.widget.HorizontalScrollView

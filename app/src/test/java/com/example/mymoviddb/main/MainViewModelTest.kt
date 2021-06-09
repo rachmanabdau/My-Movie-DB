@@ -2,7 +2,7 @@ package com.example.mymoviddb.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.mymoviddb.core.BuildConfig
-import com.example.mymoviddb.core.FakeRemoteServer
+import com.example.mymoviddb.core.mock.FakeRemoteServer
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
 import com.example.mymoviddb.core.model.UserDetail

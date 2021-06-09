@@ -1,13 +1,10 @@
-package com.example.mymoviddb.authentication
+package com.example.mymoviddb.login
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.mymoviddb.core.FakeRemoteServer
-import com.example.mymoviddb.core.FakeUserPreference
+import com.example.mymoviddb.core.mock.FakeRemoteServer
+import com.example.mymoviddb.core.mock.FakeUserPreference
 import com.example.mymoviddb.getOrAwaitValue
-import com.example.mymoviddb.login.ILoginAccess
-import com.example.mymoviddb.login.LoginRepository
-import com.example.mymoviddb.login.LoginViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -26,7 +23,7 @@ import org.robolectric.annotation.Config
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @Config(sdk = [Build.VERSION_CODES.LOLLIPOP, Build.VERSION_CODES.M, Build.VERSION_CODES.N, Build.VERSION_CODES.O, Build.VERSION_CODES.P])
-class LoginViewModelTest {
+class LoginViewModelTest{
 
     @get:Rule
     val instantExecutor = InstantTaskExecutorRule()

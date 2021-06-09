@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
         launchLoginFragment()
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        homeViewModel.populateData()
         binding.homeViewModel = homeViewModel
 
         setHasOptionsMenu(true)

@@ -2,6 +2,7 @@ package com.example.mymoviddb.login
 
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.*
+import com.example.mymoviddb.core.utils.Util
 import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +15,11 @@ class LoginRepository @Inject constructor(private val access: NetworkService) :
         wrapEspressoIdlingResource {
             return try {
                 val result = access.getRequestTokenAsync(apiKey).await()
-                Result.Success(result.body())
+                if (result.body() != null){
+                    Result.Success(result.body())
+                }else{
+                    Util.returnError(result)
+                }
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
             }
@@ -33,7 +38,11 @@ class LoginRepository @Inject constructor(private val access: NetworkService) :
                     access.loginAsync(
                         username, password, requestToken?.requestToken ?: ""
                     ).await()
-                Result.Success(result.body())
+                if (result.body() != null){
+                    Result.Success(result.body())
+                }else{
+                    Util.returnError(result)
+                }
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
             }
@@ -47,7 +56,11 @@ class LoginRepository @Inject constructor(private val access: NetworkService) :
         wrapEspressoIdlingResource {
             return try {
                 val result = access.createSessionAsync(requestToken, apiKey).await()
-                Result.Success(result.body())
+                if (result.body() != null){
+                    Result.Success(result.body())
+                }else{
+                    Util.returnError(result)
+                }
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
             }

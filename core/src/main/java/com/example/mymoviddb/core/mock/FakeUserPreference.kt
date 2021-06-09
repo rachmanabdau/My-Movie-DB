@@ -1,4 +1,4 @@
-package com.example.mymoviddb.core
+package com.example.mymoviddb.core.mock
 
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.Preference

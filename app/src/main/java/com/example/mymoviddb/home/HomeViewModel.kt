@@ -60,11 +60,7 @@ class HomeViewModel @Inject constructor(
     val snackbarMessage: LiveData<Event<String>>
         get() = _snackbarMessage
 
-    init {
-        populateData()
-    }
-
-    private fun populateData() {
+    fun populateData() {
         getPopularMovieList()
         getNowPlayingMovieList()
         getPopularTVList()

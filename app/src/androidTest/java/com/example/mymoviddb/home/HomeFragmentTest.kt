@@ -12,12 +12,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.mymoviddb.R
-import com.example.mymoviddb.core.FakeRemoteServer
-import com.example.mymoviddb.core.ScrollToWithNestedScrollView
+import com.example.mymoviddb.core.mock.FakeRemoteServer
+import com.example.mymoviddb.ScrollToWithNestedScrollView
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.di.ServiceModule
-import com.example.mymoviddb.core.launchFragmentInHiltContainer
+import com.example.mymoviddb.core.utils.test.launchFragmentInHiltContainer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +35,7 @@ import org.mockito.Mockito.verify
 @UninstallModules(ServiceModule::class)
 @RunWith(AndroidJUnit4::class)
 @MediumTest
+// Comment launchLoginFragment() in HomeFragment.kt
 class HomeFragmentTest {
 
     @get:Rule
@@ -76,7 +77,7 @@ class HomeFragmentTest {
 
         // check if we clicked on load more popular movie navigation to category movies is clicked
         verify(navController).navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.popular_movie_list_contentDesc, ShowCategoryIndex.POPULAR_MOVIES
             )
         )
@@ -110,7 +111,7 @@ class HomeFragmentTest {
 
         // check if we clicked on load more now playing movie navigation to category movies is clicked
         verify(navController).navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.now_playing_movie_list_contentDesc, ShowCategoryIndex.NOW_PLAYING_MOVIES
             )
         )
@@ -145,7 +146,7 @@ class HomeFragmentTest {
 
         // check if we clicked on load more popular tv show navigation to category tv show is clicked
         verify(navController).navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.popular_tv_show_list_contentDesc, ShowCategoryIndex.POPULAR_TV_SHOWS
             )
         )
@@ -183,7 +184,7 @@ class HomeFragmentTest {
 
         // check if we clicked on load more on air tv show navigation to category tv show is clicked
         verify(navController).navigate(
-            HomeFragmentDirections.actionHomeFragmentToCategoryMovieListFragment(
+            HomeFragmentDirections.actionHomeFragmentToCategoryGraph(
                 R.string.now_airing_tv_show_list_contentDesc, ShowCategoryIndex.ON_AIR_TV_SHOWS
             )
         )

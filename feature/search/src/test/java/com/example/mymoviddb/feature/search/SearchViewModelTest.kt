@@ -1,8 +1,8 @@
 package com.example.mymoviddb.feature.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.mymoviddb.core.FakeRemoteServer
-import com.example.mymoviddb.core.FakeUserPreference
+import com.example.mymoviddb.core.mock.FakeRemoteServer
+import com.example.mymoviddb.core.mock.FakeUserPreference
 import com.example.mymoviddb.core.ShowCategoryIndex
 import com.example.mymoviddb.core.utils.preference.Preference
 import com.example.mymoviddb.feature.category.CategoryShowListRepository

@@ -1,6 +1,7 @@
 package com.example.mymoviddb.home
 
-import com.example.mymoviddb.core.FakeRemoteServer
+
+import com.example.mymoviddb.core.mock.FakeRemoteServer
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.ResponsedBackend

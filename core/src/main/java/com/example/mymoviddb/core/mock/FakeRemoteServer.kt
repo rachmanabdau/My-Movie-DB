@@ -1,5 +1,6 @@
-package com.example.mymoviddb.core
+package com.example.mymoviddb.core.mock
 
+import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
 import com.example.mymoviddb.core.model.*
