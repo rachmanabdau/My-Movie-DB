@@ -43,6 +43,9 @@ Category fragment in this graph represents all of popular movies, playing now mo
 ## Watch List TV shows Graph
 ![Navigation Graph](/img/watch_list_tv_shows_graph.png)
 
+## Detail Graph Graph
+![Navigation Graph](/img/detail_graph.png)
+
 ## Testing Result
 
 ![Testing Result](/img/app_demo.gif)
