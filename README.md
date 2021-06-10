@@ -43,7 +43,7 @@ Category fragment in this graph represents all of popular movies, playing now mo
 ## Watch List TV shows Graph
 ![Navigation Graph](/img/watch_list_tv_shows_graph.png)
 
-## Detail Graph Graph
+## Detail Graph
 ![Navigation Graph](/img/detail_graph.png)
 
 ## Testing Result
