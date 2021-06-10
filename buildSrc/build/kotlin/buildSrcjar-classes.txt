@@ -1,1 +1,1 @@
-E:\program\kotlin\android\MyMovidDB\buildSrc\build\classes\kotlin\main\Config.class;E:\program\kotlin\android\MyMovidDB\buildSrc\build\classes\kotlin\main\Dependencies.class;E:\program\kotlin\android\MyMovidDB\buildSrc\build\classes\kotlin\main\Versions.class
+E:\program\kotlin\android\MyMovieDB\buildSrc\build\classes\kotlin\main\Config.class;E:\program\kotlin\android\MyMovieDB\buildSrc\build\classes\kotlin\main\Dependencies.class;E:\program\kotlin\android\MyMovieDB\buildSrc\build\classes\kotlin\main\Versions.class
