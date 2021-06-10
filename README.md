@@ -20,8 +20,28 @@ My Movie DB Using android Jetpack, include :
 * [Moshi](https://github.com/square/moshi) - Convert JSON to Kotlin Object Using Moshi Converter.
 * [Glide](https://bumptech.github.io/glide/) - Load Image from API
 
-## NAvigation Graph
+## Main Navigation
+This graph represent global navigation for this android application.
 ![Navigation Graph](/img/navigation_graph.png)
+
+## Search Graph
+![Navigation Graph](/img/search_graph.png)
+
+## Category Graph
+Category fragment in this graph represents all of popular movies, playing now movies, popular tv shows and currently airing tv shows.
+![Navigation Graph](/img/category_graph.png)
+
+## Favourite Movies Graph
+![Navigation Graph](/img/favourite_movies_graph.png)
+
+## Favourite TV shows Graph
+![Navigation Graph](/img/favourite_tv_shows_graph.png)
+
+## Watch List Movies Graph
+![Navigation Graph](/img/watch_list_movies_graph.png)
+
+## Watch List TV shows Graph
+![Navigation Graph](/img/watch_list_tv_shows_graph.png)
 
 ## Testing Result
 

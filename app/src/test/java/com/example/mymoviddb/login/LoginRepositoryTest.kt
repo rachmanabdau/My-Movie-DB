@@ -1,8 +1,8 @@
 package com.example.mymoviddb.login
 
-import com.example.mymoviddb.core.mock.FakeRemoteServer
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.datasource.remote.moshi
+import com.example.mymoviddb.core.mock.FakeRemoteServer
 import com.example.mymoviddb.core.model.GuestSessionModel
 import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
@@ -10,7 +10,8 @@ import com.squareup.moshi.JsonAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.fail
 import org.junit.Before
@@ -25,7 +26,7 @@ class LoginRepositoryTest {
     private lateinit var access: LoginRepository
 
     @Before
-    fun setupViewModel() {
+    fun setupRepository() {
         fakeRemoteSource = FakeRemoteServer()
         access = LoginRepository(fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)

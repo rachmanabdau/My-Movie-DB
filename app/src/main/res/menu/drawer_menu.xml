@@ -5,7 +5,7 @@
         <menu>
             <group>
                 <item
-                    android:id="@+id/favourite_graph"
+                    android:id="@+id/favourite_movie_graph"
                     android:title="@string/favourite_movies_label"
                     android:icon="@drawable/ic_movie_chooser" />
 
