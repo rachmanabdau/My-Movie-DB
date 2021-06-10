@@ -9,6 +9,7 @@ import com.example.mymoviddb.core.ShowDataSource
 import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.core.utils.preference.Preference
+import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -23,35 +24,47 @@ class SearchRepository @Inject constructor(
         title: String,
         apiKey: String
     ): Flow<PagingData<ShowResult>> {
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
-        ) {
-            ShowDataSource(
-                DatasourceDependency(
-                    userPreference,
-                    networkService,
-                    ShowCategoryIndex.SEARCH_MOVIES,
-                    title
+        wrapEspressoIdlingResource{
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
                 )
-            )
-        }.flow
+            ) {
+                ShowDataSource(
+                    DatasourceDependency(
+                        userPreference,
+                        networkService,
+                        ShowCategoryIndex.SEARCH_MOVIES,
+                        title
+                    )
+                )
+            }.flow
+        }
     }
 
     override suspend fun searchTvShowList(
         title: String,
         apiKey: String
     ): Flow<PagingData<ShowResult>> {
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
-        ) {
-            ShowDataSource(
-                DatasourceDependency(
-                    userPreference,
-                    networkService,
-                    ShowCategoryIndex.SEARCH_TV_SHOWS,
-                    title
+        wrapEspressoIdlingResource {
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
                 )
-            )
-        }.flow
+            ) {
+                ShowDataSource(
+                    DatasourceDependency(
+                        userPreference,
+                        networkService,
+                        ShowCategoryIndex.SEARCH_TV_SHOWS,
+                        title
+                    )
+                )
+            }.flow
+        }
     }
 }

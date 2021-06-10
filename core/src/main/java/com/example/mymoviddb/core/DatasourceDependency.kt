@@ -18,7 +18,6 @@ class DatasourceDependency(
     private val userId: Int = userPreference.readAccountId()
 
     suspend fun searchMovie(pageNumber: Int): Result<SearchMovieResult?> {
-        wrapEspressoIdlingResource {
             return try {
                 val result =
                     networkService.searchMoviesAsync(title, pageNumber, BuildConfig.V3_AUTH).await()
@@ -26,120 +25,105 @@ class DatasourceDependency(
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
             }
-        }
     }
 
     suspend fun getPopularMovies(pageNumber: Int): Result<PopularMovie?> {
-        wrapEspressoIdlingResource {
             return try {
                 val result =
                     networkService.getPopularMoviesAsync(pageNumber, BuildConfig.V3_AUTH).await()
                 Result.Success(result.body())
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
+
             }
-        }
     }
 
     suspend fun getNowPlayiingMovies(pageNumber: Int): Result<NowPlayingMovie?> {
-        wrapEspressoIdlingResource {
-            wrapEspressoIdlingResource {
-                return try {
-                    val result =
-                        networkService.getNowPlayingMoviesAsync(pageNumber, BuildConfig.V3_AUTH)
-                            .await()
-                    Result.Success(result.body())
-                } catch (e: Exception) {
-                    Result.Error(Exception(e.message))
-                }
+            return try {
+                val result =
+                    networkService.getNowPlayingMoviesAsync(pageNumber, BuildConfig.V3_AUTH)
+                        .await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
+
             }
-        }
+
     }
 
     suspend fun getFavouriteMovies(pageNumber: Int): Result<FavouriteMovie?> {
-        wrapEspressoIdlingResource {
-            wrapEspressoIdlingResource {
-                return try {
-                    val result =
-                        networkService.getFavoriteMoviesAsync(
-                            userId,
-                            sessionId,
-                            pageNumber,
-                            BuildConfig.V3_AUTH
-                        ).await()
-                    Result.Success(result.body())
-                } catch (e: Exception) {
-                    Result.Error(Exception(e.message))
-                }
+            return try {
+                val result =
+                    networkService.getFavoriteMoviesAsync(
+                        userId,
+                        sessionId,
+                        pageNumber,
+                        BuildConfig.V3_AUTH
+                    ).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
             }
-        }
+
+
     }
 
     suspend fun getWatchListMovies(pageNumber: Int): Result<WatchListMovie?> {
-        wrapEspressoIdlingResource {
-            wrapEspressoIdlingResource {
-                return try {
-                    val result =
-                        networkService.getWatchListMoviesAsync(
-                            userId,
-                            sessionId,
-                            pageNumber,
-                            BuildConfig.V3_AUTH
-                        ).await()
-                    Result.Success(result.body())
-                } catch (e: Exception) {
-                    Result.Error(Exception(e.message))
-                }
+            return try {
+                val result =
+                    networkService.getWatchListMoviesAsync(
+                        userId,
+                        sessionId,
+                        pageNumber,
+                        BuildConfig.V3_AUTH
+                    ).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
             }
-        }
+
     }
 
+
     suspend fun searchTvShows(pageNumber: Int): Result<SearchTvResult?> {
-        wrapEspressoIdlingResource {
-            wrapEspressoIdlingResource {
-                return try {
-                    val result =
-                        networkService.searchTvShowsAsync(title, pageNumber, BuildConfig.V3_AUTH)
-                            .await()
-                    Result.Success(result.body())
-                } catch (e: Exception) {
-                    Result.Error(Exception(e.message))
-                }
+            return try {
+                val result =
+                    networkService.searchTvShowsAsync(title, pageNumber, BuildConfig.V3_AUTH)
+                        .await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
             }
-        }
+
+
     }
 
     suspend fun getPopularTvShows(pageNumber: Int): Result<PopularTvShow?> {
-        wrapEspressoIdlingResource {
-            wrapEspressoIdlingResource {
-                return try {
-                    val result =
-                        networkService.getPopularTvShowAsync(pageNumber, BuildConfig.V3_AUTH)
-                            .await()
-                    Result.Success(result.body())
-                } catch (e: Exception) {
-                    Result.Error(Exception(e.message))
-                }
+            return try {
+                val result =
+                    networkService.getPopularTvShowAsync(pageNumber, BuildConfig.V3_AUTH)
+                        .await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
             }
-        }
+
+
     }
 
     suspend fun getOnAirTvShows(pageNumber: Int): Result<OnAirTvShow?> {
-        wrapEspressoIdlingResource {
-            wrapEspressoIdlingResource {
-                return try {
-                    val result =
-                        networkService.getOnAirTvShowAsync(pageNumber, BuildConfig.V3_AUTH).await()
-                    Result.Success(result.body())
-                } catch (e: Exception) {
-                    Result.Error(Exception(e.message))
-                }
+            return try {
+                val result =
+                    networkService.getOnAirTvShowAsync(pageNumber, BuildConfig.V3_AUTH).await()
+                Result.Success(result.body())
+            } catch (e: Exception) {
+                Result.Error(Exception(e.message))
             }
-        }
+
+
     }
 
     suspend fun getFavouriteTvShows(pageNumber: Int): Result<FavouriteTvShow?> {
-        wrapEspressoIdlingResource {
             return try {
                 val result =
                     networkService.getFavoriteTvShowAsync(
@@ -152,11 +136,10 @@ class DatasourceDependency(
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
             }
-        }
+
     }
 
     suspend fun getWatchListTvShows(pageNumber: Int): Result<WatchListTvShow?> {
-        wrapEspressoIdlingResource {
             return try {
                 val result =
                     networkService.getWatchListTvShowsAsync(
@@ -169,6 +152,6 @@ class DatasourceDependency(
             } catch (e: Exception) {
                 Result.Error(Exception(e.message))
             }
-        }
+
     }
 }

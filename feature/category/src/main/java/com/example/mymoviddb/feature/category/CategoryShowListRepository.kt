@@ -13,6 +13,7 @@ import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
 import com.example.mymoviddb.core.model.category.tv.PopularTvShow
 import com.example.mymoviddb.core.utils.preference.Preference
+import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
@@ -26,61 +27,85 @@ class CategoryShowListRepository @Inject constructor(
     ICategoryShowListAccess {
 
     override suspend fun getPopularMovieList(): Flow<PagingData<PopularMovie.Result>> {
-        val dataSourceDependency = DatasourceDependency(
-            userPreference, service, ShowCategoryIndex.POPULAR_MOVIES
-        )
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
-        ) {
-            ShowDataSource(dataSourceDependency)
-        }.flow.mapLatest { pagingData ->
-            pagingData.map {
-                it as PopularMovie.Result
+        wrapEspressoIdlingResource{
+            val dataSourceDependency = DatasourceDependency(
+                userPreference, service, ShowCategoryIndex.POPULAR_MOVIES
+            )
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
+                )
+            ) {
+                ShowDataSource(dataSourceDependency)
+            }.flow.mapLatest { pagingData ->
+                pagingData.map {
+                    it as PopularMovie.Result
+                }
             }
         }
     }
 
     override suspend fun getNowPlayingMovieList(): Flow<PagingData<NowPlayingMovie.Result>> {
-        val dataSourceDependency = DatasourceDependency(
-            userPreference, service, ShowCategoryIndex.NOW_PLAYING_MOVIES
-        )
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
-        ) {
-            ShowDataSource(dataSourceDependency)
-        }.flow.mapLatest { pagingData ->
-            pagingData.map {
-                it as NowPlayingMovie.Result
+        wrapEspressoIdlingResource{
+            val dataSourceDependency = DatasourceDependency(
+                userPreference, service, ShowCategoryIndex.NOW_PLAYING_MOVIES
+            )
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
+                )
+            ) {
+                ShowDataSource(dataSourceDependency)
+            }.flow.mapLatest { pagingData ->
+                pagingData.map {
+                    it as NowPlayingMovie.Result
+                }
             }
         }
     }
 
     override suspend fun getPopularTvShowList(): Flow<PagingData<PopularTvShow.Result>> {
-        val dataSourceDependency = DatasourceDependency(
-            userPreference, service, ShowCategoryIndex.POPULAR_TV_SHOWS
-        )
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
-        ) {
-            ShowDataSource(dataSourceDependency)
-        }.flow.mapLatest { pagingData ->
-            pagingData.map {
-                it as PopularTvShow.Result
+        wrapEspressoIdlingResource{
+            val dataSourceDependency = DatasourceDependency(
+                userPreference, service, ShowCategoryIndex.POPULAR_TV_SHOWS
+            )
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
+                )
+            ) {
+                ShowDataSource(dataSourceDependency)
+            }.flow.mapLatest { pagingData ->
+                pagingData.map {
+                    it as PopularTvShow.Result
+                }
             }
         }
     }
 
     override suspend fun getOnAirTvShowList(): Flow<PagingData<OnAirTvShow.Result>> {
-        val dataSourceDependency = DatasourceDependency(
-            userPreference, service, ShowCategoryIndex.ON_AIR_TV_SHOWS
-        )
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false)
-        ) {
-            ShowDataSource(dataSourceDependency)
-        }.flow.mapLatest { pagingData ->
-            pagingData.map {
-                it as OnAirTvShow.Result
+        wrapEspressoIdlingResource{
+            val dataSourceDependency = DatasourceDependency(
+                userPreference, service, ShowCategoryIndex.ON_AIR_TV_SHOWS
+            )
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
+                )
+            ) {
+                ShowDataSource(dataSourceDependency)
+            }.flow.mapLatest { pagingData ->
+                pagingData.map {
+                    it as OnAirTvShow.Result
+                }
             }
         }
     }

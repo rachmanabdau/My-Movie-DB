@@ -7,7 +7,7 @@ class FakeUserPreference : Preference {
 
     private var loginState = LoginState.AS_GUEST
     private var guestToken = ""
-    private var session = ""
+    private var session = FakeDataFactory.sampleSessionId
     private var guestTokenExpiry = 0L
     private var accountId = 0
 

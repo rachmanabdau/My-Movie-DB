@@ -12,6 +12,7 @@ import com.example.mymoviddb.core.datasource.remote.NetworkService
 import com.example.mymoviddb.core.model.category.movie.WatchListMovie
 import com.example.mymoviddb.core.model.category.tv.WatchListTvShow
 import com.example.mymoviddb.core.utils.preference.Preference
+import com.example.mymoviddb.core.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -25,30 +26,42 @@ class WatchListRepository @Inject constructor(
 ) : IWatchListAccess {
 
     override suspend fun getWatchListMovies(): Flow<PagingData<WatchListMovie.Result>> {
-        val resourceDependency = DatasourceDependency(
-            userPreference,
-            networkService,
-            ShowCategoryIndex.WATCHLIST_MOVIES
-        )
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false),
-            remoteMediator = CategoryMediator(resourceDependency, database)
-        ) {
-            database.watchListMovieDao().getAllWatchListMovie()
-        }.flow
+        wrapEspressoIdlingResource{
+            val resourceDependency = DatasourceDependency(
+                userPreference,
+                networkService,
+                ShowCategoryIndex.WATCHLIST_MOVIES
+            )
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
+                ),
+                remoteMediator = CategoryMediator(resourceDependency, database)
+            ) {
+                database.watchListMovieDao().getAllWatchListMovie()
+            }.flow
+        }
     }
 
     override suspend fun getWatchListTVShows(): Flow<PagingData<WatchListTvShow.Result>> {
-        val resourceDependency = DatasourceDependency(
-            userPreference,
-            networkService,
-            ShowCategoryIndex.WATCHLIST_TV_SHOWS,
-        )
-        return Pager(
-            config = PagingConfig(pageSize = 20, prefetchDistance = 4, enablePlaceholders = false),
-            remoteMediator = CategoryMediator(resourceDependency, database)
-        ) {
-            database.watchListTvDao().getAllWatchListTv()
-        }.flow
+        wrapEspressoIdlingResource {
+            val resourceDependency = DatasourceDependency(
+                userPreference,
+                networkService,
+                ShowCategoryIndex.WATCHLIST_TV_SHOWS,
+            )
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 20,
+                    prefetchDistance = 4,
+                    enablePlaceholders = false
+                ),
+                remoteMediator = CategoryMediator(resourceDependency, database)
+            ) {
+                database.watchListTvDao().getAllWatchListTv()
+            }.flow
+        }
     }
 }

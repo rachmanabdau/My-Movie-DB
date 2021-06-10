@@ -1,5 +1,6 @@
 package com.example.mymoviddb.feature.category
 
+import androidx.paging.PagingSource
 import com.example.mymoviddb.core.BuildConfig
 import com.example.mymoviddb.core.mock.FakeRemoteServer
 import com.example.mymoviddb.core.datasource.remote.NetworkService
@@ -18,6 +19,7 @@ import org.hamcrest.MatcherAssert
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -28,11 +30,32 @@ class CategoryShowListRepositoryTest {
     private lateinit var errorConverter: JsonAdapter<ResponsedBackend>
     private lateinit var repository: CategoryShowListRepository
 
-    @Before
+    /*@Before
     fun setupViewModel() {
         fakeRemoteSource = FakeRemoteServer()
         repository = CategoryShowListRepository(fakePreference, fakeRemoteSource)
         errorConverter = moshi.adapter(ResponsedBackend::class.java)
+    }
+
+    @Test
+    fun loadReturnsPageWhenOnSuccessfulLoadOfPageKeyedData() = runBlockingTest {
+        val pagingSource = GuestDataSource(fakeRemoteSource)
+        MatcherAssert.assertThat(
+            PagingSource.LoadResult.Page(
+                data = GuestDummy.guestListPage1.data,
+                prevKey = null,
+                nextKey = GuestDummy.guestListPage1.page + 1
+            ),
+            CoreMatchers.`is`(
+                pagingSource.load(
+                    PagingSource.LoadParams.Refresh(
+                        key = 1,
+                        loadSize = 12,
+                        placeholdersEnabled = false
+                    )
+                )
+            ),
+        )
     }
 
     @Test
@@ -573,5 +596,5 @@ class CategoryShowListRepositoryTest {
                 )
             }
         }
-    }
+    }*/
 }

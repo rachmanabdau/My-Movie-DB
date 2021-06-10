@@ -61,6 +61,7 @@ class CategoryShowListFragmentTest {
                 R.string.popular_movie_list_contentDesc,
                 ShowCategoryIndex.POPULAR_MOVIES
             ).toBundle()
+
         launchFragmentInHiltContainer<CategoryShowListFragment>(bundle, R.style.AppTheme) {
             Navigation.setViewNavController(this.view!!, navController)
         }

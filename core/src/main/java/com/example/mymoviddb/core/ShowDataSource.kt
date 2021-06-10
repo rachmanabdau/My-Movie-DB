@@ -13,7 +13,6 @@ class ShowDataSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ShowResult> {
         // Start refresh at page 1 if undefined.
-        wrapEspressoIdlingResource {
             val nextPageNumber = params.key ?: 1
             val showType = sourceDependency.showType
             return try {
@@ -35,7 +34,6 @@ class ShowDataSource(
             } catch (e: Exception) {
                 LoadResult.Error(e)
             }
-        }
     }
 
     override fun getRefreshKey(state: PagingState<Int, ShowResult>): Int? {
