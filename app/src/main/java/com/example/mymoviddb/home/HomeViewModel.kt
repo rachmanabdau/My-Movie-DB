@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoviddb.core.BuildConfig
+import com.example.mymoviddb.core.model.ResponsedBackend
 import com.example.mymoviddb.core.model.Result
+import com.example.mymoviddb.core.model.UserDetail
 import com.example.mymoviddb.core.model.category.movie.NowPlayingMovie
 import com.example.mymoviddb.core.model.category.movie.PopularMovie
 import com.example.mymoviddb.core.model.category.tv.OnAirTvShow
@@ -20,9 +22,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val remoteServer: IHomeAccess,
+    private val homeRepository: IHomeAccess,
     private val userPreference: Preference
 ) : ViewModel() {
+
+    private val _userDetail = MutableLiveData<Result<UserDetail?>>()
+    val userDetail: LiveData<Result<UserDetail?>> = _userDetail
+
+    private val _logoutResult = MutableLiveData<Result<ResponsedBackend?>>()
+    val logoutResult: LiveData<Result<ResponsedBackend?>> = _logoutResult
 
     private val _popularMovieList = MutableLiveData<Result<PopularMovie?>>()
     val popularMovieList: LiveData<Result<PopularMovie?>> = _popularMovieList
@@ -69,7 +77,7 @@ class HomeViewModel @Inject constructor(
 
     fun getPopularMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            val result = remoteServer.getPopularMovieList(page, apiKey)
+            val result = homeRepository.getPopularMovieList(page, apiKey)
             _popularMovieList.value = result
             _showPopularMovieError.value = !result.succeeded
             setSnackbarMessage(result)
@@ -78,7 +86,7 @@ class HomeViewModel @Inject constructor(
 
     fun getNowPlayingMovieList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            val result = remoteServer.getNowPlayingMovieList(page, apiKey)
+            val result = homeRepository.getNowPlayingMovieList(page, apiKey)
             _nowPlayingMovieList.value = result
             _showNowPlayingMovieError.value = !result.succeeded
             setSnackbarMessage(result)
@@ -87,7 +95,7 @@ class HomeViewModel @Inject constructor(
 
     fun getPopularTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            val result = remoteServer.getPopularTvShowList(page, apiKey)
+            val result = homeRepository.getPopularTvShowList(page, apiKey)
             _popularTVList.value = result
             _showPopularTvError.value = !result.succeeded
             setSnackbarMessage(result)
@@ -96,7 +104,7 @@ class HomeViewModel @Inject constructor(
 
     fun getonAirTVList(page: Int = 1, apiKey: String = BuildConfig.V3_AUTH) {
         viewModelScope.launch {
-            val result = remoteServer.getOnAirTvShowList(page, apiKey)
+            val result = homeRepository.getOnAirTvShowList(page, apiKey)
             _onAirTVList.value = result
             _showOnAirTvError.value = !result.succeeded
             setSnackbarMessage(result)
@@ -111,7 +119,54 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun userIsLoginAsGuest(): Boolean {
-        return userPreference.getAuthState() == LoginState.AS_GUEST.stateId
+    fun getAuthStete(): Int{
+        return userPreference.getAuthState()
     }
+
+    fun userIsLoginAsGuest(): Boolean {
+        return getAuthStete() == LoginState.AS_GUEST.stateId
+    }
+
+    fun userIsLogin(): Boolean {
+        return getAuthStete() == LoginState.AS_USER.stateId
+    }
+
+    fun getUserDetail(apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            val sessionId = userPreference.readUserSession()
+            val result = homeRepository.getUserDetail(sessionId, apiKey)
+            _userDetail.value = result
+
+            when (result){
+                Result.Loading -> {}
+                is Result.Success -> {
+                    val userId = result.data?.id ?: 0
+                    userPreference.writeAccountId(userId)
+                }
+                is Result.Error -> {
+                    setSnackbarMessage(result)
+                }
+            }
+
+        }
+    }
+
+    fun logout(apiKey: String = BuildConfig.V3_AUTH) {
+        viewModelScope.launch {
+            val sessionId = userPreference.readUserSession()
+            val authData = HashMap<String, String>()
+            authData.put("session_id", sessionId)
+            val result = homeRepository.logout(authData, apiKey)
+            _logoutResult.value = result
+
+            when (result){
+                Result.Loading -> {}
+                is Result.Success -> userPreference.logout()
+                is Result.Error -> {
+                    setSnackbarMessage(result)
+                }
+            }
+        }
+    }
+
 }

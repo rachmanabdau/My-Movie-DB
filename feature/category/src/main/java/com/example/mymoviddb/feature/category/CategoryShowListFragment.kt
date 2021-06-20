@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymoviddb.adapters.CategoryShowAdapter
 import com.example.mymoviddb.adapters.PlaceHolderAdapter
 import com.example.mymoviddb.category.movie.StateAdapter
+import com.example.mymoviddb.core.FragmentWithDefaultToolbar
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.feature.category.databinding.FragmentCategoryShowListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CategoryShowListFragment : Fragment() {
+class CategoryShowListFragment : FragmentWithDefaultToolbar() {
 
     private lateinit var binding: FragmentCategoryShowListBinding
 
@@ -54,6 +55,10 @@ class CategoryShowListFragment : Fragment() {
     }
 
     private fun setUpToolbar(@StringRes subtitle: Int) {
+        val toolbar = binding.defaultToolbar.toolbar
+        setupDefaultToolbar(toolbar, findNavController())
+        val activtiyContainer = (requireActivity() as AppCompatActivity)
+        activtiyContainer.setSupportActionBar(toolbar)
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(subtitle)
     }
 

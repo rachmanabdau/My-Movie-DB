@@ -14,6 +14,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.example.mymoviddb.adapters.CategoryShowAdapter
+import com.example.mymoviddb.core.FragmentWithDefaultToolbar
 import com.example.mymoviddb.core.ResultHandler
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.feature.watchlist.R
@@ -27,7 +28,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ExperimentalPagingApi
 @AndroidEntryPoint
-class WatchListMovieFragment : Fragment(), ResultHandler {
+class WatchListMovieFragment : FragmentWithDefaultToolbar(), ResultHandler {
 
     private lateinit var binding: FragmentWatchListMovieBinding
 
@@ -48,6 +49,7 @@ class WatchListMovieFragment : Fragment(), ResultHandler {
     }
 
     private fun setupView() {
+        setupDefaultToolbar(binding.defaultToolbar.toolbar, findNavController())
         binding.lifecycleOwner = this
         binding.watchlistErrorLayout.tryAgainButton.visibility = View.GONE
 

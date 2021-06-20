@@ -13,6 +13,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.example.mymoviddb.adapters.CategoryShowAdapter
+import com.example.mymoviddb.core.FragmentWithDefaultToolbar
 import com.example.mymoviddb.core.ResultHandler
 import com.example.mymoviddb.core.model.ShowResult
 import com.example.mymoviddb.feature.favourite.R
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavouriteTVShowsFragment : Fragment(), ResultHandler {
+class FavouriteTVShowsFragment : FragmentWithDefaultToolbar(), ResultHandler {
 
     private lateinit var binding: FragmentFavouriteTvShowsBinding
 
@@ -43,6 +44,7 @@ class FavouriteTVShowsFragment : Fragment(), ResultHandler {
     }
 
     private fun setupView() {
+        setupDefaultToolbar(binding.defaultToolbar.toolbar, findNavController())
         binding.lifecycleOwner = this
         binding.favouriteErrorLayout.tryAgainButton.visibility = View.GONE
 

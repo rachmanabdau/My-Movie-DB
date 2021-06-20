@@ -8,21 +8,23 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.mymoviddb.core.FragmentWithDefaultToolbar
 import com.example.mymoviddb.core.utils.EventObserver
 import com.example.mymoviddb.core.utils.preference.LoginState
 import com.example.mymoviddb.core.utils.preference.UserPreference
 import com.example.mymoviddb.databinding.FragmentLoginBinding
 import com.example.mymoviddb.home.HomeFragment
 import com.example.mymoviddb.main.MainActivity
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : FragmentWithDefaultToolbar() {
 
     private lateinit var binding: FragmentLoginBinding
 
@@ -31,13 +33,23 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var userPreference: UserPreference
 
+    override fun setupDefaultToolbar(toolbar: MaterialToolbar, navController: NavController) {
+        super.setupDefaultToolbar(toolbar, navController)
+        // ommit up button in login fragment
+        val activity = (requireActivity() as AppCompatActivity)
+        activity.setSupportActionBar(toolbar)
+        val actionBar = activity.supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        setupToolbar()
+        setupDefaultToolbar(binding.defaultToolbar.toolbar, findNavController())
 
         setLoginStateToHome(LoginState.NOT_LOGIN)
         setupButtonClick()
@@ -45,12 +57,6 @@ class LoginFragment : Fragment() {
         setUpBackPressed()
 
         return binding.root
-    }
-
-    private fun setupToolbar() {
-        val activity = (requireActivity() as AppCompatActivity)
-        val actiobBar = activity.supportActionBar
-        actiobBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun setUpBackPressed() {

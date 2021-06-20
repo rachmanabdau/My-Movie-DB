@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mymoviddb.adapters.CategoryShowAdapter
@@ -44,45 +45,38 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
-        //binding.searchToolbar.setupWithNavController(findNavController())
+        setupToolbar(binding)
         observeSearchMovies()
-        setHasOptionsMenu(true)
 
         // Inflate the layout for this fragment
         return binding.root
     }
 
-    // Setup searchview
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        val themedCntext = (requireActivity() as AppCompatActivity).supportActionBar?.themedContext
-        themedCntext?.apply {
-            menu.clear()
-            inflater.inflate(R.menu.search_menu, menu)
-            val item: MenuItem = menu.findItem(R.id.action_search)
-            val searchView = SearchView(this)
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            item.setActionView(searchView)
-            searchView.apply {
-                setIconifiedByDefault(false)
-                maxWidth = Integer.MAX_VALUE
-                setPaddingRelative(0, 0, 0, 0)
-                isFocusable = true
-                requestFocusFromTouch()
-                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String): Boolean {
-                        if (query.isNotBlank()) {
-                            searchViewModel.searchShow(resultArgs.searchID, query)
-                            return true
-                        }
-                        return false
-                    }
+    private fun setupToolbar(binding: FragmentSearchBinding) {
+        binding.searchToolbar.setupWithNavController(findNavController())
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.searchToolbar)
+        setupSearchField()
+    }
 
-                    override fun onQueryTextChange(newText: String): Boolean {
-                        return false
+    private fun setupSearchField() {
+        binding.searchView.apply {
+            setIconifiedByDefault(false)
+            setPaddingRelative(0, 0, 0, 0)
+            isFocusable = true
+            requestFocusFromTouch()
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    if (query.isNotBlank()) {
+                        searchViewModel.searchShow(resultArgs.searchID, query)
+                        return true
                     }
-                })
-            }
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    return false
+                }
+            })
         }
     }
 
